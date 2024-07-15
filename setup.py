@@ -10,7 +10,7 @@ setup(
     description="Polytope Exchange Transformations in SageMath",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    version="0.0.1",
+    version="0.0.2",
     url="https://github.com/wphooper/pet_salon",
     license="GNU General Public License, version 2",
     packages=[

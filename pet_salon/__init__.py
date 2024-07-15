@@ -3,5 +3,5 @@ PETs in SageMath
 """
 
 from pet_salon.polyhedra import rectangle
-import pet_salon.categories
+from pet_salon.union import PolytopeUnions
 

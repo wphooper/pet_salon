@@ -13,7 +13,7 @@ from sage.structure.element import Element
 from sage.structure.parent import Parent
 from sage.structure.unique_representation import UniqueRepresentation
 
-
+from pet_salon.collection import length
 
 # Make DisjointImages an axiom in Sage:
 all_axioms += ("DisjointImages",)
@@ -116,6 +116,15 @@ class PolytopeUnionsCategory(Category):
         def point_set_category(self):
             return PointSets(self.field())
 
+        def affine_group(self):
+            from sage.groups.affine_gps.affine_group import AffineGroup
+            return AffineGroup(self.dimension(), self.field())
+
+        def affine_homeomorphisms(self):
+            r'''Return the collection of AffineHomeomorphisms of the same dimension and over the same field.'''
+            from pet_salon.affine import AffineHomeomorphisms
+            return AffineHomeomorphisms(self.dimension(), self.field())
+
     class ElementMethods:
         r"""
         Provides methods available to all subdivisions.
@@ -172,6 +181,16 @@ class PolytopeUnionsCategory(Category):
                 except Exception:
                     raise ValueError('position is probably not within polytope')
             return pt
+
+        def _test_polytope_parents(self, tester=None, limit=20):
+            r'''Check that the union has the correct field for all polytopes.'''
+            P = self.parent().polyhedra()
+            if self.is_finite():
+                for label, p in self.polytopes().items():
+                    assert p.parent() == P, f'polytope with label {label} has the wrong parent'
+            else:
+                for (label, p),_ in zip(self.polytopes().items(), range(limit)):
+                    assert p.parent() == P, f'polytope with label {label} has the wrong parent'
 
     class Finite(CategoryWithAxiom):
         r"""
@@ -385,6 +404,9 @@ class PolytopeUnion(Element):
         The `parent` should be a `PolytopeUnions`, which specifies the `field`
         as well as the dimension. The mapping should send labels to polyhedra.
         '''
+        if length(mapping) < infinity:
+            P = parent.polyhedra()
+            mapping = {label: P(p) for label,p in mapping.items()}
         self._mapping = mapping
         Element.__init__(self, parent)
 
@@ -401,10 +423,7 @@ class PolytopeUnion(Element):
             return False
         if self.is_finite() != other.is_finite():
             return False
-        if self.is_finite():
-            return self.polytopes() == other.polytopes()
-        else:
-            return False
+        return self.polytopes() == other.polytopes()
 
     def __ne__(self, other):
         return not self.__eq__(other)
@@ -462,7 +481,7 @@ class PolytopeUnions(UniqueRepresentation, Parent):
         ....:     def __getitem__(self, key):
         ....:         if key in self._ZZ2:
         ....:             V = self._U.vector_space()
-        ....:             v = V(key)
+        ....:             v = V([*key]) # Convert to vector (neccessary for elements of ZZ2)
         ....:             return self._U.polyhedra()(Polyhedron(vertices=[v, v+V((1,0)), v+V((0,1)), v+V((1,1))]))
         ....:         else:
         ....:             raise KeyError

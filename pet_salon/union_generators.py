@@ -17,7 +17,7 @@ class _ZZ2mapping(Mapping):
     def __getitem__(self, key):
         if key in self._ZZ2:
             V = self._U.vector_space()
-            v = V(key)
+            v = V([*key]) # Convert to vector (neccessary for elements of ZZ2)
             return self._U.polyhedra()(Polyhedron(vertices=[v, v+V((1,0)), v+V((0,1)), v+V((1,1))]))
         else:
             raise KeyError
@@ -25,7 +25,10 @@ class _ZZ2mapping(Mapping):
         return self._ZZ2.__iter__()
     def __len__(self):
         return infinity
-
+    def __eq__(self, other):
+        return isinstance(other, _ZZ2mapping)
+    def __hash__(self):
+        return hash('_ZZ2mapping')
 
 @cached_function
 def square_tiling(field):
@@ -38,7 +41,7 @@ def square_tiling(field):
         sage: union = square_tiling(QQ)
         sage: union
         Disjoint union of infinitely many polyhedra in QQ^2
-        sage: TestSuite(union).run(skip='_test_pickling')
+        sage: TestSuite(union).run()
         sage: union.polytope((2,1)).vertices()
         (A vertex at (2, 1),
          A vertex at (2, 2),

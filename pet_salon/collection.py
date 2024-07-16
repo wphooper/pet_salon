@@ -32,6 +32,12 @@ class _IdentityMapping(Mapping):
         return self._c.__len__()
     def __repr__(self):
         return f'Identity mapping on {self._c}'
+    def __eq__(self, other):
+        if isinstance(other, _IdentityMapping):
+            return self._c == other._c
+        return False
+    def __hash__(self):
+        return hash(self._c)
 
 def identity_mapping(collection):
     r'''Return the identity mapping `{x:x for x in collection}` even if `collection` is infinite.
@@ -92,6 +98,12 @@ class _FunctionMapping(Mapping):
         return self._c.__len__()
     def __repr__(self):
         return f'Function mapping with domain {self._c} and function {self._f}'
+    def __eq__(self, other):
+        if isinstance(other, _FunctionMapping):
+            return self._c == other._c and self._f == other._f
+        return False
+    def __hash__(self):
+        return hash((self._c, self._f))
 
 def function_mapping(collection, function):
     r'''Return the mapping `{x:function(x) for x in collection}` even if the collection is infinite.

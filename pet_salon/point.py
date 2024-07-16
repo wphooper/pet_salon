@@ -90,6 +90,8 @@ class Point(Element):
     def __eq__(self, other):
         if other is None:
             return False
+        if self is other:
+            return True
         if not hasattr(other, 'parent') or not callable(other.parent):
             return False
         if self.parent() != other.parent():
@@ -116,7 +118,7 @@ class PointSet(Parent):
         Point(0, (0, 0))
         sage: pt = PS.center(1)
         sage: pt
-        Point(1, (0, 0))
+        Point(1, (2, 0))
         sage: TestSuite(pt).run()
     '''
     Element = Point
@@ -133,6 +135,8 @@ class PointSet(Parent):
         return self._union
 
     def __eq__(self, other):
+        if self is other:
+            return True
         if not hasattr(other, 'category') or not callable(other.category):
             return False
         if not other.category().is_subcategory(PointSetsCategory()):
@@ -141,3 +145,9 @@ class PointSet(Parent):
 
     def __hash__(self):
         return hash((self.category(), self.union()))
+
+    def _element_constructor_(self, *args, **kwds):
+        if len(args) == 1:
+            return self.element_class(self, args[0].label(), args[0].position(), **kwds)
+        if len(args) == 2:
+            return self.element_class(self, *args, **kwds)

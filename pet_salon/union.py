@@ -30,10 +30,10 @@ class PolytopeUnionsCategory(Category):
         Category of disjoint polytope unions
     """
 
-    # TODO: Fix category names. Currently 
+    # TODO: Fix category names. Currently
     # PolytopeUnionsCategory().DisjointImages().Finite()
     # has a nonsensical name.
-    
+
     def __init__(self, *args, **options):
         Category.__init__(self, *args, **options)
         self._fix_name()
@@ -56,7 +56,7 @@ class PolytopeUnionsCategory(Category):
     class SubcategoryMethods:
 
         def DisjointImages(self):
-            r'''We say a PolytopeUnion has Disjoint images if the polytopes, viewed as subsets of the vector space containing them, have disjoint interiors. 
+            r'''We say a PolytopeUnion has Disjoint images if the polytopes, viewed as subsets of the vector space containing them, have disjoint interiors.
 
             This will make available the `find` method.'''
             return self._with_axiom('DisjointImages')
@@ -89,11 +89,19 @@ class PolytopeUnionsCategory(Category):
             pass
 
         def is_finite(self):
-            r'''Return `True` if this parent only contains finite objects. 
-            
+            r'''Return `True` if this parent only contains finite objects.
+
             Return `False` otherwise.
             '''
             return False
+
+        def has_disjoint_images(self):
+            r'''Return `True` if this parent only contains disjoint unions of polytopes that are pairwise disjoint.
+
+            Return `False` otherwise.
+            '''
+            return False
+
 
         def vector_space(self):
             r'''
@@ -147,9 +155,9 @@ class PolytopeUnionsCategory(Category):
 
         def point(self, label, position, check=True):
             r'''Construct a points in this disjoint union from a `label` of a polytope and a `position` (vector) within it
-            
+
             EXAMPLES::
-            
+
                 sage: from pet_salon import PolytopeUnions
                 sage: from sage.geometry.polyhedron.constructor import Polyhedron
                 sage: U = PolytopeUnions(2, QQ, finite=True)
@@ -197,9 +205,9 @@ class PolytopeUnionsCategory(Category):
 
             def restrict(self, new_labels):
                 r'''Return a new PolytopeUnion with a restricted label set but the same polytopes.
-                
+
                 The parameter `new_labels` should be a collection of the new labels.
-                
+
                 EXAMPLES::
 
                     sage: from pet_salon import PolytopeUnions, rectangle
@@ -223,6 +231,10 @@ class PolytopeUnionsCategory(Category):
                 new_dict = {label:self.polytope(label) for label in new_labels}
                 return self.parent(new_dict)
 
+            @cached_method
+            def volume(self, limit=None):
+                return sum([p.volume() for _,p in self.polytopes().items()])
+
     class DisjointImages(CategoryWithAxiom):
         r"""
         The axiom satisfied by finite subdivisions.
@@ -237,6 +249,15 @@ class PolytopeUnionsCategory(Category):
         def __init__(self, *args, **options):
             CategoryWithAxiom.__init__(self, *args, **options)
             self._fix_name()
+
+        class ParentMethods:
+
+            def has_disjoint_images(self):
+                r'''Return `True` if this parent only contains disjoint unions of polytopes that are pairwise disjoint.
+
+                Return `False` otherwise.
+                '''
+                return True
 
         class ElementMethods:
             def _test_disjointness(self, tester=None, limit=10):
@@ -258,29 +279,29 @@ class PolytopeUnionsCategory(Category):
             def find(self, position, all=False, limit=None):
                 r'''
                 Find a polytope containing the position (point).
-                
+
                 By default, we return the pair `(label, polytope)` associated to the
-                first polytope found containing the point. If none is found `None` is 
-                returned. 
+                first polytope found containing the point. If none is found `None` is
+                returned.
 
                 Since the polytopes only have disjoint interiors, it is possible
-                that more than one polytope contains the position. To see all the polytopes, 
+                that more than one polytope contains the position. To see all the polytopes,
                 set the parameter `all=True`, then instead a generator is returned that
                 iterates through all the polytopes containing the point. This option is
                 (currently) only possible if the union is finite.
-                
+
                 For infinite unions, there is a `limit` parameter which describes how many
                 polytopes to check before giving up. The default limit is available from
                 the module level method `get_find_limit()` and can be changed with
                 `set_find_limit(new_limit)`.
-                
+
                 The implementation here just iterates through all polyhedra in the union,
-                checking for containment. This method should be overriden by a more 
+                checking for containment. This method should be overriden by a more
                 efficient algorithm in the infinite case and in the case of large
                 finite unions.
-                
+
                 EXAMPLES::
-                
+
                     sage: from pet_salon import PolytopeUnions
                     sage: U = PolytopeUnions(2, QQ, finite=True, disjoint_images=True)
                     sage: union = U.an_element()
@@ -289,7 +310,6 @@ class PolytopeUnionsCategory(Category):
                     (1, 0)
                     sage: for label,polytope in union.find(pt, all=True):
                     ....:     print(label)
-                    ....: 
                     0
                     1
                 '''
@@ -309,7 +329,7 @@ class PolytopeUnionsCategory(Category):
                     return None # Failed to find any polytope containing the position.
                 else:
                     if all:
-                        raise ValueError('Can only find all in a finite union.')
+                        raise NotImplemented('Currently can only find all in a finite union.')
                     if not limit:
                         limit = _find_limit
                     for pair,_ in zip(self.polytopes().items(), range(limit)):
@@ -317,11 +337,51 @@ class PolytopeUnionsCategory(Category):
                             return pair
                     return None # Failed to find any polytope containing the position within the limit.
 
+            def point(self, label_or_position, position=None, check=True, all=False, limit=None):
+                r'''Construct a points in this disjoint union from a `label` of a polytope and a `position` (vector) within it, or simply a position.
+
+                EXAMPLES::
+
+                    sage: from pet_salon import PolytopeUnions
+                    sage: U = PolytopeUnions(2, QQ, finite=True, disjoint_images=True)
+                    sage: union = U.an_element()
+                    sage: pt = union.polytope(0).intersection(union.polytope(1)).center()
+                    sage: pt
+                    (1, 0)
+                    sage: for pt in union.point(pt, all=True):
+                    ....:     print(pt)
+                    Point(0, (1, 0))
+                    Point(1, (1, 0))
+                '''
+                if position is None:
+                    if all:
+                        P = self.point_set()
+                        def point_generator():
+                            for label,_ in self.find(label_or_position, all=True, limit=limit):
+                                yield P(label, label_or_position)
+                        return point_generator()
+                    else:
+                        found = self.find(label_or_position, all=False, limit=limit)
+                        if found is None:
+                            return None
+                        else:
+                            return self.point_set()(found[0], label_or_position)
+                else:
+                    assert not all, 'If a label and a position are provided, `all` must be False.'
+                    pt = self.point_set()(label_or_position, position)
+                    if check:
+                        try:
+                            pt._test_containment()
+                        except Exception:
+                            raise ValueError('position is probably not within polytope')
+                    return pt
+
+
 class PolytopeUnion(Element):
     def __init__(self, parent, mapping):
         r'''
         Construct a new Polytope union.
-        
+
         The `parent` should be a `PolytopeUnions`, which specifies the `field`
         as well as the dimension. The mapping should send labels to polyhedra.
         '''
@@ -368,9 +428,9 @@ class PolytopeUnions(UniqueRepresentation, Parent):
     Parent for domains of PETs of a given dimension that are defined over a given field.
 
     EXAMPLES::
-    
+
     We can convert a single polyhedron to a union. It creates a union with a label of `0`.
-    
+
         sage: from pet_salon import PolytopeUnions
         sage: from sage.geometry.polyhedron.constructor import Polyhedron
         sage: U = PolytopeUnions(2, QQ, finite=True)
@@ -393,7 +453,7 @@ class PolytopeUnions(UniqueRepresentation, Parent):
         sage: from pet_salon import PolytopeUnions
         sage: U = PolytopeUnions(2, QQ, finite=False)
         sage: U
-        Disjoint unions of polyhedra in dimension 2 over Rational Field
+        Disjoint unions of polyhedra in dimension 2 over Rational Field with disjoint images
         sage: class ZZ2mapping(Mapping):
         ....:     def __init__(self, unions):
         ....:         from sage.rings.integer_ring import ZZ
@@ -410,7 +470,7 @@ class PolytopeUnions(UniqueRepresentation, Parent):
         ....:         return self._ZZ2.__iter__()
         ....:     def __len__(self):
         ....:         return infinity
-        ....: 
+        ....:
         sage: mapping = ZZ2mapping(U)
         sage: print(mapping[(3,4)])
         A 2-dimensional polyhedron in QQ^2 defined as the convex hull of 4 vertices
@@ -421,7 +481,7 @@ class PolytopeUnions(UniqueRepresentation, Parent):
     '''
     Element = PolytopeUnion
 
-    def __init__(self, dimension, field, finite=False, disjoint_images=False):
+    def __init__(self, dimension, field, finite=True, disjoint_images=True):
         cat = PolytopeUnionsCategory()
         if finite:
             cat = cat.Finite()
@@ -444,7 +504,7 @@ class PolytopeUnions(UniqueRepresentation, Parent):
         Return the ring over which this subdivision is defined.
         """
         return self._field
-    
+
     def __eq__(self, other):
         if not isinstance(other, PolytopeUnions):
             return False
@@ -455,7 +515,7 @@ class PolytopeUnions(UniqueRepresentation, Parent):
 
     def __hash__(self):
         return hash((self.dimension(), self.field()))
-    
+
     def dimension(self):
         r'''
         Return the dimension of the domains.
@@ -480,7 +540,7 @@ class PolytopeUnions(UniqueRepresentation, Parent):
 
     def set_volume_check_limit(self, limit):
         assert limit in ZZ and limit>0, 'limit should be a positive integer'
-        self._volume_check_limit = limit    
+        self._volume_check_limit = limit
 
     def containment_check_limit(self):
         if hasattr(self, '_containment_check_limit'):
@@ -490,7 +550,7 @@ class PolytopeUnions(UniqueRepresentation, Parent):
 
     def set_containment_check_limit(self, limit):
         assert limit in ZZ and limit>0, 'limit should be a positive integer'
-        self._containment_check_limit = limit    
+        self._containment_check_limit = limit
 
     def intersection_check_limit(self):
         if hasattr(self, '_intersection_check_limit'):
@@ -500,7 +560,7 @@ class PolytopeUnions(UniqueRepresentation, Parent):
 
     def set_intersection_check_limit(self, limit):
         assert limit in ZZ and limit>0, 'limit should be a positive integer'
-        self._intersection_check_limit = limit    
+        self._intersection_check_limit = limit
 
     def _element_constructor_(self, *args, **kwds):
         #print(f'Called element_constructor with args={args}')
@@ -519,9 +579,9 @@ class PolytopeUnions(UniqueRepresentation, Parent):
                     return self.element_class(self, {0: p0})
                 except TypeError:
                     raise ValueError('Conversion not implemented yet')
-            
+
         raise ValueError('Unclear how creata a finite union from passed parameters')
-    
+
     def _an_element_(self):
         if 'DisjointImages' in self.category().axioms():
             from sage.geometry.polyhedron.library import polytopes

@@ -31,7 +31,7 @@ class _ZZ2mapping(Mapping):
 def square_tiling(field):
     r'''
     Construct the square tiling in the plane.
-    
+
     EXAMPLES::
 
         sage: from pet_salon.union_generators import square_tiling

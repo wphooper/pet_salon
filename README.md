@@ -22,7 +22,7 @@ sage -pip install --upgrade --force-reinstall .
 
 From the current directory run the command:
 ```
-sage -t pet_salon
+sage -t pet_salon/*.py
 ```
 To test an individual file run something like:
 ```

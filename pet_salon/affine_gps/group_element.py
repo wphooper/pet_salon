@@ -1,6 +1,8 @@
 r"""
 NOTE: This was editted from SageMath sourcecode by Pat Hooper.
 Changes: Make the group elements immutable and add support for hash.
+I reported it as an issue https://github.com/sagemath/sage/issues/38381
+
 
 Elements of Affine Groups
 

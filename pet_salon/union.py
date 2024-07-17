@@ -192,6 +192,32 @@ class PolytopeUnionsCategory(Category):
                 for (label, p),_ in zip(self.polytopes().items(), range(limit)):
                     assert p.parent() == P, f'polytope with label {label} has the wrong parent'
 
+        def plot(self, polytope_args=[], polytope_kwds={}):
+            r'''Plot this polytope union. This only currently works in 2 and 3 dimensions.
+
+            The parameters `polytope_args` and `polytope_kwds` are passed to the `plot_polytope_union`
+            function from the `pet_salon.plot` module.
+
+            EXAMPLES::
+
+            A 2-D example:
+
+                sage: from pet_salon import PolytopeUnions
+                sage: union = PolytopeUnions(2, QQ).an_element()
+                sage: # Random cached colors:
+                sage: union.plot() # not tested
+                sage: # Colors chosen by label:
+                sage: union.plot(polytope_kwds={'fill': {0:'red', 1:'orange'}}) # not tested
+
+            A 3-D example:
+
+                sage: from pet_salon import PolytopeUnions
+                sage: union = PolytopeUnions(3, QQ).an_element()
+                sage: union.plot(polytope_kwds={'fill': {0:'red', 1:'orange'}}) # not tested
+            '''
+            from .plot import plot_polytope_union
+            return plot_polytope_union(self, *polytope_args, **polytope_kwds)
+
     class Finite(CategoryWithAxiom):
         r"""
         The axiom satisfied by finite subdivisions.

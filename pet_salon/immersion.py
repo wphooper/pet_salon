@@ -571,7 +571,7 @@ class Immersions(Parent):
             Point(0, (0, 0))
             sage: pt == p.preimage(pt)
             True
-            sage: pt == p.inclusion(pt)
+            sage: pt == p(pt)
             True
         '''
         return self.restriction(self.ambient_union().labels())

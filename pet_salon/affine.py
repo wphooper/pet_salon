@@ -1,8 +1,8 @@
 from collections.abc import Mapping
+from frozendict import frozendict
 
 from sage.categories.all import Sets
 from sage.categories.category import Category
-from sage.groups.affine_gps.affine_group import AffineGroup
 from sage.misc.abstract_method import abstract_method
 from sage.misc.cachefunc import cached_method
 from sage.misc.sage_unittest import TestSuite
@@ -10,6 +10,8 @@ from sage.rings.infinity import infinity
 from sage.structure.element import Element
 from sage.structure.parent import Parent
 from sage.structure.unique_representation import UniqueRepresentation
+
+from pet_salon.affine_gps.affine_group import AffineGroup
 
 from pet_salon.collection import identity_mapping, function_mapping, length
 from pet_salon.immersion import Immersions, Partitions
@@ -178,7 +180,11 @@ class AffineHomeomorphism(Element):
     '''
     def __init__(self, parent, domain, affine_mapping, codomain=None, codomain_has_disjoint_images=None):
         self._domain = domain
-        self._affine_mapping = affine_mapping
+        if length(affine_mapping) < infinity:
+            G = parent.affine_group()
+            self._affine_mapping = frozendict({label: G(g) for label, g in affine_mapping.items()})
+        else:
+            self._affine_mapping = affine_mapping
         if codomain:
             self._codomain = codomain
         else:
@@ -242,7 +248,7 @@ class AffineHomeomorphisms(UniqueRepresentation, Parent):
 
 # PIECEWISE AFFINE
 
-class PiecewiseAffineMapCategory(Category):
+class PiecewiseAffineMapsCategory(Category):
     r'''The category of (label respecting) affine homeomorphisms between polytope unions.'''
     def __init__(self, *args, **options):
         Category.__init__(self, *args, **options)
@@ -275,11 +281,6 @@ class PiecewiseAffineMapCategory(Category):
 
     class ElementMethods:
 
-        @cached_method
-        def domain(self):
-            r'''The domain for the map: A polytope union.'''
-            return self.domain_partition().parent().ambient_union()
-
         @abstract_method
         def domain_partition(self):
             r'''The domain partition for the map.'''
@@ -295,14 +296,82 @@ class PiecewiseAffineMapCategory(Category):
             r'''The domain partition for the map.'''
             pass
 
+        @cached_method
+        def domain(self):
+            r'''The domain for the map: A polytope union.'''
+            return self.domain_partition().parent().ambient_union()
 
-        @abstract_method
-        def affine_mapping(self):
-
-        @abstract_method
+        @cached_method
         def codomain(self):
-            r'''The codomain for the map: A polytope union.'''
-            pass
+            r'''The domain for the map: A polytope union.'''
+            return self.codomain_immersion().parent().ambient_union()
 
+        def __call__(self, x):
+            r'''Return the image of x under the mapping.'''
+            point1 = self.domain_partition().preimage(x)
+            point2 = self.affine_homeomorphism()(point1)
+            return self.codomain_immersion()(point2)
 
+        def _test_composition(self, tester=None):
+            r'''A piecewise affine map is a composition of three other maps. This checks if the domains and codomains
+            agree ensuring that the composition is well defined.'''
+            assert self.domain_partition().domain() == self.affine_homeomorphism().domain(), \
+                'The domain partition must have the same domain as the affine homeomorphism'
+            assert self.affine_homeomorphism().codomain() == self.codomain_immersion().domain(), \
+                'The codomain of the affine homeomorphism must be the same as the domain of the codomain partition.'
+
+class PiecewiseAffineMap(Element):
+    def __init__(self, parent, domain_partition, affine_homeomorphism, codomain_immersion):
+        self._domain_partition = domain_partition
+        self._affine_homeomorphism = affine_homeomorphism
+        self._codomain_immersion = codomain_immersion
+        Element.__init__(self, parent)
+
+    def domain_partition(self):
+        r'''The domain partition for the map.'''
+        return self._domain_partition
+
+    def affine_homeomorphism(self):
+        r'''The affine homeomorphism between the partitions.'''
+        return self._affine_homeomorphism
+
+    def codomain_immersion(self):
+        r'''The domain partition for the map.'''
+        return self._codomain_immersion
+
+    def __eq__(self, other):
+        if self is other:
+            return True
+        if hash(self) != hash(other):
+            return False
+        if not hasattr(other, 'parent') or not callable(other.parent) or self.parent() != other.parent():
+            return False
+        return self.domain_partition() == other.domain_partition() and \
+               self.affine_homeomorphism() == other.affine_homeomorphism() and \
+               self.codomain_immersion() == other.codomain_immersion()
+
+    @cached_method
+    def __hash__(self):
+        return hash((self.domain_partition(), self.affine_homeomorphism(), self.codomain_immersion()))
+
+class PiecewiseAffineMaps(UniqueRepresentation, Parent):
+    r'''
+    Parent for affine homeomorphisms between polytope unions.
+    '''
+    Element = PiecewiseAffineMap
+
+    def __init__(self, dimension, field):
+        self._dimension = dimension
+        self._field = field
+        Parent.__init__(self, category=PiecewiseAffineMapsCategory())
+        self.rename(f'Collection of piecewise affine maps between disjoint unions of {dimension}-dimensional polytopes defined over {field}')
+
+    def field(self):
+        return self._field
+
+    def dimension(self):
+        return self._dimension
+
+    def _element_constructor_(self, *args, **kwds):
+        return self.element_class(self, *args, **kwds)
 

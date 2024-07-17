@@ -3,6 +3,11 @@ A [SageMath](https://www.sagemath.org/) package to experiment with Polytope Exch
 
 ## To install
 
+First you need to install the prerequisites. We use [frozendict](https://github.com/Marco-Sulla/python-frozendict). To install run:
+```
+sage -pip install frozendict
+```
+
 Run from the directory containing this `README.md` file run the command:
 ```
 sage -pip install .

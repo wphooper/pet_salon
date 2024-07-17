@@ -15,6 +15,7 @@ setup(
     license="GNU General Public License, version 2",
     packages=[
         "pet_salon",
+        "pet_salon.affine_gps",
     ],
     setup_requires=["wheel"],
     include_package_data=True,

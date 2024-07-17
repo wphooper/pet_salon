@@ -117,7 +117,7 @@ class PolytopeUnionsCategory(Category):
             return PointSets(self.field())
 
         def affine_group(self):
-            from sage.groups.affine_gps.affine_group import AffineGroup
+            from pet_salon.affine_gps.affine_group import AffineGroup
             return AffineGroup(self.dimension(), self.field())
 
         def affine_homeomorphisms(self):

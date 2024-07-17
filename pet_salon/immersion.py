@@ -114,7 +114,7 @@ class ImmersionsCategory(Category):
             r'''Return a mapping sending labels in the domain to labels in the ambient union.'''
             pass
 
-        def inclusion(self, subpt):
+        def __call__(self, subpt):
             r'''Return the image of the point under the inclusion into the ambient_union.
 
             EXAMPLES::
@@ -134,7 +134,7 @@ class ImmersionsCategory(Category):
                 sage: pt = su.domain().point((2/3,1/4))
                 sage: pt
                 Point(2, (2/3, 1/4))
-                sage: su.inclusion(pt)
+                sage: su(pt)
                 Point(0, (2/3, 1/4))
             '''
             return self.parent().ambient_union().point(

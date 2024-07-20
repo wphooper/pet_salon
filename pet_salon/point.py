@@ -109,10 +109,10 @@ class PointSet(Parent):
         sage: U = PolytopeUnions(2, QQ, finite=True)
         sage: union = U.an_element()
         sage: union
-        Disjoint union of 2 polyhedra in QQ^2
+        Disjoint union of 2 nonoverlapping polyhedra in QQ^2
         sage: PS = union.point_set()
         sage: PS
-        Set of points in disjoint union of 2 polyhedra in QQ^2
+        Set of points in disjoint union of 2 nonoverlapping polyhedra in QQ^2
         sage: TestSuite(PS).run()
         sage: PS.center(0)
         Point(0, (0, 0))

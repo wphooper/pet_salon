@@ -1,3 +1,22 @@
+# ********************************************************************
+#  This file is part of pet-salon.
+#
+#        Copyright (C)      2024 W. Patrick Hooper
+#
+#  sage-flatsurf is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 2 of the License, or
+#  (at your option) any later version.
+#
+#  sage-flatsurf is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with sage-flatsurf. If not, see <https://www.gnu.org/licenses/>.
+# ********************************************************************
+
 from collections.abc import Mapping
 
 from sage.rings.infinity import infinity
@@ -134,4 +153,18 @@ def function_mapping(collection, function):
     else:
         return _FunctionMapping(collection, function)
 
+def mapping_composition(second, first):
+    r'''Return the composition of the mapping: `return[i] = second[first[i]]`.
 
+    The point is to allow this to work for infinite mappings. But we defer this.
+    '''
+    try:
+        # Attempt to multiply the mappings. This gives a way to handle things if we were working with labels indexed by a group or something.
+        composition = second*first
+        if isinstance(composition,Mapping):
+            return composition
+    except TypeError:
+        pass
+    if length(first) < infinity:
+        return {i: second[first_i] for i,first_i in first.items()}
+    raise NotImplemented('Not yet implemented for infinite mappings.')

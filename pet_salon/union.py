@@ -1,3 +1,22 @@
+# ********************************************************************
+#  This file is part of pet-salon.
+#
+#        Copyright (C) 2024 W. Patrick Hooper
+#
+#  sage-flatsurf is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 2 of the License, or
+#  (at your option) any later version.
+#
+#  sage-flatsurf is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with sage-flatsurf. If not, see <https://www.gnu.org/licenses/>.
+# ********************************************************************
+
 from collections.abc import Mapping
 from copy import copy
 
@@ -15,9 +34,19 @@ from sage.structure.unique_representation import UniqueRepresentation
 
 from pet_salon.collection import length
 
-# Make DisjointImages an axiom in Sage:
-all_axioms += ("DisjointImages",)
+# Make Nonoverlapping an axiom in Sage:
+all_axioms += ("Nonoverlapping",)
 
+def is_nonoverlapping(polytope_collection):
+    assert length(polytope_collection) < infinity, 'is_nonoverlapping only works for finite collections of polytopes!'
+    polytopes = list(polytope_collection)
+    for i in range(len(polytopes)):
+        p1 = polytopes[i]
+        for j in range(i+1, len(polytopes)):
+            p2 = polytopes[j]
+            if p1.intersection(p2).volume() != 0:
+                return False
+    return True
 
 class PolytopeUnionsCategory(Category):
     r"""
@@ -31,7 +60,7 @@ class PolytopeUnionsCategory(Category):
     """
 
     # TODO: Fix category names. Currently
-    # PolytopeUnionsCategory().DisjointImages().Finite()
+    # PolytopeUnionsCategory().Nonoverlapping().Finite()
     # has a nonsensical name.
 
     def __init__(self, *args, **options):
@@ -55,22 +84,22 @@ class PolytopeUnionsCategory(Category):
 
     class SubcategoryMethods:
 
-        def DisjointImages(self):
-            r'''We say a PolytopeUnion has Disjoint images if the polytopes, viewed as subsets of the vector space containing them, have disjoint interiors.
+        def Nonoverlapping(self):
+            r'''We say a PolytopeUnion is *nonoverlapping* if the polytopes, viewed as subsets of the vector space containing them, have disjoint interiors.
 
             This will make available the `find` method.'''
-            return self._with_axiom('DisjointImages')
+            return self._with_axiom('Nonoverlapping')
 
         def _fix_name(self):
-            if 'DisjointImages' in self.axioms():
-                di = ' with disjoint images'
+            if 'Nonoverlapping' in self.axioms():
+                di = 'nonoverlapping '
             else:
                 di = ''
             if 'Finite' in self.axioms():
                 f = 'finite '
             else:
                 f = ''
-            self.rename(f'Category of {f}disjoint polytope unions{di}')
+            self.rename(f'Category of {f}{di}disjoint polytope unions')
 
     class ParentMethods:
         r"""
@@ -95,13 +124,16 @@ class PolytopeUnionsCategory(Category):
             '''
             return False
 
-        def has_disjoint_images(self):
+        def is_nonoverlapping(self):
             r'''Return `True` if this parent only contains disjoint unions of polytopes that are pairwise disjoint.
 
             Return `False` otherwise.
             '''
             return False
 
+        @abstract_method
+        def with_different_axioms(self, finite=None, nonoverlapping=None):
+            pass
 
         def vector_space(self):
             r'''
@@ -155,6 +187,9 @@ class PolytopeUnionsCategory(Category):
             except TypeError:
                 # len attempts to return infinity which results in an error.
                 return False
+
+        def is_nonoverlapping(self):
+            return self.parent().is_nonoverlapping()
 
         @cached_method
         def point_set(self):
@@ -248,25 +283,27 @@ class PolytopeUnionsCategory(Category):
                 """
                 return True
 
-            def restrict(self, new_labels):
+            def restrict(self, new_labels, parent=None):
                 r'''Return a new PolytopeUnion with a restricted label set but the same polytopes.
 
                 The parameter `new_labels` should be a collection of the new labels.
 
+                The parameter `parent` can be used to give the restriction an alternate parent. This can be used to change axioms for the restriction.
+
                 EXAMPLES::
 
                     sage: from pet_salon import PolytopeUnions, rectangle
-                    sage: U = PolytopeUnions(2, QQ, finite=True, disjoint_images=True)
+                    sage: U = PolytopeUnions(2, QQ, finite=True, nonoverlapping=True)
                     sage: union = U({
                     ....:     0: rectangle(QQ, 0, 1, 0, 1),
                     ....:     1: rectangle(QQ, 1, 2, 0, 1),
                     ....:     2: rectangle(QQ, 2, 3, 0, 1),
                     ....: })
                     sage: union
-                    Disjoint union of 3 polyhedra in QQ^2
+                    Disjoint union of 3 nonoverlapping polyhedra in QQ^2
                     sage: res = union.restrict([0,2])
                     sage: res
-                    Disjoint union of 2 polyhedra in QQ^2
+                    Disjoint union of 2 nonoverlapping polyhedra in QQ^2
                     sage: for label in res.labels():
                     ....:     print(label, union.polytope(label) == res.polytope(label))
                     0 True
@@ -274,13 +311,16 @@ class PolytopeUnionsCategory(Category):
                     sage: TestSuite(res).run()
                 '''
                 new_dict = {label:self.polytope(label) for label in new_labels}
-                return self.parent(new_dict)
+                if parent is None:
+                    return self.parent(new_dict)
+                else:
+                    return parent(new_dict)
 
             @cached_method
             def volume(self, limit=None):
                 return sum([p.volume() for _,p in self.polytopes().items()])
 
-    class DisjointImages(CategoryWithAxiom):
+    class Nonoverlapping(CategoryWithAxiom):
         r"""
         The axiom satisfied by finite subdivisions.
 
@@ -288,8 +328,8 @@ class PolytopeUnionsCategory(Category):
 
             sage: from pet_salon.union import PolytopeUnionsCategory
             sage: C = PolytopeUnionsCategory()
-            sage: C.DisjointImages()
-            Category of disjoint polytope unions with disjoint images
+            sage: C.Nonoverlapping()
+            Category of nonoverlapping disjoint polytope unions
         """
         def __init__(self, *args, **options):
             CategoryWithAxiom.__init__(self, *args, **options)
@@ -297,7 +337,7 @@ class PolytopeUnionsCategory(Category):
 
         class ParentMethods:
 
-            def has_disjoint_images(self):
+            def is_nonoverlapping(self):
                 r'''Return `True` if this parent only contains disjoint unions of polytopes that are pairwise disjoint.
 
                 Return `False` otherwise.
@@ -305,7 +345,7 @@ class PolytopeUnionsCategory(Category):
                 return True
 
         class ElementMethods:
-            def _test_disjointness(self, tester=None, limit=10):
+            def _test_for_overlap(self, tester=None, limit=10):
                 r'''
                 Test that the polytopes have pairwise disjoint interior.
 
@@ -313,13 +353,10 @@ class PolytopeUnionsCategory(Category):
                 is finite we go up to the `limit` parameter (default: `10`).
                 '''
                 if self.is_finite():
-                    polytopes = list(self.polytopes().items())
-                    for i in range(len(polytopes)):
-                        label1, p1 = polytopes[i]
-                        for j in range(i+1, len(polytopes)):
-                            label2, p2 = polytopes[j]
-                            assert p1.intersection(p2).volume() == 0, \
-                                f'Polytope {label1} and polytope {label2} have intersecting interiors.'
+                    assert is_nonoverlapping(self.polytopes().values()), 'Two polytopes overlap'
+                else:
+                    polytopes = [p for p,_ in zip(self.polytopes().values(), range(limit))]
+                    assert is_nonoverlapping(polytopes), 'Two polytopes overlap'
 
             def find(self, position, all=False, limit=None):
                 r'''
@@ -340,7 +377,7 @@ class PolytopeUnionsCategory(Category):
                 the module level method `get_find_limit()` and can be changed with
                 `set_find_limit(new_limit)`.
 
-                The implementation here just iterates through all polyhedra in the union,
+                The implementation here just iterates through all nonoverlapping polyhedra in the union,
                 checking for containment. This method should be overriden by a more
                 efficient algorithm in the infinite case and in the case of large
                 finite unions.
@@ -348,7 +385,7 @@ class PolytopeUnionsCategory(Category):
                 EXAMPLES::
 
                     sage: from pet_salon import PolytopeUnions
-                    sage: U = PolytopeUnions(2, QQ, finite=True, disjoint_images=True)
+                    sage: U = PolytopeUnions(2, QQ, finite=True, nonoverlapping=True)
                     sage: union = U.an_element()
                     sage: pt = union.polytope(0).intersection(union.polytope(1)).center()
                     sage: pt
@@ -388,7 +425,7 @@ class PolytopeUnionsCategory(Category):
                 EXAMPLES::
 
                     sage: from pet_salon import PolytopeUnions
-                    sage: U = PolytopeUnions(2, QQ, finite=True, disjoint_images=True)
+                    sage: U = PolytopeUnions(2, QQ, finite=True, nonoverlapping=True)
                     sage: union = U.an_element()
                     sage: pt = union.polytope(0).intersection(union.polytope(1)).center()
                     sage: pt
@@ -421,9 +458,25 @@ class PolytopeUnionsCategory(Category):
                             raise ValueError('position is probably not within polytope')
                     return pt
 
+        class Finite(CategoryWithAxiom):
+            r"""
+            The axiom satisfied by finite subdivisions.
+
+            EXAMPLES::
+
+                sage: from pet_salon.union import PolytopeUnionsCategory
+                sage: C = PolytopeUnionsCategory()
+                sage: C.Finite().Nonoverlapping()
+                Category of finite nonoverlapping disjoint polytope unions
+            """
+            def __init__(self, *args, **options):
+                CategoryWithAxiom.__init__(self, *args, **options)
+                self._fix_name()
+
+
 
 class PolytopeUnion(Element):
-    def __init__(self, parent, mapping):
+    def __init__(self, parent, mapping, name=None):
         r'''
         Construct a new Polytope union.
 
@@ -435,6 +488,19 @@ class PolytopeUnion(Element):
             mapping = {label: P(p) for label,p in mapping.items()}
         self._mapping = mapping
         Element.__init__(self, parent)
+        if name:
+            self.rename(name)
+        else:
+            s = str(self.parent().polyhedra())
+            if self.is_finite():
+                size = len(self.polytopes())
+            else:
+                size = f'∞ly many'
+            if 'Nonoverlapping' in self.parent().category().axioms():
+                no = 'nonoverlapping '
+            else:
+                no = ''
+            self.rename(f'Disjoint union of {size} {no}{s[0].lower()}{s[1:]}')
 
     def polytopes(self):
         r'''Return the a mapping from labels to polytopes.'''
@@ -460,13 +526,13 @@ class PolytopeUnion(Element):
         else:
             hash(id(self))
 
-    def __repr__(self):
-        s = str(self.parent().polyhedra())
-        if self.is_finite():
-            size = len(self.polytopes())
-            return f'Disjoint union of {size} {s[0].lower()}{s[1:]}'
-        else:
-            return f'Disjoint union of infinitely many {s[0].lower()}{s[1:]}'
+#    def __repr__(self):
+#        s = str(self.parent().polyhedra())
+#        if self.is_finite():
+#            size = len(self.polytopes())
+#            return f'Disjoint union of {size} {s[0].lower()}{s[1:]}'
+#        else:
+#            return f'Disjoint union of infinitely many {s[0].lower()}{s[1:]}'
 
 class PolytopeUnions(UniqueRepresentation, Parent):
     r'''
@@ -485,7 +551,7 @@ class PolytopeUnions(UniqueRepresentation, Parent):
         A 2-dimensional polyhedron in ZZ^2 defined as the convex hull of 3 vertices
         sage: union = U(p0)
         sage: union
-        Disjoint union of 1 polyhedra in QQ^2
+        Disjoint union of 1 nonoverlapping polyhedra in QQ^2
         sage: TestSuite(union).run()
         sage: union.labels()
         dict_keys([0])
@@ -498,7 +564,7 @@ class PolytopeUnions(UniqueRepresentation, Parent):
         sage: from pet_salon import PolytopeUnions
         sage: U = PolytopeUnions(2, QQ, finite=False)
         sage: U
-        Disjoint unions of polyhedra in dimension 2 over Rational Field with disjoint images
+        Disjoint unions of nonoverlapping polyhedra in dimension 2 over Rational Field
         sage: class ZZ2mapping(Mapping):
         ....:     def __init__(self, unions):
         ....:         from sage.rings.integer_ring import ZZ
@@ -521,34 +587,47 @@ class PolytopeUnions(UniqueRepresentation, Parent):
         A 2-dimensional polyhedron in QQ^2 defined as the convex hull of 4 vertices
         sage: union = U(mapping)
         sage: union
-        Disjoint union of infinitely many polyhedra in QQ^2
+        Disjoint union of ∞ly many nonoverlapping polyhedra in QQ^2
         sage: TestSuite(union).run(skip=['_test_pickling'])
     '''
     Element = PolytopeUnion
 
-    def __init__(self, dimension, field, finite=True, disjoint_images=True):
+    def __init__(self, dimension, field, finite=True, nonoverlapping=True):
         cat = PolytopeUnionsCategory()
         if finite:
             cat = cat.Finite()
-        if disjoint_images:
-            cat = cat.DisjointImages()
+        if nonoverlapping:
+            cat = cat.Nonoverlapping()
         Parent.__init__(self, category=cat)
         self._field = field
         self._n = dimension
-        if disjoint_images:
-            end = ' with disjoint images'
+        if nonoverlapping:
+            no = 'nonoverlapping '
         else:
-            end = ''
+            no = ''
         if finite:
-            self.rename(f'Finite disjoint unions of polyhedra in dimension {self._n} over {self.field()}{end}')
+            self.rename(f'Finite disjoint unions of {no}polyhedra in dimension {self._n} over {self.field()}')
         else:
-            self.rename(f'Disjoint unions of polyhedra in dimension {self._n} over {self.field()}{end}')
+            self.rename(f'Disjoint unions of {no}polyhedra in dimension {self._n} over {self.field()}')
 
     def field(self):
         r"""
         Return the ring over which this subdivision is defined.
         """
         return self._field
+
+    def dimension(self):
+        r'''
+        Return the dimension of the domains.
+        '''
+        return self._n
+
+    def with_different_axioms(self, finite=None, nonoverlapping=None):
+        if finite is None:
+            finite = self.is_finite()
+        if nonoverlapping is None:
+            nonoverlapping = self.is_nonoverlapping()
+        return PolytopeUnions(self.dimension(), self.field(), finite, nonoverlapping)
 
     def __eq__(self, other):
         if not isinstance(other, PolytopeUnions):
@@ -560,12 +639,6 @@ class PolytopeUnions(UniqueRepresentation, Parent):
 
     def __hash__(self):
         return hash((self.dimension(), self.field()))
-
-    def dimension(self):
-        r'''
-        Return the dimension of the domains.
-        '''
-        return self._n
 
     def find_limit(self):
         if hasattr(self, '_default_find_limit'):
@@ -608,27 +681,27 @@ class PolytopeUnions(UniqueRepresentation, Parent):
         self._intersection_check_limit = limit
 
     def _element_constructor_(self, *args, **kwds):
-        #print(f'Called element_constructor with args={args}')
+        #print(f'Called element_constructor with args={args} and kwds={kwds}')
         if len(args)==1:
             if isinstance(args[0], PolytopeUnion):
                 if not args[0].is_finite():
                     raise ValueError('Conversion to finite union not implemented yet')
                 d = {label:args[0].polytope(label) for label in args[0].labels()}
-                return self.element_class(self, d)
+                return self.element_class(self, d, **kwds)
             elif isinstance(args[0], Mapping):
-                return self.element_class(self, args[0])
+                return self.element_class(self, args[0], **kwds)
             else:
                 # We assume that the object passed is a Polyhedron
                 try:
                     p0 = self.polyhedra()(args[0])
-                    return self.element_class(self, {0: p0})
+                    return self.element_class(self, {0: p0}, **kwds)
                 except TypeError:
                     raise ValueError('Conversion not implemented yet')
 
         raise ValueError('Unclear how creata a finite union from passed parameters')
 
     def _an_element_(self):
-        if 'DisjointImages' in self.category().axioms():
+        if 'Nonoverlapping' in self.category().axioms():
             from sage.geometry.polyhedron.library import polytopes
             P = self.polyhedra()
             p0 = P(polytopes.hypercube(self.dimension()))
@@ -642,6 +715,14 @@ class PolytopeUnions(UniqueRepresentation, Parent):
             p0 = P(polytopes.hypercube(self.dimension()))
             p1 = P(polytopes.cross_polytope(self.dimension()))
             return self({0:p0, 1:p1})
+
+def finite_polytope_union(dimension, field, mapping):
+    if is_nonoverlapping(mapping.values()):
+        U = PolytopeUnions(dimension, field, finite=True, nonoverlapping=True)
+        return U(mapping)
+    else:
+        U = PolytopeUnions(dimension, field, finite=True, nonoverlapping=False)
+        return U(mapping)
 
 _find_limit = 100
 

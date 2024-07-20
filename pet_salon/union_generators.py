@@ -40,7 +40,7 @@ def square_tiling(field):
         sage: from pet_salon.union_generators import square_tiling
         sage: union = square_tiling(QQ)
         sage: union
-        Disjoint union of infinitely many polyhedra in QQ^2
+        Disjoint union of ∞ly many nonoverlapping polyhedra in QQ^2
         sage: TestSuite(union).run()
         sage: union.polytope((2,1)).vertices()
         (A vertex at (2, 1),

@@ -1,5 +1,5 @@
 r"""
-Examples of polyhedra. 
+Examples of polyhedra.
 
 See also [polytopes from sage.geometry.polyhedron.library](https://doc.sagemath.org/html/en/reference/discrete_geometry/sage/geometry/polyhedron/library.html).
 """
@@ -12,19 +12,19 @@ from sage.modules.free_module_element import vector
 def rectangle(field, *args):
     r'''
     Create a rectangular box from a field and a list of minimal and maximal coordinate values.
-    
+
     For example:
     ```
     rectangle(QQ, 0, 1, 2, 3, 4, 5)
     ```
     constructs the box `[0,1]x[2,3]x[4,5]` over `QQ`.
-    
+
     An even number of coordinates must be provided, and the number of coordinates divided by two
     will be the dimension of the box. The optional field parameter defines the field containing
     the vertices of the box.
-    
+
     EXAMPLES::
-    
+
         sage: from pet_salon.polyhedra import rectangle
         sage: rectangle(QQ, 0, 1, 2, 3, 4, 5)
         A 3-dimensional polyhedron in QQ^3 defined as the convex hull of 8 vertices

@@ -32,7 +32,7 @@ from sage.structure.element import Element
 from sage.structure.parent import Parent
 from sage.structure.unique_representation import UniqueRepresentation
 
-from pet_salon.collection import length, function_mapping
+from pet_salon.collection import length, function_mapping, postcomposition_mapping
 
 # Make Nonoverlapping an axiom in Sage:
 all_axioms += ("Nonoverlapping",)
@@ -277,7 +277,7 @@ class PolytopeUnionsCategory(Category):
                 2 True
                 sage: TestSuite(res).run()
             '''
-            new_dict = function_mapping(new_labels, lambda label: self.polytope(label))
+            new_dict = function_mapping(new_labels, self.polytope)
             if length(new_dict) < infinity:
                 return self.parent().with_different_axioms(finite=True, nonoverlapping = is_nonoverlapping)(new_dict)
             else:
@@ -363,7 +363,7 @@ class PolytopeUnionsCategory(Category):
 
                 The parameter `nonoverlapping` allows you to specify whether the labels have overlaps.
                 '''
-                new_dict = function_mapping(new_labels, lambda label: self.polytope(label))
+                new_dict = function_mapping(new_labels, self.polytope)
                 if nonoverlapping:
                     return self.parent().with_different_axioms(nonoverlapping = is_nonoverlapping)(new_dict)
                 else:
@@ -515,7 +515,7 @@ class PolytopeUnionsCategory(Category):
 
                 We ignore the `nonoverlapping` parameter because this union has no overlaps.
                 '''
-                new_dict = function_mapping(new_labels, lambda label: self.polytope(label))
+                new_dict = function_mapping(new_labels, self.polytope)
                 if length(new_dict) < infinity:
                     return self.parent().with_different_axioms(finite=True)(new_dict)
                 else:
@@ -545,7 +545,7 @@ class PolytopeUnionsCategory(Category):
 
                     We ignore the `nonoverlapping` parameter because this union has no overlaps.
                     '''
-                    new_dict = function_mapping(new_labels, lambda label: self.polytope(label))
+                    new_dict = function_mapping(new_labels, self.polytope)
                     return self.parent()(new_dict)
 
 class PolytopeUnion(Element):
@@ -556,9 +556,6 @@ class PolytopeUnion(Element):
         The `parent` should be a `PolytopeUnions`, which specifies the `field`
         as well as the dimension. The mapping should send labels to polyhedra.
         '''
-        if length(mapping) < infinity:
-            P = parent.polyhedra()
-            mapping = {label: P(p) for label,p in mapping.items()}
         self._mapping = mapping
         Element.__init__(self, parent)
         if name:
@@ -759,15 +756,22 @@ class PolytopeUnions(UniqueRepresentation, Parent):
     def _element_constructor_(self, *args, **kwds):
         #print(f'Called element_constructor with args={args} and kwds={kwds}')
         if len(args)==1:
-            if isinstance(args[0], PolytopeUnion):
+            if hasattr(args[0],'parent'):
                 if args[0].parent() == self:
+                    # Conversion unnecessary
                     return args[0]
-                if not args[0].is_finite():
-                    raise ValueError('Conversion to finite union not implemented yet')
-                d = {label:args[0].polytope(label) for label in args[0].labels()}
-                return self.element_class(self, d, **kwds)
-            elif isinstance(args[0], Mapping):
-                return self.element_class(self, args[0], **kwds)
+                if hasattr(args[0].parent(), 'category') and args[0].parent().category().is_subcategory(PolytopeUnionsCategory()):
+                    if args[0].parent().field() == self.field():
+                        # Don't need to convert the fields, just convert!
+                        return self.element_class(self, args[0].polytopes(), **kwds)
+                    else:
+                        return self.element_class(self,
+                                                  postcomposition_mapping(args[0].polytopes(), self.polyhedra()),
+                                                  **kwds)
+            if isinstance(args[0], Mapping):
+                return self.element_class(self,
+                                          postcomposition_mapping(args[0], self.polyhedra()),
+                                          **kwds)
             else:
                 # We assume that the object passed is a Polyhedron
                 try:
@@ -775,8 +779,7 @@ class PolytopeUnions(UniqueRepresentation, Parent):
                     return self.element_class(self, {0: p0}, **kwds)
                 except TypeError:
                     raise ValueError('Conversion not implemented yet')
-
-        raise ValueError('Unclear how creata a finite union from passed parameters')
+        raise ValueError('Unclear how creat a polytope union from the passed parameters')
 
     def _an_element_(self):
         if 'Nonoverlapping' in self.category().axioms():

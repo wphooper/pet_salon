@@ -31,7 +31,7 @@ from sage.structure.element import Element
 from sage.structure.parent import Parent
 from sage.structure.unique_representation import UniqueRepresentation
 
-from .collection import identity_mapping, function_mapping, length, mapping_composition
+from .collection import identity_mapping, function_mapping, length, mapping_composition, tuple_singleton
 from .polytope import is_subpolytope
 from .union import PolytopeUnions, PolytopeUnionsCategory
 
@@ -144,6 +144,25 @@ class ImmersionsCategory(Category):
             return PiecewiseAffineMaps(self.dimension(), self.field())
 
         def _coerce_map_from_(self, parent):
+            r'''
+            EXAMPLES::
+
+            Test coercion and conversion:
+
+                sage: from pet_salon import PolytopeUnions, Immersions, Embeddings
+                sage: union = PolytopeUnions(2, QQ).an_element()
+                sage: E = Embeddings(union)
+                sage: E_AA = E.with_different_field(AA)
+                sage: E_AA
+                Embeddings into disjoint union of 2 nonoverlapping polyhedra in AA^2
+                sage: E_AA.has_coerce_map_from(E)
+                True
+                sage: e = E.an_element()
+                sage: e
+                Embedding of disjoint union of 2 nonoverlapping polyhedra in QQ^2 into disjoint union of 2 nonoverlapping polyhedra in QQ^2
+                sage: ee = E_AA(e)
+                sage: TestSuite(ee).run()
+            '''
             if not hasattr(parent, 'category'):
                 return False
             if not parent.category().is_subcategory(self.category()):
@@ -280,6 +299,7 @@ class ImmersionsCategory(Category):
                 sage: attempted_subunion
                 Disjoint union of 2 nonoverlapping polyhedra in QQ^2
                 sage: su = S(attempted_subunion,
+                ....:        { 1: 0, 2: 0},
                 ....:        { 0: (1, 2)})
                 sage: su
                 Immersion of disjoint union of 2 nonoverlapping polyhedra in QQ^2 into disjoint union of 1 nonoverlapping polyhedra in QQ^2
@@ -478,7 +498,7 @@ class ImmersionsCategory(Category):
                         subunion = self.subunion(ambient_label)
                         test_pair(ambient_label, subunion)
 
-        class Injective(CategoryWithAxiom):
+        class Injective(CategoryWithAxiom): # SURJECTIVE EMBEDDINGS
             r'''This is the category of surjective embeddings into a polytope union'''
             def __init__(self, *args, **options):
                 CategoryWithAxiom.__init__(self, *args, **options)
@@ -499,7 +519,7 @@ class ImmersionsCategory(Category):
 
                 def __invert__(self):
                     r'''Return the associated surjective embedding.'''
-                    return self.parent().partitions()(self)
+                    return self.parent().partitions().inverse(self)
 
 class Immersion(Element):
     def __init__(self, parent, domain, ambient_labels_mapping=None, subunion_labels_mapping=None, name=None):
@@ -749,8 +769,7 @@ class Immersions(UniqueRepresentation, Parent):
         U = PolytopeUnions(self.dimension(), self.field(), finite=True, nonoverlapping=True)
         return self(self.ambient_union().restrict(ambient_label_collection),
                     identity_mapping(ambient_label_collection),
-                    function_mapping(ambient_label_collection,
-                                     lambda ambient_label:(ambient_label,)))
+                    function_mapping(ambient_label_collection, tuple_singleton))
 
     def _element_constructor_(self, *args, **kwds):
         #print(f'Called element_constructor with args={args}, len(args)={len(args)}, kwds={kwds}')
@@ -768,6 +787,7 @@ class Immersions(UniqueRepresentation, Parent):
                 else:
                     # Attempt conversion.
                     return self.element_class(
+                        self,
                         args[0].domain(),
                         args[0].ambient_labels(),
                         args[0].subunion_labels(),
@@ -918,6 +938,36 @@ class PartitionsCategory(Category):
             from .affine import PiecewiseAffineMaps
             return PiecewiseAffineMaps(self.dimension(), self.field())
 
+        def with_different_field(self, new_field):
+            r'''Return the same object but defined over a new bigger field.'''
+            return self.surjective_embeddings().with_different_field(new_field).partitions()
+
+        def _coerce_map_from_(self, parent):
+            r'''
+            EXAMPLES::
+
+            Example testing coercion and conversion:
+            sage: from pet_salon import PolytopeUnions, Partitions
+            sage: union = PolytopeUnions(2, QQ).an_element()
+            sage: P_QQ = Partitions(union)
+            sage: P_AA = P_QQ.with_different_field(AA)
+            sage: P_AA
+            Partitions of disjoint union of 2 nonoverlapping polyhedra in AA^2
+            sage: TestSuite(P_AA).run()
+            sage: p = P_QQ.an_element()
+            sage: pp = P_AA(p)
+            sage: pp
+            Partition of disjoint union of 2 nonoverlapping polyhedra in AA^2 into 2 subpolytopes
+            sage: TestSuite(pp).run()
+            '''
+            if not hasattr(parent, 'category'):
+                return False
+            if not parent.category().is_subcategory(self.category()):
+                return False
+            if not self.ambient_union().parent().has_coerce_map_from(parent.ambient_union().parent()):
+                return False
+            return self.ambient_union().parent()(parent.ambient_union()) == self.ambient_union()
+
     class ElementMethods:
 
         @abstract_method
@@ -974,7 +1024,8 @@ class PartitionsCategory(Category):
 
 class Partition(Element):
     def __init__(self, parent, surjective_embedding, name=None):
-        self._surjective_embedding = parent.surjective_embeddings()(surjective_embedding)
+        # This constructor assumes that the things passed to it are already checked.
+        self._surjective_embedding = surjective_embedding
         Element.__init__(self, parent)
         if name:
             name = str(name)
@@ -1038,7 +1089,7 @@ class Partitions(UniqueRepresentation, Parent):
         sage: P
         Partitions of union
         sage: TestSuite(P).run()
-        sage: f = P(U({
+        sage: f = P.inverse(U({
         ....:     1: rectangle(QQ,   0, 1/2,   0, 1/2),
         ....:     2: rectangle(QQ, 1/2,   1,   0, 1/2),
         ....:     3: rectangle(QQ,   0, 1/2, 1/2,   1),
@@ -1072,29 +1123,38 @@ class Partitions(UniqueRepresentation, Parent):
     def __hash__(self):
         return hash((self.category(), self.ambient_union()))
 
+    def inverse(self, *args, **kwds):
+        r'''
+        Construct the partition that is the inverse of a surjective embedding.
+
+        All arguments except the keyword argument `'name'` are passed to the constructor in the parent `self.surjective_embeddings()`. In particular,
+        any collection of arguments that produce a surjective embedding can be used here to produce a Partition. The `name` keyword argument is
+        passed to the constructor of the partition, allowing it to be provided with a name.
+        '''
+        if 'name' in kwds:
+            name = kwds.pop(name)
+        else:
+            name = None
+        return self.element_class(self, self.surjective_embeddings()(*args, **kwds), name=name)
+
     def _element_constructor_(self, *args, **kwds):
         #print(f'Called element_constructor with args={args}')
         if len(args)==1:
+            if args[0] == 0:
+                # Empty arguments. Construct the trivial partition.
+                return self.element_class(self, self.surjective_embeddings()(), **kwds)
             if hasattr(args[0], 'parent') and callable(args[0].parent) and \
                 hasattr(args[0].parent(), 'category') and callable(args[0].parent().category):
 
                 if args[0].parent() == self:
                     # Note: Ignoring possible name definition.
                     return args[0]
+
                 if args[0].parent().category().is_subcategory(PartitionsCategory()):
-                    return self.element_class(self, args[0].surjective_embedding(), **kwds)
-                if args[0].parent().category().is_subcategory(ImmersionsCategory().Surjective().Injective()):
-                    return self.element_class(self, args[0], **kwds)
-        if len(args) in [1, 2, 3]:
-            if 'name' in kwds:
-                name = kwds.pop(name)
-                surjective_embedding = self.surjective_embeddings()(*args, **kwds)
-                return self.element_class(self, surjective_embedding, name=name)
-            else:
-                surjective_embedding = self.surjective_embeddings()(*args, **kwds)
-                return self.element_class(self, surjective_embedding)
-        raise NotImplementedError()
+                    return self.element_class(self, self.surjective_embeddings()(args[0].surjective_embedding()), **kwds)
+
+        raise NotImplementedError('The constructor only works for conversion. Instead use `inverse` to construct from a surjective embedding.')
 
     def _an_element_(self):
-        return self(self.surjective_embeddings().an_element())
+        return self.inverse(self.surjective_embeddings().an_element())
 

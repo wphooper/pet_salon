@@ -73,7 +73,7 @@ def integer_multiplication(dimension, field, k):
         affine_maps[label] = G(mult_by_k, -v)
         label += 1
     small_cube_union = U(small_cubes, name = f'{len(small_cubes)} small {dimension}-cubes')
-    p = P(small_cube_union)
+    p = P.inverse(small_cube_union)
     A = AffineHomeomorphisms(dimension, field)
     f = A(small_cube_union, affine_maps, codomain_is_nonoverlapping=False)
     multiple_copies_of_cube = f.codomain()

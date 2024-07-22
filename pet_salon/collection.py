@@ -153,6 +153,41 @@ def function_mapping(collection, function):
     else:
         return _FunctionMapping(collection, function)
 
+def tuple_singleton(x):
+    r'''
+    Returns the tuple `(x,)`.
+    
+    This is used in some places as the `function` argument to `function_mapping`.
+    '''
+    return (x,)
+
+class _PostcompositionMapping(Mapping):
+    r'''This class handles the infinite case of `postcomposition_mapping`.'''
+    def __init__(self, mapping, function):
+        self._m = mapping
+        self._f = function
+    def __getitem__(self, key):
+        return self._f(self._m[key])
+    def __iter__(self):
+        return self._m.__iter__()
+    def __len__(self):
+        return self._m.__len__()
+    def __repr__(self):
+        return f'Postcomposition mapping with domain {self._m} and function {self._f}'
+    def __eq__(self, other):
+        if isinstance(other, _PostcompositionMapping):
+            return self._m == other._m and self._f == other._f
+        return False
+    def __hash__(self):
+        return hash((self._m, self._f))
+
+def postcomposition_mapping(mapping, function):
+    if length(mapping) < infinity:
+        return {x:function(y) for x,y in mapping.items()}
+    else:
+        return _PostcompositionMapping(mapping, function)
+
+
 def mapping_composition(second, first):
     r'''Return the composition of the mapping: `return[i] = second[first[i]]`.
 

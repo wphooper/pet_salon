@@ -340,7 +340,7 @@ def _reverse_order_p_ah(p, a):
         Z.labels(),
         lambda label: (~a.affine_mapping()[p.ambient_labels()[label]])*Z.polytope(label)))
     P = Partitions(a.domain())
-    p2 = P(Y2, p.ambient_labels())
+    p2 = P.inverse(Y2, p.ambient_labels())
     AH = a.parent()
     a2 = AH(
         Y2, # domain
@@ -404,7 +404,7 @@ def _reverse_order_p_i(p, i):
                     subunion_data1[b2] = y2
             subunions1[a] = subunion_parent(subunion_data1)
     Y2 = X.parent().with_different_axioms(finite = X.is_finite() and Z.is_finite())(Y2_polytopes)
-    p2 = Partitions(X)(Y2, ambient_labels1, subunions1)
+    p2 = Partitions(X).inverse(Y2, ambient_labels1, subunions1)
     I = i.parent().with_different_union(Z)
     i2 = I(Y2, ambient_labels2)
     return (i2, p2)

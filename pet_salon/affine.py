@@ -1,20 +1,20 @@
 # ********************************************************************
-#  This file is part of pet-salon.
+#  This file is part of pet_salon.
 #
 #        Copyright (C) 2024 W. Patrick Hooper
 #
-#  sage-flatsurf is free software: you can redistribute it and/or modify
+#  pet_salon is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation, either version 2 of the License, or
 #  (at your option) any later version.
 #
-#  sage-flatsurf is distributed in the hope that it will be useful,
+#  pet_salon is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU General Public License for more details.
 #
 #  You should have received a copy of the GNU General Public License
-#  along with sage-flatsurf. If not, see <https://www.gnu.org/licenses/>.
+#  along with pet_salon. If not, see <https://www.gnu.org/licenses/>.
 # ********************************************************************
 from collections.abc import Mapping
 from frozendict import frozendict
@@ -24,6 +24,7 @@ from sage.categories.category import Category
 from sage.misc.abstract_method import abstract_method
 from sage.misc.cachefunc import cached_method
 from sage.misc.sage_unittest import TestSuite
+from sage.plot.plot import graphics_array
 from sage.rings.infinity import infinity
 from sage.structure.element import Element
 from sage.structure.parent import Parent
@@ -34,7 +35,7 @@ from pet_salon.affine_gps.affine_group import AffineGroup
 from .collection import identity_mapping, function_mapping, length
 from .immersion import Immersions, Partitions, SurjectiveEmbeddings, PartitionsCategory, ImmersionsCategory
 from .label import Relabeler
-from .union import PolytopeUnions
+from .union import PolytopeUnions, is_nonoverlapping
 
 class AffineHomeomorphismsCategory(Category):
     r'''The category of (label respecting) affine homeomorphisms between polytope unions.'''
@@ -147,6 +148,18 @@ class AffineHomeomorphismsCategory(Category):
             if x in self.domain().point_set():
                 return self.codomain().point(x.label(), self.affine_mapping()[x.label()](x.position()))
 
+        def plot(self, domain_kwds={}, codomain_kwds={}):
+            r'''
+            Return a `graphics_array` containing plots of the domain and codomain.
+
+            The parameters `domain_kwds` and `codomain_kwds` are passed to the `plot` methods of
+            the respective `PolytopeUnion`s.
+            '''
+            return graphics_array([
+                self.domain().plot(**domain_kwds),
+                self.codomain().plot(**codomain_kwds)
+            ])
+
         def _test_domain_and_codomain(self, tester=None):
             r'''Check the domain and codomain for errors.
 
@@ -221,16 +234,17 @@ class AffineHomeomorphism(Element):
         if codomain:
             self._codomain = codomain
         else:
-            assert codomain_is_nonoverlapping is not None, 'If a codomain is not provided, we require a boolean  `codomain_is_nonoverlapping` which will determine if the codomain is nonoverlapping'
+            codomain_polytopes = function_mapping(domain.labels(),
+                lambda label: self._affine_mapping[label]*domain.polytope(label))
+            if codomain_is_nonoverlapping is None:
+                assert domain.is_finite(), 'If a codomain is not provided and the domain is not finite, we require a boolean  `codomain_is_nonoverlapping` which will determine if the codomain is nonoverlapping.'
+                codomain_is_nonoverlapping = is_nonoverlapping(codomain_polytopes.values())
             U = PolytopeUnions(
                 parent.dimension(),
                 parent.field(),
                 finite=domain.is_finite(),
                 nonoverlapping = codomain_is_nonoverlapping)
-            self._codomain = U(
-                function_mapping(domain.labels(),
-                lambda label: self._affine_mapping[label]*domain.polytope(label))
-            )
+            self._codomain = U(codomain_polytopes)
         Element.__init__(self, parent)
         self.rename(f'Affine homeomorphism between disjoint unions of {length(domain.labels())} polytopes')
 
@@ -377,10 +391,10 @@ def _reverse_order_p_i(p, i):
         finite = X.is_finite() and Z.is_finite(),
         nonoverlapping=True)
     for b in Y.labels():
-        for a,x in i.subunions()[b].polytopes().items():
+        for a,x in i.subunion(b).polytopes().items():
             subunion_data1 = {}
             subunion_data2 = {}
-            for c,z in p.subunions()[b].polytopes().items():
+            for c,z in p.subunion(b).polytopes().items():
                 y2 = x.intersection(z)
                 if y2.volume() > 0:
                     b2 = relabeler.new_label((a,c))
@@ -522,6 +536,36 @@ class PiecewiseAffineMapsCategory(Category):
             r'''Return `True` if the map is surjective. `False` if not.'''
             return 'Surjective' in self.immersion().parent().category().axioms()
 
+        def plot(self,
+                domain_kwds={},
+                aff_domain_kwds={},
+                codomain_kwds={},
+                aff_codomain_kwds={}):
+            r'''
+            Return a `graphics_array` containing plots of the domain and codomain.
+
+            On the left, we display both the domain of the PAM and the domain of the internal
+            affine homeomorphism. These can be adjusted with the parameters `domain_kwds` and
+            `aff_domain_kwds`, which should be dictionaries. By default:
+            ```python
+            domain_kwds = {'fill':False, 'line':'black', 'thickness':2, 'aspect_ratio':1}
+            aff_domain_kwds = {}
+            ```
+            The defaul `domain_kwds` just produce a black line of thickness one.
+
+            On the right we di
+            The parameters `domain_kwds` and `codomain_kwds` are passed to the `plot` methods of
+            the respective `PolytopeUnion`s.
+            '''
+            domain_kwds = {'fill':False, 'line':'black', 'thickness':1.5, 'aspect_ratio':1} | domain_kwds
+            codomain_kwds = {'fill':False, 'line':'black', 'thickness':1.5, 'aspect_ratio':1} | codomain_kwds
+            return graphics_array([
+                self.affine_homeomorphism().domain().plot(**aff_domain_kwds) + \
+                    self.domain().plot(**domain_kwds),
+                self.affine_homeomorphism().codomain().plot(**aff_codomain_kwds) + \
+                    self.codomain().plot(**codomain_kwds)
+            ])
+
         def __call__(self, x):
             r'''Return the image of x under the mapping.'''
             point1 = self.partition()(x)
@@ -605,7 +649,7 @@ class PiecewiseAffineMap(Element):
     def __invert__(self):
         if not self.immersion().parent().is_injective() and self.immersion().parent().is_surjective():
             raise ValueError('To be an invertible, the PiecewiseAffineMap must have an invertible immersion component.')
-        return self.parent(~self.immersion(), ~self.affine_homeomorphism(), ~self.partition())
+        return self.parent()(~self.immersion(), ~self.affine_homeomorphism(), ~self.partition())
 
     def __eq__(self, other):
         if self is other:
@@ -649,6 +693,16 @@ class PiecewiseAffineMaps(UniqueRepresentation, Parent):
     def _element_constructor_(self, *args, **kwds):
         if len(args) == 1:
             if hasattr(args[0], 'parent') and hasattr(args[0].parent(),'category'):
+                if args[0].parent().category().is_subcategory(PiecewiseAffineMapsCategory()):
+                    if args[0].parent() == self:
+                        return args[0]
+                    else:
+                        return self.element_class(
+                            self,
+                            args[0].partition(),
+                            args[0].affine_homeomorphism(),
+                            args[0].immersion(),
+                            **kwds)
                 if args[0].parent().category().is_subcategory(PartitionsCategory()):
                     codomain = args[0].codomain()
                     return self.element_class(self,

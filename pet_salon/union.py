@@ -1,20 +1,20 @@
 # ********************************************************************
-#  This file is part of pet-salon.
+#  This file is part of pet_salon.
 #
 #        Copyright (C) 2024 W. Patrick Hooper
 #
-#  sage-flatsurf is free software: you can redistribute it and/or modify
+#  pet_salon is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation, either version 2 of the License, or
 #  (at your option) any later version.
 #
-#  sage-flatsurf is distributed in the hope that it will be useful,
+#  pet_salon is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU General Public License for more details.
 #
 #  You should have received a copy of the GNU General Public License
-#  along with sage-flatsurf. If not, see <https://www.gnu.org/licenses/>.
+#  along with pet_salon. If not, see <https://www.gnu.org/licenses/>.
 # ********************************************************************
 
 from collections.abc import Mapping
@@ -32,7 +32,7 @@ from sage.structure.element import Element
 from sage.structure.parent import Parent
 from sage.structure.unique_representation import UniqueRepresentation
 
-from pet_salon.collection import length
+from pet_salon.collection import length, function_mapping
 
 # Make Nonoverlapping an axiom in Sage:
 all_axioms += ("Nonoverlapping",)
@@ -135,6 +135,10 @@ class PolytopeUnionsCategory(Category):
         def with_different_axioms(self, finite=None, nonoverlapping=None):
             pass
 
+        @abstract_method
+        def with_different_field(self, new_field):
+            pass
+
         def vector_space(self):
             r'''
             Return the vector space over the provided field of the provided dimension.
@@ -156,6 +160,35 @@ class PolytopeUnionsCategory(Category):
             r'''Return the collection of AffineHomeomorphisms of the same dimension and over the same field.'''
             from pet_salon.affine import AffineHomeomorphisms
             return AffineHomeomorphisms(self.dimension(), self.field())
+
+        def _coerce_map_from_(self, parent):
+            r'''
+            EXAMPLES::
+
+            Example of coercion:
+
+                sage: from pet_salon import PolytopeUnions
+                sage: P_QQ = PolytopeUnions(2, QQ)
+                sage: P_QQ
+                Finite disjoint unions of nonoverlapping polyhedra in dimension 2 over Rational Field
+                sage: P_AA = P_QQ.with_different_field(AA)
+                sage: P_AA
+                Finite disjoint unions of nonoverlapping polyhedra in dimension 2 over Algebraic Real Field
+                sage: P_AA.has_coerce_map_from(P_QQ)
+                True
+                sage: p = P_AA(P_QQ.an_element())
+                sage: p
+                Disjoint union of 2 nonoverlapping polyhedra in AA^2
+                sage: p.polytope(0).parent()
+                Polyhedra in AA^2
+            '''
+            if not hasattr(parent, 'category'):
+                return False
+            if not parent.category().is_subcategory(self.category()):
+                return False
+            if parent.dimension() != self.dimension():
+                return False
+            return self.field().has_coerce_map_from(parent.field())
 
     class ElementMethods:
         r"""
@@ -217,6 +250,42 @@ class PolytopeUnionsCategory(Category):
                     raise ValueError('position is probably not within polytope')
             return pt
 
+        def restrict(self, new_labels, nonoverlapping=False):
+            r'''Return a new PolytopeUnion with a restricted label set but the same polytopes.
+
+            The parameter `new_labels` should be a collection of the new labels.
+
+            The parameter `nonoverlapping` allows you to specify whether the labels have overlaps.
+
+            EXAMPLES::
+
+                sage: from pet_salon import PolytopeUnions, rectangle
+                sage: U = PolytopeUnions(2, QQ, finite=True, nonoverlapping=True)
+                sage: union = U({
+                ....:     0: rectangle(QQ, 0, 1, 0, 1),
+                ....:     1: rectangle(QQ, 1, 2, 0, 1),
+                ....:     2: rectangle(QQ, 2, 3, 0, 1),
+                ....: })
+                sage: union
+                Disjoint union of 3 nonoverlapping polyhedra in QQ^2
+                sage: res = union.restrict([0,2])
+                sage: res
+                Disjoint union of 2 nonoverlapping polyhedra in QQ^2
+                sage: for label in res.labels():
+                ....:     print(label, union.polytope(label) == res.polytope(label))
+                0 True
+                2 True
+                sage: TestSuite(res).run()
+            '''
+            new_dict = function_mapping(new_labels, lambda label: self.polytope(label))
+            if length(new_dict) < infinity:
+                return self.parent().with_different_axioms(finite=True, nonoverlapping = is_nonoverlapping)(new_dict)
+            else:
+                if nonoverlapping:
+                    return self.parent().with_different_axioms(nonoverlapping = is_nonoverlapping)(new_dict)
+                else:
+                    return self.parent()(new_dict)
+
         def _test_polytope_parents(self, tester=None, limit=20):
             r'''Check that the union has the correct field for all polytopes.'''
             P = self.parent().polyhedra()
@@ -227,7 +296,7 @@ class PolytopeUnionsCategory(Category):
                 for (label, p),_ in zip(self.polytopes().items(), range(limit)):
                     assert p.parent() == P, f'polytope with label {label} has the wrong parent'
 
-        def plot(self, polytope_args=[], polytope_kwds={}):
+        def plot(self, **kwds):
             r'''Plot this polytope union. This only currently works in 2 and 3 dimensions.
 
             The parameters `polytope_args` and `polytope_kwds` are passed to the `plot_polytope_union`
@@ -251,7 +320,7 @@ class PolytopeUnionsCategory(Category):
                 sage: union.plot(polytope_kwds={'fill': {0:'red', 1:'orange'}}) # not tested
             '''
             from .plot import plot_polytope_union
-            return plot_polytope_union(self, *polytope_args, **polytope_kwds)
+            return plot_polytope_union(self, **kwds)
 
     class Finite(CategoryWithAxiom):
         r"""
@@ -283,42 +352,23 @@ class PolytopeUnionsCategory(Category):
                 """
                 return True
 
-            def restrict(self, new_labels, parent=None):
+            @cached_method
+            def volume(self, limit=None):
+                return sum([p.volume() for _,p in self.polytopes().items()])
+
+            def restrict(self, new_labels, nonoverlapping=False):
                 r'''Return a new PolytopeUnion with a restricted label set but the same polytopes.
 
                 The parameter `new_labels` should be a collection of the new labels.
 
-                The parameter `parent` can be used to give the restriction an alternate parent. This can be used to change axioms for the restriction.
-
-                EXAMPLES::
-
-                    sage: from pet_salon import PolytopeUnions, rectangle
-                    sage: U = PolytopeUnions(2, QQ, finite=True, nonoverlapping=True)
-                    sage: union = U({
-                    ....:     0: rectangle(QQ, 0, 1, 0, 1),
-                    ....:     1: rectangle(QQ, 1, 2, 0, 1),
-                    ....:     2: rectangle(QQ, 2, 3, 0, 1),
-                    ....: })
-                    sage: union
-                    Disjoint union of 3 nonoverlapping polyhedra in QQ^2
-                    sage: res = union.restrict([0,2])
-                    sage: res
-                    Disjoint union of 2 nonoverlapping polyhedra in QQ^2
-                    sage: for label in res.labels():
-                    ....:     print(label, union.polytope(label) == res.polytope(label))
-                    0 True
-                    2 True
-                    sage: TestSuite(res).run()
+                The parameter `nonoverlapping` allows you to specify whether the labels have overlaps.
                 '''
-                new_dict = {label:self.polytope(label) for label in new_labels}
-                if parent is None:
-                    return self.parent(new_dict)
+                new_dict = function_mapping(new_labels, lambda label: self.polytope(label))
+                if nonoverlapping:
+                    return self.parent().with_different_axioms(nonoverlapping = is_nonoverlapping)(new_dict)
                 else:
-                    return parent(new_dict)
+                    return self.parent()(new_dict)
 
-            @cached_method
-            def volume(self, limit=None):
-                return sum([p.volume() for _,p in self.polytopes().items()])
 
     class Nonoverlapping(CategoryWithAxiom):
         r"""
@@ -458,6 +508,19 @@ class PolytopeUnionsCategory(Category):
                             raise ValueError('position is probably not within polytope')
                     return pt
 
+            def restrict(self, new_labels, nonoverlapping=False):
+                r'''Return a new PolytopeUnion with a restricted label set but the same polytopes.
+
+                The parameter `new_labels` should be a collection of the new labels.
+
+                We ignore the `nonoverlapping` parameter because this union has no overlaps.
+                '''
+                new_dict = function_mapping(new_labels, lambda label: self.polytope(label))
+                if length(new_dict) < infinity:
+                    return self.parent().with_different_axioms(finite=True)(new_dict)
+                else:
+                    return self.parent()(new_dict)
+
         class Finite(CategoryWithAxiom):
             r"""
             The axiom satisfied by finite subdivisions.
@@ -473,7 +536,17 @@ class PolytopeUnionsCategory(Category):
                 CategoryWithAxiom.__init__(self, *args, **options)
                 self._fix_name()
 
+            class ElementMethods:
 
+                def restrict(self, new_labels, nonoverlapping=False):
+                    r'''Return a new PolytopeUnion with a restricted label set but the same polytopes.
+
+                    The parameter `new_labels` should be a collection of the new labels.
+
+                    We ignore the `nonoverlapping` parameter because this union has no overlaps.
+                    '''
+                    new_dict = function_mapping(new_labels, lambda label: self.polytope(label))
+                    return self.parent()(new_dict)
 
 class PolytopeUnion(Element):
     def __init__(self, parent, mapping, name=None):
@@ -629,6 +702,9 @@ class PolytopeUnions(UniqueRepresentation, Parent):
             nonoverlapping = self.is_nonoverlapping()
         return PolytopeUnions(self.dimension(), self.field(), finite, nonoverlapping)
 
+    def with_different_field(self, new_field):
+        return PolytopeUnions(self.dimension(), new_field, self.is_finite(), self.is_nonoverlapping())
+
     def __eq__(self, other):
         if not isinstance(other, PolytopeUnions):
             return False
@@ -684,6 +760,8 @@ class PolytopeUnions(UniqueRepresentation, Parent):
         #print(f'Called element_constructor with args={args} and kwds={kwds}')
         if len(args)==1:
             if isinstance(args[0], PolytopeUnion):
+                if args[0].parent() == self:
+                    return args[0]
                 if not args[0].is_finite():
                     raise ValueError('Conversion to finite union not implemented yet')
                 d = {label:args[0].polytope(label) for label in args[0].labels()}
@@ -716,13 +794,20 @@ class PolytopeUnions(UniqueRepresentation, Parent):
             p1 = P(polytopes.cross_polytope(self.dimension()))
             return self({0:p0, 1:p1})
 
-def finite_polytope_union(dimension, field, mapping):
+def finite_polytope_union(dimension, field, mapping, name=None):
+    r'''
+    Construct a finite polytope union.
+
+    The parameters are the `dimension` $d$, a base `field` $F$, and a dictionary sending labels to polytopes with vertices in $F^d$. If a `name` is provided, the name of the union will be set to this.
+
+    An advantage of this function is that it automatically decides if the polytopes overlap.
+    '''
     if is_nonoverlapping(mapping.values()):
         U = PolytopeUnions(dimension, field, finite=True, nonoverlapping=True)
-        return U(mapping)
+        return U(mapping, name=name)
     else:
         U = PolytopeUnions(dimension, field, finite=True, nonoverlapping=False)
-        return U(mapping)
+        return U(mapping, name=name)
 
 _find_limit = 100
 

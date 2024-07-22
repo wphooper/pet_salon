@@ -1,20 +1,20 @@
 # ********************************************************************
-#  This file is part of pet-salon.
+#  This file is part of pet_salon.
 #
 #        Copyright (C) 2024 W. Patrick Hooper
 #
-#  sage-flatsurf is free software: you can redistribute it and/or modify
+#  pet_salon is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation, either version 2 of the License, or
 #  (at your option) any later version.
 #
-#  sage-flatsurf is distributed in the hope that it will be useful,
+#  pet_salon is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU General Public License for more details.
 #
 #  You should have received a copy of the GNU General Public License
-#  along with sage-flatsurf. If not, see <https://www.gnu.org/licenses/>.
+#  along with pet_salon. If not, see <https://www.gnu.org/licenses/>.
 # ********************************************************************
 
 from collections.abc import Mapping
@@ -25,6 +25,7 @@ from sage.categories.category_with_axiom import CategoryWithAxiom, all_axioms
 from sage.misc.abstract_method import abstract_method
 from sage.misc.cachefunc import cached_method
 from sage.misc.sage_unittest import TestSuite
+from sage.plot.plot import graphics_array
 from sage.rings.infinity import infinity
 from sage.structure.element import Element
 from sage.structure.parent import Parent
@@ -116,6 +117,11 @@ class ImmersionsCategory(Category):
         def with_different_union(self, new_ambient_union):
             pass
 
+        @abstract_method
+        def with_different_field(self, new_field):
+            r'''Return the same object but defined over a new bigger field.'''
+            pass
+
         def field(self):
             return self.ambient_union().parent().field()
 
@@ -129,10 +135,22 @@ class ImmersionsCategory(Category):
             return False
 
         @cached_method
+        def polytope_unions(self):
+            return PolytopeUnions(self.dimension(), self.field())
+
+        @cached_method
         def piecewise_affine_maps(self):
             from .affine import PiecewiseAffineMaps
             return PiecewiseAffineMaps(self.dimension(), self.field())
 
+        def _coerce_map_from_(self, parent):
+            if not hasattr(parent, 'category'):
+                return False
+            if not parent.category().is_subcategory(self.category()):
+                return False
+            if not self.ambient_union().parent().has_coerce_map_from(parent.ambient_union().parent()):
+                return False
+            return self.ambient_union().parent()(parent.ambient_union()) == self.ambient_union()
 
     class ElementMethods:
         @abstract_method
@@ -141,17 +159,25 @@ class ImmersionsCategory(Category):
             pass
 
         @abstract_method
-        def subunions(self):
-            r'''
-            Return a mapping sending an `ambient_label` to the restriction of the subunion to polytopes
-            contained within the polytope with the provided `ambient_label`.
-            '''
-            pass
-
-        @abstract_method
         def ambient_labels(self):
             r'''Return a mapping sending labels in the domain to labels in the ambient union.'''
             pass
+
+        @abstract_method
+        def subunion_labels(self):
+            r'''
+            Return a mapping sending an `ambient_label` to the collection of labels that correspond
+            to polytopes that map into the polytope with the provided `ambient_label`.
+            '''
+            pass
+
+        @cached_method
+        def subunion(self, ambient_label):
+            r'''
+            Return the restriction of the codomain union to polytopes mapped into the polytope
+            with the provided `ambient_label`.
+            '''
+            return self.domain().restrict(self.subunion_labels()[ambient_label])
 
         def codomain(self):
             r'''Return the codomain which is also the ambient union.'''
@@ -215,8 +241,26 @@ class ImmersionsCategory(Category):
             '''
             assert point.parent() == self.parent().ambient_union().point_set(), \
                 'point must lie in the ambient union'
-            subunion = self.subunions()[point.label()]
-            return self.domain().point_set()(subunion.point(point.position()))
+            subunion = self.subunion(point.label())
+            def generator():
+                for pt in subunion.point(point.position(), all=all, limit=limit):
+                    yield self.domain().point_set()(pt)
+            if all:
+                return generator()
+            else:
+                return self.domain().point_set()(subunion.point(point.position()))
+
+        def plot(self, domain_kwds={}, codomain_kwds={}):
+            r'''
+            Return a `graphics_array` containing plots of the domain and codomain.
+
+            The parameters `domain_kwds` and `codomain_kwds` are passed to the `plot` methods of
+            the respective `PolytopeUnion`s.
+            '''
+            return graphics_array([
+                self.domain().plot(**domain_kwds),
+                self.codomain().plot(**codomain_kwds)
+            ])
 
         def _test_containment(self, tester=None):
             r'''Raise an assertion error if a polytope from the domain is not contained within the
@@ -236,8 +280,7 @@ class ImmersionsCategory(Category):
                 sage: attempted_subunion
                 Disjoint union of 2 nonoverlapping polyhedra in QQ^2
                 sage: su = S(attempted_subunion,
-                ....:        { 1: 0, 2:0 }, # mapping to ambient label
-                ....:        { 0: attempted_subunion})
+                ....:        { 0: (1, 2)})
                 sage: su
                 Immersion of disjoint union of 2 nonoverlapping polyhedra in QQ^2 into disjoint union of 1 nonoverlapping polyhedra in QQ^2
                 sage: su._test_containment()
@@ -270,11 +313,11 @@ class ImmersionsCategory(Category):
                 sage: E = Embeddings(union)
                 sage: E
                 Embeddings into disjoint union of 1 nonoverlapping polyhedra in QQ^2
-                sage: attempted_subunions = {1:rectangle(QQ,   0,1/2, 0, 1/2),
-                ....:                               2:rectangle(QQ,   0,  1, 0, 1/2)}
+                sage: attempted_subunions = {1: rectangle(QQ,   0,1/2, 0, 1/2),
+                ....:                        2: rectangle(QQ,   0,  1, 0, 1/2)}
                 sage: su = E(U(attempted_subunions),
                 ....:        { 1: 0, 2:0 }, # mapping to ambient label
-                ....:        { 0: Udi(attempted_subunions)})
+                ....:        { 0: (1, 2)})
                 sage: su
                 Embedding of disjoint union of 2 polyhedra in QQ^2 into disjoint union of 1 nonoverlapping polyhedra in QQ^2
                 sage: su._test_nonoverlapping()
@@ -287,8 +330,9 @@ class ImmersionsCategory(Category):
                 TestSuite(self.domain()).run(catch=False, raise_on_failure=True)
             except Exception as e:
                 raise AssertionError(f'The domain failed a test: {e}')
-            if length(self.subunions()) < infinity:
-                for ambient_label, subunion in self.subunions().items():
+            if length(self.subunion_labels()) < infinity:
+                for ambient_label in self.subunion_labels():
+                    subunion = self.subunion(ambient_label)
                     try:
                         TestSuite(subunion).run(catch=False, raise_on_failure=True)
                     except Exception as e:
@@ -312,6 +356,14 @@ class ImmersionsCategory(Category):
 
         class ElementMethods:
 
+            @cached_method
+            def subunion(self, ambient_label):
+                r'''
+                Return a mapping sending an `ambient_label` to the restriction of the subunion to polytopes
+                contained within the polytope with the provided `ambient_label`.
+                '''
+                return self.domain().restrict(self.subunion_labels()[ambient_label], nonoverlapping=True)
+
             def _test_nonoverlapping(self, tester=None, limit=20):
                 r'''Test that the subunions associated to ambient labels are nonoverlapping.
 
@@ -327,26 +379,29 @@ class ImmersionsCategory(Category):
                     sage: E = Embeddings(union)
                     sage: E
                     Embeddings into disjoint union of 1 nonoverlapping polyhedra in QQ^2
-                    sage: attempted_domain = U({1:rectangle(QQ,   0,1/2, 0, 1/2),
-                    ....:                         2:rectangle(QQ, 1/2,  1, 0, 1/2)})
+                    sage: attempted_domain = U({1:rectangle(QQ,   0, 2/3, 1/4, 3/4),
+                    ....:                       2:rectangle(QQ, 1/2,   1, 0, 1/2)})
                     sage: attempted_domain
                     Disjoint union of 2 polyhedra in QQ^2
                     sage: su = E(attempted_domain,
                     ....:        { 1: 0, 2:0 }, # mapping to ambient label
-                    ....:        { 0: attempted_domain})
+                    ....:        { 0: [1, 2]})
                     sage: su
                     Embedding of disjoint union of 2 polyhedra in QQ^2 into disjoint union of 1 nonoverlapping polyhedra in QQ^2
-                    sage: su._test_nonoverlapping()
+                    sage: su._test_nonoverlapping() # Passes because the polytope is falsely declared to be nonoverlapping
+                    sage: su._test_domain()
                     Traceback (most recent call last):
                     ...
-                    AssertionError: The subunion associated to ambient label 0 is overlapping
+                    AssertionError: The subunion associated to ambient label 0 failed a test: Two polytopes overlap
                 '''
-                if length(self.subunions()) < infinity:
-                    for ambient_label, subunion in self.subunions().items():
+                if length(self.subunion_labels()) < infinity:
+                    for ambient_label in self.subunion_labels():
+                        subunion = self.subunion(ambient_label)
                         assert subunion.parent().is_nonoverlapping(), \
                             f'The subunion associated to ambient label {ambient_label} is overlapping'
                 else:
-                    for (ambient_label, subunion),_ in zip(self.subunions().items()), range(limit):
+                    for ambient_label,_ in zip(self.subunion_labels(), range(limit)):
+                        subunion = self.subunion(ambient_label)
                         assert subunion.parent().is_nonoverlapping(), \
                             f'The subunion associated to ambient label {ambient_label} is overlapping'
 
@@ -370,17 +425,17 @@ class ImmersionsCategory(Category):
 
             def _test_surjectivity(self, tester=None, limit=20):
                 r'''We check surjectivity at the level of the labels.'''
-                value = length(self.subunions())
+                value = length(self.subunion_labels())
                 assert value <= length(self.parent().ambient_union().labels()), \
                     'The mapping is not well defined: There are labels in subunions that do not appear in the ambient union'
                 assert value >= length(self.parent().ambient_union().labels()), \
                     'The surjective immersion misses at least one ambient label'
                 if value < infinity:
-                    assert self.subunions().keys() == self.parent().ambient_union().labels(), \
+                    assert self.subunion_labels().keys() == self.parent().ambient_union().labels(), \
                         'The support of the subunion mapping is different from the collection of all ambient labels: The sets are different'
                 else:
                     for ambient_label,_ in zip(self.parent().ambient_union().labels(), range(limit)):
-                        assert ambient_label in self.subunions(), \
+                        assert ambient_label in self.subunion_labels(), \
                             f'Ambient label {ambient_label} does not appear in the subunion mapping'
 
             def _test_volume(self, tester=None, limit=20):
@@ -414,12 +469,14 @@ class ImmersionsCategory(Category):
                     if subunion.is_finite():
                             assert subunion.volume() >= self.parent().ambient_union().polytope(ambient_label).volume(), \
                                 f'The surjectivity axiom is violated: The volume of the subunion associated to the ambient label {ambient_label} is not at least as large as the ambient polytope\'s volume'
-                if length(self.subunions()) < infinity:
-                    for pair in self.subunions().items():
-                        test_pair(*pair)
+                if length(self.subunion_labels()) < infinity:
+                    for ambient_label in self.subunion_labels():
+                        subunion = self.subunion(ambient_label)
+                        test_pair(ambient_label, subunion)
                 else:
-                    for pair,_ in zip(self.subunions().items(), range(limit)):
-                        test_pair(*pair)
+                    for ambient_label,_ in zip(self.subunion_labels(), range(limit)):
+                        subunion = self.subunion(ambient_label)
+                        test_pair(ambient_label, subunion)
 
         class Injective(CategoryWithAxiom):
             r'''This is the category of surjective embeddings into a polytope union'''
@@ -445,7 +502,13 @@ class ImmersionsCategory(Category):
                     return self.parent().partitions()(self)
 
 class Immersion(Element):
-    def __init__(self, parent, domain, ambient_labels_mapping=None, subunions=None, name=None):
+    def __init__(self, parent, domain, ambient_labels_mapping=None, subunion_labels_mapping=None, name=None):
+        assert domain.parent().dimension() == parent.dimension(), \
+            'The domain\'s dimension must match the ambient union.'
+        if domain.parent().field() != parent.field():
+            # Attempt to change fields.
+            new_parent = domain.parent().with_different_field(parent.field())
+            domain = new_parent(domain)
         self._domain = domain
         if not ambient_labels_mapping:
             assert 'Nonoverlapping' in parent.ambient_union().parent().category().axioms(), \
@@ -462,7 +525,8 @@ class Immersion(Element):
                     raise ValueError(f'The subunion polytope with label {label} is not contained in a polytope from the ambient union.')
                 ambient_labels_mapping[label] = pair[0]
             #print('ambient_labels_mapping', ambient_labels_mapping)
-        if not subunions:
+        self._ambient_labels_mapping = ambient_labels_mapping
+        if not subunion_labels_mapping:
             assert domain.is_finite(), \
                 'subunions must be defined if `domain` is not finite'
             assert parent.ambient_union().is_finite(), \
@@ -473,15 +537,8 @@ class Immersion(Element):
                     ambient_label_to_list[ambient_label].append(label)
                 else:
                     ambient_label_to_list[ambient_label] = [label]
-            #print('ambient_label_to_list', ambient_label_to_list)
-            subunions = {}
-            for ambient_label, lst in ambient_label_to_list.items():
-                nonoverlapping = parent.is_injective()
-                subunion_parent = domain.parent().with_different_axioms(finite=True, nonoverlapping=nonoverlapping)
-                subunions[ambient_label] = domain.restrict(lst, parent=subunion_parent)
-        self._domain = domain
-        self._ambient_labels_mapping = ambient_labels_mapping
-        self._subunions = subunions
+            subunion_labels_mapping = ambient_label_to_list
+        self._subunion_labels = subunion_labels_mapping
         Element.__init__(self, parent)
         if name:
             self.rename(name)
@@ -503,12 +560,12 @@ class Immersion(Element):
         r'''Return the domain of this immersion.'''
         return self._domain
 
-    def subunions(self):
+    def subunion_labels(self):
         r'''
-        Return a mapping sending an `ambient_label` to the restriction of the subunion to polytopes
-        contained within the polytope with the provided `ambient_label`.
+        Return a mapping sending an `ambient_label` to the collection of labels that correspond
+        to polytopes that map into the polytope with the provided `ambient_label`.
         '''
-        return self._subunions
+        return self._subunion_labels
 
     def ambient_labels(self):
         r'''Return a mapping sending labels in the subunion to labels in the ambient union.'''
@@ -663,6 +720,13 @@ class Immersions(UniqueRepresentation, Parent):
         r'''Return the same parent but with a different ambient union.'''
         return Immersions(new_ambient_union, self.is_injective(), self.is_surjective())
 
+    def with_different_field(self, new_field):
+        r'''Return the same object but defined over a new bigger field.'''
+        new_union_parent = self.ambient_union().parent().with_different_field(new_field)
+        return Immersions(new_union_parent(self.ambient_union()),
+                          self.is_injective(),
+                          self.is_surjective())
+
     def ambient_union(self):
         return self._ambient_union
 
@@ -686,7 +750,7 @@ class Immersions(UniqueRepresentation, Parent):
         return self(self.ambient_union().restrict(ambient_label_collection),
                     identity_mapping(ambient_label_collection),
                     function_mapping(ambient_label_collection,
-                                     lambda ambient_label:U({ambient_label: self.ambient_union().polytope(ambient_label)})))
+                                     lambda ambient_label:(ambient_label,)))
 
     def _element_constructor_(self, *args, **kwds):
         #print(f'Called element_constructor with args={args}, len(args)={len(args)}, kwds={kwds}')
@@ -697,13 +761,24 @@ class Immersions(UniqueRepresentation, Parent):
             if args[0]==0:
                 # Construct the trivial immersion
                 return self.restriction(self.ambient_union().labels())
-            if hasattr(args[0], 'parent') and callable(args[0].parent) and \
-                hasattr(args[0].parent(), 'category') and callable(args[0].parent().category) and \
+            if hasattr(args[0], 'parent') and hasattr(args[0].parent(), 'category') and \
+                args[0].parent().category().is_subcategory(self.category()):
+                if args[0].parent() == self:
+                    return args[0]
+                else:
+                    # Attempt conversion.
+                    return self.element_class(
+                        args[0].domain(),
+                        args[0].ambient_labels(),
+                        args[0].subunion_labels(),
+                        **kwds)
+            if hasattr(args[0], 'parent') and hasattr(args[0].parent(), 'category') and \
                 args[0].parent().category().is_subcategory(PolytopeUnionsCategory()):
                 # arg[0] is a PolytopeUnion
-                assert self.field() == args[0].parent().field(), \
-                    'Currently the subunion must have the same base field as the ambient_union.'
-                return self.element_class(self, args[0], **kwds)
+                if args[0].parent()==self:
+                    return args[0]
+                else:
+                    return self.element_class(self, args[0], **kwds)
         if len(args) in [2,3]:
             return self.element_class(self, *args)
         raise NotImplementedError()
@@ -857,12 +932,19 @@ class PartitionsCategory(Category):
             r''''''
             return self.surjective_embedding().domain()
 
-        def subunions(self):
+        def subunion_labels(self):
             r'''
-            Return a mapping sending an `ambient_label` to the restriction of the subunion to polytopes
-            contained within the polytope with the provided `ambient_label`.
+            Return a mapping sending an `ambient_label` to the collection of labels of the codomain
+            representing the pieces of the polytope with the provided `ambient_label`.
             '''
-            return self.surjective_embedding().subunions()
+            return self.surjective_embedding().subunion_labels()
+
+        def subunion(self, ambient_label):
+            r'''
+            Return the restriction of the codomain subunion to polytopes that the polytope with the
+            provided `ambient_label` is divided into.
+            '''
+            return self.surjective_embedding().subunion(ambient_label)
 
         def ambient_labels(self):
             r'''Return a mapping sending labels in the subunion to labels in the ambient union.'''
@@ -878,13 +960,17 @@ class PartitionsCategory(Category):
             except Exception as e:
                 raise AssertionError(f'The associated surjective embedding failed a test: {e}')
 
-        def images(self, point, limit=None):
-            r'''Return a generator listing all representations of the given point in the ambient union as a point in a polytope of the parititon (codomain).
+        def plot(self, domain_kwds={}, codomain_kwds={}):
+            r'''
+            Return a `graphics_array` containing plots of the domain and codomain.
 
-            The function simply calls `preimage` of the `surjective_embedding()` with the paramter `all` set to `True`. The `limit` parmeter is passed to this
-            method and is only relevant in case a polytope is partitioned into infinitely many subpolytopes.
+            The parameters `domain_kwds` and `codomain_kwds` are passed to the `plot` methods of
+            the respective `PolytopeUnion`s.
             '''
-            return self.surjective_embedding().preimage(point, all=True, limit=limit)
+            return graphics_array([
+                self.domain().plot(**domain_kwds),
+                self.codomain().plot(**codomain_kwds)
+            ])
 
 class Partition(Element):
     def __init__(self, parent, surjective_embedding, name=None):
@@ -921,8 +1007,8 @@ class Partition(Element):
     def __hash__(self):
         return hash((self.parent(), self.surjective_embedding()))
 
-    def __call__(self, pt):
-        return self.surjective_embedding().preimage(pt)
+    def __call__(self, pt, **kwds):
+        return self.surjective_embedding().preimage(pt, **kwds)
 
     def _mul_(self, other):
         return self._act_on_(other, True)

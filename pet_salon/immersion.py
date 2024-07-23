@@ -17,7 +17,8 @@
 #  along with pet_salon. If not, see <https://www.gnu.org/licenses/>.
 # ********************************************************************
 
-from collections.abc import Mapping
+from collections.abc import Mapping, Collection
+from frozendict import frozendict
 
 from sage.categories.all import Sets
 from sage.categories.category import Category
@@ -294,8 +295,8 @@ class ImmersionsCategory(Category):
                 sage: S = Immersions(union)
                 sage: S
                 Immersions into disjoint union of 1 nonoverlapping polyhedra in QQ^2
-                sage: attempted_subunion = U({1:rectangle(QQ,  0,1/2, 0, 1/2),
-                ....:                         2:rectangle(QQ,1/2,  2, 0, 1/2)})
+                sage: attempted_subunion = U({1:rectangle(QQ,   0,1/2, 0, 1/2),
+                ....:                         2:rectangle(QQ, 1/2,  2, 0, 1/2)})
                 sage: attempted_subunion
                 Disjoint union of 2 nonoverlapping polyhedra in QQ^2
                 sage: su = S(attempted_subunion,
@@ -313,7 +314,7 @@ class ImmersionsCategory(Category):
                 ambient_p = self.parent().ambient_union().polytope(ambient_label)
                 assert is_subpolytope(ambient_p, domain_p), \
                     f'Immersion polytope with label {domain_label} is not contained within ambient polytope with label {ambient_label}'
-            if self.domain().is_finite():
+            if self.domain().parent().is_finite():
                 for pair in self.ambient_labels().items():
                     check_pair(*pair)
             else:
@@ -522,59 +523,73 @@ class ImmersionsCategory(Category):
                     return self.parent().partitions().inverse(self)
 
 class Immersion(Element):
-    def __init__(self, parent, domain, ambient_labels_mapping=None, subunion_labels_mapping=None, name=None):
-        assert domain.parent().dimension() == parent.dimension(), \
-            'The domain\'s dimension must match the ambient union.'
-        if domain.parent().field() != parent.field():
-            # Attempt to change fields.
-            new_parent = domain.parent().with_different_field(parent.field())
-            domain = new_parent(domain)
+    def __init__(self, parent, domain, ambient_labels_mapping, subunion_labels_mapping, name=None):
         self._domain = domain
-        if not ambient_labels_mapping:
-            assert 'Nonoverlapping' in parent.ambient_union().parent().category().axioms(), \
-                'ambient_labels_mapping must be defined if the containing PolytopeUnion has overlaps'
-            assert parent.ambient_union().is_finite(), \
-                'ambient_labels_mapping must be defined if the containing PolytopeUnion is not finite'
-            assert domain.is_finite(), \
-                'ambient_labels_mapping must be defined if `domain` is not finite'
-            ambient_labels_mapping = {}
-            for label, polytope in domain.polytopes().items():
-                center = polytope.center()
-                pair = parent.ambient_union().find(center)
-                if not pair:
-                    raise ValueError(f'The subunion polytope with label {label} is not contained in a polytope from the ambient union.')
-                ambient_labels_mapping[label] = pair[0]
-            #print('ambient_labels_mapping', ambient_labels_mapping)
         self._ambient_labels_mapping = ambient_labels_mapping
-        if not subunion_labels_mapping:
-            assert domain.is_finite(), \
-                'subunions must be defined if `domain` is not finite'
-            assert parent.ambient_union().is_finite(), \
-                'subunions must be defined if the containing PolytopeUnion is not finite'
-            ambient_label_to_list = {}
-            for label, ambient_label in ambient_labels_mapping.items():
-                if ambient_label in ambient_label_to_list:
-                    ambient_label_to_list[ambient_label].append(label)
-                else:
-                    ambient_label_to_list[ambient_label] = [label]
-            subunion_labels_mapping = ambient_label_to_list
         self._subunion_labels = subunion_labels_mapping
         Element.__init__(self, parent)
         if name:
             self.rename(name)
         else:
             ambient_name = repr(parent.ambient_union())
-#            axioms = parent.category().axioms()
-#            if 'Injective' in axioms and 'Surjective' in axioms:
-#                if domain.is_finite():
-#                    number = len(domain.polytopes())
-#                else:
-#                    number = '∞ly many'
-#                self.rename(f'Partition of {ambient_name[0].lower()}{ambient_name[1:]} into {number} subpolytopes')
-#            else:
             start = parent.category().description()
             domain_name = repr(domain)
             self.rename(f'{parent.category().description()} of {domain_name[0].lower()}{domain_name[1:]} into {ambient_name[0].lower()}{ambient_name[1:]}')
+
+# OLD VERSION. PUTTING ALL THE SETUP INTO THE PARENT!
+#
+#        assert domain.parent().dimension() == parent.dimension(), \
+#            'The domain\'s dimension must match the ambient union.'
+#        if domain.parent().field() != parent.field():
+#            # Attempt to change fields.
+#            new_parent = domain.parent().with_different_field(parent.field())
+#            domain = new_parent(domain)
+#        self._domain = domain
+#        if not ambient_labels_mapping:
+#            assert 'Nonoverlapping' in parent.ambient_union().parent().category().axioms(), \
+#                'ambient_labels_mapping must be defined if the containing PolytopeUnion has overlaps'
+#            assert parent.ambient_union().is_finite(), \
+#                'ambient_labels_mapping must be defined if the containing PolytopeUnion is not finite'
+#            assert domain.is_finite(), \
+#                'ambient_labels_mapping must be defined if `domain` is not finite'
+#            ambient_labels_mapping = {}
+#            for label, polytope in domain.polytopes().items():
+#                center = polytope.center()
+#                pair = parent.ambient_union().find(center)
+#                if not pair:
+#                    raise ValueError(f'The subunion polytope with label {label} is not contained in a polytope from the ambient union.')
+#                ambient_labels_mapping[label] = pair[0]
+#            #print('ambient_labels_mapping', ambient_labels_mapping)
+#        self._ambient_labels_mapping = ambient_labels_mapping
+#        if not subunion_labels_mapping:
+#            assert domain.is_finite(), \
+#                'subunions must be defined if `domain` is not finite'
+#            assert parent.ambient_union().is_finite(), \
+#                'subunions must be defined if the containing PolytopeUnion is not finite'
+#            ambient_label_to_list = {}
+#            for label, ambient_label in ambient_labels_mapping.items():
+#                if ambient_label in ambient_label_to_list:
+#                    ambient_label_to_list[ambient_label].append(label)
+#                else:
+#                    ambient_label_to_list[ambient_label] = [label]
+#            subunion_labels_mapping = ambient_label_to_list
+#        self._subunion_labels = subunion_labels_mapping
+#        Element.__init__(self, parent)
+#        if name:
+#            self.rename(name)
+#        else:
+#            ambient_name = repr(parent.ambient_union())
+##            axioms = parent.category().axioms()
+##            if 'Injective' in axioms and 'Surjective' in axioms:
+##                if domain.is_finite():
+##                    number = len(domain.polytopes())
+##                else:
+##                    number = '∞ly many'
+##                self.rename(f'Partition of {ambient_name[0].lower()}{ambient_name[1:]} into {number} subpolytopes')
+##            else:
+#            start = parent.category().description()
+#            domain_name = repr(domain)
+#            self.rename(f'{parent.category().description()} of {domain_name[0].lower()}{domain_name[1:]} into {ambient_name[0].lower()}{ambient_name[1:]}')
 
     def domain(self):
         r'''Return the domain of this immersion.'''
@@ -670,8 +685,8 @@ class Immersion(Element):
                 surjective = 'Surjective' in self.parent().category().axioms() and 'Surjective' in other.parent().category().axioms()
                 parent = self.parent().with_different_axioms(injective, surjective)
                 return parent(other.domain(),
-                       ambient_labels_mapping = mapping_composition(self.ambient_labels(), other.ambient_labels()),
-                       # subunions = # We leave it to the constructor to work out the subunions.
+                       mapping_composition(self.ambient_labels(), other.ambient_labels()),
+                       # We leave it to the constructor to work out the subunions.
                 )
             PAMs = self.parent().piecewise_affine_maps()
             if PAMs.has_coerce_map_from(other.parent()):
@@ -767,41 +782,94 @@ class Immersions(UniqueRepresentation, Parent):
         if 'Surjective' in self.category().axioms() and ambient_label_collection != self.ambient_union().labels():
             raise ValueError('The only restriction that is surjective is the trivial one')
         U = PolytopeUnions(self.dimension(), self.field(), finite=True, nonoverlapping=True)
-        return self(self.ambient_union().restrict(ambient_label_collection),
-                    identity_mapping(ambient_label_collection),
-                    function_mapping(ambient_label_collection, tuple_singleton))
+        return self.element_class(self,
+                                  self.ambient_union().restrict(ambient_label_collection),
+                                  identity_mapping(ambient_label_collection),
+                                  function_mapping(ambient_label_collection, tuple_singleton))
 
     def _element_constructor_(self, *args, **kwds):
         #print(f'Called element_constructor with args={args}, len(args)={len(args)}, kwds={kwds}')
-        if len(args)==0:
-            # Construct the trivial immersion
-            return self.restriction(self.ambient_union().labels())
         if len(args)==1:
+            if hasattr(args[0], 'parent'):
+                if args[0].parent() == self:
+                    # Just return the element!
+                    return args[0]
+                if hasattr(args[0].parent(), 'category') and \
+                    args[0].parent().category().is_subcategory(ImmersionsCategory()):
+                    # It is an immersion.
+                    if args[0].parent().field() == self.field():
+                        # No field conversion necessary
+                        return self.element_class(
+                            self,
+                            args[0].domain(),
+                            args[0].ambient_labels(),
+                            args[0].subunion_labels(),
+                            **kwds)
+                    else:
+                        # Convert domain to same parent but with new field
+                        U = args[0].domain().parent().with_different_field(self.field())
+                        return self.element_class(
+                            self,
+                            U(args[0].domain()),
+                            args[0].ambient_labels(),
+                            args[0].subunion_labels(),
+                            **kwds)
+                # PASS ON ANY OTHER CASE, ESPECIALLY WHERE JUST A POLYTOPE UNION IS PASSED
             if args[0]==0:
                 # Construct the trivial immersion
                 return self.restriction(self.ambient_union().labels())
-            if hasattr(args[0], 'parent') and hasattr(args[0].parent(), 'category') and \
-                args[0].parent().category().is_subcategory(self.category()):
-                if args[0].parent() == self:
-                    return args[0]
-                else:
-                    # Attempt conversion.
-                    return self.element_class(
-                        self,
-                        args[0].domain(),
-                        args[0].ambient_labels(),
-                        args[0].subunion_labels(),
-                        **kwds)
-            if hasattr(args[0], 'parent') and hasattr(args[0].parent(), 'category') and \
-                args[0].parent().category().is_subcategory(PolytopeUnionsCategory()):
-                # arg[0] is a PolytopeUnion
-                if args[0].parent()==self:
-                    return args[0]
-                else:
-                    return self.element_class(self, args[0], **kwds)
-        if len(args) in [2,3]:
-            return self.element_class(self, *args)
-        raise NotImplementedError()
+        if len(args) <= 3 and hasattr(args[0], 'parent') and hasattr(args[0].parent(), 'category') and \
+            args[0].parent().category().is_subcategory(PolytopeUnionsCategory()):
+
+            # Assume the parameters match the first few parameters of the constructor of Immersion.
+            domain = args[0]
+            assert domain.parent().dimension() == self.dimension(), \
+                'The domain\'s dimension must match the ambient union.'
+            if domain.parent().field() != self.field():
+                # Attempt to change fields.
+                new_parent = domain.parent().with_different_field(self.field())
+                domain = new_parent(domain)
+            # Now domain is setup.
+            if len(args) >= 2:
+                ambient_labels_mapping = args[1]
+                # should be a map between labels
+                assert isinstance(ambient_labels_mapping, Mapping), \
+                    'The second parameter should be an ambient_labels_mapping, which should be a mapping.'
+            else:
+                assert self.ambient_union().is_nonoverlapping(), \
+                    'ambient_labels_mapping must be defined if the ambient PolytopeUnion has overlaps'
+                assert self.ambient_union().is_finite(), \
+                    'ambient_labels_mapping must be defined if the containing PolytopeUnion is not finite'
+                assert domain.is_finite(), \
+                    'ambient_labels_mapping must be defined if `domain` is not finite'
+                ambient_labels_mapping = {}
+                for label, polytope in domain.polytopes().items():
+                    center = polytope.center()
+                    pair = self.ambient_union().find(center)
+                    if not pair:
+                        raise ValueError(f'The subunion polytope with label {label} is not contained in a polytope from the ambient union.')
+                    ambient_labels_mapping[label] = pair[0]
+            if len(args) >= 3:
+                subunion_labels_mapping = args[2]
+                assert isinstance(subunion_labels_mapping, Mapping), \
+                    'The third parameter should be an subunion_labels_mapping, which should be a mapping.'
+                for ambient_label, subunion_labels in subunion_labels_mapping.items():
+                    assert isinstance(subunion_labels, Collection), \
+                        'The third parameter should be an subunion_labels_mapping, which must be a mapping sending ambient labels to collections of labels in the domain.'
+                    break # Just check one
+            else:
+                assert domain.is_finite(), \
+                    'subunions must be defined if `domain` is not finite'
+                assert self.ambient_union().is_finite(), \
+                    'subunions must be defined if the containing PolytopeUnion is not finite'
+                subunion_labels_mapping = {}
+                for label, ambient_label in ambient_labels_mapping.items():
+                    try:
+                        subunion_labels_mapping[ambient_label].append(label)
+                    except KeyError:
+                        subunion_labels_mapping[ambient_label] = [label]
+            return self.element_class(self, domain, ambient_labels_mapping, subunion_labels_mapping, **kwds)
+        raise NotImplementedError('Unrecognized information passed to element constructor')
 
     def _an_element_(self):
         r'''

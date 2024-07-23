@@ -44,6 +44,9 @@ class Orbit:
         self._stopped = False
         self._stop_criterion = StopCriterion(stop_criterion)
 
+    def map(self):
+        return self._pam
+
     def stopped(self):
         return self._stopped
 
@@ -76,6 +79,47 @@ class Orbit:
     def __len__(self):
         return len(self._orbit)
 
+    def affine_action(self, i):
+        try:
+            aa = self._affine_action
+        except AttributeError:
+            aa = self._affine_action = [self._ah.parent().affine_group().one()]
+        try:
+            return aa[i]
+        except IndexError:
+            assert i <= len(self._orbit), 'The orbit is not long enough yet'
+            g = aa[-1]
+            for j in range(len(aa)-1, i):
+                label = self.point(j, partitioned=True).label()
+                g = self._ah.affine_mapping()[label] * g
+                aa.append(g)
+            return aa[i]
+
+    def cell(self, i):
+        if i <= 0:
+            raise ValueError('i must be positive')
+
+        # Internally we store things with a shifted index.
+        i -= 1
+
+        try:
+            cells = self._cells
+        except AttributeError:
+            cells = self._cells = [self._ah.domain().polytope(self.point(0, partitioned=True).label())]
+
+        try:
+            return cells[i]
+        except IndexError:
+            assert i < len(self._orbit), 'The orbit is not long enough yet'
+            ah_domain = self._ah.domain()
+            p = cells[-1]
+            for j in range(len(cells), i+1):
+                label = self.point(j, partitioned=True).label()
+                g = self.affine_action(j)
+                p = p.intersection(~g * ah_domain.polytope(self.point(j, partitioned=True).label()))
+                cells.append(p)
+            return cells[i]
+
     def orbit(self, position_only=False, partitioned=False):
         r'''
         Return a generator that should quickly give the orbit.
@@ -94,8 +138,6 @@ class Orbit:
         else:
             for partitioned_point in self._orbit:
                 yield self._pi(partitioned_point)
-
-
 
     def point(self, i=0, position_only=False, partitioned=False):
         r'''

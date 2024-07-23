@@ -81,7 +81,7 @@ def integer_multiplication(dimension, field, k):
     d = {label:0 for label in multiple_copies_of_cube.labels()}
     i = I(multiple_copies_of_cube, d)
     PAMs = PiecewiseAffineMaps(dimension, field)
-    pet = PAMs(p, f, i)
+    pet = PAMs(i, f, p)
     pet.rename(f'Multiplication by {k} in the {dimension}-torus defined over {field}')
     return pet
 

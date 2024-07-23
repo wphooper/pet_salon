@@ -32,10 +32,10 @@ from sage.structure.unique_representation import UniqueRepresentation
 
 from pet_salon.affine_gps.affine_group import AffineGroup
 
-from .collection import identity_mapping, function_mapping, length
+from .collection import identity_mapping, function_mapping, length, postcomposition_mapping, product_mapping, constant_mapping
 from .immersion import Immersions, Partitions, SurjectiveEmbeddings, PartitionsCategory, ImmersionsCategory
 from .label import Relabeler
-from .union import PolytopeUnions, is_nonoverlapping
+from .union import PolytopeUnions, PolytopeUnionsCategory, is_nonoverlapping
 
 class AffineHomeomorphismsCategory(Category):
     r'''The category of (label respecting) affine homeomorphisms between polytope unions.'''
@@ -78,6 +78,47 @@ class AffineHomeomorphismsCategory(Category):
         @cached_method
         def piecewise_affine_maps(self):
             return PiecewiseAffineMaps(self.dimension(), self.field())
+
+        @abstract_method
+        def with_different_field(self, new_field):
+            pass
+
+        def _coerce_map_from_(self, parent):
+            r'''
+            EXAMPLES::
+
+            Example of coercion and conversion:
+
+                sage: from pet_salon import PolytopeUnions
+                sage: U = PolytopeUnions(2, QQ)
+                sage: p0 = Polyhedron(vertices=[(0,0), (1,0), (0,1)])
+                sage: p1 = Polyhedron(vertices=[(1,0), (1,1), (0,1)])
+                sage: domain = U({0: p0, 1: p1})
+                sage: Aff = U.affine_group()
+                sage: a0 = Aff([[1, 1], [0, 1]])
+                sage: a1 = Aff([[0, -1], [1, 0]], [1, 0])
+                sage: Aff = U.affine_homeomorphisms()
+                sage: f = Aff(domain, {0: a0, 1: a1}, codomain_is_nonoverlapping=True)
+                sage: Aff_AA = Aff.with_different_field(AA)
+                sage: Aff_AA
+                Collection of label-respecting affine homeomorphisms of disjoint unions of 2-dimensional polytopes defined over Algebraic Real Field
+                sage: Aff_AA.has_coerce_map_from(Aff)
+                True
+                sage: TestSuite(Aff_AA).run()
+                sage: f_AA = Aff_AA(f)
+                sage: f_AA
+                Affine homeomorphism between disjoint unions of 2 polytopes
+                sage: f_AA.parent() == Aff_AA
+                True
+                sage: TestSuite(f_AA).run()
+            '''
+            if not hasattr(parent, 'category'):
+                return False
+            if not parent.category().is_subcategory(self.category()):
+                return False
+            if parent.dimension() != self.dimension():
+                return False
+            return self.field().has_coerce_map_from(parent.field())
 
     class ElementMethods:
 
@@ -224,29 +265,15 @@ class AffineHomeomorphism(Element):
         sage: f(domain.point(0, (1/4, 1/3)))
         Point(0, (7/12, 1/3))
     '''
-    def __init__(self, parent, domain, affine_mapping, codomain=None, codomain_is_nonoverlapping=None):
+    def __init__(self, parent, domain, affine_mapping, codomain, name=None):
         self._domain = domain
-        if length(affine_mapping) < infinity:
-            G = parent.affine_group()
-            self._affine_mapping = frozendict({label: G(g) for label, g in affine_mapping.items()})
-        else:
-            self._affine_mapping = affine_mapping
-        if codomain:
-            self._codomain = codomain
-        else:
-            codomain_polytopes = function_mapping(domain.labels(),
-                lambda label: self._affine_mapping[label]*domain.polytope(label))
-            if codomain_is_nonoverlapping is None:
-                assert domain.is_finite(), 'If a codomain is not provided and the domain is not finite, we require a boolean  `codomain_is_nonoverlapping` which will determine if the codomain is nonoverlapping.'
-                codomain_is_nonoverlapping = is_nonoverlapping(codomain_polytopes.values())
-            U = PolytopeUnions(
-                parent.dimension(),
-                parent.field(),
-                finite=domain.is_finite(),
-                nonoverlapping = codomain_is_nonoverlapping)
-            self._codomain = U(codomain_polytopes)
+        self._affine_mapping = affine_mapping
+        self._codomain = codomain
         Element.__init__(self, parent)
-        self.rename(f'Affine homeomorphism between disjoint unions of {length(domain.labels())} polytopes')
+        if name:
+            self.rename(name)
+        else:
+            self.rename(f'Affine homeomorphism between disjoint unions of {length(domain.labels())} polytopes')
 
     def domain(self):
         return self._domain
@@ -275,8 +302,12 @@ class AffineHomeomorphism(Element):
                self.codomain() == other.codomain() and \
                self.affine_mapping() == other.affine_mapping()
 
+    @cached_method
     def __hash__(self):
-        return hash((self.domain(), self.codomain(), self.affine_mapping()))
+        am = self.affine_mapping()
+        if isinstance(am, dict):
+            am = frozendict(am)
+        return hash((self.domain(), self.codomain(), am))
 
     def _mul_(self, other):
         return self.parent()(other.domain(), # domain
@@ -293,7 +324,7 @@ class AffineHomeomorphism(Element):
                         raise ValueError('To compose a partition with an affine homeomoprhism the domain and codomain must match')
                     parent = PiecewiseAffineMaps(self.parent().dimension(), self.parent().field())
                     SE = SurjectiveEmbeddings(self.codomain())
-                    return parent(other, self, SE())
+                    return parent(SE(), self, other)
                 PAMs = self.parent().piecewise_affine_maps()
                 if PAMs.has_coerce_map_from(other.parent()):
                     return PAMs(self) * PAMs(other)
@@ -319,10 +350,73 @@ class AffineHomeomorphisms(UniqueRepresentation, Parent):
     def trivial_affine_homeomorphism(self, union):
         r'''Return the trivial affine homeomorphism of union into union.'''
         one = self.affine_group().one()
-        return self(union, function_mapping(union.labels(), lambda x: one), codomain=union)
+        return self(union, constant_mapping(union.labels(), one))
+
+    def with_different_field(self, new_field):
+        r'''
+        Return a new `AffineHomeomorphisms` defined over the provided new field, but with the same dimension.
+        '''
+        return AffineHomeomorphisms(self.dimension(), new_field)
 
     def _element_constructor_(self, *args, **kwds):
-        return self.element_class(self, *args, **kwds)
+        if len(args)==1:
+            # Attempt conversion.
+            if args[0].parent() == self:
+                # No conversion needed
+                return args[0]
+            assert args[0].parent().category().is_subcategory(AffineHomeomorphismsCategory()), \
+                'Can only convert an affine homeomorphism.'
+            assert args[0].parent().dimension() == self.dimension(), \
+                'Can only convert an affine homeomorphism of the same dimension.'
+            # The fields should be different. Otherwise, the parents would be the same.
+            PU_domain = args[0].domain().parent().with_different_field(self.field())
+            domain = PU_domain(args[0].domain())
+            affine_mapping = postcomposition_mapping(args[0].affine_mapping(), self.affine_group())
+            PU_codomain = args[0].codomain().parent().with_different_field(self.field())
+            codomain = PU_codomain(args[0].codomain())
+            return self.element_class(self, domain, affine_mapping, codomain, **kwds)
+        if len(args) in [2, 3] and hasattr(args[0], 'parent') and hasattr(args[0].parent(), 'category') and \
+            args[0].parent().category().is_subcategory(PolytopeUnionsCategory()):
+
+            # Assume the parameters match the first few parameters of the constructor of AffineHomeomorphism.
+            domain = args[0]
+            assert domain.parent().dimension() == self.dimension(), \
+                'The domain\'s dimension must match the ambient union.'
+            if domain.parent().field() != self.field():
+                # Attempt to change fields.
+                new_parent = domain.parent().with_different_field(self.field())
+                domain = new_parent(domain)
+            # Now domain is setup.
+            assert isinstance(args[1], Mapping), \
+                'The second argument must be a mapping sending labels to elements of the affine group.'
+            affine_mapping = postcomposition_mapping(args[1], self.affine_group())
+            if len(args)==3:
+                # A codomain was provided.
+                assert args[2].parent().category().is_subcategory(PolytopeUnionsCategory()), \
+                    'The codomain (third argument) must be a PolytopeUnion.'
+                assert args[2].parent().dimension() == self.dimension(), \
+                    'The codomain\'s dimension must match the ambient union.'
+                if args[2].parent().field() == self.field():
+                    codomain = args[2]
+                else:
+                    # Need to convert fields
+                    new_parent = args[2].parent().with_different_field(self.field())
+                    codomain = new_parent(args[2])
+            else:
+                codomain_polytopes = product_mapping(domain.labels(), [affine_mapping, domain.polytopes()])
+                if 'codomain_is_nonoverlapping' in kwds:
+                    codomain_is_nonoverlapping = kwds['codomain_is_nonoverlapping']
+                else:
+                    assert domain.is_finite(), 'If a codomain is not provided and the domain is not finite, we require a boolean keyword argument `codomain_is_nonoverlapping` which will determine if the codomain is nonoverlapping.'
+                    codomain_is_nonoverlapping = is_nonoverlapping(codomain_polytopes.values())
+                parent = domain.parent()
+                if parent.is_nonoverlapping() != codomain_is_nonoverlapping:
+                    parent = parent.with_different_axioms(nonoverlapping = codomain_is_nonoverlapping)
+                codomain = parent(codomain_polytopes)
+            if 'codomain_is_nonoverlapping' in kwds:
+                kwds.pop('codomain_is_nonoverlapping')
+            return self.element_class(self, domain, affine_mapping, codomain, **kwds)
+        raise NotImplemented('Unrecognized arguments passed to constructor.')
 
 # PIECEWISE AFFINE
 
@@ -387,13 +481,12 @@ def _reverse_order_p_i(p, i):
     ambient_labels1 = {}
     ambient_labels2 = {}
     subunions1 = {}
-    subunion_parent = X.parent().with_different_axioms(
-        finite = X.is_finite() and Z.is_finite(),
-        nonoverlapping=True)
+    #subunion_parent = X.parent().with_different_axioms(
+    #    finite = X.is_finite() and Z.is_finite(),
+    #    nonoverlapping=True)
     for b in Y.labels():
         for a,x in i.subunion(b).polytopes().items():
-            subunion_data1 = {}
-            subunion_data2 = {}
+            subunion_data = []
             for c,z in p.subunion(b).polytopes().items():
                 y2 = x.intersection(z)
                 if y2.volume() > 0:
@@ -401,8 +494,8 @@ def _reverse_order_p_i(p, i):
                     Y2_polytopes[b2] = y2
                     ambient_labels1[b2] = a
                     ambient_labels2[b2] = c
-                    subunion_data1[b2] = y2
-            subunions1[a] = subunion_parent(subunion_data1)
+                    subunion_data.append(b2)
+            subunions1[a] = tuple(subunion_data)
     Y2 = X.parent().with_different_axioms(finite = X.is_finite() and Z.is_finite())(Y2_polytopes)
     p2 = Partitions(X).inverse(Y2, ambient_labels1, subunions1)
     I = i.parent().with_different_union(Z)
@@ -439,6 +532,10 @@ class PiecewiseAffineMapsCategory(Category):
 
         def affine_homeomorphisms(self):
             return AffineHomeomorphisms(self.dimension(), self.field())
+
+        @abstract_method
+        def with_different_field(self, new_field):
+            pass
 
         def _coerce_map_from_(self, parent):
             r'''
@@ -597,7 +694,10 @@ class PiecewiseAffineMapsCategory(Category):
 
 
 class PiecewiseAffineMap(Element):
-    def __init__(self, parent, partition, affine_homeomorphism, immersion, name=None):
+    def __init__(self, parent, immersion, affine_homeomorphism, partition, name=None):
+        r'''
+        Represents the product `immersion*affine_homeomorphism*partition`.
+        '''
         self._partition = partition
         self._affine_homeomorphism = affine_homeomorphism
         self._immersion = immersion
@@ -644,12 +744,12 @@ class PiecewiseAffineMap(Element):
         #print('p1 domain',p1.domain(), 'codomain', p1.codomain())
         #print(p1.codomain() == p4.domain())
         p = p4*p1
-        return self.parent()(p, a, i)
+        return self.parent().element_class(self.parent(), i, a, p)
 
     def __invert__(self):
         if not self.immersion().parent().is_injective() and self.immersion().parent().is_surjective():
             raise ValueError('To be an invertible, the PiecewiseAffineMap must have an invertible immersion component.')
-        return self.parent()(~self.immersion(), ~self.affine_homeomorphism(), ~self.partition())
+        return self.parent().element_class(self.parent() , ~self.partition(), ~self.affine_homeomorphism(), ~self.immersion())
 
     def __eq__(self, other):
         if self is other:
@@ -664,7 +764,7 @@ class PiecewiseAffineMap(Element):
 
     @cached_method
     def __hash__(self):
-        return hash((self.partition(), self.affine_homeomorphism(), self.immersion()))
+        return hash((self.immersion(), self.affine_homeomorphism(), self.partition()))
 
 class PiecewiseAffineMaps(UniqueRepresentation, Parent):
     r'''
@@ -690,41 +790,85 @@ class PiecewiseAffineMaps(UniqueRepresentation, Parent):
     def dimension(self):
         return self._dimension
 
+    def with_different_field(self, new_field):
+        r'''
+        Return a new `AffineHomeomorphisms` defined over the provided new field, but with the same dimension.
+        '''
+        return PiecewiseAffineMaps(self.dimension(), new_field)
+
     def _element_constructor_(self, *args, **kwds):
         if len(args) == 1:
-            if hasattr(args[0], 'parent') and hasattr(args[0].parent(),'category'):
-                if args[0].parent().category().is_subcategory(PiecewiseAffineMapsCategory()):
-                    if args[0].parent() == self:
-                        return args[0]
-                    else:
+            if hasattr(args[0], 'parent'):
+                if args[0].parent() == self:
+                    # No conversion needed.
+                    return args[0]
+                if hasattr(args[0].parent(),'category'):
+                    if args[0].parent().category().is_subcategory(PiecewiseAffineMapsCategory()):
+                        assert args[0].parent().dimension() == self.dimension(), 'In order to convert, the passed PAM must have dimension matching this parent.'
+                        # The field should be different or else, the parents would be the same.
+                        p = args[0].partition()
+                        ah = args[0].affine_homeomorphism()
+                        i = args[0].immersion()
                         return self.element_class(
                             self,
-                            args[0].partition(),
-                            args[0].affine_homeomorphism(),
-                            args[0].immersion(),
+                            i.parent().with_different_field(self.field())(i),
+                            ah.parent().with_different_field(self.field())(ah),
+                            p.parent().with_different_field(self.field())(p),
                             **kwds)
-                if args[0].parent().category().is_subcategory(PartitionsCategory()):
-                    codomain = args[0].codomain()
-                    return self.element_class(self,
-                                              args[0],
-                                              codomain.parent().affine_homeomorphisms().trivial_affine_homeomorphism(codomain),
-                                              SurjectiveEmbeddings(codomain)(), **kwds)
-                if args[0].parent().category().is_subcategory(AffineHomeomorphismsCategory()):
-                    domain = args[0].domain()
-                    P = Partitions(domain)
-                    codomain = args[0].codomain()
-                    return self.element_class(self,
-                                              P(),
-                                              args[0],
-                                              SurjectiveEmbeddings(codomain)(), **kwds)
-                if args[0].parent().category().is_subcategory(ImmersionsCategory()):
-                    domain = args[0].domain()
-                    P = Partitions(domain)
-                    return self.element_class(self,
-                                              P(),
-                                              domain.parent().affine_homeomorphisms().trivial_affine_homeomorphism(domain),
-                                              args[0], **kwds)
-        return self.element_class(self, *args, **kwds)
+                    if args[0].parent().category().is_subcategory(PartitionsCategory()):
+                        assert args[0].parent().dimension() == self.dimension(), 'A partition must have have dimension matching this parent.'
+                        p = args[0]
+                        if p.parent().field() != self.field():
+                            p = p.parent().with_different_field(self.field())(p)
+                        codomain = p.codomain()
+                        return self.element_class(self,
+                                                  SurjectiveEmbeddings(codomain)(),
+                                                  codomain.parent().affine_homeomorphisms().trivial_affine_homeomorphism(codomain),
+                                                  p,
+                                                  **kwds)
+                    if args[0].parent().category().is_subcategory(AffineHomeomorphismsCategory()):
+                        assert args[0].parent().dimension() == self.dimension(), 'An affine homeomorphism must have have dimension matching this parent.'
+                        ah = args[0]
+                        if ah.parent().field() != self.field():
+                            ah = ah.parent().with_different_field(self.field())(ah)
+                        domain = ah.domain()
+                        P = Partitions(domain)
+                        codomain = ah.codomain()
+                        return self.element_class(self,
+                                                  SurjectiveEmbeddings(codomain)(),
+                                                  ah,
+                                                  P(),
+                                                  **kwds)
+                    if args[0].parent().category().is_subcategory(ImmersionsCategory()):
+                        assert args[0].parent().dimension() == self.dimension(), 'An immersion must have have dimension matching this parent.'
+                        i = args[0]
+                        if i.parent().field() != self.field():
+                            i = i.parent().with_different_field(self.field())(i)
+                        domain = i.domain()
+                        P = Partitions(domain)
+                        return self.element_class(self,
+                                                  i,
+                                                  domain.parent().affine_homeomorphisms().trivial_affine_homeomorphism(domain),
+                                                  P(),
+                                                  **kwds)
+        if len(args)==3:
+            assert args[0].parent().category().is_subcategory(ImmersionsCategory()), 'With three arguments, the first must be an immersion.'
+            assert args[0].parent().dimension() == self.dimension(), 'An immersion must have have dimension matching this parent.'
+            i = args[0]
+            if i.parent().field() != self.field():
+                i = i.parent().with_different_field(self.field())(i)
+            assert args[1].parent().category().is_subcategory(AffineHomeomorphismsCategory()), 'With three arguments, the second must be an affine homeomorphism.'
+            assert args[1].parent().dimension() == self.dimension(), 'An affine homeomorphism must have have dimension matching this parent.'
+            ah = args[1]
+            if ah.parent().field() != self.field():
+                ah = ah.parent().with_different_field(self.field())(ah)
+            assert args[2].parent().category().is_subcategory(PartitionsCategory()), 'With three arguments, the third must be a partition.'
+            assert args[2].parent().dimension() == self.dimension(), 'A partition must have have dimension matching this parent.'
+            p = args[2]
+            if p.parent().field() != self.field():
+                p = p.parent().with_different_field(self.field())(p)
+            return self.element_class(self, i, ah, p, **kwds)
+        raise NotImplementedError(f'Unrecognized arguments: {args}')
 
     def _an_element_(self):
         from .pam_examples import integer_multiplication

@@ -19,7 +19,9 @@
 
 from collections.abc import Mapping
 
+from sage.misc.misc_c import prod
 from sage.rings.infinity import infinity
+from sage.structure.unique_representation import UniqueRepresentation
 
 def length(collection):
     r'''Return the length of a collection or infinity if it is an infinite collection.
@@ -37,26 +39,47 @@ def length(collection):
     except (TypeError, NotImplementedError): # raised when __len__ returns infinity
         return infinity
 
-class _IdentityMapping(Mapping):
-    def __init__(self, collection):
-        self._c = collection
-    def __getitem__(self, key):
-        if key in self._c:
-            return key
-        else:
-            raise KeyError
-    def __iter__(self):
-        return self._c.__iter__()
-    def __len__(self):
-        return self._c.__len__()
+class Identity(UniqueRepresentation):
+    def __init__(self):
+        pass
+    def __call__(self, *args, **kwds):
+        if len(args)>0:
+            return args[0]
     def __repr__(self):
-        return f'Identity mapping on {self._c}'
-    def __eq__(self, other):
-        if isinstance(other, _IdentityMapping):
-            return self._c == other._c
-        return False
-    def __hash__(self):
-        return hash(self._c)
+        return f'Identity'
+
+
+class ConstantFunction(UniqueRepresentation):
+    def __init__(self, constant):
+        self._c = constant
+    def __call__(self, *args, **kwds):
+        return self._c
+    def __repr__(self):
+        return f'The constant function with value {self._c}'
+
+#class _IdentityMapping(Mapping):
+#    def __init__(self, collection):
+#        self._c = collection
+#    def __getitem__(self, key):
+#        if key in self._c:
+#            return key
+#        else:
+#            raise KeyError
+#    def __iter__(self):
+#        return self._c.__iter__()
+#    def __len__(self):
+#        return self._c.__len__()
+#    def __repr__(self):
+#        return f'Identity mapping on {self._c}'
+#    def __eq__(self, other):
+#        if isinstance(other, _IdentityMapping):
+#            return self._c == other._c
+#        return False
+#    def __hash__(self):
+#        return hash(self._c)
+
+def constant_mapping(collection, constant):
+    return function_mapping(collection, ConstantFunction(constant))
 
 def identity_mapping(collection):
     r'''Return the identity mapping `{x:x for x in collection}` even if `collection` is infinite.
@@ -79,7 +102,7 @@ def identity_mapping(collection):
         sage: from pet_salon.collection import length, identity_mapping
         sage: im2 = identity_mapping(ZZ)
         sage: im2
-        Identity mapping on Integer Ring
+        Function mapping with domain Integer Ring and function Identity
         sage: length(im2)
         +Infinity
         sage: im2[3]
@@ -96,10 +119,7 @@ def identity_mapping(collection):
         (2, 2)
         (-2, -2)
     '''
-    if length(collection) < infinity:
-        return {x:x for x in collection}
-    else:
-        return _IdentityMapping(collection)
+    return function_mapping(collection, Identity())
 
 class _FunctionMapping(Mapping):
     r'''This class handles the infinite case of `function_mapping`.'''
@@ -156,7 +176,7 @@ def function_mapping(collection, function):
 def tuple_singleton(x):
     r'''
     Returns the tuple `(x,)`.
-    
+
     This is used in some places as the `function` argument to `function_mapping`.
     '''
     return (x,)
@@ -187,6 +207,35 @@ def postcomposition_mapping(mapping, function):
     else:
         return _PostcompositionMapping(mapping, function)
 
+class _ProductMapping(Mapping):
+    r'''This class handles the infinite case of `product_mapping`.
+
+    We pass a collection of mappings. The first mapping in the collection will
+    be used as the key set.
+    '''
+    def __init__(self, keys, mappings):
+        self._k = keys
+        self._ms = mappings
+    def __getitem__(self, key):
+        return prod([m[key] for m in self._k])
+    def __iter__(self):
+        return self._k.__iter__()
+    def __len__(self):
+        return self._k.__len__()
+    def __repr__(self):
+        return f'Product of mappings {self._ms}.'
+    def __eq__(self, other):
+        if isinstance(other, _ProductMapping):
+            return self._k == other._k and self._ms == other._ms
+        return False
+    def __hash__(self):
+        return hash((self._k, self._ms))
+
+def product_mapping(keys, mappings):
+    if length(keys) < infinity:
+        return {x:prod([m[x] for m in mappings]) for x in keys}
+    else:
+        return _ProductMapping(keys, mappings)
 
 def mapping_composition(second, first):
     r'''Return the composition of the mapping: `return[i] = second[first[i]]`.

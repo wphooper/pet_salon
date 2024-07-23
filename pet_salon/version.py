@@ -17,4 +17,4 @@
 #  along with pet_salon. If not, see <https://www.gnu.org/licenses/>.
 # ********************************************************************
 
-version = "0.0.2"
+version = "0.0.3"

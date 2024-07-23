@@ -55,4 +55,4 @@ This software was developed by Hooper at a time when he was supported by a grant
 
 Below is Sugar, who has no need for salons.
 
-![Picture of Hooper's dog "Sugar"](doc/sugar.png)
+![Picture of Hooper's dog "Sugar"](doc/static/sugar.png)

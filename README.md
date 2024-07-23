@@ -37,7 +37,9 @@ sage -t pet_salon/polyhedra.py
 
 ## Documentation
 
-A [tutorial](doc/Tutorial.ipynb) is provided. This is still very much a work-in-progress and will develop according to research needs. If you would like to use this software, please write to PAt Hooper <whooper@ccny.cuny.edu>.
+A [tutorial](doc/Tutorial.ipynb) is provided.
+
+This software is still very much a work-in-progress and will develop according to research needs. If you would like to use this software, please write to Pat Hooper <whooper@ccny.cuny.edu>.
 
 ## Contributors
 
@@ -45,10 +47,12 @@ So far, this software has been written by:
 
 * [W. Patrick Hooper](http://wphooper.com/) (City College of New York and CUNY Graduate Center)
 
+## Acknowledgement
+
+This software was developed by Hooper at a time when he was supported by a grant from the Simon's Foundation and by a PSC-CUNY grant.
+
 ## Picture of a PET
 
 Below is Sugar, who has no need for salons.
 
-![doc/sugar.png](Picture of Hooper's dog "Sugar")
-
-
+![Picture of Hooper's dog "Sugar"](doc/sugar.png)

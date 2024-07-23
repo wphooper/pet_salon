@@ -1,14 +1,20 @@
-# Pet Salon
+# PET Salon
 A [SageMath](https://www.sagemath.org/) package to experiment with Polytope Exchange Transformations (PETs). Currently a work in progress.
 
 ## To install
 
-First you need to install the prerequisites. We use [frozendict](https://github.com/Marco-Sulla/python-frozendict). To install run:
+First you need to install the prerequisites. We assume a recent version of [SageMath](https://www.sagemath.org/) has already been installed and is accessible from the command line.
+
+We currently use [frozendict](https://github.com/Marco-Sulla/python-frozendict). To install it run:
 ```
 sage -pip install frozendict
 ```
 
-Run from the directory containing this `README.md` file run the command:
+To download the software you can run the following from the command line (assuming `git` has been installed):
+```
+git clone https://github.com/wphooper/pet_salon.git
+```
+This will create a subdirectory called `pet_salon` and put this software into it. Change into the `pet_salon` directory. You should see 'README.md' and the other files from this repository. To install, from inside this directory run the command:
 ```
 sage -pip install .
 ```
@@ -28,3 +34,21 @@ To test an individual file run something like:
 ```
 sage -t pet_salon/polyhedra.py
 ```
+
+## Documentation
+
+A [tutorial](doc/Tutorial.ipynb) is provided. This is still very much a work-in-progress and will develop according to research needs. If you would like to use this software, please write to PAt Hooper <whooper@ccny.cuny.edu>.
+
+## Contributors
+
+So far, this software has been written by:
+
+* [W. Patrick Hooper](http://wphooper.com/) (City College of New York and CUNY Graduate Center)
+
+## Picture of a PET
+
+Below is Sugar, who has no need for salons.
+
+![doc/sugar.png](Picture of Hooper's dog "Sugar")
+
+

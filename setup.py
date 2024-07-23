@@ -4,7 +4,7 @@ with open("README.md") as f:
     long_description = f.read()
 
 setup(
-    name="Pet Salon",
+    name="PET Salon",
     author="W. Patrick Hooper",
     author_email="whooper@ccny.cuny.edu",
     description="Polytope Exchange Transformations in SageMath",

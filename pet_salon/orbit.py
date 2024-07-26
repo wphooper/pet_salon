@@ -154,3 +154,15 @@ class Orbit:
             return self._orbit[i]
         else:
             return self._pi(self._orbit[i])
+
+def cell(f, code):
+    ah = f.affine_homeomorphism()
+    ah_domain = ah.domain()
+    G = ah_domain.parent().affine_group()
+    i = 0
+    p = ah_domain.polytope(code[i])
+    g = ah.affine_mapping()[i]
+    for i in range(1, len(code)):
+        p = p.intersection( (~g) * ah_domain.polytope(code[i]) )
+        g = ah.affine_mapping()[code[i]] * g
+    return (p, g)

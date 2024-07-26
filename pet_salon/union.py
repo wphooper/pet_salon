@@ -495,7 +495,7 @@ class PolytopeUnionsCategory(Category):
                     else:
                         found = self.find(label_or_position, all=False, limit=limit)
                         if found is None:
-                            return None
+                            raise ValueError('The provided coordinates were not within the union.')
                         else:
                             return self.point_set()(found[0], label_or_position)
                 else:

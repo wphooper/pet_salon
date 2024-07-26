@@ -93,6 +93,7 @@ class Point(Element):
     def __init__(self, parent, label, position):
         self._label = label
         self._position = parent.vector_space()(position)
+        self._position.set_immutable()
         Element.__init__(self, parent)
 
     def label(self):
@@ -105,6 +106,9 @@ class Point(Element):
 
     def _repr_(self):
         return f'Point({self.label()}, {self.position()})'
+
+    def __hash__(self):
+        return hash((self.label(), self.position()))
 
     def __eq__(self, other):
         if other is None:
@@ -170,3 +174,4 @@ class PointSet(Parent):
             return self.element_class(self, args[0].label(), args[0].position(), **kwds)
         if len(args) == 2:
             return self.element_class(self, *args, **kwds)
+

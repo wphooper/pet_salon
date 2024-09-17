@@ -633,6 +633,20 @@ class PiecewiseAffineMapsCategory(Category):
             r'''Return `True` if the map is surjective. `False` if not.'''
             return 'Surjective' in self.immersion().parent().category().axioms()
 
+        def splitting(self):
+            r'''
+            Return the map conjugated by the partition.
+
+            This results in a map from the codomain of the partition into itself.
+
+            If `p` is the parition, `ah` is the affine homeomorphism, and `i` is the
+            immersion, then the original map is `i*ah*p`. The splitting is `p*i*ah`.
+            '''
+            p = self.partition()
+            ah = self.affine_homeomorphism()
+            i = self.immersion()
+            return p*i*ah
+
         def plot(self,
                 domain_kwds={},
                 aff_domain_kwds={},

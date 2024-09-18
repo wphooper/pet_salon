@@ -383,7 +383,11 @@ class ImmersionsCategory(Category):
                 Return a mapping sending an `ambient_label` to the restriction of the subunion to polytopes
                 contained within the polytope with the provided `ambient_label`.
                 '''
-                return self.domain().restrict(self.subunion_labels()[ambient_label], nonoverlapping=True)
+                try:
+                    l = self.subunion_labels()[ambient_label]
+                except KeyError:
+                    l = []
+                return self.domain().restrict(l, nonoverlapping=True)
 
             def _test_nonoverlapping(self, tester=None, limit=20):
                 r'''Test that the subunions associated to ambient labels are nonoverlapping.

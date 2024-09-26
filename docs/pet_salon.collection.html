@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pet_salon.collection module &mdash; pet_salon 0.0.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=8c5712d9"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="pet_salon.immersion module" href="pet_salon.immersion.html" />
+    <link rel="prev" title="pet_salon.affine module" href="pet_salon.affine.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pet_salon
+          </a>
+              <div class="version">
+                0.0.4
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="pet_salon.html">pet_salon package</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="pet_salon.html#module-pet_salon">Module contents</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="pet_salon.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="pet_salon.affine.html">pet_salon.affine module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">pet_salon.collection module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pet_salon.collection.ConstantFunction"><code class="docutils literal notranslate"><span class="pre">ConstantFunction</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pet_salon.collection.Identity"><code class="docutils literal notranslate"><span class="pre">Identity</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pet_salon.collection.constant_mapping"><code class="docutils literal notranslate"><span class="pre">constant_mapping()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pet_salon.collection.function_mapping"><code class="docutils literal notranslate"><span class="pre">function_mapping()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pet_salon.collection.identity_mapping"><code class="docutils literal notranslate"><span class="pre">identity_mapping()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pet_salon.collection.length"><code class="docutils literal notranslate"><span class="pre">length()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pet_salon.collection.mapping_composition"><code class="docutils literal notranslate"><span class="pre">mapping_composition()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pet_salon.collection.postcomposition_mapping"><code class="docutils literal notranslate"><span class="pre">postcomposition_mapping()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pet_salon.collection.product_mapping"><code class="docutils literal notranslate"><span class="pre">product_mapping()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pet_salon.collection.tuple_singleton"><code class="docutils literal notranslate"><span class="pre">tuple_singleton()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pet_salon.immersion.html">pet_salon.immersion module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_salon.label.html">pet_salon.label module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_salon.orbit.html">pet_salon.orbit module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_salon.pam_examples.html">pet_salon.pam_examples module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_salon.plot.html">pet_salon.plot module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_salon.point.html">pet_salon.point module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_salon.polyhedra.html">pet_salon.polyhedra module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_salon.polytope.html">pet_salon.polytope module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_salon.union.html">pet_salon.union module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_salon.union_generators.html">pet_salon.union_generators module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_salon.version.html">pet_salon.version module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pet_salon</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="pet_salon.html">pet_salon package</a></li>
+      <li class="breadcrumb-item active">pet_salon.collection module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/pet_salon.collection.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-pet_salon.collection">
+<span id="pet-salon-collection-module"></span><h1>pet_salon.collection module<a class="headerlink" href="#module-pet_salon.collection" title="Link to this heading"></a></h1>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pet_salon.collection.ConstantFunction">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pet_salon.collection.</span></span><span class="sig-name descname"><span class="pre">ConstantFunction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">constant</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/collection.html#ConstantFunction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.collection.ConstantFunction" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">UniqueRepresentation</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pet_salon.collection.Identity">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pet_salon.collection.</span></span><span class="sig-name descname"><span class="pre">Identity</span></span><a class="reference internal" href="_modules/pet_salon/collection.html#Identity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.collection.Identity" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">UniqueRepresentation</span></code></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pet_salon.collection.constant_mapping">
+<span class="sig-prename descclassname"><span class="pre">pet_salon.collection.</span></span><span class="sig-name descname"><span class="pre">constant_mapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">collection</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">constant</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/collection.html#constant_mapping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.collection.constant_mapping" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pet_salon.collection.function_mapping">
+<span class="sig-prename descclassname"><span class="pre">pet_salon.collection.</span></span><span class="sig-name descname"><span class="pre">function_mapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">collection</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/collection.html#function_mapping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.collection.function_mapping" title="Link to this definition"></a></dt>
+<dd><p>Return the mapping <cite>{x:function(x) for x in collection}</cite> even if the collection is infinite.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon.collection</span> <span class="kn">import</span> <span class="n">length</span><span class="p">,</span> <span class="n">function_mapping</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">fm</span> <span class="o">=</span> <span class="n">function_mapping</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">length</span><span class="p">(</span><span class="n">fm</span><span class="p">)</span>
+<span class="o">+</span><span class="n">Infinity</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">fm</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span>
+<span class="mi">9</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">fm</span><span class="p">[</span><span class="n">I</span><span class="p">]</span>
+<span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+<span class="o">...</span>
+<span class="ne">KeyError</span>
+<span class="n">sage</span><span class="p">:</span> <span class="k">for</span> <span class="n">pair</span><span class="p">,</span><span class="n">_</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">fm</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)):</span>
+<span class="o">....</span><span class="p">:</span>     <span class="nb">print</span><span class="p">(</span><span class="n">pair</span><span class="p">)</span>
+<span class="o">....</span><span class="p">:</span>
+<span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">4</span><span class="p">)</span>
+<span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pet_salon.collection.identity_mapping">
+<span class="sig-prename descclassname"><span class="pre">pet_salon.collection.</span></span><span class="sig-name descname"><span class="pre">identity_mapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">collection</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/collection.html#identity_mapping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.collection.identity_mapping" title="Link to this definition"></a></dt>
+<dd><p>Return the identity mapping <cite>{x:x for x in collection}</cite> even if <cite>collection</cite> is infinite.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon.collection</span> <span class="kn">import</span> <span class="n">length</span><span class="p">,</span> <span class="n">identity_mapping</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">im</span> <span class="o">=</span> <span class="n">identity_mapping</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">im</span>
+<span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">length</span><span class="p">(</span><span class="n">im</span><span class="p">)</span>
+<span class="mi">2</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">im</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+<span class="mi">3</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">im</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+<span class="o">...</span>
+<span class="ne">KeyError</span><span class="p">:</span> <span class="mi">2</span>
+
+<span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon.collection</span> <span class="kn">import</span> <span class="n">length</span><span class="p">,</span> <span class="n">identity_mapping</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">im2</span> <span class="o">=</span> <span class="n">identity_mapping</span><span class="p">(</span><span class="n">ZZ</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">im2</span>
+<span class="n">Function</span> <span class="n">mapping</span> <span class="k">with</span> <span class="n">domain</span> <span class="n">Integer</span> <span class="n">Ring</span> <span class="ow">and</span> <span class="n">function</span> <span class="n">Identity</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">length</span><span class="p">(</span><span class="n">im2</span><span class="p">)</span>
+<span class="o">+</span><span class="n">Infinity</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">im2</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+<span class="mi">3</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">im2</span><span class="p">[</span><span class="mi">5</span><span class="o">/</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+<span class="o">...</span>
+<span class="ne">KeyError</span>
+<span class="n">sage</span><span class="p">:</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span><span class="n">_</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">im2</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)):</span>
+<span class="o">....</span><span class="p">:</span>     <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pet_salon.collection.length">
+<span class="sig-prename descclassname"><span class="pre">pet_salon.collection.</span></span><span class="sig-name descname"><span class="pre">length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">collection</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/collection.html#length"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.collection.length" title="Link to this definition"></a></dt>
+<dd><p>Return the length of a collection or infinity if it is an infinite collection.</p>
+<dl class="simple">
+<dt>EXAMPLES::</dt><dd><p>sage: from pet_salon.collection import length
+sage: length([1,2,3])
+3
+sage: from sage.rings.integer_ring import ZZ
+sage: length(ZZ)
++Infinity</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pet_salon.collection.mapping_composition">
+<span class="sig-prename descclassname"><span class="pre">pet_salon.collection.</span></span><span class="sig-name descname"><span class="pre">mapping_composition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">second</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">first</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/collection.html#mapping_composition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.collection.mapping_composition" title="Link to this definition"></a></dt>
+<dd><p>Return the composition of the mapping: <cite>return[i] = second[first[i]]</cite>.</p>
+<p>The point is to allow this to work for infinite mappings. But we defer this.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pet_salon.collection.postcomposition_mapping">
+<span class="sig-prename descclassname"><span class="pre">pet_salon.collection.</span></span><span class="sig-name descname"><span class="pre">postcomposition_mapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mapping</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/collection.html#postcomposition_mapping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.collection.postcomposition_mapping" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pet_salon.collection.product_mapping">
+<span class="sig-prename descclassname"><span class="pre">pet_salon.collection.</span></span><span class="sig-name descname"><span class="pre">product_mapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">keys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mappings</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/collection.html#product_mapping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.collection.product_mapping" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pet_salon.collection.tuple_singleton">
+<span class="sig-prename descclassname"><span class="pre">pet_salon.collection.</span></span><span class="sig-name descname"><span class="pre">tuple_singleton</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/collection.html#tuple_singleton"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.collection.tuple_singleton" title="Link to this definition"></a></dt>
+<dd><p>Returns the tuple <cite>(x,)</cite>.</p>
+<p>This is used in some places as the <cite>function</cite> argument to <cite>function_mapping</cite>.</p>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pet_salon.affine.html" class="btn btn-neutral float-left" title="pet_salon.affine module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pet_salon.immersion.html" class="btn btn-neutral float-right" title="pet_salon.immersion module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, W. Patrick Hooper.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

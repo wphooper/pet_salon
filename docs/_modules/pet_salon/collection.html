@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pet_salon.collection &mdash; pet_salon 0.0.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=8c5712d9"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            pet_salon
+          </a>
+              <div class="version">
+                0.0.4
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../pet_salon.html">pet_salon package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">pet_salon</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pet_salon.collection</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pet_salon.collection</h1><div class="highlight"><pre>
+<span></span><span class="c1"># ********************************************************************</span>
+<span class="c1">#  This file is part of pet_salon.</span>
+<span class="c1">#</span>
+<span class="c1">#        Copyright (C)      2024 W. Patrick Hooper</span>
+<span class="c1">#</span>
+<span class="c1">#  pet_salon is free software: you can redistribute it and/or modify</span>
+<span class="c1">#  it under the terms of the GNU General Public License as published by</span>
+<span class="c1">#  the Free Software Foundation, either version 2 of the License, or</span>
+<span class="c1">#  (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1">#  pet_salon is distributed in the hope that it will be useful,</span>
+<span class="c1">#  but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1">#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1">#  GNU General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1">#  You should have received a copy of the GNU General Public License</span>
+<span class="c1">#  along with pet_salon. If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
+<span class="c1"># ********************************************************************</span>
+
+<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Mapping</span>
+
+<span class="kn">from</span> <span class="nn">sage.misc.misc_c</span> <span class="kn">import</span> <span class="n">prod</span>
+<span class="kn">from</span> <span class="nn">sage.rings.infinity</span> <span class="kn">import</span> <span class="n">infinity</span>
+<span class="kn">from</span> <span class="nn">sage.structure.unique_representation</span> <span class="kn">import</span> <span class="n">UniqueRepresentation</span>
+
+<div class="viewcode-block" id="length">
+<a class="viewcode-back" href="../../pet_salon.collection.html#pet_salon.collection.length">[docs]</a>
+<span class="k">def</span> <span class="nf">length</span><span class="p">(</span><span class="n">collection</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return the length of a collection or infinity if it is an infinite collection.</span>
+
+<span class="sd">    EXAMPLES::</span>
+<span class="sd">        sage: from pet_salon.collection import length</span>
+<span class="sd">        sage: length([1,2,3])</span>
+<span class="sd">        3</span>
+<span class="sd">        sage: from sage.rings.integer_ring import ZZ</span>
+<span class="sd">        sage: length(ZZ)</span>
+<span class="sd">        +Infinity</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">collection</span><span class="p">)</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">NotImplementedError</span><span class="p">):</span> <span class="c1"># raised when __len__ returns infinity</span>
+        <span class="k">return</span> <span class="n">infinity</span></div>
+
+
+<div class="viewcode-block" id="Identity">
+<a class="viewcode-back" href="../../pet_salon.collection.html#pet_salon.collection.Identity">[docs]</a>
+<span class="k">class</span> <span class="nc">Identity</span><span class="p">(</span><span class="n">UniqueRepresentation</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;Identity&#39;</span></div>
+
+
+
+<div class="viewcode-block" id="ConstantFunction">
+<a class="viewcode-back" href="../../pet_salon.collection.html#pet_salon.collection.ConstantFunction">[docs]</a>
+<span class="k">class</span> <span class="nc">ConstantFunction</span><span class="p">(</span><span class="n">UniqueRepresentation</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">constant</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_c</span> <span class="o">=</span> <span class="n">constant</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_c</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;The constant function with value </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_c</span><span class="si">}</span><span class="s1">&#39;</span></div>
+
+
+<span class="c1">#class _IdentityMapping(Mapping):</span>
+<span class="c1">#    def __init__(self, collection):</span>
+<span class="c1">#        self._c = collection</span>
+<span class="c1">#    def __getitem__(self, key):</span>
+<span class="c1">#        if key in self._c:</span>
+<span class="c1">#            return key</span>
+<span class="c1">#        else:</span>
+<span class="c1">#            raise KeyError</span>
+<span class="c1">#    def __iter__(self):</span>
+<span class="c1">#        return self._c.__iter__()</span>
+<span class="c1">#    def __len__(self):</span>
+<span class="c1">#        return self._c.__len__()</span>
+<span class="c1">#    def __repr__(self):</span>
+<span class="c1">#        return f&#39;Identity mapping on {self._c}&#39;</span>
+<span class="c1">#    def __eq__(self, other):</span>
+<span class="c1">#        if isinstance(other, _IdentityMapping):</span>
+<span class="c1">#            return self._c == other._c</span>
+<span class="c1">#        return False</span>
+<span class="c1">#    def __hash__(self):</span>
+<span class="c1">#        return hash(self._c)</span>
+
+<div class="viewcode-block" id="constant_mapping">
+<a class="viewcode-back" href="../../pet_salon.collection.html#pet_salon.collection.constant_mapping">[docs]</a>
+<span class="k">def</span> <span class="nf">constant_mapping</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">constant</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">function_mapping</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">ConstantFunction</span><span class="p">(</span><span class="n">constant</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="identity_mapping">
+<a class="viewcode-back" href="../../pet_salon.collection.html#pet_salon.collection.identity_mapping">[docs]</a>
+<span class="k">def</span> <span class="nf">identity_mapping</span><span class="p">(</span><span class="n">collection</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return the identity mapping `{x:x for x in collection}` even if `collection` is infinite.</span>
+
+<span class="sd">    EXAMPLES::</span>
+
+<span class="sd">        sage: from pet_salon.collection import length, identity_mapping</span>
+<span class="sd">        sage: im = identity_mapping([1,3])</span>
+<span class="sd">        sage: im</span>
+<span class="sd">        {1: 1, 3: 3}</span>
+<span class="sd">        sage: length(im)</span>
+<span class="sd">        2</span>
+<span class="sd">        sage: im[3]</span>
+<span class="sd">        3</span>
+<span class="sd">        sage: im[2]</span>
+<span class="sd">        Traceback (most recent call last):</span>
+<span class="sd">        ...</span>
+<span class="sd">        KeyError: 2</span>
+
+<span class="sd">        sage: from pet_salon.collection import length, identity_mapping</span>
+<span class="sd">        sage: im2 = identity_mapping(ZZ)</span>
+<span class="sd">        sage: im2</span>
+<span class="sd">        Function mapping with domain Integer Ring and function Identity</span>
+<span class="sd">        sage: length(im2)</span>
+<span class="sd">        +Infinity</span>
+<span class="sd">        sage: im2[3]</span>
+<span class="sd">        3</span>
+<span class="sd">        sage: im2[5/2]</span>
+<span class="sd">        Traceback (most recent call last):</span>
+<span class="sd">        ...</span>
+<span class="sd">        KeyError</span>
+<span class="sd">        sage: for x,_ in zip(im2.items(), range(5)):</span>
+<span class="sd">        ....:     print(x)</span>
+<span class="sd">        (0, 0)</span>
+<span class="sd">        (1, 1)</span>
+<span class="sd">        (-1, -1)</span>
+<span class="sd">        (2, 2)</span>
+<span class="sd">        (-2, -2)</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">function_mapping</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">Identity</span><span class="p">())</span></div>
+
+
+<span class="k">class</span> <span class="nc">_FunctionMapping</span><span class="p">(</span><span class="n">Mapping</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;This class handles the infinite case of `function_mapping`.&#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collection</span><span class="p">,</span> <span class="n">function</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_c</span> <span class="o">=</span> <span class="n">collection</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_f</span> <span class="o">=</span> <span class="n">function</span>
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_c</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_f</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span>
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_c</span><span class="o">.</span><span class="fm">__iter__</span><span class="p">()</span>
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_c</span><span class="o">.</span><span class="fm">__len__</span><span class="p">()</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;Function mapping with domain </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_c</span><span class="si">}</span><span class="s1"> and function </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_f</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">_FunctionMapping</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_c</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">_c</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_f</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">_f</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">hash</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_c</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_f</span><span class="p">))</span>
+
+<div class="viewcode-block" id="function_mapping">
+<a class="viewcode-back" href="../../pet_salon.collection.html#pet_salon.collection.function_mapping">[docs]</a>
+<span class="k">def</span> <span class="nf">function_mapping</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">function</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return the mapping `{x:function(x) for x in collection}` even if the collection is infinite.</span>
+
+<span class="sd">    EXAMPLES::</span>
+
+<span class="sd">        sage: from pet_salon.collection import length, function_mapping</span>
+<span class="sd">        sage: fm = function_mapping(QQ, lambda x: x^2)</span>
+<span class="sd">        sage: length(fm)</span>
+<span class="sd">        +Infinity</span>
+<span class="sd">        sage: fm[-3]</span>
+<span class="sd">        9</span>
+<span class="sd">        sage: fm[I]</span>
+<span class="sd">        Traceback (most recent call last):</span>
+<span class="sd">        ...</span>
+<span class="sd">        KeyError</span>
+<span class="sd">        sage: for pair,_ in zip(fm.items(), range(5)):</span>
+<span class="sd">        ....:     print(pair)</span>
+<span class="sd">        ....:</span>
+<span class="sd">        (0, 0)</span>
+<span class="sd">        (1, 1)</span>
+<span class="sd">        (-1, 1)</span>
+<span class="sd">        (1/2, 1/4)</span>
+<span class="sd">        (-1/2, 1/4)</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">length</span><span class="p">(</span><span class="n">collection</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">infinity</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">x</span><span class="p">:</span><span class="n">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">collection</span><span class="p">}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_FunctionMapping</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">function</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="tuple_singleton">
+<a class="viewcode-back" href="../../pet_salon.collection.html#pet_salon.collection.tuple_singleton">[docs]</a>
+<span class="k">def</span> <span class="nf">tuple_singleton</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Returns the tuple `(x,)`.</span>
+
+<span class="sd">    This is used in some places as the `function` argument to `function_mapping`.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">x</span><span class="p">,)</span></div>
+
+
+<span class="k">class</span> <span class="nc">_PostcompositionMapping</span><span class="p">(</span><span class="n">Mapping</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;This class handles the infinite case of `postcomposition_mapping`.&#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mapping</span><span class="p">,</span> <span class="n">function</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_m</span> <span class="o">=</span> <span class="n">mapping</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_f</span> <span class="o">=</span> <span class="n">function</span>
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_f</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_m</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_m</span><span class="o">.</span><span class="fm">__iter__</span><span class="p">()</span>
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_m</span><span class="o">.</span><span class="fm">__len__</span><span class="p">()</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;Postcomposition mapping with domain </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_m</span><span class="si">}</span><span class="s1"> and function </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_f</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">_PostcompositionMapping</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_m</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">_m</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_f</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">_f</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">hash</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_m</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_f</span><span class="p">))</span>
+
+<div class="viewcode-block" id="postcomposition_mapping">
+<a class="viewcode-back" href="../../pet_salon.collection.html#pet_salon.collection.postcomposition_mapping">[docs]</a>
+<span class="k">def</span> <span class="nf">postcomposition_mapping</span><span class="p">(</span><span class="n">mapping</span><span class="p">,</span> <span class="n">function</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">length</span><span class="p">(</span><span class="n">mapping</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">infinity</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">x</span><span class="p">:</span><span class="n">function</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="ow">in</span> <span class="n">mapping</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_PostcompositionMapping</span><span class="p">(</span><span class="n">mapping</span><span class="p">,</span> <span class="n">function</span><span class="p">)</span></div>
+
+
+<span class="k">class</span> <span class="nc">_ProductMapping</span><span class="p">(</span><span class="n">Mapping</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;This class handles the infinite case of `product_mapping`.</span>
+
+<span class="sd">    We pass a collection of mappings. The first mapping in the collection will</span>
+<span class="sd">    be used as the key set.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="n">mappings</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_k</span> <span class="o">=</span> <span class="n">keys</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ms</span> <span class="o">=</span> <span class="n">mappings</span>
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">prod</span><span class="p">([</span><span class="n">m</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_k</span><span class="p">])</span>
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_k</span><span class="o">.</span><span class="fm">__iter__</span><span class="p">()</span>
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_k</span><span class="o">.</span><span class="fm">__len__</span><span class="p">()</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;Product of mappings </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_ms</span><span class="si">}</span><span class="s1">.&#39;</span>
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">_ProductMapping</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_k</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">_k</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ms</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">_ms</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">hash</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_k</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ms</span><span class="p">))</span>
+
+<div class="viewcode-block" id="product_mapping">
+<a class="viewcode-back" href="../../pet_salon.collection.html#pet_salon.collection.product_mapping">[docs]</a>
+<span class="k">def</span> <span class="nf">product_mapping</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">mappings</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">length</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">infinity</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">x</span><span class="p">:</span><span class="n">prod</span><span class="p">([</span><span class="n">m</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">mappings</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_ProductMapping</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">mappings</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="mapping_composition">
+<a class="viewcode-back" href="../../pet_salon.collection.html#pet_salon.collection.mapping_composition">[docs]</a>
+<span class="k">def</span> <span class="nf">mapping_composition</span><span class="p">(</span><span class="n">second</span><span class="p">,</span> <span class="n">first</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return the composition of the mapping: `return[i] = second[first[i]]`.</span>
+
+<span class="sd">    The point is to allow this to work for infinite mappings. But we defer this.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Attempt to multiply the mappings. This gives a way to handle things if we were working with labels indexed by a group or something.</span>
+        <span class="n">composition</span> <span class="o">=</span> <span class="n">second</span><span class="o">*</span><span class="n">first</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">composition</span><span class="p">,</span><span class="n">Mapping</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">composition</span>
+    <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">if</span> <span class="n">length</span><span class="p">(</span><span class="n">first</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">infinity</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">second</span><span class="p">[</span><span class="n">first_i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">first_i</span> <span class="ow">in</span> <span class="n">first</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="k">raise</span> <span class="bp">NotImplemented</span><span class="p">(</span><span class="s1">&#39;Not yet implemented for infinite mappings.&#39;</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, W. Patrick Hooper.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

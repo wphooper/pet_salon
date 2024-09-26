@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pet_salon.pam_examples &mdash; pet_salon 0.0.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=8c5712d9"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            pet_salon
+          </a>
+              <div class="version">
+                0.0.4
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../pet_salon.html">pet_salon package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">pet_salon</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pet_salon.pam_examples</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pet_salon.pam_examples</h1><div class="highlight"><pre>
+<span></span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Examples of Piecewise Affine Maps</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="c1"># ********************************************************************</span>
+<span class="c1">#  This file is part of pet_salon.</span>
+<span class="c1">#</span>
+<span class="c1">#        Copyright (C) 2024 W. Patrick Hooper</span>
+<span class="c1">#</span>
+<span class="c1">#  pet_salon is free software: you can redistribute it and/or modify</span>
+<span class="c1">#  it under the terms of the GNU General Public License as published by</span>
+<span class="c1">#  the Free Software Foundation, either version 2 of the License, or</span>
+<span class="c1">#  (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1">#  pet_salon is distributed in the hope that it will be useful,</span>
+<span class="c1">#  but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1">#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1">#  GNU General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1">#  You should have received a copy of the GNU General Public License</span>
+<span class="c1">#  along with pet_salon. If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
+<span class="c1"># ********************************************************************</span>
+
+<span class="kn">from</span> <span class="nn">sage.geometry.polyhedron.constructor</span> <span class="kn">import</span> <span class="n">Polyhedron</span>
+<span class="kn">from</span> <span class="nn">sage.matrix.special</span> <span class="kn">import</span> <span class="n">identity_matrix</span>
+<span class="kn">from</span> <span class="nn">sage.matrix.constructor</span> <span class="kn">import</span> <span class="n">matrix</span>
+<span class="kn">from</span> <span class="nn">sage.misc.prandom</span> <span class="kn">import</span> <span class="n">choice</span>
+<span class="kn">from</span> <span class="nn">sage.modules.free_module</span> <span class="kn">import</span> <span class="n">VectorSpace</span>
+<span class="kn">from</span> <span class="nn">sage.rings.integer_ring</span> <span class="kn">import</span> <span class="n">ZZ</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">rectangle</span><span class="p">,</span> <span class="n">PolytopeUnions</span><span class="p">,</span> <span class="n">Partitions</span><span class="p">,</span> <span class="n">AffineHomeomorphisms</span><span class="p">,</span> <span class="n">SurjectiveImmersions</span><span class="p">,</span> <span class="n">SurjectiveEmbeddings</span>
+<span class="kn">from</span> <span class="nn">.affine</span> <span class="kn">import</span> <span class="n">PiecewiseAffineMaps</span>
+
+<div class="viewcode-block" id="integer_multiplication">
+<a class="viewcode-back" href="../../pet_salon.pam_examples.html#pet_salon.pam_examples.integer_multiplication">[docs]</a>
+<span class="k">def</span> <span class="nf">integer_multiplication</span><span class="p">(</span><span class="n">dimension</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;A representation of :math:`v \mapsto k*v \pmod{\mathbb Z^d}` as a piecewise affine map.</span>
+
+<span class="sd">    The domain will be the cube :math:`[0, 1]^d` with :math:`d` the ``dimension``\. The map will be defined over the provided field. The parameter :math:`k` should be an integer that is at least :math:`1`.</span>
+
+<span class="sd">    EXAMPLES</span>
+
+<span class="sd">    Multiplication by 3 in two dimensions::</span>
+
+<span class="sd">        sage: from pet_salon.pam_examples import integer_multiplication</span>
+<span class="sd">        sage: f = integer_multiplication(2, QQ, 3)</span>
+<span class="sd">        sage: f</span>
+<span class="sd">        Multiplication by 3 in the 2-torus defined over Rational Field</span>
+<span class="sd">        sage: f.partition().codomain()</span>
+<span class="sd">        9 small 2-cubes</span>
+<span class="sd">        sage: TestSuite(f).run()</span>
+<span class="sd">        sage: domain = f.domain()</span>
+<span class="sd">        sage: pt = domain.point((3/4, 2/3))</span>
+<span class="sd">        sage: pt</span>
+<span class="sd">        Point(0, (3/4, 2/3))</span>
+<span class="sd">        sage: f(pt)</span>
+<span class="sd">        Point(0, (1/4, 0))</span>
+<span class="sd">        sage: f.is_surjective()</span>
+<span class="sd">        True</span>
+<span class="sd">        sage: f.is_injective()</span>
+<span class="sd">        False</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">product</span>
+
+    <span class="k">assert</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">ZZ</span> <span class="ow">and</span> <span class="n">k</span><span class="o">&gt;=</span><span class="mi">1</span>
+    <span class="n">U</span> <span class="o">=</span> <span class="n">PolytopeUnions</span><span class="p">(</span><span class="n">dimension</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span>
+    <span class="n">cube</span> <span class="o">=</span> <span class="n">U</span><span class="p">({</span><span class="mi">0</span><span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="o">*</span><span class="p">(</span><span class="n">dimension</span> <span class="o">*</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))},</span> <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">dimension</span><span class="si">}</span><span class="s1">-cube&#39;</span><span class="p">)</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">Partitions</span><span class="p">(</span><span class="n">cube</span><span class="p">)</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="n">U</span><span class="o">.</span><span class="n">affine_group</span><span class="p">()</span>
+    <span class="n">mult_by_k</span> <span class="o">=</span> <span class="n">k</span><span class="o">*</span><span class="n">identity_matrix</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">dimension</span><span class="p">)</span>
+    <span class="n">small_cube</span> <span class="o">=</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="o">*</span><span class="p">(</span><span class="n">dimension</span> <span class="o">*</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">k</span><span class="p">]))</span>
+    <span class="n">small_cubes</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">affine_maps</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">V</span> <span class="o">=</span> <span class="n">VectorSpace</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">dimension</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">coords</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">product</span><span class="p">(</span><span class="o">*</span> <span class="n">dimension</span> <span class="o">*</span> <span class="p">[[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">)],]))):</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">V</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>
+        <span class="n">small_cubes</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">small_cube</span> <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="n">k</span><span class="o">*</span><span class="n">v</span>
+        <span class="n">affine_maps</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">G</span><span class="p">(</span><span class="n">mult_by_k</span><span class="p">,</span> <span class="o">-</span><span class="n">v</span><span class="p">)</span>
+        <span class="n">label</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">small_cube_union</span> <span class="o">=</span> <span class="n">U</span><span class="p">(</span><span class="n">small_cubes</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">small_cubes</span><span class="p">)</span><span class="si">}</span><span class="s1"> small </span><span class="si">{</span><span class="n">dimension</span><span class="si">}</span><span class="s1">-cubes&#39;</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">inverse</span><span class="p">(</span><span class="n">small_cube_union</span><span class="p">)</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">AffineHomeomorphisms</span><span class="p">(</span><span class="n">dimension</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">A</span><span class="p">(</span><span class="n">small_cube_union</span><span class="p">,</span> <span class="n">affine_maps</span><span class="p">,</span> <span class="n">codomain_is_nonoverlapping</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">multiple_copies_of_cube</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span>
+    <span class="n">I</span> <span class="o">=</span> <span class="n">SurjectiveImmersions</span><span class="p">(</span><span class="n">cube</span><span class="p">)</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="n">label</span><span class="p">:</span><span class="mi">0</span> <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">multiple_copies_of_cube</span><span class="o">.</span><span class="n">labels</span><span class="p">()}</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">I</span><span class="p">(</span><span class="n">multiple_copies_of_cube</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+    <span class="n">PAMs</span> <span class="o">=</span> <span class="n">PiecewiseAffineMaps</span><span class="p">(</span><span class="n">dimension</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span>
+    <span class="n">pet</span> <span class="o">=</span> <span class="n">PAMs</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+    <span class="n">pet</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Multiplication by </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1"> in the </span><span class="si">{</span><span class="n">dimension</span><span class="si">}</span><span class="s1">-torus defined over </span><span class="si">{</span><span class="n">field</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pet</span></div>
+
+
+<div class="viewcode-block" id="CombinatorialConvexPolygonTriangulation">
+<a class="viewcode-back" href="../../pet_salon.pam_examples.html#pet_salon.pam_examples.CombinatorialConvexPolygonTriangulation">[docs]</a>
+<span class="k">class</span> <span class="nc">CombinatorialConvexPolygonTriangulation</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">triangles</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">edges</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">3</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_n</span> <span class="o">=</span> <span class="n">n</span>
+        <span class="k">if</span> <span class="n">triangles</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_triangles</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="nb">frozenset</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_edges</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">frozenset</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="n">i</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_triangles</span> <span class="o">=</span> <span class="n">triangles</span>
+            <span class="k">if</span> <span class="n">edges</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">edges</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">triangles</span><span class="p">)):</span>
+                    <span class="n">tri0</span> <span class="o">=</span> <span class="n">triangles</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">triangles</span><span class="p">)):</span>
+                        <span class="n">tri1</span> <span class="o">=</span> <span class="n">triangles</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                        <span class="n">e</span> <span class="o">=</span> <span class="n">tri0</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">tri1</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">==</span><span class="mi">2</span><span class="p">:</span>
+                            <span class="n">edges</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_edges</span> <span class="o">=</span> <span class="n">edges</span>
+
+<div class="viewcode-block" id="CombinatorialConvexPolygonTriangulation.n">
+<a class="viewcode-back" href="../../pet_salon.pam_examples.html#pet_salon.pam_examples.CombinatorialConvexPolygonTriangulation.n">[docs]</a>
+    <span class="k">def</span> <span class="nf">n</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Return the number of vertices of the polygon being triangulated.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n</span></div>
+
+
+<div class="viewcode-block" id="CombinatorialConvexPolygonTriangulation.triangles">
+<a class="viewcode-back" href="../../pet_salon.pam_examples.html#pet_salon.pam_examples.CombinatorialConvexPolygonTriangulation.triangles">[docs]</a>
+    <span class="k">def</span> <span class="nf">triangles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Return the collection of triples of indices of vertices forming the triangles.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_triangles</span></div>
+
+
+<div class="viewcode-block" id="CombinatorialConvexPolygonTriangulation.edges">
+<a class="viewcode-back" href="../../pet_salon.pam_examples.html#pet_salon.pam_examples.CombinatorialConvexPolygonTriangulation.edges">[docs]</a>
+    <span class="k">def</span> <span class="nf">edges</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Return the collection of pairs of indices of vertices forming the edges.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_edges</span></div>
+
+
+<div class="viewcode-block" id="CombinatorialConvexPolygonTriangulation.flip">
+<a class="viewcode-back" href="../../pet_salon.pam_examples.html#pet_salon.pam_examples.CombinatorialConvexPolygonTriangulation.flip">[docs]</a>
+    <span class="k">def</span> <span class="nf">flip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edge</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Return the collection of pairs of indices of vertices forming the edges.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">edge</span><span class="p">:</span>
+            <span class="n">e</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edges</span><span class="p">(),</span> <span class="s1">&#39;Attempted to flip in something that is not in the edges set.&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">e</span> <span class="o">=</span> <span class="n">choice</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">edges</span><span class="p">()))</span>
+        <span class="n">tris</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_triangles</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+                <span class="n">tris</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tris</span><span class="p">)</span><span class="o">==</span><span class="mi">2</span><span class="p">:</span>
+                    <span class="k">break</span>
+        <span class="n">v0</span><span class="p">,</span> <span class="o">=</span> <span class="n">tris</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="n">v1</span><span class="p">,</span> <span class="o">=</span> <span class="n">tris</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="n">w0</span><span class="p">,</span><span class="n">w1</span> <span class="o">=</span> <span class="n">e</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tris</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_triangles</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_triangles</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="nb">frozenset</span><span class="p">((</span><span class="n">w0</span><span class="p">,</span> <span class="n">v0</span><span class="p">,</span> <span class="n">v1</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_triangles</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="nb">frozenset</span><span class="p">((</span><span class="n">w1</span><span class="p">,</span> <span class="n">v0</span><span class="p">,</span> <span class="n">v1</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_edges</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_edges</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="nb">frozenset</span><span class="p">((</span><span class="n">v0</span><span class="p">,</span><span class="n">v1</span><span class="p">)))</span></div>
+
+
+<div class="viewcode-block" id="CombinatorialConvexPolygonTriangulation.surjective_embedding">
+<a class="viewcode-back" href="../../pet_salon.pam_examples.html#pet_salon.pam_examples.CombinatorialConvexPolygonTriangulation.surjective_embedding">[docs]</a>
+    <span class="k">def</span> <span class="nf">surjective_embedding</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vertices</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Return the surjective embedding associated to this triangulation of a polygon with the provided `vertices`, a list in cyclic order.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">P</span> <span class="o">=</span> <span class="n">PolytopeUnions</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">QQ</span><span class="p">)</span>
+        <span class="n">codomain</span> <span class="o">=</span> <span class="n">P</span><span class="p">(</span><span class="n">Polyhedron</span><span class="p">(</span><span class="n">vertices</span><span class="o">=</span><span class="n">vertices</span><span class="p">))</span>
+        <span class="n">SE</span> <span class="o">=</span> <span class="n">SurjectiveEmbeddings</span><span class="p">(</span><span class="n">codomain</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">SE</span><span class="p">(</span><span class="n">P</span><span class="p">({</span> <span class="n">i</span> <span class="p">:</span> <span class="n">Polyhedron</span><span class="p">(</span><span class="n">vertices</span><span class="o">=</span><span class="p">{</span><span class="n">vertices</span><span class="p">[</span><span class="n">a</span><span class="p">],</span> <span class="n">vertices</span><span class="p">[</span><span class="n">b</span><span class="p">],</span> <span class="n">vertices</span><span class="p">[</span><span class="n">c</span><span class="p">]})</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">triangles</span><span class="p">())}))</span></div>
+
+
+<div class="viewcode-block" id="CombinatorialConvexPolygonTriangulation.partition">
+<a class="viewcode-back" href="../../pet_salon.pam_examples.html#pet_salon.pam_examples.CombinatorialConvexPolygonTriangulation.partition">[docs]</a>
+    <span class="k">def</span> <span class="nf">partition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vertices</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Return the partition associated to this triangulation of a polygon with the provided `vertices`, a list in cyclic order.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="o">~</span><span class="bp">self</span><span class="o">.</span><span class="n">surjective_embedding</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CombinatorialConvexPolygonTriangulation.image">
+<a class="viewcode-back" href="../../pet_salon.pam_examples.html#pet_salon.pam_examples.CombinatorialConvexPolygonTriangulation.image">[docs]</a>
+    <span class="k">def</span> <span class="nf">image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vertex_action</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Return the image of this triangulation under the provided vertex_action.</span>
+
+<span class="sd">        An example of a vertex action is `lambda i: (i+1)%n` where n is the number of vertices. This should be an element of the dihedral group.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">new_triangles</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_triangles</span><span class="p">:</span>
+            <span class="n">new_triangles</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="nb">frozenset</span><span class="p">((</span><span class="n">vertex_action</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">vertex_action</span><span class="p">(</span><span class="n">b</span><span class="p">),</span> <span class="n">vertex_action</span><span class="p">(</span><span class="n">c</span><span class="p">))))</span>
+        <span class="n">new_edges</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">a</span><span class="p">,</span><span class="n">b</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_edges</span><span class="p">:</span>
+            <span class="n">new_edges</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="nb">frozenset</span><span class="p">((</span><span class="n">vertex_action</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">vertex_action</span><span class="p">(</span><span class="n">b</span><span class="p">))))</span>
+        <span class="k">return</span> <span class="n">CombinatorialConvexPolygonTriangulation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">(),</span> <span class="n">new_triangles</span><span class="p">,</span> <span class="n">new_edges</span><span class="p">)</span></div>
+</div>
+
+
+<div class="viewcode-block" id="polygon_triangulation_mapping">
+<a class="viewcode-back" href="../../pet_salon.pam_examples.html#pet_salon.pam_examples.polygon_triangulation_mapping">[docs]</a>
+<span class="k">def</span> <span class="nf">polygon_triangulation_mapping</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">vertices</span><span class="p">,</span> <span class="n">triangles</span><span class="p">,</span> <span class="n">vertex_action</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Return a Piecewise Affine Mapping of a convex n-gon that acts affinely on each triangle in a triangulation.</span>
+
+<span class="sd">    Parameters determine the convex n-gon, a triangulation of it, and a (dihedral) action on vertices.</span>
+
+<span class="sd">    :param field: A field containing the vertices</span>
+<span class="sd">    :param vertices: A list of vertices. The length of the list is the n in n-gon.</span>
+<span class="sd">    :param triangles: A list of triples of indices of vertices forming a triangulation of a convex n-gon.</span>
+<span class="sd">    :param vertex_action: This determines the action on vertices, you can skip modding out by n, so examples are `lambda i: i+k` for a combinatorial rotation and `lambda i: k-i` for a reflection.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">PU</span> <span class="o">=</span> <span class="n">PolytopeUnions</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span>
+    <span class="n">V</span> <span class="o">=</span> <span class="n">PU</span><span class="o">.</span><span class="n">vector_space</span><span class="p">()</span>
+    <span class="n">vertices</span> <span class="o">=</span> <span class="p">[</span><span class="n">V</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vertices</span><span class="p">]</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">triangles</span><span class="p">)</span> <span class="o">==</span> <span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;There should be two fewer triangles than vertices&#39;</span>
+    <span class="n">quad</span> <span class="o">=</span> <span class="n">PU</span><span class="p">(</span><span class="n">Polyhedron</span><span class="p">(</span><span class="n">vertices</span><span class="o">=</span><span class="n">vertices</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;The </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s1">-gon&#39;</span><span class="p">)</span>
+    <span class="n">domain</span> <span class="o">=</span> <span class="n">PU</span><span class="p">({</span><span class="n">i</span><span class="p">:</span><span class="n">PU</span><span class="o">.</span><span class="n">polyhedra</span><span class="p">()(</span><span class="n">Polyhedron</span><span class="p">(</span><span class="n">vertices</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">vertices</span><span class="p">[</span><span class="n">a</span><span class="p">],</span>
+            <span class="n">vertices</span><span class="p">[</span><span class="n">b</span><span class="p">],</span>
+            <span class="n">vertices</span><span class="p">[</span><span class="n">c</span><span class="p">],</span>
+        <span class="p">]))</span> <span class="k">for</span> <span class="n">i</span><span class="p">,(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">triangles</span><span class="p">)})</span>
+    <span class="n">codomain</span> <span class="o">=</span> <span class="n">PU</span><span class="p">({</span><span class="n">i</span><span class="p">:</span><span class="n">PU</span><span class="o">.</span><span class="n">polyhedra</span><span class="p">()(</span><span class="n">Polyhedron</span><span class="p">(</span><span class="n">vertices</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">vertices</span><span class="p">[</span><span class="n">vertex_action</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">%</span><span class="n">n</span><span class="p">],</span>
+            <span class="n">vertices</span><span class="p">[</span><span class="n">vertex_action</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="o">%</span><span class="n">n</span><span class="p">],</span>
+            <span class="n">vertices</span><span class="p">[</span><span class="n">vertex_action</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">%</span><span class="n">n</span><span class="p">],</span>
+        <span class="p">]))</span> <span class="k">for</span> <span class="n">i</span><span class="p">,(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">triangles</span><span class="p">)})</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="n">PU</span><span class="o">.</span><span class="n">affine_group</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">get_affine_transformation</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">v0</span><span class="p">,</span> <span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">,</span> <span class="n">w0</span><span class="p">,</span> <span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Construct the element of `G` sending $v_i \mapsto w_i$ for all $i$.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">I</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">one</span><span class="p">()</span><span class="o">.</span><span class="n">A</span><span class="p">()</span>
+        <span class="n">step1</span> <span class="o">=</span> <span class="n">G</span><span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="o">-</span><span class="n">v0</span><span class="p">)</span>
+        <span class="n">MV</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">([</span><span class="n">v1</span><span class="o">-</span><span class="n">v0</span><span class="p">,</span> <span class="n">v2</span><span class="o">-</span><span class="n">v0</span><span class="p">])</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+        <span class="n">MW</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">([</span><span class="n">w1</span><span class="o">-</span><span class="n">w0</span><span class="p">,</span> <span class="n">w2</span><span class="o">-</span><span class="n">w0</span><span class="p">])</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+        <span class="n">step2</span> <span class="o">=</span> <span class="n">G</span><span class="p">(</span> <span class="n">MW</span> <span class="o">*</span> <span class="p">(</span><span class="o">~</span><span class="n">MV</span><span class="p">)</span> <span class="p">)</span>
+        <span class="n">step3</span> <span class="o">=</span> <span class="n">G</span><span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">w0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">step3</span> <span class="o">*</span> <span class="n">step2</span> <span class="o">*</span><span class="n">step1</span>
+    <span class="n">SE</span> <span class="o">=</span> <span class="n">SurjectiveEmbeddings</span><span class="p">(</span><span class="n">quad</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="o">~</span><span class="n">SE</span><span class="p">(</span><span class="n">domain</span><span class="p">)</span>
+    <span class="n">AH</span> <span class="o">=</span> <span class="n">PU</span><span class="o">.</span><span class="n">affine_homeomorphisms</span><span class="p">()</span>
+    <span class="n">ah</span> <span class="o">=</span> <span class="n">AH</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="p">{</span> <span class="n">i</span><span class="p">:</span> <span class="n">get_affine_transformation</span><span class="p">(</span> <span class="n">G</span><span class="p">,</span>
+                                                    <span class="n">vertices</span><span class="p">[</span><span class="n">a</span><span class="p">],</span>
+                                                    <span class="n">vertices</span><span class="p">[</span><span class="n">b</span><span class="p">],</span>
+                                                    <span class="n">vertices</span><span class="p">[</span><span class="n">c</span><span class="p">],</span>
+                                                    <span class="n">vertices</span><span class="p">[</span><span class="n">vertex_action</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">%</span><span class="n">n</span><span class="p">],</span>
+                                                    <span class="n">vertices</span><span class="p">[</span><span class="n">vertex_action</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="o">%</span><span class="n">n</span><span class="p">],</span>
+                                                    <span class="n">vertices</span><span class="p">[</span><span class="n">vertex_action</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">%</span><span class="n">n</span><span class="p">],</span>
+                                                  <span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">triangles</span><span class="p">)</span> <span class="p">}</span> <span class="p">)</span>
+    <span class="k">assert</span> <span class="n">ah</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span> <span class="o">==</span> <span class="n">codomain</span>
+    <span class="n">se</span> <span class="o">=</span> <span class="n">SE</span><span class="p">(</span><span class="n">codomain</span><span class="p">)</span>
+    <span class="c1">#print(&#39;Warning: The polygon_triangulation_mapping function does not do much to test your input. Run `TestSuite(f).run()` to test and if it is incorrect, try to plot to see what is wrong.&#39;)</span>
+    <span class="k">return</span> <span class="n">se</span> <span class="o">*</span> <span class="n">ah</span> <span class="o">*</span> <span class="n">p</span></div>
+
+
+
+
+<div class="viewcode-block" id="quadrilateral_map">
+<a class="viewcode-back" href="../../pet_salon.pam_examples.html#pet_salon.pam_examples.quadrilateral_map">[docs]</a>
+<span class="k">def</span> <span class="nf">quadrilateral_map</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">vertices_or_vertex</span><span class="p">,</span> <span class="n">vertex_action</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">start_triangulation</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+    <span class="n">PU</span> <span class="o">=</span> <span class="n">PolytopeUnions</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span>
+    <span class="n">V</span> <span class="o">=</span> <span class="n">PU</span><span class="o">.</span><span class="n">vector_space</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">V</span><span class="p">(</span><span class="n">vertices_or_vertex</span><span class="p">)</span>
+        <span class="n">vertices</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">V</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span>
+            <span class="n">V</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span>
+            <span class="n">v</span><span class="p">,</span>
+            <span class="n">V</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span>
+        <span class="p">]</span>
+    <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+        <span class="n">vertices</span> <span class="o">=</span> <span class="p">[</span><span class="n">V</span><span class="p">(</span><span class="n">vertices_or_vertex</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)]</span>
+    <span class="n">quad</span> <span class="o">=</span> <span class="n">PU</span><span class="p">(</span><span class="n">Polyhedron</span><span class="p">(</span><span class="n">vertices</span><span class="o">=</span><span class="n">vertices</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Quadrilateral&#39;</span><span class="p">)</span>
+    <span class="n">tris</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+        <span class="n">tris</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">PU</span><span class="o">.</span><span class="n">polyhedra</span><span class="p">()(</span><span class="n">Polyhedron</span><span class="p">(</span><span class="n">vertices</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">vertices</span><span class="p">[(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="mi">4</span><span class="p">],</span>
+            <span class="n">vertices</span><span class="p">[(</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span><span class="o">%</span><span class="mi">4</span><span class="p">],</span>
+            <span class="n">vertices</span><span class="p">[(</span><span class="n">i</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span><span class="o">%</span><span class="mi">4</span><span class="p">],</span>
+        <span class="p">])))</span>
+    <span class="c1"># tris[i] is the triangle formed by removing vertex i</span>
+    <span class="n">domain</span> <span class="o">=</span> <span class="n">PU</span><span class="p">({</span> <span class="mi">1</span><span class="p">:</span><span class="n">tris</span><span class="p">[</span><span class="n">start_triangulation</span><span class="p">],</span>
+                  <span class="mi">2</span><span class="p">:</span> <span class="n">tris</span><span class="p">[(</span><span class="n">start_triangulation</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span><span class="o">%</span><span class="mi">4</span><span class="p">]})</span>
+    <span class="n">codomain</span> <span class="o">=</span> <span class="n">PU</span><span class="p">({</span> <span class="mi">1</span><span class="p">:</span> <span class="n">tris</span><span class="p">[</span><span class="n">vertex_action</span><span class="p">(</span><span class="n">start_triangulation</span><span class="p">)</span><span class="o">%</span><span class="mi">4</span><span class="p">],</span>
+                    <span class="mi">2</span><span class="p">:</span> <span class="n">tris</span><span class="p">[</span><span class="n">vertex_action</span><span class="p">((</span><span class="n">start_triangulation</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span><span class="o">%</span><span class="mi">4</span><span class="p">)</span><span class="o">%</span><span class="mi">4</span><span class="p">]})</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="n">PU</span><span class="o">.</span><span class="n">affine_group</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">get_affine_transformation</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">v0</span><span class="p">,</span> <span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">,</span> <span class="n">w0</span><span class="p">,</span> <span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Construct the element of `G` sending $v_i \mapsto w_i$ for all $i$.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">I</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">one</span><span class="p">()</span><span class="o">.</span><span class="n">A</span><span class="p">()</span>
+        <span class="n">step1</span> <span class="o">=</span> <span class="n">G</span><span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="o">-</span><span class="n">v0</span><span class="p">)</span>
+        <span class="n">MV</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">([</span><span class="n">v1</span><span class="o">-</span><span class="n">v0</span><span class="p">,</span> <span class="n">v2</span><span class="o">-</span><span class="n">v0</span><span class="p">])</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+        <span class="n">MW</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">([</span><span class="n">w1</span><span class="o">-</span><span class="n">w0</span><span class="p">,</span> <span class="n">w2</span><span class="o">-</span><span class="n">w0</span><span class="p">])</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+        <span class="n">step2</span> <span class="o">=</span> <span class="n">G</span><span class="p">(</span> <span class="n">MW</span> <span class="o">*</span> <span class="p">(</span><span class="o">~</span><span class="n">MV</span><span class="p">)</span> <span class="p">)</span>
+        <span class="n">step3</span> <span class="o">=</span> <span class="n">G</span><span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">w0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">step3</span> <span class="o">*</span> <span class="n">step2</span> <span class="o">*</span><span class="n">step1</span>
+    <span class="n">SE</span> <span class="o">=</span> <span class="n">SurjectiveEmbeddings</span><span class="p">(</span><span class="n">quad</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="o">~</span><span class="n">SE</span><span class="p">(</span><span class="n">domain</span><span class="p">)</span>
+    <span class="n">AH</span> <span class="o">=</span> <span class="n">PU</span><span class="o">.</span><span class="n">affine_homeomorphisms</span><span class="p">()</span>
+    <span class="n">ah</span> <span class="o">=</span> <span class="n">AH</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="p">{</span> <span class="mi">1</span><span class="p">:</span> <span class="n">get_affine_transformation</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">vertices</span><span class="p">[(</span><span class="n">start_triangulation</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="mi">4</span><span class="p">],</span>
+                                                      <span class="n">vertices</span><span class="p">[(</span><span class="n">start_triangulation</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span><span class="o">%</span><span class="mi">4</span><span class="p">],</span>
+                                                      <span class="n">vertices</span><span class="p">[(</span><span class="n">start_triangulation</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span><span class="o">%</span><span class="mi">4</span><span class="p">],</span>
+                                                      <span class="n">vertices</span><span class="p">[</span><span class="n">vertex_action</span><span class="p">((</span><span class="n">start_triangulation</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="mi">4</span><span class="p">)</span><span class="o">%</span><span class="mi">4</span><span class="p">],</span>
+                                                      <span class="n">vertices</span><span class="p">[</span><span class="n">vertex_action</span><span class="p">((</span><span class="n">start_triangulation</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span><span class="o">%</span><span class="mi">4</span><span class="p">)</span><span class="o">%</span><span class="mi">4</span><span class="p">],</span>
+                                                      <span class="n">vertices</span><span class="p">[</span><span class="n">vertex_action</span><span class="p">((</span><span class="n">start_triangulation</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span><span class="o">%</span><span class="mi">4</span><span class="p">)</span><span class="o">%</span><span class="mi">4</span><span class="p">],</span>
+                                                      <span class="p">),</span>
+                      <span class="mi">2</span><span class="p">:</span> <span class="n">get_affine_transformation</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">vertices</span><span class="p">[(</span><span class="n">start_triangulation</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span><span class="o">%</span><span class="mi">4</span><span class="p">],</span>
+                                                      <span class="n">vertices</span><span class="p">[(</span><span class="n">start_triangulation</span><span class="p">)</span><span class="o">%</span><span class="mi">4</span><span class="p">],</span>
+                                                      <span class="n">vertices</span><span class="p">[(</span><span class="n">start_triangulation</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="mi">4</span><span class="p">],</span>
+                                                      <span class="n">vertices</span><span class="p">[</span><span class="n">vertex_action</span><span class="p">((</span><span class="n">start_triangulation</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span><span class="o">%</span><span class="mi">4</span><span class="p">)</span><span class="o">%</span><span class="mi">4</span><span class="p">],</span>
+                                                      <span class="n">vertices</span><span class="p">[</span><span class="n">vertex_action</span><span class="p">((</span><span class="n">start_triangulation</span><span class="p">)</span><span class="o">%</span><span class="mi">4</span><span class="p">)</span><span class="o">%</span><span class="mi">4</span><span class="p">],</span>
+                                                      <span class="n">vertices</span><span class="p">[</span><span class="n">vertex_action</span><span class="p">((</span><span class="n">start_triangulation</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="mi">4</span><span class="p">)</span><span class="o">%</span><span class="mi">4</span><span class="p">],</span>
+                                                      <span class="p">),</span>
+                      <span class="p">})</span>
+    <span class="k">assert</span> <span class="n">ah</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span> <span class="o">==</span> <span class="n">codomain</span>
+    <span class="n">se</span> <span class="o">=</span> <span class="n">SE</span><span class="p">(</span><span class="n">codomain</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">se</span> <span class="o">*</span> <span class="n">ah</span> <span class="o">*</span> <span class="n">p</span></div>
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, W. Patrick Hooper.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

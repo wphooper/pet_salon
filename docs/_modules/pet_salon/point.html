@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pet_salon.point &mdash; pet_salon 0.0.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=8c5712d9"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            pet_salon
+          </a>
+              <div class="version">
+                0.0.4
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../pet_salon.html">pet_salon package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">pet_salon</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pet_salon.point</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pet_salon.point</h1><div class="highlight"><pre>
+<span></span><span class="c1"># ********************************************************************</span>
+<span class="c1">#  This file is part of pet_salon.</span>
+<span class="c1">#</span>
+<span class="c1">#        Copyright (C) 2024 W. Patrick Hooper</span>
+<span class="c1">#</span>
+<span class="c1">#  pet_salon is free software: you can redistribute it and/or modify</span>
+<span class="c1">#  it under the terms of the GNU General Public License as published by</span>
+<span class="c1">#  the Free Software Foundation, either version 2 of the License, or</span>
+<span class="c1">#  (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1">#  pet_salon is distributed in the hope that it will be useful,</span>
+<span class="c1">#  but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1">#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1">#  GNU General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1">#  You should have received a copy of the GNU General Public License</span>
+<span class="c1">#  along with pet_salon. If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
+<span class="c1"># ********************************************************************</span>
+<span class="sd">&#39;&#39;&#39;This module contains classes related to points in a `PolytopeUnion`.&#39;&#39;&#39;</span>
+
+<span class="kn">from</span> <span class="nn">sage.categories.all</span> <span class="kn">import</span> <span class="n">Sets</span>
+<span class="kn">from</span> <span class="nn">sage.categories.category</span> <span class="kn">import</span> <span class="n">Category</span>
+<span class="kn">from</span> <span class="nn">sage.misc.cachefunc</span> <span class="kn">import</span> <span class="n">cached_method</span>
+<span class="kn">from</span> <span class="nn">sage.misc.abstract_method</span> <span class="kn">import</span> <span class="n">abstract_method</span>
+<span class="kn">from</span> <span class="nn">sage.modules.free_module</span> <span class="kn">import</span> <span class="n">VectorSpace</span>
+<span class="kn">from</span> <span class="nn">sage.structure.element</span> <span class="kn">import</span> <span class="n">Element</span>
+<span class="kn">from</span> <span class="nn">sage.structure.parent</span> <span class="kn">import</span> <span class="n">Parent</span>
+
+<span class="kn">from</span> <span class="nn">pet_salon.union</span> <span class="kn">import</span> <span class="n">PolytopeUnionsCategory</span>
+
+<div class="viewcode-block" id="PointSetsCategory">
+<a class="viewcode-back" href="../../pet_salon.point.html#pet_salon.point.PointSetsCategory">[docs]</a>
+<span class="k">class</span> <span class="nc">PointSetsCategory</span><span class="p">(</span><span class="n">Category</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The category of points in a `PolytopeUnion`.</span>
+
+<span class="sd">    EXAMPLES::</span>
+
+<span class="sd">        sage: from pet_salon.point import PointSetsCategory</span>
+<span class="sd">        sage: PointSetsCategory()</span>
+<span class="sd">        Category of points in polytope unions</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">):</span>
+        <span class="n">Category</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Category of points in polytope unions&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="PointSetsCategory.super_categories">
+<a class="viewcode-back" href="../../pet_salon.point.html#pet_salon.point.PointSetsCategory.super_categories">[docs]</a>
+    <span class="k">def</span> <span class="nf">super_categories</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the categories subdivisions automatically belong to.</span>
+
+<span class="sd">        EXAMPLES::</span>
+
+<span class="sd">            sage: from pet_salon.point import PointSetsCategory</span>
+<span class="sd">            sage: C = PointSetsCategory()</span>
+<span class="sd">            sage: C.super_categories()</span>
+<span class="sd">            [Category of sets]</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">Sets</span><span class="p">()]</span></div>
+
+
+<div class="viewcode-block" id="PointSetsCategory.ParentMethods">
+<a class="viewcode-back" href="../../pet_salon.point.html#pet_salon.point.PointSetsCategory.ParentMethods">[docs]</a>
+    <span class="k">class</span> <span class="nc">ParentMethods</span><span class="p">:</span>
+
+<div class="viewcode-block" id="PointSetsCategory.ParentMethods.union">
+<a class="viewcode-back" href="../../pet_salon.point.html#pet_salon.point.PointSetsCategory.ParentMethods.union">[docs]</a>
+        <span class="nd">@abstract_method</span>
+        <span class="k">def</span> <span class="nf">union</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="PointSetsCategory.ParentMethods.dimension">
+<a class="viewcode-back" href="../../pet_salon.point.html#pet_salon.point.PointSetsCategory.ParentMethods.dimension">[docs]</a>
+        <span class="k">def</span> <span class="nf">dimension</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">union</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">dimension</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="PointSetsCategory.ParentMethods.field">
+<a class="viewcode-back" href="../../pet_salon.point.html#pet_salon.point.PointSetsCategory.ParentMethods.field">[docs]</a>
+        <span class="k">def</span> <span class="nf">field</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">union</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">field</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="PointSetsCategory.ParentMethods.vector_space">
+<a class="viewcode-back" href="../../pet_salon.point.html#pet_salon.point.PointSetsCategory.ParentMethods.vector_space">[docs]</a>
+        <span class="nd">@cached_method</span>
+        <span class="k">def</span> <span class="nf">vector_space</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Return the vector space over the provided field of the provided dimension.</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">return</span> <span class="n">VectorSpace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">field</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="PointSetsCategory.ParentMethods.center">
+<a class="viewcode-back" href="../../pet_salon.point.html#pet_salon.point.PointSetsCategory.ParentMethods.center">[docs]</a>
+        <span class="k">def</span> <span class="nf">center</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">union</span><span class="p">()</span><span class="o">.</span><span class="n">polytope</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">center</span><span class="p">())</span></div>
+
+
+        <span class="k">def</span> <span class="nf">_an_element_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="n">union</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">union</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">union</span><span class="o">.</span><span class="n">labels</span><span class="p">():</span>
+                <span class="k">break</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">center</span><span class="p">(</span><span class="n">label</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PointSetsCategory.ElementMethods">
+<a class="viewcode-back" href="../../pet_salon.point.html#pet_salon.point.PointSetsCategory.ElementMethods">[docs]</a>
+    <span class="k">class</span> <span class="nc">ElementMethods</span><span class="p">:</span>
+        <span class="k">def</span> <span class="nf">_test_containment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tester</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Assert that the point is positioned within the polyhedron with the given label&#39;&#39;&#39;</span>
+            <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">()</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">union</span><span class="p">()</span><span class="o">.</span><span class="n">polytope</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">())</span></div>
+</div>
+
+
+<div class="viewcode-block" id="Point">
+<a class="viewcode-back" href="../../pet_salon.point.html#pet_salon.point.Point">[docs]</a>
+<span class="k">class</span> <span class="nc">Point</span><span class="p">(</span><span class="n">Element</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">position</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_label</span> <span class="o">=</span> <span class="n">label</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_position</span> <span class="o">=</span> <span class="n">parent</span><span class="o">.</span><span class="n">vector_space</span><span class="p">()(</span><span class="n">position</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_position</span><span class="o">.</span><span class="n">set_immutable</span><span class="p">()</span>
+        <span class="n">Element</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Point.label">
+<a class="viewcode-back" href="../../pet_salon.point.html#pet_salon.point.Point.label">[docs]</a>
+    <span class="k">def</span> <span class="nf">label</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return the label of the polytope containing this point.&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_label</span></div>
+
+
+<div class="viewcode-block" id="Point.position">
+<a class="viewcode-back" href="../../pet_salon.point.html#pet_salon.point.Point.position">[docs]</a>
+    <span class="k">def</span> <span class="nf">position</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return the position of this point.&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_position</span></div>
+
+
+    <span class="k">def</span> <span class="nf">_repr_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;Point(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">()</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">()</span><span class="si">}</span><span class="s1">)&#39;</span>
+
+    <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">hash</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">()))</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">other</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="bp">self</span> <span class="ow">is</span> <span class="n">other</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s1">&#39;parent&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">parent</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">parent</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">()</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">label</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">position</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="PointSet">
+<a class="viewcode-back" href="../../pet_salon.point.html#pet_salon.point.PointSet">[docs]</a>
+<span class="k">class</span> <span class="nc">PointSet</span><span class="p">(</span><span class="n">Parent</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Represents the set of points in a `PolytopeUnion`.</span>
+
+<span class="sd">    EXAMPLES::</span>
+
+<span class="sd">        sage: from pet_salon import PolytopeUnions</span>
+<span class="sd">        sage: U = PolytopeUnions(2, QQ, finite=True)</span>
+<span class="sd">        sage: union = U.an_element()</span>
+<span class="sd">        sage: union</span>
+<span class="sd">        Disjoint union of 2 nonoverlapping polyhedra in QQ^2</span>
+<span class="sd">        sage: PS = union.point_set()</span>
+<span class="sd">        sage: PS</span>
+<span class="sd">        Set of points in disjoint union of 2 nonoverlapping polyhedra in QQ^2</span>
+<span class="sd">        sage: TestSuite(PS).run()</span>
+<span class="sd">        sage: PS.center(0)</span>
+<span class="sd">        Point(0, (0, 0))</span>
+<span class="sd">        sage: pt = PS.center(1)</span>
+<span class="sd">        sage: pt</span>
+<span class="sd">        Point(1, (2, 0))</span>
+<span class="sd">        sage: TestSuite(pt).run()</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">Element</span> <span class="o">=</span> <span class="n">Point</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">union</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">union</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">category</span><span class="p">()</span><span class="o">.</span><span class="n">is_subcategory</span><span class="p">(</span><span class="n">PolytopeUnionsCategory</span><span class="p">()),</span> \
+            <span class="s1">&#39;union must be a PolytopeUnion&#39;</span>
+        <span class="n">Parent</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">PointSetsCategory</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_union</span> <span class="o">=</span> <span class="n">union</span>
+        <span class="n">union_name</span> <span class="o">=</span> <span class="nb">repr</span><span class="p">(</span><span class="n">union</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Set of points in </span><span class="si">{</span><span class="n">union_name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}{</span><span class="n">union_name</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="PointSet.union">
+<a class="viewcode-back" href="../../pet_salon.point.html#pet_salon.point.PointSet.union">[docs]</a>
+    <span class="k">def</span> <span class="nf">union</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Return the `PolytopeUnion` that contains the points.&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_union</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span> <span class="ow">is</span> <span class="n">other</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s1">&#39;category&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">category</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">other</span><span class="o">.</span><span class="n">category</span><span class="p">()</span><span class="o">.</span><span class="n">is_subcategory</span><span class="p">(</span><span class="n">PointSetsCategory</span><span class="p">()):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">union</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">union</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">hash</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">category</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">union</span><span class="p">()))</span>
+
+    <span class="k">def</span> <span class="nf">_element_constructor_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_class</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">label</span><span class="p">(),</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">position</span><span class="p">(),</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_class</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span></div>
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, W. Patrick Hooper.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

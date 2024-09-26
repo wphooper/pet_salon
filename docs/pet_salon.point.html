@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pet_salon.point module &mdash; pet_salon 0.0.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=8c5712d9"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="pet_salon.polyhedra module" href="pet_salon.polyhedra.html" />
+    <link rel="prev" title="pet_salon.plot module" href="pet_salon.plot.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pet_salon
+          </a>
+              <div class="version">
+                0.0.4
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="pet_salon.html">pet_salon package</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="pet_salon.html#module-pet_salon">Module contents</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="pet_salon.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="pet_salon.affine.html">pet_salon.affine module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_salon.collection.html">pet_salon.collection module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_salon.immersion.html">pet_salon.immersion module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_salon.label.html">pet_salon.label module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_salon.orbit.html">pet_salon.orbit module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_salon.pam_examples.html">pet_salon.pam_examples module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_salon.plot.html">pet_salon.plot module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">pet_salon.point module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pet_salon.point.Point"><code class="docutils literal notranslate"><span class="pre">Point</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pet_salon.point.PointSet"><code class="docutils literal notranslate"><span class="pre">PointSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pet_salon.point.PointSetsCategory"><code class="docutils literal notranslate"><span class="pre">PointSetsCategory</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pet_salon.polyhedra.html">pet_salon.polyhedra module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_salon.polytope.html">pet_salon.polytope module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_salon.union.html">pet_salon.union module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_salon.union_generators.html">pet_salon.union_generators module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_salon.version.html">pet_salon.version module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pet_salon</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="pet_salon.html">pet_salon package</a></li>
+      <li class="breadcrumb-item active">pet_salon.point module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/pet_salon.point.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-pet_salon.point">
+<span id="pet-salon-point-module"></span><h1>pet_salon.point module<a class="headerlink" href="#module-pet_salon.point" title="Link to this heading"></a></h1>
+<p>This module contains classes related to points in a <cite>PolytopeUnion</cite>.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pet_salon.point.Point">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pet_salon.point.</span></span><span class="sig-name descname"><span class="pre">Point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/point.html#Point"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.point.Point" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Element</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.point.Point.label">
+<span class="sig-name descname"><span class="pre">label</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/point.html#Point.label"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.point.Point.label" title="Link to this definition"></a></dt>
+<dd><p>Return the label of the polytope containing this point.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.point.Point.position">
+<span class="sig-name descname"><span class="pre">position</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/point.html#Point.position"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.point.Point.position" title="Link to this definition"></a></dt>
+<dd><p>Return the position of this point.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pet_salon.point.PointSet">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pet_salon.point.</span></span><span class="sig-name descname"><span class="pre">PointSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">union</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/point.html#PointSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.point.PointSet" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Parent</span></code></p>
+<p>Represents the set of points in a <cite>PolytopeUnion</cite>.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon</span> <span class="kn">import</span> <span class="n">PolytopeUnions</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">U</span> <span class="o">=</span> <span class="n">PolytopeUnions</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">QQ</span><span class="p">,</span> <span class="n">finite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">union</span> <span class="o">=</span> <span class="n">U</span><span class="o">.</span><span class="n">an_element</span><span class="p">()</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">union</span>
+<span class="n">Disjoint</span> <span class="n">union</span> <span class="n">of</span> <span class="mi">2</span> <span class="n">nonoverlapping</span> <span class="n">polyhedra</span> <span class="ow">in</span> <span class="n">QQ</span><span class="o">^</span><span class="mi">2</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">PS</span> <span class="o">=</span> <span class="n">union</span><span class="o">.</span><span class="n">point_set</span><span class="p">()</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">PS</span>
+<span class="n">Set</span> <span class="n">of</span> <span class="n">points</span> <span class="ow">in</span> <span class="n">disjoint</span> <span class="n">union</span> <span class="n">of</span> <span class="mi">2</span> <span class="n">nonoverlapping</span> <span class="n">polyhedra</span> <span class="ow">in</span> <span class="n">QQ</span><span class="o">^</span><span class="mi">2</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">TestSuite</span><span class="p">(</span><span class="n">PS</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">PS</span><span class="o">.</span><span class="n">center</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">pt</span> <span class="o">=</span> <span class="n">PS</span><span class="o">.</span><span class="n">center</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">pt</span>
+<span class="n">Point</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">TestSuite</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pet_salon.point.PointSet.Element">
+<span class="sig-name descname"><span class="pre">Element</span></span><a class="headerlink" href="#pet_salon.point.PointSet.Element" title="Link to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#pet_salon.point.Point" title="pet_salon.point.Point"><code class="xref py py-class docutils literal notranslate"><span class="pre">Point</span></code></a></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.point.PointSet.union">
+<span class="sig-name descname"><span class="pre">union</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/point.html#PointSet.union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.point.PointSet.union" title="Link to this definition"></a></dt>
+<dd><p>Return the <cite>PolytopeUnion</cite> that contains the points.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pet_salon.point.PointSetsCategory">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pet_salon.point.</span></span><span class="sig-name descname"><span class="pre">PointSetsCategory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/point.html#PointSetsCategory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.point.PointSetsCategory" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Category</span></code></p>
+<p>The category of points in a <cite>PolytopeUnion</cite>.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon.point</span> <span class="kn">import</span> <span class="n">PointSetsCategory</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">PointSetsCategory</span><span class="p">()</span>
+<span class="n">Category</span> <span class="n">of</span> <span class="n">points</span> <span class="ow">in</span> <span class="n">polytope</span> <span class="n">unions</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="pet_salon.point.PointSetsCategory.ElementMethods">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ElementMethods</span></span><a class="reference internal" href="_modules/pet_salon/point.html#PointSetsCategory.ElementMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.point.PointSetsCategory.ElementMethods" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pet_salon.point.PointSetsCategory.ParentMethods">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ParentMethods</span></span><a class="reference internal" href="_modules/pet_salon/point.html#PointSetsCategory.ParentMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.point.PointSetsCategory.ParentMethods" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.point.PointSetsCategory.ParentMethods.center">
+<span class="sig-name descname"><span class="pre">center</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/point.html#PointSetsCategory.ParentMethods.center"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.point.PointSetsCategory.ParentMethods.center" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.point.PointSetsCategory.ParentMethods.dimension">
+<span class="sig-name descname"><span class="pre">dimension</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/point.html#PointSetsCategory.ParentMethods.dimension"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.point.PointSetsCategory.ParentMethods.dimension" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.point.PointSetsCategory.ParentMethods.field">
+<span class="sig-name descname"><span class="pre">field</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/point.html#PointSetsCategory.ParentMethods.field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.point.PointSetsCategory.ParentMethods.field" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.point.PointSetsCategory.ParentMethods.union">
+<span class="sig-name descname"><span class="pre">union</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/point.html#PointSetsCategory.ParentMethods.union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.point.PointSetsCategory.ParentMethods.union" title="Link to this definition"></a></dt>
+<dd><p>Constructor for abstract methods</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="o">....</span><span class="p">:</span>     <span class="s2">&quot;doc of f&quot;</span>
+<span class="o">....</span><span class="p">:</span>     <span class="k">return</span> <span class="mi">1</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">x</span> <span class="o">=</span> <span class="n">abstract_method</span><span class="p">(</span><span class="n">f</span><span class="p">);</span> <span class="n">x</span>
+<span class="o">&lt;</span><span class="n">abstract</span> <span class="n">method</span> <span class="n">f</span> <span class="n">at</span> <span class="o">...&gt;</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="vm">__doc__</span>
+<span class="s1">&#39;doc of f&#39;</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="vm">__name__</span>
+<span class="s1">&#39;f&#39;</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="vm">__module__</span>
+<span class="s1">&#39;__main__&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.point.PointSetsCategory.ParentMethods.vector_space">
+<span class="sig-name descname"><span class="pre">vector_space</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/point.html#PointSetsCategory.ParentMethods.vector_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.point.PointSetsCategory.ParentMethods.vector_space" title="Link to this definition"></a></dt>
+<dd><p>Return the vector space over the provided field of the provided dimension.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.point.PointSetsCategory.super_categories">
+<span class="sig-name descname"><span class="pre">super_categories</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/point.html#PointSetsCategory.super_categories"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.point.PointSetsCategory.super_categories" title="Link to this definition"></a></dt>
+<dd><p>Return the categories subdivisions automatically belong to.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon.point</span> <span class="kn">import</span> <span class="n">PointSetsCategory</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">C</span> <span class="o">=</span> <span class="n">PointSetsCategory</span><span class="p">()</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">C</span><span class="o">.</span><span class="n">super_categories</span><span class="p">()</span>
+<span class="p">[</span><span class="n">Category</span> <span class="n">of</span> <span class="n">sets</span><span class="p">]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id0">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PointSetsCategory.</span></span><span class="sig-name descname"><span class="pre">ElementMethods</span></span><a class="reference internal" href="_modules/pet_salon/point.html#PointSetsCategory.ElementMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id1">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PointSetsCategory.</span></span><span class="sig-name descname"><span class="pre">ParentMethods</span></span><a class="reference internal" href="_modules/pet_salon/point.html#PointSetsCategory.ParentMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">center</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/point.html#PointSetsCategory.ParentMethods.center"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">dimension</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/point.html#PointSetsCategory.ParentMethods.dimension"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">field</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/point.html#PointSetsCategory.ParentMethods.field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">union</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/point.html#PointSetsCategory.ParentMethods.union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id5" title="Link to this definition"></a></dt>
+<dd><p>Constructor for abstract methods</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="o">....</span><span class="p">:</span>     <span class="s2">&quot;doc of f&quot;</span>
+<span class="o">....</span><span class="p">:</span>     <span class="k">return</span> <span class="mi">1</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">x</span> <span class="o">=</span> <span class="n">abstract_method</span><span class="p">(</span><span class="n">f</span><span class="p">);</span> <span class="n">x</span>
+<span class="o">&lt;</span><span class="n">abstract</span> <span class="n">method</span> <span class="n">f</span> <span class="n">at</span> <span class="o">...&gt;</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="vm">__doc__</span>
+<span class="s1">&#39;doc of f&#39;</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="vm">__name__</span>
+<span class="s1">&#39;f&#39;</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="vm">__module__</span>
+<span class="s1">&#39;__main__&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id6">
+<span class="sig-name descname"><span class="pre">vector_space</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/point.html#PointSetsCategory.ParentMethods.vector_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
+<dd><p>Return the vector space over the provided field of the provided dimension.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pet_salon.plot.html" class="btn btn-neutral float-left" title="pet_salon.plot module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pet_salon.polyhedra.html" class="btn btn-neutral float-right" title="pet_salon.polyhedra module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, W. Patrick Hooper.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

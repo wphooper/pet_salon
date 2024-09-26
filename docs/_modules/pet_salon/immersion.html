@@ -1,0 +1,1575 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pet_salon.immersion &mdash; pet_salon 0.0.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=8c5712d9"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            pet_salon
+          </a>
+              <div class="version">
+                0.0.4
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../pet_salon.html">pet_salon package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">pet_salon</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pet_salon.immersion</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pet_salon.immersion</h1><div class="highlight"><pre>
+<span></span><span class="c1"># ********************************************************************</span>
+<span class="c1">#  This file is part of pet_salon.</span>
+<span class="c1">#</span>
+<span class="c1">#        Copyright (C) 2024 W. Patrick Hooper</span>
+<span class="c1">#</span>
+<span class="c1">#  pet_salon is free software: you can redistribute it and/or modify</span>
+<span class="c1">#  it under the terms of the GNU General Public License as published by</span>
+<span class="c1">#  the Free Software Foundation, either version 2 of the License, or</span>
+<span class="c1">#  (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1">#  pet_salon is distributed in the hope that it will be useful,</span>
+<span class="c1">#  but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1">#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1">#  GNU General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1">#  You should have received a copy of the GNU General Public License</span>
+<span class="c1">#  along with pet_salon. If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
+<span class="c1"># ********************************************************************</span>
+
+<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Collection</span>
+<span class="kn">from</span> <span class="nn">frozendict</span> <span class="kn">import</span> <span class="n">frozendict</span>
+
+<span class="kn">from</span> <span class="nn">sage.categories.all</span> <span class="kn">import</span> <span class="n">Sets</span>
+<span class="kn">from</span> <span class="nn">sage.categories.category</span> <span class="kn">import</span> <span class="n">Category</span>
+<span class="kn">from</span> <span class="nn">sage.categories.category_with_axiom</span> <span class="kn">import</span> <span class="n">CategoryWithAxiom</span><span class="p">,</span> <span class="n">all_axioms</span>
+<span class="kn">from</span> <span class="nn">sage.misc.abstract_method</span> <span class="kn">import</span> <span class="n">abstract_method</span>
+<span class="kn">from</span> <span class="nn">sage.misc.cachefunc</span> <span class="kn">import</span> <span class="n">cached_method</span>
+<span class="kn">from</span> <span class="nn">sage.misc.sage_unittest</span> <span class="kn">import</span> <span class="n">TestSuite</span>
+<span class="kn">from</span> <span class="nn">sage.plot.plot</span> <span class="kn">import</span> <span class="n">graphics_array</span>
+<span class="kn">from</span> <span class="nn">sage.rings.infinity</span> <span class="kn">import</span> <span class="n">infinity</span>
+<span class="kn">from</span> <span class="nn">sage.structure.element</span> <span class="kn">import</span> <span class="n">Element</span>
+<span class="kn">from</span> <span class="nn">sage.structure.parent</span> <span class="kn">import</span> <span class="n">Parent</span>
+<span class="kn">from</span> <span class="nn">sage.structure.unique_representation</span> <span class="kn">import</span> <span class="n">UniqueRepresentation</span>
+
+<span class="kn">from</span> <span class="nn">.collection</span> <span class="kn">import</span> <span class="n">identity_mapping</span><span class="p">,</span> <span class="n">function_mapping</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">mapping_composition</span><span class="p">,</span> <span class="n">tuple_singleton</span>
+<span class="kn">from</span> <span class="nn">.polytope</span> <span class="kn">import</span> <span class="n">is_subpolytope</span>
+<span class="kn">from</span> <span class="nn">.union</span> <span class="kn">import</span> <span class="n">PolytopeUnions</span><span class="p">,</span> <span class="n">PolytopeUnionsCategory</span>
+
+<span class="c1"># Make &#39;Injective&#39; and &#39;Surjective&#39; axioms in Sage:</span>
+<span class="n">all_axioms</span> <span class="o">+=</span> <span class="p">(</span><span class="s1">&#39;Injective&#39;</span><span class="p">,</span> <span class="s1">&#39;Surjective&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ImmersionsCategory">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory">[docs]</a>
+<span class="k">class</span> <span class="nc">ImmersionsCategory</span><span class="p">(</span><span class="n">Category</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The category of polyhedral subsets together with an embedding in an ambient polyhedral union.</span>
+
+<span class="sd">    EXAMPLES::</span>
+
+<span class="sd">        sage: from pet_salon.immersion import ImmersionsCategory</span>
+<span class="sd">        sage: ImmersionsCategory()</span>
+<span class="sd">        Category of immersions into a polytope union</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">):</span>
+        <span class="n">Category</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Category of immersions into a polytope union&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ImmersionsCategory.super_categories">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.super_categories">[docs]</a>
+    <span class="k">def</span> <span class="nf">super_categories</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the categories subdivisions automatically belong to.</span>
+
+<span class="sd">        EXAMPLES::</span>
+
+<span class="sd">            sage: from pet_salon.immersion import ImmersionsCategory</span>
+<span class="sd">            sage: C = ImmersionsCategory()</span>
+<span class="sd">            sage: C.super_categories()</span>
+<span class="sd">            [Category of sets]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">Sets</span><span class="p">()]</span></div>
+
+
+<div class="viewcode-block" id="ImmersionsCategory.SubcategoryMethods">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.SubcategoryMethods">[docs]</a>
+    <span class="k">class</span> <span class="nc">SubcategoryMethods</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ImmersionsCategory.SubcategoryMethods.Injective">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.SubcategoryMethods.Injective">[docs]</a>
+        <span class="k">def</span> <span class="nf">Injective</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return this category with &#39;Injective&#39; added to the axioms.</span>
+
+<span class="sd">            An immersion is injective if it is one-to-one when restricted to the interior of the polytopes.</span>
+
+<span class="sd">            EXAMPLES::</span>
+
+<span class="sd">                sage: from pet_salon.immersion import ImmersionsCategory</span>
+<span class="sd">                sage: ImmersionsCategory().Injective()</span>
+<span class="sd">                Category of embeddings into a polytope union</span>
+<span class="sd">                sage: ImmersionsCategory().Surjective().Injective()</span>
+<span class="sd">                Category of surjective embeddings into a polytope union</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_with_axiom</span><span class="p">(</span><span class="s1">&#39;Injective&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ImmersionsCategory.SubcategoryMethods.Surjective">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.SubcategoryMethods.Surjective">[docs]</a>
+        <span class="k">def</span> <span class="nf">Surjective</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return this category with &#39;Surjective&#39; added to the axioms.</span>
+
+<span class="sd">            An immersion is injective if it maps onto the ambient polytope union.</span>
+
+<span class="sd">            EXAMPLES::</span>
+
+<span class="sd">                sage: from pet_salon.immersion import ImmersionsCategory</span>
+<span class="sd">                sage: ImmersionsCategory().Surjective()</span>
+<span class="sd">                Category of surjective immersions into a polytope union</span>
+<span class="sd">                sage: ImmersionsCategory().Injective().Surjective()</span>
+<span class="sd">                Category of surjective embeddings into a polytope union</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_with_axiom</span><span class="p">(</span><span class="s1">&#39;Surjective&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ImmersionsCategory.SubcategoryMethods.description">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.SubcategoryMethods.description">[docs]</a>
+        <span class="k">def</span> <span class="nf">description</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return a string describing the type of maps&#39;&#39;&#39;</span>
+            <span class="k">return</span> <span class="s1">&#39;Immersion&#39;</span></div>
+</div>
+
+
+<div class="viewcode-block" id="ImmersionsCategory.ParentMethods">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.ParentMethods">[docs]</a>
+    <span class="k">class</span> <span class="nc">ParentMethods</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ImmersionsCategory.ParentMethods.ambient_union">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.ParentMethods.ambient_union">[docs]</a>
+        <span class="nd">@abstract_method</span>
+        <span class="k">def</span> <span class="nf">ambient_union</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return the ambient polyhedral union. This is also the codomain of the immersion.&#39;&#39;&#39;</span>
+            <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="ImmersionsCategory.ParentMethods.with_different_axioms">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.ParentMethods.with_different_axioms">[docs]</a>
+        <span class="nd">@abstract_method</span>
+        <span class="k">def</span> <span class="nf">with_different_axioms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">injective</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">surjective</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return a parent with the provided axioms.&#39;&#39;&#39;</span>
+            <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="ImmersionsCategory.ParentMethods.with_different_union">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.ParentMethods.with_different_union">[docs]</a>
+        <span class="nd">@abstract_method</span>
+        <span class="k">def</span> <span class="nf">with_different_union</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_ambient_union</span><span class="p">):</span>
+            <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="ImmersionsCategory.ParentMethods.with_different_field">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.ParentMethods.with_different_field">[docs]</a>
+        <span class="nd">@abstract_method</span>
+        <span class="k">def</span> <span class="nf">with_different_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_field</span><span class="p">):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return the same object but defined over a new bigger field.&#39;&#39;&#39;</span>
+            <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="ImmersionsCategory.ParentMethods.field">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.ParentMethods.field">[docs]</a>
+        <span class="k">def</span> <span class="nf">field</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">field</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="ImmersionsCategory.ParentMethods.dimension">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.ParentMethods.dimension">[docs]</a>
+        <span class="k">def</span> <span class="nf">dimension</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">dimension</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="ImmersionsCategory.ParentMethods.is_injective">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.ParentMethods.is_injective">[docs]</a>
+        <span class="k">def</span> <span class="nf">is_injective</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="ImmersionsCategory.ParentMethods.is_surjective">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.ParentMethods.is_surjective">[docs]</a>
+        <span class="k">def</span> <span class="nf">is_surjective</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="ImmersionsCategory.ParentMethods.polytope_unions">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.ParentMethods.polytope_unions">[docs]</a>
+        <span class="nd">@cached_method</span>
+        <span class="k">def</span> <span class="nf">polytope_unions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">PolytopeUnions</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">field</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="ImmersionsCategory.ParentMethods.piecewise_affine_maps">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.ParentMethods.piecewise_affine_maps">[docs]</a>
+        <span class="nd">@cached_method</span>
+        <span class="k">def</span> <span class="nf">piecewise_affine_maps</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="kn">from</span> <span class="nn">.affine</span> <span class="kn">import</span> <span class="n">PiecewiseAffineMaps</span>
+            <span class="k">return</span> <span class="n">PiecewiseAffineMaps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">field</span><span class="p">())</span></div>
+
+
+        <span class="k">def</span> <span class="nf">_coerce_map_from_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            EXAMPLES::</span>
+
+<span class="sd">            Test coercion and conversion:</span>
+
+<span class="sd">                sage: from pet_salon import PolytopeUnions, Immersions, Embeddings</span>
+<span class="sd">                sage: union = PolytopeUnions(2, QQ).an_element()</span>
+<span class="sd">                sage: E = Embeddings(union)</span>
+<span class="sd">                sage: E_AA = E.with_different_field(AA)</span>
+<span class="sd">                sage: E_AA</span>
+<span class="sd">                Embeddings into disjoint union of 2 nonoverlapping polyhedra in AA^2</span>
+<span class="sd">                sage: E_AA.has_coerce_map_from(E)</span>
+<span class="sd">                True</span>
+<span class="sd">                sage: e = E.an_element()</span>
+<span class="sd">                sage: e</span>
+<span class="sd">                Embedding of disjoint union of 2 nonoverlapping polyhedra in QQ^2 into disjoint union of 2 nonoverlapping polyhedra in QQ^2</span>
+<span class="sd">                sage: ee = E_AA(e)</span>
+<span class="sd">                sage: TestSuite(ee).run()</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="s1">&#39;category&#39;</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">parent</span><span class="o">.</span><span class="n">category</span><span class="p">()</span><span class="o">.</span><span class="n">is_subcategory</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">category</span><span class="p">()):</span>
+                <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">has_coerce_map_from</span><span class="p">(</span><span class="n">parent</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="p">()):</span>
+                <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="p">()(</span><span class="n">parent</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">())</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="ImmersionsCategory.ElementMethods">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.ElementMethods">[docs]</a>
+    <span class="k">class</span> <span class="nc">ElementMethods</span><span class="p">:</span>
+<div class="viewcode-block" id="ImmersionsCategory.ElementMethods.domain">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.ElementMethods.domain">[docs]</a>
+        <span class="nd">@abstract_method</span>
+        <span class="k">def</span> <span class="nf">domain</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return the domain of this immersion.&#39;&#39;&#39;</span>
+            <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="ImmersionsCategory.ElementMethods.ambient_labels">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.ElementMethods.ambient_labels">[docs]</a>
+        <span class="nd">@abstract_method</span>
+        <span class="k">def</span> <span class="nf">ambient_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return a mapping sending labels in the domain to labels in the ambient union.&#39;&#39;&#39;</span>
+            <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="ImmersionsCategory.ElementMethods.subunion_labels">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.ElementMethods.subunion_labels">[docs]</a>
+        <span class="nd">@abstract_method</span>
+        <span class="k">def</span> <span class="nf">subunion_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Return a mapping sending an `ambient_label` to the collection of labels that correspond</span>
+<span class="sd">            to polytopes that map into the polytope with the provided `ambient_label`.</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="ImmersionsCategory.ElementMethods.subunion">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.ElementMethods.subunion">[docs]</a>
+        <span class="nd">@cached_method</span>
+        <span class="k">def</span> <span class="nf">subunion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ambient_label</span><span class="p">):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Return the restriction of the codomain union to polytopes mapped into the polytope</span>
+<span class="sd">            with the provided `ambient_label`.</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span><span class="o">.</span><span class="n">restrict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subunion_labels</span><span class="p">()[</span><span class="n">ambient_label</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="ImmersionsCategory.ElementMethods.codomain">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.ElementMethods.codomain">[docs]</a>
+        <span class="k">def</span> <span class="nf">codomain</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return the codomain which is also the ambient union.&#39;&#39;&#39;</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span></div>
+
+
+        <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subpt</span><span class="p">):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return the image of the point under the inclusion into the ambient_union.</span>
+
+<span class="sd">            EXAMPLES::</span>
+
+<span class="sd">                sage: from pet_salon.immersion import Immersions</span>
+<span class="sd">                sage: from pet_salon import PolytopeUnions, rectangle</span>
+<span class="sd">                sage: U = PolytopeUnions(2, QQ)</span>
+<span class="sd">                sage: union = U({0: rectangle(QQ,0,1,0,1)})</span>
+<span class="sd">                sage: S = Immersions(union)</span>
+<span class="sd">                sage: S</span>
+<span class="sd">                Immersions into disjoint union of 1 nonoverlapping polyhedra in QQ^2</span>
+<span class="sd">                sage: su = S(U({1:rectangle(QQ,  0,1/2, 0, 1/2),</span>
+<span class="sd">                ....:           2:rectangle(QQ,1/2,  1, 0, 1/2),</span>
+<span class="sd">                ....:          }))</span>
+<span class="sd">                sage: su</span>
+<span class="sd">                Immersion of disjoint union of 2 nonoverlapping polyhedra in QQ^2 into disjoint union of 1 nonoverlapping polyhedra in QQ^2</span>
+<span class="sd">                sage: pt = su.domain().point((2/3,1/4))</span>
+<span class="sd">                sage: pt</span>
+<span class="sd">                Point(2, (2/3, 1/4))</span>
+<span class="sd">                sage: su(pt)</span>
+<span class="sd">                Point(0, (2/3, 1/4))</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span><span class="o">.</span><span class="n">point</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ambient_labels</span><span class="p">()[</span><span class="n">subpt</span><span class="o">.</span><span class="n">label</span><span class="p">()],</span>
+                <span class="n">subpt</span><span class="o">.</span><span class="n">position</span><span class="p">()</span>
+            <span class="p">)</span>
+
+<div class="viewcode-block" id="ImmersionsCategory.ElementMethods.preimage">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.ElementMethods.preimage">[docs]</a>
+        <span class="k">def</span> <span class="nf">preimage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">,</span> <span class="nb">all</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Given a point in the ambient union, find a corresponding point in the domain.</span>
+
+<span class="sd">            If `all` is set to `True` we return an iterator over all preimages.</span>
+
+<span class="sd">            This method just passes the call to `find` from the appropriate domain.</span>
+
+<span class="sd">            EXAMPLES::</span>
+
+<span class="sd">                sage: from pet_salon.immersion import Embeddings</span>
+<span class="sd">                sage: from pet_salon import PolytopeUnions, rectangle</span>
+<span class="sd">                sage: U = PolytopeUnions(2, QQ)</span>
+<span class="sd">                sage: union = U({0: rectangle(QQ,0,1,0,1)})</span>
+<span class="sd">                sage: E = Embeddings(union)</span>
+<span class="sd">                sage: E</span>
+<span class="sd">                Embeddings into disjoint union of 1 nonoverlapping polyhedra in QQ^2</span>
+<span class="sd">                sage: e = E(U({1:rectangle(QQ,  0,1/2, 0, 1/2),</span>
+<span class="sd">                ....:          2:rectangle(QQ,1/2,  1, 0, 1/2),</span>
+<span class="sd">                ....:          }))</span>
+<span class="sd">                sage: e</span>
+<span class="sd">                Embedding of disjoint union of 2 nonoverlapping polyhedra in QQ^2 into disjoint union of 1 nonoverlapping polyhedra in QQ^2</span>
+<span class="sd">                sage: pt = union.point((4/5,1/3))</span>
+<span class="sd">                sage: pt</span>
+<span class="sd">                Point(0, (4/5, 1/3))</span>
+<span class="sd">                sage: e.preimage(pt)</span>
+<span class="sd">                Point(2, (4/5, 1/3))</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">assert</span> <span class="n">point</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span><span class="o">.</span><span class="n">point_set</span><span class="p">(),</span> \
+                <span class="s1">&#39;point must lie in the ambient union&#39;</span>
+            <span class="n">subunion</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">subunion</span><span class="p">(</span><span class="n">point</span><span class="o">.</span><span class="n">label</span><span class="p">())</span>
+            <span class="k">def</span> <span class="nf">generator</span><span class="p">():</span>
+                <span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">subunion</span><span class="o">.</span><span class="n">point</span><span class="p">(</span><span class="n">point</span><span class="o">.</span><span class="n">position</span><span class="p">(),</span> <span class="nb">all</span><span class="o">=</span><span class="nb">all</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">):</span>
+                    <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span><span class="o">.</span><span class="n">point_set</span><span class="p">()(</span><span class="n">pt</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">all</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">generator</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span><span class="o">.</span><span class="n">point_set</span><span class="p">()(</span><span class="n">subunion</span><span class="o">.</span><span class="n">point</span><span class="p">(</span><span class="n">point</span><span class="o">.</span><span class="n">position</span><span class="p">()))</span></div>
+
+
+<div class="viewcode-block" id="ImmersionsCategory.ElementMethods.plot">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.ElementMethods.plot">[docs]</a>
+        <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain_kwds</span><span class="o">=</span><span class="p">{},</span> <span class="n">codomain_kwds</span><span class="o">=</span><span class="p">{}):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Return a `graphics_array` containing plots of the domain and codomain.</span>
+
+<span class="sd">            The parameters `domain_kwds` and `codomain_kwds` are passed to the `plot` methods of</span>
+<span class="sd">            the respective `PolytopeUnion`s.</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">return</span> <span class="n">graphics_array</span><span class="p">([</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">**</span><span class="n">domain_kwds</span><span class="p">),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">**</span><span class="n">codomain_kwds</span><span class="p">)</span>
+            <span class="p">])</span></div>
+
+
+        <span class="k">def</span> <span class="nf">_test_containment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tester</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Raise an assertion error if a polytope from the domain is not contained within the</span>
+<span class="sd">            claimed polytope in the ambient union.</span>
+
+<span class="sd">            EXAMPLES::</span>
+
+<span class="sd">                sage: from pet_salon.immersion import Immersions</span>
+<span class="sd">                sage: from pet_salon import PolytopeUnions, rectangle</span>
+<span class="sd">                sage: U = PolytopeUnions(2, QQ)</span>
+<span class="sd">                sage: union = U({0: rectangle(QQ,0,1,0,1)})</span>
+<span class="sd">                sage: S = Immersions(union)</span>
+<span class="sd">                sage: S</span>
+<span class="sd">                Immersions into disjoint union of 1 nonoverlapping polyhedra in QQ^2</span>
+<span class="sd">                sage: attempted_subunion = U({1:rectangle(QQ,   0,1/2, 0, 1/2),</span>
+<span class="sd">                ....:                         2:rectangle(QQ, 1/2,  2, 0, 1/2)})</span>
+<span class="sd">                sage: attempted_subunion</span>
+<span class="sd">                Disjoint union of 2 nonoverlapping polyhedra in QQ^2</span>
+<span class="sd">                sage: su = S(attempted_subunion,</span>
+<span class="sd">                ....:        { 1: 0, 2: 0},</span>
+<span class="sd">                ....:        { 0: (1, 2)})</span>
+<span class="sd">                sage: su</span>
+<span class="sd">                Immersion of disjoint union of 2 nonoverlapping polyhedra in QQ^2 into disjoint union of 1 nonoverlapping polyhedra in QQ^2</span>
+<span class="sd">                sage: su._test_containment()</span>
+<span class="sd">                Traceback (most recent call last):</span>
+<span class="sd">                ...</span>
+<span class="sd">                AssertionError...</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">def</span> <span class="nf">check_pair</span><span class="p">(</span><span class="n">domain_label</span><span class="p">,</span> <span class="n">ambient_label</span><span class="p">):</span>
+                <span class="n">domain_p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span><span class="o">.</span><span class="n">polytope</span><span class="p">(</span><span class="n">domain_label</span><span class="p">)</span>
+                <span class="n">ambient_p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span><span class="o">.</span><span class="n">polytope</span><span class="p">(</span><span class="n">ambient_label</span><span class="p">)</span>
+                <span class="k">assert</span> <span class="n">is_subpolytope</span><span class="p">(</span><span class="n">ambient_p</span><span class="p">,</span> <span class="n">domain_p</span><span class="p">),</span> \
+                    <span class="sa">f</span><span class="s1">&#39;Immersion polytope with label </span><span class="si">{</span><span class="n">domain_label</span><span class="si">}</span><span class="s1"> is not contained within ambient polytope with label </span><span class="si">{</span><span class="n">ambient_label</span><span class="si">}</span><span class="s1">&#39;</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">is_finite</span><span class="p">():</span>
+                <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ambient_labels</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">check_pair</span><span class="p">(</span><span class="o">*</span><span class="n">pair</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">pair</span><span class="p">,</span><span class="n">_</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ambient_labels</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">)):</span>
+                    <span class="n">check_pair</span><span class="p">(</span><span class="o">*</span><span class="n">pair</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">_test_domain</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tester</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Run all PolytopeUnion tests on both the whole domain and the subunions associated to ambient labels.</span>
+
+<span class="sd">            EXAMPLES::</span>
+
+<span class="sd">                sage: from pet_salon.immersion import Embeddings</span>
+<span class="sd">                sage: from pet_salon import PolytopeUnions, rectangle</span>
+<span class="sd">                sage: Udi = PolytopeUnions(2, QQ, nonoverlapping=True)</span>
+<span class="sd">                sage: U = PolytopeUnions(2, QQ, nonoverlapping=False)</span>
+<span class="sd">                sage: union = Udi({0: rectangle(QQ,0,1,0,1)})</span>
+<span class="sd">                sage: E = Embeddings(union)</span>
+<span class="sd">                sage: E</span>
+<span class="sd">                Embeddings into disjoint union of 1 nonoverlapping polyhedra in QQ^2</span>
+<span class="sd">                sage: attempted_subunions = {1: rectangle(QQ,   0,1/2, 0, 1/2),</span>
+<span class="sd">                ....:                        2: rectangle(QQ,   0,  1, 0, 1/2)}</span>
+<span class="sd">                sage: su = E(U(attempted_subunions),</span>
+<span class="sd">                ....:        { 1: 0, 2:0 }, # mapping to ambient label</span>
+<span class="sd">                ....:        { 0: (1, 2)})</span>
+<span class="sd">                sage: su</span>
+<span class="sd">                Embedding of disjoint union of 2 polyhedra in QQ^2 into disjoint union of 1 nonoverlapping polyhedra in QQ^2</span>
+<span class="sd">                sage: su._test_nonoverlapping()</span>
+<span class="sd">                sage: su._test_domain()</span>
+<span class="sd">                Traceback (most recent call last):</span>
+<span class="sd">                ...</span>
+<span class="sd">                AssertionError: The subunion associated to ambient label 0 failed a test...</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">TestSuite</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">())</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">catch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">raise_on_failure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The domain failed a test: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">length</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subunion_labels</span><span class="p">())</span> <span class="o">&lt;</span> <span class="n">infinity</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">ambient_label</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">subunion_labels</span><span class="p">():</span>
+                    <span class="n">subunion</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">subunion</span><span class="p">(</span><span class="n">ambient_label</span><span class="p">)</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">TestSuite</span><span class="p">(</span><span class="n">subunion</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">catch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">raise_on_failure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The subunion associated to ambient label </span><span class="si">{</span><span class="n">ambient_label</span><span class="si">}</span><span class="s1"> failed a test: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ImmersionsCategory.Injective">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.Injective">[docs]</a>
+    <span class="k">class</span> <span class="nc">Injective</span><span class="p">(</span><span class="n">CategoryWithAxiom</span><span class="p">):</span>
+        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">):</span>
+            <span class="n">CategoryWithAxiom</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Category of embeddings into a polytope union&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ImmersionsCategory.Injective.SubcategoryMethods">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.Injective.SubcategoryMethods">[docs]</a>
+        <span class="k">class</span> <span class="nc">SubcategoryMethods</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ImmersionsCategory.Injective.SubcategoryMethods.description">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.Injective.SubcategoryMethods.description">[docs]</a>
+            <span class="k">def</span> <span class="nf">description</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">                </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return a string describing the type of maps&#39;&#39;&#39;</span>
+                <span class="k">return</span> <span class="s1">&#39;Embedding&#39;</span></div>
+</div>
+
+
+<div class="viewcode-block" id="ImmersionsCategory.Injective.ParentMethods">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.Injective.ParentMethods">[docs]</a>
+        <span class="k">class</span> <span class="nc">ParentMethods</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ImmersionsCategory.Injective.ParentMethods.is_injective">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.Injective.ParentMethods.is_injective">[docs]</a>
+            <span class="k">def</span> <span class="nf">is_injective</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">True</span></div>
+</div>
+
+
+<div class="viewcode-block" id="ImmersionsCategory.Injective.ElementMethods">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.Injective.ElementMethods">[docs]</a>
+        <span class="k">class</span> <span class="nc">ElementMethods</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ImmersionsCategory.Injective.ElementMethods.subunion">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.Injective.ElementMethods.subunion">[docs]</a>
+            <span class="nd">@cached_method</span>
+            <span class="k">def</span> <span class="nf">subunion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ambient_label</span><span class="p">):</span>
+<span class="w">                </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">                Return a mapping sending an `ambient_label` to the restriction of the subunion to polytopes</span>
+<span class="sd">                contained within the polytope with the provided `ambient_label`.</span>
+<span class="sd">                &#39;&#39;&#39;</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">subunion_labels</span><span class="p">()[</span><span class="n">ambient_label</span><span class="p">]</span>
+                <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                    <span class="n">l</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span><span class="o">.</span><span class="n">restrict</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">nonoverlapping</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+            <span class="k">def</span> <span class="nf">_test_nonoverlapping</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tester</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
+<span class="w">                </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Test that the subunions associated to ambient labels are nonoverlapping.</span>
+
+<span class="sd">                This just checks the axiom. The test `_test_subunion` will check that the subunions</span>
+<span class="sd">                consist of pairwise disjoint polytopes.</span>
+
+<span class="sd">                EXAMPLES::</span>
+
+<span class="sd">                    sage: from pet_salon.immersion import Embeddings</span>
+<span class="sd">                    sage: from pet_salon import PolytopeUnions, rectangle</span>
+<span class="sd">                    sage: U = PolytopeUnions(2, QQ, nonoverlapping=False)</span>
+<span class="sd">                    sage: union = U({0: rectangle(QQ,0,1,0,1)})</span>
+<span class="sd">                    sage: E = Embeddings(union)</span>
+<span class="sd">                    sage: E</span>
+<span class="sd">                    Embeddings into disjoint union of 1 nonoverlapping polyhedra in QQ^2</span>
+<span class="sd">                    sage: attempted_domain = U({1:rectangle(QQ,   0, 2/3, 1/4, 3/4),</span>
+<span class="sd">                    ....:                       2:rectangle(QQ, 1/2,   1, 0, 1/2)})</span>
+<span class="sd">                    sage: attempted_domain</span>
+<span class="sd">                    Disjoint union of 2 polyhedra in QQ^2</span>
+<span class="sd">                    sage: su = E(attempted_domain,</span>
+<span class="sd">                    ....:        { 1: 0, 2:0 }, # mapping to ambient label</span>
+<span class="sd">                    ....:        { 0: [1, 2]})</span>
+<span class="sd">                    sage: su</span>
+<span class="sd">                    Embedding of disjoint union of 2 polyhedra in QQ^2 into disjoint union of 1 nonoverlapping polyhedra in QQ^2</span>
+<span class="sd">                    sage: su._test_nonoverlapping() # Passes because the polytope is falsely declared to be nonoverlapping</span>
+<span class="sd">                    sage: su._test_domain()</span>
+<span class="sd">                    Traceback (most recent call last):</span>
+<span class="sd">                    ...</span>
+<span class="sd">                    AssertionError: The subunion associated to ambient label 0 failed a test: Two polytopes overlap</span>
+<span class="sd">                &#39;&#39;&#39;</span>
+                <span class="k">if</span> <span class="n">length</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subunion_labels</span><span class="p">())</span> <span class="o">&lt;</span> <span class="n">infinity</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">ambient_label</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">subunion_labels</span><span class="p">():</span>
+                        <span class="n">subunion</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">subunion</span><span class="p">(</span><span class="n">ambient_label</span><span class="p">)</span>
+                        <span class="k">assert</span> <span class="n">subunion</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">is_nonoverlapping</span><span class="p">(),</span> \
+                            <span class="sa">f</span><span class="s1">&#39;The subunion associated to ambient label </span><span class="si">{</span><span class="n">ambient_label</span><span class="si">}</span><span class="s1"> is overlapping&#39;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">ambient_label</span><span class="p">,</span><span class="n">_</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subunion_labels</span><span class="p">(),</span> <span class="nb">range</span><span class="p">(</span><span class="n">limit</span><span class="p">)):</span>
+                        <span class="n">subunion</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">subunion</span><span class="p">(</span><span class="n">ambient_label</span><span class="p">)</span>
+                        <span class="k">assert</span> <span class="n">subunion</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">is_nonoverlapping</span><span class="p">(),</span> \
+                            <span class="sa">f</span><span class="s1">&#39;The subunion associated to ambient label </span><span class="si">{</span><span class="n">ambient_label</span><span class="si">}</span><span class="s1"> is overlapping&#39;</span></div>
+</div>
+
+
+<div class="viewcode-block" id="ImmersionsCategory.Surjective">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.Surjective">[docs]</a>
+    <span class="k">class</span> <span class="nc">Surjective</span><span class="p">(</span><span class="n">CategoryWithAxiom</span><span class="p">):</span>
+        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">):</span>
+            <span class="n">CategoryWithAxiom</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Category of surjective immersions into a polytope union&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ImmersionsCategory.Surjective.SubcategoryMethods">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.Surjective.SubcategoryMethods">[docs]</a>
+        <span class="k">class</span> <span class="nc">SubcategoryMethods</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ImmersionsCategory.Surjective.SubcategoryMethods.description">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.Surjective.SubcategoryMethods.description">[docs]</a>
+            <span class="k">def</span> <span class="nf">description</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">                </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return a string describing the type of maps&#39;&#39;&#39;</span>
+                <span class="k">return</span> <span class="s1">&#39;Surjective immersion&#39;</span></div>
+</div>
+
+
+<div class="viewcode-block" id="ImmersionsCategory.Surjective.ParentMethods">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.Surjective.ParentMethods">[docs]</a>
+        <span class="k">class</span> <span class="nc">ParentMethods</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ImmersionsCategory.Surjective.ParentMethods.is_surjective">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.Surjective.ParentMethods.is_surjective">[docs]</a>
+            <span class="k">def</span> <span class="nf">is_surjective</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">True</span></div>
+</div>
+
+
+<div class="viewcode-block" id="ImmersionsCategory.Surjective.ElementMethods">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.Surjective.ElementMethods">[docs]</a>
+        <span class="k">class</span> <span class="nc">ElementMethods</span><span class="p">:</span>
+
+            <span class="k">def</span> <span class="nf">_test_surjectivity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tester</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
+<span class="w">                </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;We check surjectivity at the level of the labels.&#39;&#39;&#39;</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subunion_labels</span><span class="p">())</span>
+                <span class="k">assert</span> <span class="n">value</span> <span class="o">&lt;=</span> <span class="n">length</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span><span class="o">.</span><span class="n">labels</span><span class="p">()),</span> \
+                    <span class="s1">&#39;The mapping is not well defined: There are labels in subunions that do not appear in the ambient union&#39;</span>
+                <span class="k">assert</span> <span class="n">value</span> <span class="o">&gt;=</span> <span class="n">length</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span><span class="o">.</span><span class="n">labels</span><span class="p">()),</span> \
+                    <span class="s1">&#39;The surjective immersion misses at least one ambient label&#39;</span>
+                <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="n">infinity</span><span class="p">:</span>
+                    <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">subunion_labels</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span><span class="o">.</span><span class="n">labels</span><span class="p">(),</span> \
+                        <span class="s1">&#39;The support of the subunion mapping is different from the collection of all ambient labels: The sets are different&#39;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">ambient_label</span><span class="p">,</span><span class="n">_</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span><span class="o">.</span><span class="n">labels</span><span class="p">(),</span> <span class="nb">range</span><span class="p">(</span><span class="n">limit</span><span class="p">)):</span>
+                        <span class="k">assert</span> <span class="n">ambient_label</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">subunion_labels</span><span class="p">(),</span> \
+                            <span class="sa">f</span><span class="s1">&#39;Ambient label </span><span class="si">{</span><span class="n">ambient_label</span><span class="si">}</span><span class="s1"> does not appear in the subunion mapping&#39;</span>
+
+            <span class="k">def</span> <span class="nf">_test_volume</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tester</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
+<span class="w">                </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;This test checks to see if the subunion of domain polytopes mapping into an ambient</span>
+<span class="sd">                polytope have volume that is at least as large as the ambient polytope.</span>
+
+<span class="sd">                This test only works for finite subunions. If there are infinitely many ambient labels,</span>
+<span class="sd">                then we test `limit` many.</span>
+
+<span class="sd">                EXAMPLES::</span>
+<span class="sd">                    sage: from pet_salon import PolytopeUnions, rectangle</span>
+<span class="sd">                    sage: from pet_salon.immersion import SurjectiveEmbeddings</span>
+<span class="sd">                    sage: U = PolytopeUnions(2, QQ)</span>
+<span class="sd">                    sage: union = U(rectangle(QQ, 0, 1, 0, 1))</span>
+<span class="sd">                    sage: union</span>
+<span class="sd">                    Disjoint union of 1 nonoverlapping polyhedra in QQ^2</span>
+<span class="sd">                    sage: P = SurjectiveEmbeddings(union)</span>
+<span class="sd">                    sage: f = P(U({</span>
+<span class="sd">                    ....:     1: rectangle(QQ,   0, 1/2,   0, 1/2),</span>
+<span class="sd">                    ....:     2: rectangle(QQ, 1/2,   1,   0, 1/2),</span>
+<span class="sd">                    ....:     3: rectangle(QQ,   0, 1/2, 1/2,   1),</span>
+<span class="sd">                    ....: }))</span>
+<span class="sd">                    sage: f</span>
+<span class="sd">                    Surjective embedding of disjoint union of 3 nonoverlapping polyhedra in QQ^2 into disjoint union of 1 nonoverlapping polyhedra in QQ^2</span>
+<span class="sd">                    sage: TestSuite(f).run()</span>
+<span class="sd">                    Failure in _test_volume:</span>
+<span class="sd">                    ...</span>
+<span class="sd">                    The following tests failed: _test_volume</span>
+<span class="sd">                &#39;&#39;&#39;</span>
+                <span class="k">def</span> <span class="nf">test_pair</span><span class="p">(</span><span class="n">ambient_label</span><span class="p">,</span> <span class="n">subunion</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">subunion</span><span class="o">.</span><span class="n">is_finite</span><span class="p">():</span>
+                            <span class="k">assert</span> <span class="n">subunion</span><span class="o">.</span><span class="n">volume</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span><span class="o">.</span><span class="n">polytope</span><span class="p">(</span><span class="n">ambient_label</span><span class="p">)</span><span class="o">.</span><span class="n">volume</span><span class="p">(),</span> \
+                                <span class="sa">f</span><span class="s1">&#39;The surjectivity axiom is violated: The volume of the subunion associated to the ambient label </span><span class="si">{</span><span class="n">ambient_label</span><span class="si">}</span><span class="s1"> is not at least as large as the ambient polytope</span><span class="se">\&#39;</span><span class="s1">s volume&#39;</span>
+                <span class="k">if</span> <span class="n">length</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subunion_labels</span><span class="p">())</span> <span class="o">&lt;</span> <span class="n">infinity</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">ambient_label</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">subunion_labels</span><span class="p">():</span>
+                        <span class="n">subunion</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">subunion</span><span class="p">(</span><span class="n">ambient_label</span><span class="p">)</span>
+                        <span class="n">test_pair</span><span class="p">(</span><span class="n">ambient_label</span><span class="p">,</span> <span class="n">subunion</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">ambient_label</span><span class="p">,</span><span class="n">_</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subunion_labels</span><span class="p">(),</span> <span class="nb">range</span><span class="p">(</span><span class="n">limit</span><span class="p">)):</span>
+                        <span class="n">subunion</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">subunion</span><span class="p">(</span><span class="n">ambient_label</span><span class="p">)</span>
+                        <span class="n">test_pair</span><span class="p">(</span><span class="n">ambient_label</span><span class="p">,</span> <span class="n">subunion</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ImmersionsCategory.Surjective.Injective">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.Surjective.Injective">[docs]</a>
+        <span class="k">class</span> <span class="nc">Injective</span><span class="p">(</span><span class="n">CategoryWithAxiom</span><span class="p">):</span> <span class="c1"># SURJECTIVE EMBEDDINGS</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;This is the category of surjective embeddings into a polytope union&#39;&#39;&#39;</span>
+            <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">):</span>
+                <span class="n">CategoryWithAxiom</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Category of surjective embeddings into a polytope union&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ImmersionsCategory.Surjective.Injective.SubcategoryMethods">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.Surjective.Injective.SubcategoryMethods">[docs]</a>
+            <span class="k">class</span> <span class="nc">SubcategoryMethods</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ImmersionsCategory.Surjective.Injective.SubcategoryMethods.description">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.Surjective.Injective.SubcategoryMethods.description">[docs]</a>
+                <span class="k">def</span> <span class="nf">description</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">                    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return a string describing the type of maps&#39;&#39;&#39;</span>
+                    <span class="k">return</span> <span class="s1">&#39;Surjective embedding&#39;</span></div>
+</div>
+
+
+<div class="viewcode-block" id="ImmersionsCategory.Surjective.Injective.ParentMethods">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.Surjective.Injective.ParentMethods">[docs]</a>
+            <span class="k">class</span> <span class="nc">ParentMethods</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ImmersionsCategory.Surjective.Injective.ParentMethods.partitions">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.Surjective.Injective.ParentMethods.partitions">[docs]</a>
+                <span class="k">def</span> <span class="nf">partitions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="n">Partitions</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">())</span></div>
+</div>
+
+
+<div class="viewcode-block" id="ImmersionsCategory.Surjective.Injective.ElementMethods">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.Surjective.Injective.ElementMethods">[docs]</a>
+            <span class="k">class</span> <span class="nc">ElementMethods</span><span class="p">:</span>
+
+                <span class="k">def</span> <span class="fm">__invert__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">                    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return the associated surjective embedding.&#39;&#39;&#39;</span>
+                    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">partitions</span><span class="p">()</span><span class="o">.</span><span class="n">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+</div>
+</div>
+</div>
+
+
+<div class="viewcode-block" id="Immersion">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.Immersion">[docs]</a>
+<span class="k">class</span> <span class="nc">Immersion</span><span class="p">(</span><span class="n">Element</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">ambient_labels_mapping</span><span class="p">,</span> <span class="n">subunion_labels_mapping</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_domain</span> <span class="o">=</span> <span class="n">domain</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ambient_labels_mapping</span> <span class="o">=</span> <span class="n">ambient_labels_mapping</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_subunion_labels</span> <span class="o">=</span> <span class="n">subunion_labels_mapping</span>
+        <span class="n">Element</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">name</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ambient_name</span> <span class="o">=</span> <span class="nb">repr</span><span class="p">(</span><span class="n">parent</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">())</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="n">parent</span><span class="o">.</span><span class="n">category</span><span class="p">()</span><span class="o">.</span><span class="n">description</span><span class="p">()</span>
+            <span class="n">domain_name</span> <span class="o">=</span> <span class="nb">repr</span><span class="p">(</span><span class="n">domain</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">parent</span><span class="o">.</span><span class="n">category</span><span class="p">()</span><span class="o">.</span><span class="n">description</span><span class="p">()</span><span class="si">}</span><span class="s1"> of </span><span class="si">{</span><span class="n">domain_name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}{</span><span class="n">domain_name</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="si">}</span><span class="s1"> into </span><span class="si">{</span><span class="n">ambient_name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}{</span><span class="n">ambient_name</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># OLD VERSION. PUTTING ALL THE SETUP INTO THE PARENT!</span>
+<span class="c1">#</span>
+<span class="c1">#        assert domain.parent().dimension() == parent.dimension(), \</span>
+<span class="c1">#            &#39;The domain\&#39;s dimension must match the ambient union.&#39;</span>
+<span class="c1">#        if domain.parent().field() != parent.field():</span>
+<span class="c1">#            # Attempt to change fields.</span>
+<span class="c1">#            new_parent = domain.parent().with_different_field(parent.field())</span>
+<span class="c1">#            domain = new_parent(domain)</span>
+<span class="c1">#        self._domain = domain</span>
+<span class="c1">#        if not ambient_labels_mapping:</span>
+<span class="c1">#            assert &#39;Nonoverlapping&#39; in parent.ambient_union().parent().category().axioms(), \</span>
+<span class="c1">#                &#39;ambient_labels_mapping must be defined if the containing PolytopeUnion has overlaps&#39;</span>
+<span class="c1">#            assert parent.ambient_union().is_finite(), \</span>
+<span class="c1">#                &#39;ambient_labels_mapping must be defined if the containing PolytopeUnion is not finite&#39;</span>
+<span class="c1">#            assert domain.is_finite(), \</span>
+<span class="c1">#                &#39;ambient_labels_mapping must be defined if `domain` is not finite&#39;</span>
+<span class="c1">#            ambient_labels_mapping = {}</span>
+<span class="c1">#            for label, polytope in domain.polytopes().items():</span>
+<span class="c1">#                center = polytope.center()</span>
+<span class="c1">#                pair = parent.ambient_union().find(center)</span>
+<span class="c1">#                if not pair:</span>
+<span class="c1">#                    raise ValueError(f&#39;The subunion polytope with label {label} is not contained in a polytope from the ambient union.&#39;)</span>
+<span class="c1">#                ambient_labels_mapping[label] = pair[0]</span>
+<span class="c1">#            #print(&#39;ambient_labels_mapping&#39;, ambient_labels_mapping)</span>
+<span class="c1">#        self._ambient_labels_mapping = ambient_labels_mapping</span>
+<span class="c1">#        if not subunion_labels_mapping:</span>
+<span class="c1">#            assert domain.is_finite(), \</span>
+<span class="c1">#                &#39;subunions must be defined if `domain` is not finite&#39;</span>
+<span class="c1">#            assert parent.ambient_union().is_finite(), \</span>
+<span class="c1">#                &#39;subunions must be defined if the containing PolytopeUnion is not finite&#39;</span>
+<span class="c1">#            ambient_label_to_list = {}</span>
+<span class="c1">#            for label, ambient_label in ambient_labels_mapping.items():</span>
+<span class="c1">#                if ambient_label in ambient_label_to_list:</span>
+<span class="c1">#                    ambient_label_to_list[ambient_label].append(label)</span>
+<span class="c1">#                else:</span>
+<span class="c1">#                    ambient_label_to_list[ambient_label] = [label]</span>
+<span class="c1">#            subunion_labels_mapping = ambient_label_to_list</span>
+<span class="c1">#        self._subunion_labels = subunion_labels_mapping</span>
+<span class="c1">#        Element.__init__(self, parent)</span>
+<span class="c1">#        if name:</span>
+<span class="c1">#            self.rename(name)</span>
+<span class="c1">#        else:</span>
+<span class="c1">#            ambient_name = repr(parent.ambient_union())</span>
+<span class="c1">##            axioms = parent.category().axioms()</span>
+<span class="c1">##            if &#39;Injective&#39; in axioms and &#39;Surjective&#39; in axioms:</span>
+<span class="c1">##                if domain.is_finite():</span>
+<span class="c1">##                    number = len(domain.polytopes())</span>
+<span class="c1">##                else:</span>
+<span class="c1">##                    number = &#39;∞ly many&#39;</span>
+<span class="c1">##                self.rename(f&#39;Partition of {ambient_name[0].lower()}{ambient_name[1:]} into {number} subpolytopes&#39;)</span>
+<span class="c1">##            else:</span>
+<span class="c1">#            start = parent.category().description()</span>
+<span class="c1">#            domain_name = repr(domain)</span>
+<span class="c1">#            self.rename(f&#39;{parent.category().description()} of {domain_name[0].lower()}{domain_name[1:]} into {ambient_name[0].lower()}{ambient_name[1:]}&#39;)</span>
+
+<div class="viewcode-block" id="Immersion.domain">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.Immersion.domain">[docs]</a>
+    <span class="k">def</span> <span class="nf">domain</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return the domain of this immersion.&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_domain</span></div>
+
+
+<div class="viewcode-block" id="Immersion.subunion_labels">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.Immersion.subunion_labels">[docs]</a>
+    <span class="k">def</span> <span class="nf">subunion_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Return a mapping sending an `ambient_label` to the collection of labels that correspond</span>
+<span class="sd">        to polytopes that map into the polytope with the provided `ambient_label`.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_subunion_labels</span></div>
+
+
+<div class="viewcode-block" id="Immersion.ambient_labels">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.Immersion.ambient_labels">[docs]</a>
+    <span class="k">def</span> <span class="nf">ambient_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return a mapping sending labels in the subunion to labels in the ambient union.&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ambient_labels_mapping</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span> <span class="ow">is</span> <span class="n">other</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s1">&#39;parent&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">parent</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">domain</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="s1">&#39;Nonoverlapping&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">category</span><span class="p">()</span><span class="o">.</span><span class="n">axioms</span><span class="p">():</span>
+            <span class="c1"># Nothing more to check</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ambient_labels</span><span class="p">())</span>
+            <span class="n">self_ambient_labels_finite</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+            <span class="n">self_ambient_labels_finite</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">ambient_labels</span><span class="p">())</span>
+            <span class="n">other_ambient_labels_finite</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+            <span class="n">other_ambient_labels_finite</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">self_ambient_labels_finite</span> <span class="o">!=</span> <span class="n">other_ambient_labels_finite</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="n">self_al</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ambient_labels</span><span class="p">()</span>
+        <span class="n">other_al</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">ambient_labels</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">self_ambient_labels_finite</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ambient_labels</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">self_al</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">!=</span> <span class="n">other_al</span><span class="p">[</span><span class="n">label</span><span class="p">]:</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># hopeless</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+    <span class="nd">@cached_method</span>
+    <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s1">&#39;Nonoverlapping&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">category</span><span class="p">()</span><span class="o">.</span><span class="n">axioms</span><span class="p">():</span>
+            <span class="k">return</span> <span class="nb">hash</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">()))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span><span class="o">.</span><span class="n">is_finite</span><span class="p">():</span>
+                <span class="n">ambient_labels</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">((</span><span class="n">label</span><span class="p">,</span><span class="n">ambient_label</span><span class="p">)</span> <span class="k">for</span> <span class="n">label</span><span class="p">,</span><span class="n">ambient_label</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ambient_labels</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+                <span class="k">return</span> <span class="nb">hash</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">(),</span> <span class="n">ambient_labels</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_mul_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_act_on_</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_act_on_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">self_on_left</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Implement the action of immersions on other immersions by composition.</span>
+
+<span class="sd">        EXAMPLES::</span>
+<span class="sd">            sage: from pet_salon import rectangle, PolytopeUnions</span>
+<span class="sd">            sage: U = PolytopeUnions(2, QQ)</span>
+<span class="sd">            sage: U</span>
+<span class="sd">            Finite disjoint unions of nonoverlapping polyhedra in dimension 2 over Rational Field</span>
+<span class="sd">            sage: u1 = U({1: rectangle(QQ, 0, 1, 0, 1)}, name=&#39;u1&#39;)</span>
+<span class="sd">            sage: u2 = U({2: rectangle(QQ, 0, 2, 0, 2)}, name=&#39;u2&#39;)</span>
+<span class="sd">            sage: u3 = U({3: rectangle(QQ, 0, 3, 0, 3)}, name=&#39;u3&#39;)</span>
+<span class="sd">            sage: from pet_salon.immersion import Embeddings</span>
+<span class="sd">            sage: i12 = Embeddings(u2)(u1) # embedding of u1 into u2</span>
+<span class="sd">            sage: i23 = Embeddings(u3)(u2) # embedding of u2 into u3</span>
+<span class="sd">            sage: i13 = Embeddings(u3)(u1) # embedding of u1 into u3</span>
+<span class="sd">            sage: composition = i23*i12</span>
+<span class="sd">            sage: composition</span>
+<span class="sd">            Embedding of u1 into u3</span>
+<span class="sd">            sage: composition == i13</span>
+<span class="sd">            True</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">self_on_left</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">other</span><span class="o">.</span><span class="n">parent</span> <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">category</span><span class="p">()</span><span class="o">.</span><span class="n">is_subcategory</span><span class="p">(</span><span class="n">ImmersionsCategory</span><span class="p">()):</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">():</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;To compose two immersions, the domain and codomain must be equal&#39;</span><span class="p">)</span>
+                <span class="n">injective</span> <span class="o">=</span> <span class="s1">&#39;Injective&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">category</span><span class="p">()</span><span class="o">.</span><span class="n">axioms</span><span class="p">()</span> <span class="ow">and</span> <span class="s1">&#39;Injective&#39;</span> <span class="ow">in</span> <span class="n">other</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">category</span><span class="p">()</span><span class="o">.</span><span class="n">axioms</span><span class="p">()</span>
+                <span class="n">surjective</span> <span class="o">=</span> <span class="s1">&#39;Surjective&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">category</span><span class="p">()</span><span class="o">.</span><span class="n">axioms</span><span class="p">()</span> <span class="ow">and</span> <span class="s1">&#39;Surjective&#39;</span> <span class="ow">in</span> <span class="n">other</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">category</span><span class="p">()</span><span class="o">.</span><span class="n">axioms</span><span class="p">()</span>
+                <span class="n">parent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">with_different_axioms</span><span class="p">(</span><span class="n">injective</span><span class="p">,</span> <span class="n">surjective</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">parent</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">domain</span><span class="p">(),</span>
+                       <span class="n">mapping_composition</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ambient_labels</span><span class="p">(),</span> <span class="n">other</span><span class="o">.</span><span class="n">ambient_labels</span><span class="p">()),</span>
+                       <span class="c1"># We leave it to the constructor to work out the subunions.</span>
+                <span class="p">)</span>
+            <span class="n">PAMs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">piecewise_affine_maps</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">PAMs</span><span class="o">.</span><span class="n">has_coerce_map_from</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">parent</span><span class="p">()):</span>
+                <span class="k">return</span> <span class="n">PAMs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">*</span> <span class="n">PAMs</span><span class="p">(</span><span class="n">other</span><span class="p">)</span></div>
+
+            <span class="c1">#raise ValueError(&#39;This left action is not implemented&#39;)</span>
+        <span class="c1">#raise ValueError(&#39;Right actions not defined yet&#39;)</span>
+
+<div class="viewcode-block" id="Immersions">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.Immersions">[docs]</a>
+<span class="k">class</span> <span class="nc">Immersions</span><span class="p">(</span><span class="n">UniqueRepresentation</span><span class="p">,</span> <span class="n">Parent</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Collection (parent) of the collection of immersions (or a restricted class of immersions) into a fixed disjoint union of polytopes.</span>
+
+<span class="sd">    We call the fixed disjoint union the &quot;ambient union.&quot;</span>
+
+<span class="sd">    EXAMPLES::</span>
+
+<span class="sd">    Construct the trivial SurjectiveEmbedding:</span>
+
+<span class="sd">        sage: from pet_salon.immersion import SurjectiveEmbeddings</span>
+<span class="sd">        sage: from pet_salon import PolytopeUnions</span>
+<span class="sd">        sage: U = PolytopeUnions(2, QQ)</span>
+<span class="sd">        sage: union = U.an_element()</span>
+<span class="sd">        sage: union</span>
+<span class="sd">        Disjoint union of 2 nonoverlapping polyhedra in QQ^2</span>
+<span class="sd">        sage: S = SurjectiveEmbeddings(union)</span>
+<span class="sd">        sage: p = S() # p is the trivial SurjectiveEmbedding</span>
+<span class="sd">        sage: p</span>
+<span class="sd">        Surjective embedding of disjoint union of 2 nonoverlapping polyhedra in QQ^2 into disjoint union of 2 nonoverlapping polyhedra in QQ^2</span>
+<span class="sd">        sage: p.domain() == union</span>
+<span class="sd">        True</span>
+<span class="sd">        sage: p.ambient_labels()</span>
+<span class="sd">        {0: 0, 1: 1}</span>
+<span class="sd">        sage: pt = p.domain().point((0,0))</span>
+<span class="sd">        sage: pt</span>
+<span class="sd">        Point(0, (0, 0))</span>
+<span class="sd">        sage: pt == p.preimage(pt)</span>
+<span class="sd">        True</span>
+<span class="sd">        sage: pt == p(pt)</span>
+<span class="sd">        True</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">Element</span> <span class="o">=</span> <span class="n">Immersion</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ambient_union</span><span class="p">,</span> <span class="n">injective</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">surjective</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">ambient_union</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">category</span><span class="p">()</span><span class="o">.</span><span class="n">is_subcategory</span><span class="p">(</span><span class="n">PolytopeUnionsCategory</span><span class="p">()),</span> \
+            <span class="s1">&#39;ambient_union must be a PolytopeUnion&#39;</span>
+        <span class="n">cat</span> <span class="o">=</span> <span class="n">ImmersionsCategory</span><span class="p">()</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="s1">&#39;Immersions into&#39;</span>
+        <span class="k">if</span> <span class="n">injective</span><span class="p">:</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="s1">&#39;Embeddings into&#39;</span>
+            <span class="n">cat</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">Injective</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">surjective</span><span class="p">:</span>
+            <span class="n">cat</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">Surjective</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">injective</span><span class="p">:</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="s1">&#39;Surjective embeddings into&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="s1">&#39;Surjective immersions into&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ambient_union</span> <span class="o">=</span> <span class="n">ambient_union</span>
+        <span class="n">Parent</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">cat</span><span class="p">)</span>
+        <span class="n">union_name</span> <span class="o">=</span> <span class="nb">repr</span><span class="p">(</span><span class="n">ambient_union</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">start</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">union_name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}{</span><span class="n">union_name</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Immersions.with_different_axioms">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.Immersions.with_different_axioms">[docs]</a>
+    <span class="k">def</span> <span class="nf">with_different_axioms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">injective</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">surjective</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return a parent with the provided axioms.&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">Immersions</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">(),</span> <span class="n">injective</span><span class="o">=</span><span class="n">injective</span><span class="p">,</span> <span class="n">surjective</span><span class="o">=</span><span class="n">surjective</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Immersions.with_different_union">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.Immersions.with_different_union">[docs]</a>
+    <span class="k">def</span> <span class="nf">with_different_union</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_ambient_union</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return the same parent but with a different ambient union.&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">Immersions</span><span class="p">(</span><span class="n">new_ambient_union</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_injective</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_surjective</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="Immersions.with_different_field">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.Immersions.with_different_field">[docs]</a>
+    <span class="k">def</span> <span class="nf">with_different_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_field</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return the same object but defined over a new bigger field.&#39;&#39;&#39;</span>
+        <span class="n">new_union_parent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">with_different_field</span><span class="p">(</span><span class="n">new_field</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Immersions</span><span class="p">(</span><span class="n">new_union_parent</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()),</span>
+                          <span class="bp">self</span><span class="o">.</span><span class="n">is_injective</span><span class="p">(),</span>
+                          <span class="bp">self</span><span class="o">.</span><span class="n">is_surjective</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="Immersions.ambient_union">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.Immersions.ambient_union">[docs]</a>
+    <span class="k">def</span> <span class="nf">ambient_union</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ambient_union</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s1">&#39;category&#39;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">other</span><span class="o">.</span><span class="n">category</span><span class="p">()</span><span class="o">.</span><span class="n">is_subcategory</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">category</span><span class="p">()):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">hash</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">category</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()))</span>
+
+<div class="viewcode-block" id="Immersions.restriction">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.Immersions.restriction">[docs]</a>
+    <span class="k">def</span> <span class="nf">restriction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ambient_label_collection</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s1">&#39;Surjective&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">category</span><span class="p">()</span><span class="o">.</span><span class="n">axioms</span><span class="p">()</span> <span class="ow">and</span> <span class="n">ambient_label_collection</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span><span class="o">.</span><span class="n">labels</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The only restriction that is surjective is the trivial one&#39;</span><span class="p">)</span>
+        <span class="n">U</span> <span class="o">=</span> <span class="n">PolytopeUnions</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">field</span><span class="p">(),</span> <span class="n">finite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nonoverlapping</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_class</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                  <span class="bp">self</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span><span class="o">.</span><span class="n">restrict</span><span class="p">(</span><span class="n">ambient_label_collection</span><span class="p">),</span>
+                                  <span class="n">identity_mapping</span><span class="p">(</span><span class="n">ambient_label_collection</span><span class="p">),</span>
+                                  <span class="n">function_mapping</span><span class="p">(</span><span class="n">ambient_label_collection</span><span class="p">,</span> <span class="n">tuple_singleton</span><span class="p">))</span></div>
+
+
+    <span class="k">def</span> <span class="nf">_element_constructor_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="c1">#print(f&#39;Called element_constructor with args={args}, len(args)={len(args)}, kwds={kwds}&#39;)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;parent&#39;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="p">:</span>
+                    <span class="c1"># Just return the element!</span>
+                    <span class="k">return</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">parent</span><span class="p">(),</span> <span class="s1">&#39;category&#39;</span><span class="p">)</span> <span class="ow">and</span> \
+                    <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">category</span><span class="p">()</span><span class="o">.</span><span class="n">is_subcategory</span><span class="p">(</span><span class="n">ImmersionsCategory</span><span class="p">()):</span>
+                    <span class="c1"># It is an immersion.</span>
+                    <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">field</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">field</span><span class="p">():</span>
+                        <span class="c1"># No field conversion necessary</span>
+                        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_class</span><span class="p">(</span>
+                            <span class="bp">self</span><span class="p">,</span>
+                            <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">domain</span><span class="p">(),</span>
+                            <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">ambient_labels</span><span class="p">(),</span>
+                            <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">subunion_labels</span><span class="p">(),</span>
+                            <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="c1"># Convert domain to same parent but with new field</span>
+                        <span class="n">U</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">with_different_field</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">field</span><span class="p">())</span>
+                        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_class</span><span class="p">(</span>
+                            <span class="bp">self</span><span class="p">,</span>
+                            <span class="n">U</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">domain</span><span class="p">()),</span>
+                            <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">ambient_labels</span><span class="p">(),</span>
+                            <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">subunion_labels</span><span class="p">(),</span>
+                            <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+                <span class="c1"># PASS ON ANY OTHER CASE, ESPECIALLY WHERE JUST A POLYTOPE UNION IS PASSED</span>
+            <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+                <span class="c1"># Construct the trivial immersion</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">restriction</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span><span class="o">.</span><span class="n">labels</span><span class="p">())</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">3</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;parent&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">parent</span><span class="p">(),</span> <span class="s1">&#39;category&#39;</span><span class="p">)</span> <span class="ow">and</span> \
+            <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">category</span><span class="p">()</span><span class="o">.</span><span class="n">is_subcategory</span><span class="p">(</span><span class="n">PolytopeUnionsCategory</span><span class="p">()):</span>
+
+            <span class="c1"># Assume the parameters match the first few parameters of the constructor of Immersion.</span>
+            <span class="n">domain</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">assert</span> <span class="n">domain</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">dimension</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">(),</span> \
+                <span class="s1">&#39;The domain</span><span class="se">\&#39;</span><span class="s1">s dimension must match the ambient union.&#39;</span>
+            <span class="k">if</span> <span class="n">domain</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">field</span><span class="p">()</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">field</span><span class="p">():</span>
+                <span class="c1"># Attempt to change fields.</span>
+                <span class="n">new_parent</span> <span class="o">=</span> <span class="n">domain</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">with_different_field</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">field</span><span class="p">())</span>
+                <span class="n">domain</span> <span class="o">=</span> <span class="n">new_parent</span><span class="p">(</span><span class="n">domain</span><span class="p">)</span>
+            <span class="c1"># Now domain is setup.</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">ambient_labels_mapping</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="c1"># should be a map between labels</span>
+                <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ambient_labels_mapping</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">),</span> \
+                    <span class="s1">&#39;The second parameter should be an ambient_labels_mapping, which should be a mapping.&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span><span class="o">.</span><span class="n">is_nonoverlapping</span><span class="p">(),</span> \
+                    <span class="s1">&#39;ambient_labels_mapping must be defined if the ambient PolytopeUnion has overlaps&#39;</span>
+                <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span><span class="o">.</span><span class="n">is_finite</span><span class="p">(),</span> \
+                    <span class="s1">&#39;ambient_labels_mapping must be defined if the containing PolytopeUnion is not finite&#39;</span>
+                <span class="k">assert</span> <span class="n">domain</span><span class="o">.</span><span class="n">is_finite</span><span class="p">(),</span> \
+                    <span class="s1">&#39;ambient_labels_mapping must be defined if `domain` is not finite&#39;</span>
+                <span class="n">ambient_labels_mapping</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">polytope</span> <span class="ow">in</span> <span class="n">domain</span><span class="o">.</span><span class="n">polytopes</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">center</span> <span class="o">=</span> <span class="n">polytope</span><span class="o">.</span><span class="n">center</span><span class="p">()</span>
+                    <span class="n">pair</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">center</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">pair</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The subunion polytope with label </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s1"> is not contained in a polytope from the ambient union.&#39;</span><span class="p">)</span>
+                    <span class="n">ambient_labels_mapping</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="n">subunion_labels_mapping</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+                <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">subunion_labels_mapping</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">),</span> \
+                    <span class="s1">&#39;The third parameter should be an subunion_labels_mapping, which should be a mapping.&#39;</span>
+                <span class="k">for</span> <span class="n">ambient_label</span><span class="p">,</span> <span class="n">subunion_labels</span> <span class="ow">in</span> <span class="n">subunion_labels_mapping</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">subunion_labels</span><span class="p">,</span> <span class="n">Collection</span><span class="p">),</span> \
+                        <span class="s1">&#39;The third parameter should be an subunion_labels_mapping, which must be a mapping sending ambient labels to collections of labels in the domain.&#39;</span>
+                    <span class="k">break</span> <span class="c1"># Just check one</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">assert</span> <span class="n">domain</span><span class="o">.</span><span class="n">is_finite</span><span class="p">(),</span> \
+                    <span class="s1">&#39;subunions must be defined if `domain` is not finite&#39;</span>
+                <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span><span class="o">.</span><span class="n">is_finite</span><span class="p">(),</span> \
+                    <span class="s1">&#39;subunions must be defined if the containing PolytopeUnion is not finite&#39;</span>
+                <span class="n">subunion_labels_mapping</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">ambient_label</span> <span class="ow">in</span> <span class="n">ambient_labels_mapping</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">subunion_labels_mapping</span><span class="p">[</span><span class="n">ambient_label</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+                    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                        <span class="n">subunion_labels_mapping</span><span class="p">[</span><span class="n">ambient_label</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">label</span><span class="p">]</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_class</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">ambient_labels_mapping</span><span class="p">,</span> <span class="n">subunion_labels_mapping</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;Unrecognized information passed to element constructor&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_an_element_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        TODO: Return an element representative of the parent class.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="SurjectiveImmersions">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.SurjectiveImmersions">[docs]</a>
+<span class="k">def</span> <span class="nf">SurjectiveImmersions</span><span class="p">(</span><span class="n">ambient_union</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Construct the collection of surjective embedings into the provided ambient union.</span>
+
+<span class="sd">    EXAMPLES::</span>
+
+<span class="sd">        sage: from pet_salon import PolytopeUnions, rectangle</span>
+<span class="sd">        sage: from pet_salon.immersion import SurjectiveImmersions</span>
+<span class="sd">        sage: U = PolytopeUnions(2, QQ)</span>
+<span class="sd">        sage: union = U(rectangle(QQ, 0, 1, 0, 1))</span>
+<span class="sd">        sage: union</span>
+<span class="sd">        Disjoint union of 1 nonoverlapping polyhedra in QQ^2</span>
+<span class="sd">        sage: P = SurjectiveImmersions(union)</span>
+<span class="sd">        sage: P</span>
+<span class="sd">        Surjective immersions into disjoint union of 1 nonoverlapping polyhedra in QQ^2</span>
+<span class="sd">        sage: TestSuite(P).run()</span>
+<span class="sd">        sage: V = PolytopeUnions(2, QQ, nonoverlapping=False)</span>
+<span class="sd">        sage: f = P(V({</span>
+<span class="sd">        ....:     1: rectangle(QQ,   0, 2/3,   0, 1),</span>
+<span class="sd">        ....:     2: rectangle(QQ, 1/3,   1,   0, 1),</span>
+<span class="sd">        ....: }))</span>
+<span class="sd">        sage: f</span>
+<span class="sd">        Surjective immersion of disjoint union of 2 polyhedra in QQ^2 into disjoint union of 1 nonoverlapping polyhedra in QQ^2</span>
+<span class="sd">        sage: TestSuite(f).run()</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">Immersions</span><span class="p">(</span><span class="n">ambient_union</span><span class="p">,</span> <span class="n">injective</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">surjective</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Embeddings">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.Embeddings">[docs]</a>
+<span class="k">def</span> <span class="nf">Embeddings</span><span class="p">(</span><span class="n">ambient_union</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Construct the collection of embeddings into the provided ambient union.</span>
+
+<span class="sd">    EXAMPLES::</span>
+
+<span class="sd">        sage: from pet_salon import PolytopeUnions, rectangle</span>
+<span class="sd">        sage: from pet_salon.immersion import Embeddings</span>
+<span class="sd">        sage: U = PolytopeUnions(2, QQ)</span>
+<span class="sd">        sage: union = U(rectangle(QQ, 0, 1, 0, 1))</span>
+<span class="sd">        sage: union</span>
+<span class="sd">        Disjoint union of 1 nonoverlapping polyhedra in QQ^2</span>
+<span class="sd">        sage: E = Embeddings(union)</span>
+<span class="sd">        sage: E</span>
+<span class="sd">        Embeddings into disjoint union of 1 nonoverlapping polyhedra in QQ^2</span>
+<span class="sd">        sage: TestSuite(E).run()</span>
+<span class="sd">        sage: e = E(U({</span>
+<span class="sd">        ....:     1: rectangle(QQ,   0, 1/2,   0, 1/2),</span>
+<span class="sd">        ....:     2: rectangle(QQ, 1/2,   1,   0, 1/2),</span>
+<span class="sd">        ....:     3: rectangle(QQ,   0, 1/2, 1/2,   1),</span>
+<span class="sd">        ....: }))</span>
+<span class="sd">        sage: e</span>
+<span class="sd">        Embedding of disjoint union of 3 nonoverlapping polyhedra in QQ^2 into disjoint union of 1 nonoverlapping polyhedra in QQ^2</span>
+<span class="sd">        sage: TestSuite(e).run()</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">Immersions</span><span class="p">(</span><span class="n">ambient_union</span><span class="p">,</span> <span class="n">injective</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">surjective</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SurjectiveEmbeddings">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.SurjectiveEmbeddings">[docs]</a>
+<span class="k">def</span> <span class="nf">SurjectiveEmbeddings</span><span class="p">(</span><span class="n">ambient_union</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Construct the collection of surjective embedings into the provided ambient union.</span>
+
+<span class="sd">    EXAMPLES::</span>
+
+<span class="sd">        sage: from pet_salon import PolytopeUnions, rectangle</span>
+<span class="sd">        sage: from pet_salon.immersion import SurjectiveEmbeddings</span>
+<span class="sd">        sage: U = PolytopeUnions(2, QQ)</span>
+<span class="sd">        sage: union = U(rectangle(QQ, 0, 1, 0, 1))</span>
+<span class="sd">        sage: union</span>
+<span class="sd">        Disjoint union of 1 nonoverlapping polyhedra in QQ^2</span>
+<span class="sd">        sage: P = SurjectiveEmbeddings(union)</span>
+<span class="sd">        sage: P</span>
+<span class="sd">        Surjective embeddings into disjoint union of 1 nonoverlapping polyhedra in QQ^2</span>
+<span class="sd">        sage: TestSuite(P).run()</span>
+<span class="sd">        sage: f = P(U({</span>
+<span class="sd">        ....:     1: rectangle(QQ,   0, 1/2,   0, 1/2),</span>
+<span class="sd">        ....:     2: rectangle(QQ, 1/2,   1,   0, 1/2),</span>
+<span class="sd">        ....:     3: rectangle(QQ,   0, 1/2, 1/2,   1),</span>
+<span class="sd">        ....:     4: rectangle(QQ, 1/2,   1, 1/2,   1),</span>
+<span class="sd">        ....: }))</span>
+<span class="sd">        sage: f</span>
+<span class="sd">        Surjective embedding of disjoint union of 4 nonoverlapping polyhedra in QQ^2 into disjoint union of 1 nonoverlapping polyhedra in QQ^2</span>
+<span class="sd">        sage: TestSuite(f).run()</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">Immersions</span><span class="p">(</span><span class="n">ambient_union</span><span class="p">,</span> <span class="n">injective</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">surjective</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PartitionsCategory">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.PartitionsCategory">[docs]</a>
+<span class="k">class</span> <span class="nc">PartitionsCategory</span><span class="p">(</span><span class="n">Category</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The category of polyhedral decompositions of an ambient polyhedral union.</span>
+
+<span class="sd">    EXAMPLES::</span>
+
+<span class="sd">        sage: from pet_salon.immersion import PartitionsCategory</span>
+<span class="sd">        sage: PartitionsCategory()</span>
+<span class="sd">        Category of partitions of a polytope union</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">):</span>
+        <span class="n">Category</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Category of partitions of a polytope union&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="PartitionsCategory.super_categories">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.PartitionsCategory.super_categories">[docs]</a>
+    <span class="k">def</span> <span class="nf">super_categories</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the categories subdivisions automatically belong to.</span>
+
+<span class="sd">        EXAMPLES::</span>
+
+<span class="sd">            sage: from pet_salon.immersion import PartitionsCategory</span>
+<span class="sd">            sage: C = PartitionsCategory()</span>
+<span class="sd">            sage: C.super_categories()</span>
+<span class="sd">            [Category of sets]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">Sets</span><span class="p">()]</span></div>
+
+
+<div class="viewcode-block" id="PartitionsCategory.ParentMethods">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.PartitionsCategory.ParentMethods">[docs]</a>
+    <span class="k">class</span> <span class="nc">ParentMethods</span><span class="p">:</span>
+
+<div class="viewcode-block" id="PartitionsCategory.ParentMethods.ambient_union">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.PartitionsCategory.ParentMethods.ambient_union">[docs]</a>
+        <span class="nd">@abstract_method</span>
+        <span class="k">def</span> <span class="nf">ambient_union</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return the ambient polyhedral union. This is also the codomain of partitions in the collection viewed as maps.&#39;&#39;&#39;</span>
+            <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="PartitionsCategory.ParentMethods.field">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.PartitionsCategory.ParentMethods.field">[docs]</a>
+        <span class="k">def</span> <span class="nf">field</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">field</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="PartitionsCategory.ParentMethods.dimension">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.PartitionsCategory.ParentMethods.dimension">[docs]</a>
+        <span class="k">def</span> <span class="nf">dimension</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">dimension</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="PartitionsCategory.ParentMethods.surjective_embeddings">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.PartitionsCategory.ParentMethods.surjective_embeddings">[docs]</a>
+        <span class="nd">@cached_method</span>
+        <span class="k">def</span> <span class="nf">surjective_embeddings</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return the collection of surjective embeddings into the ambient union.&#39;&#39;&#39;</span>
+            <span class="k">return</span> <span class="n">SurjectiveEmbeddings</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="PartitionsCategory.ParentMethods.piecewise_affine_maps">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.PartitionsCategory.ParentMethods.piecewise_affine_maps">[docs]</a>
+        <span class="nd">@cached_method</span>
+        <span class="k">def</span> <span class="nf">piecewise_affine_maps</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="kn">from</span> <span class="nn">.affine</span> <span class="kn">import</span> <span class="n">PiecewiseAffineMaps</span>
+            <span class="k">return</span> <span class="n">PiecewiseAffineMaps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">field</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="PartitionsCategory.ParentMethods.with_different_field">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.PartitionsCategory.ParentMethods.with_different_field">[docs]</a>
+        <span class="k">def</span> <span class="nf">with_different_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_field</span><span class="p">):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return the same object but defined over a new bigger field.&#39;&#39;&#39;</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">surjective_embeddings</span><span class="p">()</span><span class="o">.</span><span class="n">with_different_field</span><span class="p">(</span><span class="n">new_field</span><span class="p">)</span><span class="o">.</span><span class="n">partitions</span><span class="p">()</span></div>
+
+
+        <span class="k">def</span> <span class="nf">_coerce_map_from_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            EXAMPLES::</span>
+
+<span class="sd">            Example testing coercion and conversion:</span>
+<span class="sd">            sage: from pet_salon import PolytopeUnions, Partitions</span>
+<span class="sd">            sage: union = PolytopeUnions(2, QQ).an_element()</span>
+<span class="sd">            sage: P_QQ = Partitions(union)</span>
+<span class="sd">            sage: P_AA = P_QQ.with_different_field(AA)</span>
+<span class="sd">            sage: P_AA</span>
+<span class="sd">            Partitions of disjoint union of 2 nonoverlapping polyhedra in AA^2</span>
+<span class="sd">            sage: TestSuite(P_AA).run()</span>
+<span class="sd">            sage: p = P_QQ.an_element()</span>
+<span class="sd">            sage: pp = P_AA(p)</span>
+<span class="sd">            sage: pp</span>
+<span class="sd">            Partition of disjoint union of 2 nonoverlapping polyhedra in AA^2 into 2 subpolytopes</span>
+<span class="sd">            sage: TestSuite(pp).run()</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="s1">&#39;category&#39;</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">parent</span><span class="o">.</span><span class="n">category</span><span class="p">()</span><span class="o">.</span><span class="n">is_subcategory</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">category</span><span class="p">()):</span>
+                <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">has_coerce_map_from</span><span class="p">(</span><span class="n">parent</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="p">()):</span>
+                <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="p">()(</span><span class="n">parent</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">())</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="PartitionsCategory.ElementMethods">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.PartitionsCategory.ElementMethods">[docs]</a>
+    <span class="k">class</span> <span class="nc">ElementMethods</span><span class="p">:</span>
+
+<div class="viewcode-block" id="PartitionsCategory.ElementMethods.surjective_embedding">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.PartitionsCategory.ElementMethods.surjective_embedding">[docs]</a>
+        <span class="nd">@abstract_method</span>
+        <span class="k">def</span> <span class="nf">surjective_embedding</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return the associated surjective embedding.&#39;&#39;&#39;</span></div>
+
+
+<div class="viewcode-block" id="PartitionsCategory.ElementMethods.domain">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.PartitionsCategory.ElementMethods.domain">[docs]</a>
+        <span class="k">def</span> <span class="nf">domain</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;&#39;&#39;&#39;</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="PartitionsCategory.ElementMethods.codomain">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.PartitionsCategory.ElementMethods.codomain">[docs]</a>
+        <span class="k">def</span> <span class="nf">codomain</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;&#39;&#39;&#39;</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">surjective_embedding</span><span class="p">()</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="PartitionsCategory.ElementMethods.subunion_labels">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.PartitionsCategory.ElementMethods.subunion_labels">[docs]</a>
+        <span class="k">def</span> <span class="nf">subunion_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Return a mapping sending an `ambient_label` to the collection of labels of the codomain</span>
+<span class="sd">            representing the pieces of the polytope with the provided `ambient_label`.</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">surjective_embedding</span><span class="p">()</span><span class="o">.</span><span class="n">subunion_labels</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="PartitionsCategory.ElementMethods.subunion">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.PartitionsCategory.ElementMethods.subunion">[docs]</a>
+        <span class="k">def</span> <span class="nf">subunion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ambient_label</span><span class="p">):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Return the restriction of the codomain subunion to polytopes that the polytope with the</span>
+<span class="sd">            provided `ambient_label` is divided into.</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">surjective_embedding</span><span class="p">()</span><span class="o">.</span><span class="n">subunion</span><span class="p">(</span><span class="n">ambient_label</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PartitionsCategory.ElementMethods.ambient_labels">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.PartitionsCategory.ElementMethods.ambient_labels">[docs]</a>
+        <span class="k">def</span> <span class="nf">ambient_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return a mapping sending labels in the subunion to labels in the ambient union.&#39;&#39;&#39;</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">surjective_embedding</span><span class="p">()</span><span class="o">.</span><span class="n">ambient_labels</span><span class="p">()</span></div>
+
+
+        <span class="k">def</span> <span class="fm">__invert__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return the associated surjective embedding.&#39;&#39;&#39;</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">surjective_embedding</span><span class="p">()</span>
+
+        <span class="k">def</span> <span class="nf">_test_surjective_embedding</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tester</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">TestSuite</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">surjective_embedding</span><span class="p">())</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">catch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">raise_on_failure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The associated surjective embedding failed a test: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="PartitionsCategory.ElementMethods.plot">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.PartitionsCategory.ElementMethods.plot">[docs]</a>
+        <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain_kwds</span><span class="o">=</span><span class="p">{},</span> <span class="n">codomain_kwds</span><span class="o">=</span><span class="p">{}):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Return a `graphics_array` containing plots of the domain and codomain.</span>
+
+<span class="sd">            The parameters `domain_kwds` and `codomain_kwds` are passed to the `plot` methods of</span>
+<span class="sd">            the respective `PolytopeUnion`s.</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">return</span> <span class="n">graphics_array</span><span class="p">([</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">**</span><span class="n">domain_kwds</span><span class="p">),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">**</span><span class="n">codomain_kwds</span><span class="p">)</span>
+            <span class="p">])</span></div>
+</div>
+</div>
+
+
+<div class="viewcode-block" id="Partition">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.Partition">[docs]</a>
+<span class="k">class</span> <span class="nc">Partition</span><span class="p">(</span><span class="n">Element</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">surjective_embedding</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># This constructor assumes that the things passed to it are already checked.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_surjective_embedding</span> <span class="o">=</span> <span class="n">surjective_embedding</span>
+        <span class="n">Element</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">name</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_surjective_embedding</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Surjective embedding associated to </span><span class="si">{</span><span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}{</span><span class="n">name</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ambient_name</span> <span class="o">=</span> <span class="nb">repr</span><span class="p">(</span><span class="n">parent</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">())</span>
+            <span class="n">axioms</span> <span class="o">=</span> <span class="n">parent</span><span class="o">.</span><span class="n">category</span><span class="p">()</span><span class="o">.</span><span class="n">axioms</span><span class="p">()</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span><span class="o">.</span><span class="n">is_finite</span><span class="p">():</span>
+                <span class="n">number</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span><span class="o">.</span><span class="n">polytopes</span><span class="p">())</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">number</span> <span class="o">=</span> <span class="s1">&#39;∞ly many&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Partition of </span><span class="si">{</span><span class="n">ambient_name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}{</span><span class="n">ambient_name</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="si">}</span><span class="s1"> into </span><span class="si">{</span><span class="n">number</span><span class="si">}</span><span class="s1"> subpolytopes&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Partition.surjective_embedding">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.Partition.surjective_embedding">[docs]</a>
+    <span class="k">def</span> <span class="nf">surjective_embedding</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return the associated surjective embedding.&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_surjective_embedding</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span> <span class="ow">is</span> <span class="n">other</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s1">&#39;parent&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">parent</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">surjective_embedding</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">surjective_embedding</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+    <span class="nd">@cached_method</span>
+    <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">hash</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">surjective_embedding</span><span class="p">()))</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pt</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">surjective_embedding</span><span class="p">()</span><span class="o">.</span><span class="n">preimage</span><span class="p">(</span><span class="n">pt</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_mul_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_act_on_</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_act_on_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">self_on_left</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">self_on_left</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">other</span><span class="o">.</span><span class="n">parent</span> <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">category</span><span class="p">()</span><span class="o">.</span><span class="n">is_subcategory</span><span class="p">(</span><span class="n">PartitionsCategory</span><span class="p">()):</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">codomain</span><span class="p">():</span>
+                    <span class="k">return</span> <span class="o">~</span><span class="p">((</span><span class="o">~</span><span class="n">other</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="o">~</span><span class="bp">self</span><span class="p">))</span>
+            <span class="n">PAMs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">piecewise_affine_maps</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">PAMs</span><span class="o">.</span><span class="n">has_coerce_map_from</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">parent</span><span class="p">()):</span>
+                <span class="k">return</span> <span class="n">PAMs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">*</span> <span class="n">PAMs</span><span class="p">(</span><span class="n">other</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Partitions">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.Partitions">[docs]</a>
+<span class="k">class</span> <span class="nc">Partitions</span><span class="p">(</span><span class="n">UniqueRepresentation</span><span class="p">,</span> <span class="n">Parent</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    The collection of partitions of a polytope union.</span>
+
+<span class="sd">    EXAMPLES::</span>
+
+<span class="sd">        sage: from pet_salon import PolytopeUnions, rectangle</span>
+<span class="sd">        sage: from pet_salon.immersion import Partitions</span>
+<span class="sd">        sage: U = PolytopeUnions(2, QQ)</span>
+<span class="sd">        sage: union = U(rectangle(QQ, 0, 1, 0, 1), name=&#39;union&#39;)</span>
+<span class="sd">        sage: union</span>
+<span class="sd">        union</span>
+<span class="sd">        sage: P = Partitions(union)</span>
+<span class="sd">        sage: P</span>
+<span class="sd">        Partitions of union</span>
+<span class="sd">        sage: TestSuite(P).run()</span>
+<span class="sd">        sage: f = P.inverse(U({</span>
+<span class="sd">        ....:     1: rectangle(QQ,   0, 1/2,   0, 1/2),</span>
+<span class="sd">        ....:     2: rectangle(QQ, 1/2,   1,   0, 1/2),</span>
+<span class="sd">        ....:     3: rectangle(QQ,   0, 1/2, 1/2,   1),</span>
+<span class="sd">        ....:     4: rectangle(QQ, 1/2,   1, 1/2,   1),</span>
+<span class="sd">        ....: }))</span>
+<span class="sd">        sage: f</span>
+<span class="sd">        Partition of union into 4 subpolytopes</span>
+<span class="sd">        sage: TestSuite(f).run()</span>
+<span class="sd">        sage: f(union.point((1/2,1/3)))</span>
+<span class="sd">        Point(1, (1/2, 1/3))</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">Element</span> <span class="o">=</span> <span class="n">Partition</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ambient_union</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ambient_union</span> <span class="o">=</span> <span class="n">ambient_union</span>
+        <span class="n">Parent</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">PartitionsCategory</span><span class="p">())</span>
+        <span class="n">union_name</span> <span class="o">=</span> <span class="nb">repr</span><span class="p">(</span><span class="n">ambient_union</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Partitions of </span><span class="si">{</span><span class="n">union_name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}{</span><span class="n">union_name</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Partitions.ambient_union">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.Partitions.ambient_union">[docs]</a>
+    <span class="k">def</span> <span class="nf">ambient_union</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ambient_union</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s1">&#39;category&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">category</span><span class="p">)</span> <span class="ow">or</span> <span class="n">other</span><span class="o">.</span><span class="n">category</span><span class="p">()</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">category</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">hash</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">category</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()))</span>
+
+<div class="viewcode-block" id="Partitions.inverse">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.Partitions.inverse">[docs]</a>
+    <span class="k">def</span> <span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Construct the partition that is the inverse of a surjective embedding.</span>
+
+<span class="sd">        All arguments except the keyword argument `&#39;name&#39;` are passed to the constructor in the parent `self.surjective_embeddings()`. In particular,</span>
+<span class="sd">        any collection of arguments that produce a surjective embedding can be used here to produce a Partition. The `name` keyword argument is</span>
+<span class="sd">        passed to the constructor of the partition, allowing it to be provided with a name.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="s1">&#39;name&#39;</span> <span class="ow">in</span> <span class="n">kwds</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">kwds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_class</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">surjective_embeddings</span><span class="p">()(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span> <span class="nf">_element_constructor_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="c1">#print(f&#39;Called element_constructor with args={args}&#39;)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c1"># Empty arguments. Construct the trivial partition.</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_class</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">surjective_embeddings</span><span class="p">()(),</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;parent&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">callable</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span> <span class="ow">and</span> \
+                <span class="nb">hasattr</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">parent</span><span class="p">(),</span> <span class="s1">&#39;category&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">callable</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">category</span><span class="p">):</span>
+
+                <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="p">:</span>
+                    <span class="c1"># Note: Ignoring possible name definition.</span>
+                    <span class="k">return</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+                <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">category</span><span class="p">()</span><span class="o">.</span><span class="n">is_subcategory</span><span class="p">(</span><span class="n">PartitionsCategory</span><span class="p">()):</span>
+                    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_class</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">surjective_embeddings</span><span class="p">()(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">surjective_embedding</span><span class="p">()),</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;The constructor only works for conversion. Instead use `inverse` to construct from a surjective embedding.&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_an_element_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">inverse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">surjective_embeddings</span><span class="p">()</span><span class="o">.</span><span class="n">an_element</span><span class="p">())</span></div>
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, W. Patrick Hooper.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

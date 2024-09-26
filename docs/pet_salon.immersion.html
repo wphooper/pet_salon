@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pet_salon.immersion module &mdash; pet_salon 0.0.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=8c5712d9"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="pet_salon.label module" href="pet_salon.label.html" />
+    <link rel="prev" title="pet_salon.collection module" href="pet_salon.collection.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pet_salon
+          </a>
+              <div class="version">
+                0.0.4
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="pet_salon.html">pet_salon package</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="pet_salon.html#module-pet_salon">Module contents</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="pet_salon.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="pet_salon.affine.html">pet_salon.affine module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_salon.collection.html">pet_salon.collection module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">pet_salon.immersion module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pet_salon.immersion.Embeddings"><code class="docutils literal notranslate"><span class="pre">Embeddings()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pet_salon.immersion.Immersion"><code class="docutils literal notranslate"><span class="pre">Immersion</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pet_salon.immersion.Immersions"><code class="docutils literal notranslate"><span class="pre">Immersions</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pet_salon.immersion.ImmersionsCategory"><code class="docutils literal notranslate"><span class="pre">ImmersionsCategory</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pet_salon.immersion.Partition"><code class="docutils literal notranslate"><span class="pre">Partition</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pet_salon.immersion.Partitions"><code class="docutils literal notranslate"><span class="pre">Partitions</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pet_salon.immersion.PartitionsCategory"><code class="docutils literal notranslate"><span class="pre">PartitionsCategory</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pet_salon.immersion.SurjectiveEmbeddings"><code class="docutils literal notranslate"><span class="pre">SurjectiveEmbeddings()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pet_salon.immersion.SurjectiveImmersions"><code class="docutils literal notranslate"><span class="pre">SurjectiveImmersions()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pet_salon.label.html">pet_salon.label module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_salon.orbit.html">pet_salon.orbit module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_salon.pam_examples.html">pet_salon.pam_examples module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_salon.plot.html">pet_salon.plot module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_salon.point.html">pet_salon.point module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_salon.polyhedra.html">pet_salon.polyhedra module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_salon.polytope.html">pet_salon.polytope module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_salon.union.html">pet_salon.union module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_salon.union_generators.html">pet_salon.union_generators module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_salon.version.html">pet_salon.version module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pet_salon</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="pet_salon.html">pet_salon package</a></li>
+      <li class="breadcrumb-item active">pet_salon.immersion module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/pet_salon.immersion.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-pet_salon.immersion">
+<span id="pet-salon-immersion-module"></span><h1>pet_salon.immersion module<a class="headerlink" href="#module-pet_salon.immersion" title="Link to this heading"></a></h1>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="pet_salon.immersion.Embeddings">
+<span class="sig-prename descclassname"><span class="pre">pet_salon.immersion.</span></span><span class="sig-name descname"><span class="pre">Embeddings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ambient_union</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#Embeddings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.Embeddings" title="Link to this definition"></a></dt>
+<dd><p>Construct the collection of embeddings into the provided ambient union.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon</span> <span class="kn">import</span> <span class="n">PolytopeUnions</span><span class="p">,</span> <span class="n">rectangle</span>
+<span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon.immersion</span> <span class="kn">import</span> <span class="n">Embeddings</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">U</span> <span class="o">=</span> <span class="n">PolytopeUnions</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">QQ</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">union</span> <span class="o">=</span> <span class="n">U</span><span class="p">(</span><span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">union</span>
+<span class="n">Disjoint</span> <span class="n">union</span> <span class="n">of</span> <span class="mi">1</span> <span class="n">nonoverlapping</span> <span class="n">polyhedra</span> <span class="ow">in</span> <span class="n">QQ</span><span class="o">^</span><span class="mi">2</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">E</span> <span class="o">=</span> <span class="n">Embeddings</span><span class="p">(</span><span class="n">union</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">E</span>
+<span class="n">Embeddings</span> <span class="n">into</span> <span class="n">disjoint</span> <span class="n">union</span> <span class="n">of</span> <span class="mi">1</span> <span class="n">nonoverlapping</span> <span class="n">polyhedra</span> <span class="ow">in</span> <span class="n">QQ</span><span class="o">^</span><span class="mi">2</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">TestSuite</span><span class="p">(</span><span class="n">E</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">e</span> <span class="o">=</span> <span class="n">E</span><span class="p">(</span><span class="n">U</span><span class="p">({</span>
+<span class="o">....</span><span class="p">:</span>     <span class="mi">1</span><span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span>
+<span class="o">....</span><span class="p">:</span>     <span class="mi">2</span><span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span>   <span class="mi">1</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span>
+<span class="o">....</span><span class="p">:</span>     <span class="mi">3</span><span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span>   <span class="mi">1</span><span class="p">),</span>
+<span class="o">....</span><span class="p">:</span> <span class="p">}))</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">e</span>
+<span class="n">Embedding</span> <span class="n">of</span> <span class="n">disjoint</span> <span class="n">union</span> <span class="n">of</span> <span class="mi">3</span> <span class="n">nonoverlapping</span> <span class="n">polyhedra</span> <span class="ow">in</span> <span class="n">QQ</span><span class="o">^</span><span class="mi">2</span> <span class="n">into</span> <span class="n">disjoint</span> <span class="n">union</span> <span class="n">of</span> <span class="mi">1</span> <span class="n">nonoverlapping</span> <span class="n">polyhedra</span> <span class="ow">in</span> <span class="n">QQ</span><span class="o">^</span><span class="mi">2</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">TestSuite</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pet_salon.immersion.Immersion">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pet_salon.immersion.</span></span><span class="sig-name descname"><span class="pre">Immersion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ambient_labels_mapping</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subunion_labels_mapping</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#Immersion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.Immersion" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Element</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.Immersion.ambient_labels">
+<span class="sig-name descname"><span class="pre">ambient_labels</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#Immersion.ambient_labels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.Immersion.ambient_labels" title="Link to this definition"></a></dt>
+<dd><p>Return a mapping sending labels in the subunion to labels in the ambient union.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.Immersion.domain">
+<span class="sig-name descname"><span class="pre">domain</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#Immersion.domain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.Immersion.domain" title="Link to this definition"></a></dt>
+<dd><p>Return the domain of this immersion.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.Immersion.subunion_labels">
+<span class="sig-name descname"><span class="pre">subunion_labels</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#Immersion.subunion_labels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.Immersion.subunion_labels" title="Link to this definition"></a></dt>
+<dd><p>Return a mapping sending an <cite>ambient_label</cite> to the collection of labels that correspond
+to polytopes that map into the polytope with the provided <cite>ambient_label</cite>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pet_salon.immersion.Immersions">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pet_salon.immersion.</span></span><span class="sig-name descname"><span class="pre">Immersions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ambient_union</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">injective</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surjective</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#Immersions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.Immersions" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">UniqueRepresentation</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Parent</span></code></p>
+<p>Collection (parent) of the collection of immersions (or a restricted class of immersions) into a fixed disjoint union of polytopes.</p>
+<p>We call the fixed disjoint union the “ambient union.”</p>
+<p>EXAMPLES:</p>
+<p>Construct the trivial SurjectiveEmbedding:</p>
+<blockquote>
+<div><p>sage: from pet_salon.immersion import SurjectiveEmbeddings
+sage: from pet_salon import PolytopeUnions
+sage: U = PolytopeUnions(2, QQ)
+sage: union = U.an_element()
+sage: union
+Disjoint union of 2 nonoverlapping polyhedra in QQ^2
+sage: S = SurjectiveEmbeddings(union)
+sage: p = S() # p is the trivial SurjectiveEmbedding
+sage: p
+Surjective embedding of disjoint union of 2 nonoverlapping polyhedra in QQ^2 into disjoint union of 2 nonoverlapping polyhedra in QQ^2
+sage: p.domain() == union
+True
+sage: p.ambient_labels()
+{0: 0, 1: 1}
+sage: pt = p.domain().point((0,0))
+sage: pt
+Point(0, (0, 0))
+sage: pt == p.preimage(pt)
+True
+sage: pt == p(pt)
+True</p>
+</div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pet_salon.immersion.Immersions.Element">
+<span class="sig-name descname"><span class="pre">Element</span></span><a class="headerlink" href="#pet_salon.immersion.Immersions.Element" title="Link to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#pet_salon.immersion.Immersion" title="pet_salon.immersion.Immersion"><code class="xref py py-class docutils literal notranslate"><span class="pre">Immersion</span></code></a></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.Immersions.ambient_union">
+<span class="sig-name descname"><span class="pre">ambient_union</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#Immersions.ambient_union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.Immersions.ambient_union" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.Immersions.restriction">
+<span class="sig-name descname"><span class="pre">restriction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ambient_label_collection</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#Immersions.restriction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.Immersions.restriction" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.Immersions.with_different_axioms">
+<span class="sig-name descname"><span class="pre">with_different_axioms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">injective</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surjective</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#Immersions.with_different_axioms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.Immersions.with_different_axioms" title="Link to this definition"></a></dt>
+<dd><p>Return a parent with the provided axioms.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.Immersions.with_different_field">
+<span class="sig-name descname"><span class="pre">with_different_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_field</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#Immersions.with_different_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.Immersions.with_different_field" title="Link to this definition"></a></dt>
+<dd><p>Return the same object but defined over a new bigger field.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.Immersions.with_different_union">
+<span class="sig-name descname"><span class="pre">with_different_union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_ambient_union</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#Immersions.with_different_union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.Immersions.with_different_union" title="Link to this definition"></a></dt>
+<dd><p>Return the same parent but with a different ambient union.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pet_salon.immersion.</span></span><span class="sig-name descname"><span class="pre">ImmersionsCategory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Category</span></code></p>
+<p>The category of polyhedral subsets together with an embedding in an ambient polyhedral union.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon.immersion</span> <span class="kn">import</span> <span class="n">ImmersionsCategory</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">ImmersionsCategory</span><span class="p">()</span>
+<span class="n">Category</span> <span class="n">of</span> <span class="n">immersions</span> <span class="n">into</span> <span class="n">a</span> <span class="n">polytope</span> <span class="n">union</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.ElementMethods">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ElementMethods</span></span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.ElementMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.ElementMethods" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.ElementMethods.ambient_labels">
+<span class="sig-name descname"><span class="pre">ambient_labels</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.ElementMethods.ambient_labels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.ElementMethods.ambient_labels" title="Link to this definition"></a></dt>
+<dd><p>Return a mapping sending labels in the domain to labels in the ambient union.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.ElementMethods.codomain">
+<span class="sig-name descname"><span class="pre">codomain</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.ElementMethods.codomain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.ElementMethods.codomain" title="Link to this definition"></a></dt>
+<dd><p>Return the codomain which is also the ambient union.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.ElementMethods.domain">
+<span class="sig-name descname"><span class="pre">domain</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.ElementMethods.domain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.ElementMethods.domain" title="Link to this definition"></a></dt>
+<dd><p>Return the domain of this immersion.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.ElementMethods.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain_kwds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">codomain_kwds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.ElementMethods.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.ElementMethods.plot" title="Link to this definition"></a></dt>
+<dd><p>Return a <cite>graphics_array</cite> containing plots of the domain and codomain.</p>
+<p>The parameters <cite>domain_kwds</cite> and <cite>codomain_kwds</cite> are passed to the <cite>plot</cite> methods of
+the respective <a href="#id1"><span class="problematic" id="id2">`</span></a>PolytopeUnion`s.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.ElementMethods.preimage">
+<span class="sig-name descname"><span class="pre">preimage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.ElementMethods.preimage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.ElementMethods.preimage" title="Link to this definition"></a></dt>
+<dd><p>Given a point in the ambient union, find a corresponding point in the domain.</p>
+<p>If <cite>all</cite> is set to <cite>True</cite> we return an iterator over all preimages.</p>
+<p>This method just passes the call to <cite>find</cite> from the appropriate domain.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon.immersion</span> <span class="kn">import</span> <span class="n">Embeddings</span>
+<span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon</span> <span class="kn">import</span> <span class="n">PolytopeUnions</span><span class="p">,</span> <span class="n">rectangle</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">U</span> <span class="o">=</span> <span class="n">PolytopeUnions</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">QQ</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">union</span> <span class="o">=</span> <span class="n">U</span><span class="p">({</span><span class="mi">0</span><span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)})</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">E</span> <span class="o">=</span> <span class="n">Embeddings</span><span class="p">(</span><span class="n">union</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">E</span>
+<span class="n">Embeddings</span> <span class="n">into</span> <span class="n">disjoint</span> <span class="n">union</span> <span class="n">of</span> <span class="mi">1</span> <span class="n">nonoverlapping</span> <span class="n">polyhedra</span> <span class="ow">in</span> <span class="n">QQ</span><span class="o">^</span><span class="mi">2</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">e</span> <span class="o">=</span> <span class="n">E</span><span class="p">(</span><span class="n">U</span><span class="p">({</span><span class="mi">1</span><span class="p">:</span><span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span>
+<span class="o">....</span><span class="p">:</span>          <span class="mi">2</span><span class="p">:</span><span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span>
+<span class="o">....</span><span class="p">:</span>          <span class="p">}))</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">e</span>
+<span class="n">Embedding</span> <span class="n">of</span> <span class="n">disjoint</span> <span class="n">union</span> <span class="n">of</span> <span class="mi">2</span> <span class="n">nonoverlapping</span> <span class="n">polyhedra</span> <span class="ow">in</span> <span class="n">QQ</span><span class="o">^</span><span class="mi">2</span> <span class="n">into</span> <span class="n">disjoint</span> <span class="n">union</span> <span class="n">of</span> <span class="mi">1</span> <span class="n">nonoverlapping</span> <span class="n">polyhedra</span> <span class="ow">in</span> <span class="n">QQ</span><span class="o">^</span><span class="mi">2</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">pt</span> <span class="o">=</span> <span class="n">union</span><span class="o">.</span><span class="n">point</span><span class="p">((</span><span class="mi">4</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">pt</span>
+<span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="mi">4</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">e</span><span class="o">.</span><span class="n">preimage</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span>
+<span class="n">Point</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="mi">4</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.ElementMethods.subunion">
+<span class="sig-name descname"><span class="pre">subunion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ambient_label</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.ElementMethods.subunion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.ElementMethods.subunion" title="Link to this definition"></a></dt>
+<dd><p>Return the restriction of the codomain union to polytopes mapped into the polytope
+with the provided <cite>ambient_label</cite>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.ElementMethods.subunion_labels">
+<span class="sig-name descname"><span class="pre">subunion_labels</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.ElementMethods.subunion_labels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.ElementMethods.subunion_labels" title="Link to this definition"></a></dt>
+<dd><p>Return a mapping sending an <cite>ambient_label</cite> to the collection of labels that correspond
+to polytopes that map into the polytope with the provided <cite>ambient_label</cite>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.Injective">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Injective</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Injective"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.Injective" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">CategoryWithAxiom</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.Injective.ElementMethods">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ElementMethods</span></span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Injective.ElementMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.Injective.ElementMethods" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.Injective.ElementMethods.subunion">
+<span class="sig-name descname"><span class="pre">subunion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ambient_label</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Injective.ElementMethods.subunion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.Injective.ElementMethods.subunion" title="Link to this definition"></a></dt>
+<dd><p>Return a mapping sending an <cite>ambient_label</cite> to the restriction of the subunion to polytopes
+contained within the polytope with the provided <cite>ambient_label</cite>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.Injective.ParentMethods">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ParentMethods</span></span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Injective.ParentMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.Injective.ParentMethods" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.Injective.ParentMethods.is_injective">
+<span class="sig-name descname"><span class="pre">is_injective</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Injective.ParentMethods.is_injective"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.Injective.ParentMethods.is_injective" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.Injective.SubcategoryMethods">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SubcategoryMethods</span></span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Injective.SubcategoryMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.Injective.SubcategoryMethods" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.Injective.SubcategoryMethods.description">
+<span class="sig-name descname"><span class="pre">description</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Injective.SubcategoryMethods.description"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.Injective.SubcategoryMethods.description" title="Link to this definition"></a></dt>
+<dd><p>Return a string describing the type of maps</p>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.ParentMethods">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ParentMethods</span></span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.ParentMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.ParentMethods" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.ParentMethods.ambient_union">
+<span class="sig-name descname"><span class="pre">ambient_union</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.ParentMethods.ambient_union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.ParentMethods.ambient_union" title="Link to this definition"></a></dt>
+<dd><p>Return the ambient polyhedral union. This is also the codomain of the immersion.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.ParentMethods.dimension">
+<span class="sig-name descname"><span class="pre">dimension</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.ParentMethods.dimension"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.ParentMethods.dimension" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.ParentMethods.field">
+<span class="sig-name descname"><span class="pre">field</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.ParentMethods.field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.ParentMethods.field" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.ParentMethods.is_injective">
+<span class="sig-name descname"><span class="pre">is_injective</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.ParentMethods.is_injective"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.ParentMethods.is_injective" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.ParentMethods.is_surjective">
+<span class="sig-name descname"><span class="pre">is_surjective</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.ParentMethods.is_surjective"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.ParentMethods.is_surjective" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.ParentMethods.piecewise_affine_maps">
+<span class="sig-name descname"><span class="pre">piecewise_affine_maps</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.ParentMethods.piecewise_affine_maps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.ParentMethods.piecewise_affine_maps" title="Link to this definition"></a></dt>
+<dd><p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="k">class</span> <span class="nc">Foo</span><span class="p">:</span>
+<span class="o">....</span><span class="p">:</span>     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<span class="o">....</span><span class="p">:</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_x</span> <span class="o">=</span> <span class="n">x</span>
+<span class="o">....</span><span class="p">:</span>     <span class="nd">@cached_method</span>
+<span class="o">....</span><span class="p">:</span>     <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="o">....</span><span class="p">:</span>         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="o">^</span><span class="mi">2</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">a</span> <span class="o">=</span> <span class="n">Foo</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">cache</span><span class="p">)</span>
+<span class="kc">None</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">a</span><span class="o">.</span><span class="n">f</span><span class="p">()</span>
+<span class="mi">4</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">a</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">cache</span>
+<span class="mi">4</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.ParentMethods.polytope_unions">
+<span class="sig-name descname"><span class="pre">polytope_unions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.ParentMethods.polytope_unions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.ParentMethods.polytope_unions" title="Link to this definition"></a></dt>
+<dd><p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="k">class</span> <span class="nc">Foo</span><span class="p">:</span>
+<span class="o">....</span><span class="p">:</span>     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<span class="o">....</span><span class="p">:</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_x</span> <span class="o">=</span> <span class="n">x</span>
+<span class="o">....</span><span class="p">:</span>     <span class="nd">@cached_method</span>
+<span class="o">....</span><span class="p">:</span>     <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="o">....</span><span class="p">:</span>         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="o">^</span><span class="mi">2</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">a</span> <span class="o">=</span> <span class="n">Foo</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">cache</span><span class="p">)</span>
+<span class="kc">None</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">a</span><span class="o">.</span><span class="n">f</span><span class="p">()</span>
+<span class="mi">4</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">a</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">cache</span>
+<span class="mi">4</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.ParentMethods.with_different_axioms">
+<span class="sig-name descname"><span class="pre">with_different_axioms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">injective</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surjective</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.ParentMethods.with_different_axioms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.ParentMethods.with_different_axioms" title="Link to this definition"></a></dt>
+<dd><p>Return a parent with the provided axioms.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.ParentMethods.with_different_field">
+<span class="sig-name descname"><span class="pre">with_different_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_field</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.ParentMethods.with_different_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.ParentMethods.with_different_field" title="Link to this definition"></a></dt>
+<dd><p>Return the same object but defined over a new bigger field.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.ParentMethods.with_different_union">
+<span class="sig-name descname"><span class="pre">with_different_union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_ambient_union</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.ParentMethods.with_different_union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.ParentMethods.with_different_union" title="Link to this definition"></a></dt>
+<dd><p>Constructor for abstract methods</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="o">....</span><span class="p">:</span>     <span class="s2">&quot;doc of f&quot;</span>
+<span class="o">....</span><span class="p">:</span>     <span class="k">return</span> <span class="mi">1</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">x</span> <span class="o">=</span> <span class="n">abstract_method</span><span class="p">(</span><span class="n">f</span><span class="p">);</span> <span class="n">x</span>
+<span class="o">&lt;</span><span class="n">abstract</span> <span class="n">method</span> <span class="n">f</span> <span class="n">at</span> <span class="o">...&gt;</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="vm">__doc__</span>
+<span class="s1">&#39;doc of f&#39;</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="vm">__name__</span>
+<span class="s1">&#39;f&#39;</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="vm">__module__</span>
+<span class="s1">&#39;__main__&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.SubcategoryMethods">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SubcategoryMethods</span></span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.SubcategoryMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.SubcategoryMethods" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.SubcategoryMethods.Injective">
+<span class="sig-name descname"><span class="pre">Injective</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.SubcategoryMethods.Injective"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.SubcategoryMethods.Injective" title="Link to this definition"></a></dt>
+<dd><p>Return this category with ‘Injective’ added to the axioms.</p>
+<p>An immersion is injective if it is one-to-one when restricted to the interior of the polytopes.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon.immersion</span> <span class="kn">import</span> <span class="n">ImmersionsCategory</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">ImmersionsCategory</span><span class="p">()</span><span class="o">.</span><span class="n">Injective</span><span class="p">()</span>
+<span class="n">Category</span> <span class="n">of</span> <span class="n">embeddings</span> <span class="n">into</span> <span class="n">a</span> <span class="n">polytope</span> <span class="n">union</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">ImmersionsCategory</span><span class="p">()</span><span class="o">.</span><span class="n">Surjective</span><span class="p">()</span><span class="o">.</span><span class="n">Injective</span><span class="p">()</span>
+<span class="n">Category</span> <span class="n">of</span> <span class="n">surjective</span> <span class="n">embeddings</span> <span class="n">into</span> <span class="n">a</span> <span class="n">polytope</span> <span class="n">union</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.SubcategoryMethods.Surjective">
+<span class="sig-name descname"><span class="pre">Surjective</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.SubcategoryMethods.Surjective"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.SubcategoryMethods.Surjective" title="Link to this definition"></a></dt>
+<dd><p>Return this category with ‘Surjective’ added to the axioms.</p>
+<p>An immersion is injective if it maps onto the ambient polytope union.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon.immersion</span> <span class="kn">import</span> <span class="n">ImmersionsCategory</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">ImmersionsCategory</span><span class="p">()</span><span class="o">.</span><span class="n">Surjective</span><span class="p">()</span>
+<span class="n">Category</span> <span class="n">of</span> <span class="n">surjective</span> <span class="n">immersions</span> <span class="n">into</span> <span class="n">a</span> <span class="n">polytope</span> <span class="n">union</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">ImmersionsCategory</span><span class="p">()</span><span class="o">.</span><span class="n">Injective</span><span class="p">()</span><span class="o">.</span><span class="n">Surjective</span><span class="p">()</span>
+<span class="n">Category</span> <span class="n">of</span> <span class="n">surjective</span> <span class="n">embeddings</span> <span class="n">into</span> <span class="n">a</span> <span class="n">polytope</span> <span class="n">union</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.SubcategoryMethods.description">
+<span class="sig-name descname"><span class="pre">description</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.SubcategoryMethods.description"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.SubcategoryMethods.description" title="Link to this definition"></a></dt>
+<dd><p>Return a string describing the type of maps</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.Surjective">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Surjective</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Surjective"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.Surjective" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">CategoryWithAxiom</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.Surjective.ElementMethods">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ElementMethods</span></span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Surjective.ElementMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.Surjective.ElementMethods" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.Surjective.Injective">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Injective</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Surjective.Injective"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.Surjective.Injective" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">CategoryWithAxiom</span></code></p>
+<p>This is the category of surjective embeddings into a polytope union</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.Surjective.Injective.ElementMethods">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ElementMethods</span></span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Surjective.Injective.ElementMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.Surjective.Injective.ElementMethods" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.Surjective.Injective.ParentMethods">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ParentMethods</span></span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Surjective.Injective.ParentMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.Surjective.Injective.ParentMethods" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.Surjective.Injective.ParentMethods.partitions">
+<span class="sig-name descname"><span class="pre">partitions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Surjective.Injective.ParentMethods.partitions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.Surjective.Injective.ParentMethods.partitions" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.Surjective.Injective.SubcategoryMethods">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SubcategoryMethods</span></span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Surjective.Injective.SubcategoryMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.Surjective.Injective.SubcategoryMethods" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.Surjective.Injective.SubcategoryMethods.description">
+<span class="sig-name descname"><span class="pre">description</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Surjective.Injective.SubcategoryMethods.description"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.Surjective.Injective.SubcategoryMethods.description" title="Link to this definition"></a></dt>
+<dd><p>Return a string describing the type of maps</p>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.Surjective.ParentMethods">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ParentMethods</span></span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Surjective.ParentMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.Surjective.ParentMethods" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.Surjective.ParentMethods.is_surjective">
+<span class="sig-name descname"><span class="pre">is_surjective</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Surjective.ParentMethods.is_surjective"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.Surjective.ParentMethods.is_surjective" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.Surjective.SubcategoryMethods">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SubcategoryMethods</span></span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Surjective.SubcategoryMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.Surjective.SubcategoryMethods" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.Surjective.SubcategoryMethods.description">
+<span class="sig-name descname"><span class="pre">description</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Surjective.SubcategoryMethods.description"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.Surjective.SubcategoryMethods.description" title="Link to this definition"></a></dt>
+<dd><p>Return a string describing the type of maps</p>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.super_categories">
+<span class="sig-name descname"><span class="pre">super_categories</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.super_categories"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.super_categories" title="Link to this definition"></a></dt>
+<dd><p>Return the categories subdivisions automatically belong to.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon.immersion</span> <span class="kn">import</span> <span class="n">ImmersionsCategory</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">C</span> <span class="o">=</span> <span class="n">ImmersionsCategory</span><span class="p">()</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">C</span><span class="o">.</span><span class="n">super_categories</span><span class="p">()</span>
+<span class="p">[</span><span class="n">Category</span> <span class="n">of</span> <span class="n">sets</span><span class="p">]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id0">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ImmersionsCategory.</span></span><span class="sig-name descname"><span class="pre">ElementMethods</span></span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.ElementMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">ambient_labels</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.ElementMethods.ambient_labels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
+<dd><p>Return a mapping sending labels in the domain to labels in the ambient union.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">codomain</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.ElementMethods.codomain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
+<dd><p>Return the codomain which is also the ambient union.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">domain</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.ElementMethods.domain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id5" title="Link to this definition"></a></dt>
+<dd><p>Return the domain of this immersion.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id6">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain_kwds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">codomain_kwds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.ElementMethods.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
+<dd><p>Return a <cite>graphics_array</cite> containing plots of the domain and codomain.</p>
+<p>The parameters <cite>domain_kwds</cite> and <cite>codomain_kwds</cite> are passed to the <cite>plot</cite> methods of
+the respective <a href="#id7"><span class="problematic" id="id8">`</span></a>PolytopeUnion`s.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id9">
+<span class="sig-name descname"><span class="pre">preimage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.ElementMethods.preimage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id9" title="Link to this definition"></a></dt>
+<dd><p>Given a point in the ambient union, find a corresponding point in the domain.</p>
+<p>If <cite>all</cite> is set to <cite>True</cite> we return an iterator over all preimages.</p>
+<p>This method just passes the call to <cite>find</cite> from the appropriate domain.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon.immersion</span> <span class="kn">import</span> <span class="n">Embeddings</span>
+<span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon</span> <span class="kn">import</span> <span class="n">PolytopeUnions</span><span class="p">,</span> <span class="n">rectangle</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">U</span> <span class="o">=</span> <span class="n">PolytopeUnions</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">QQ</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">union</span> <span class="o">=</span> <span class="n">U</span><span class="p">({</span><span class="mi">0</span><span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)})</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">E</span> <span class="o">=</span> <span class="n">Embeddings</span><span class="p">(</span><span class="n">union</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">E</span>
+<span class="n">Embeddings</span> <span class="n">into</span> <span class="n">disjoint</span> <span class="n">union</span> <span class="n">of</span> <span class="mi">1</span> <span class="n">nonoverlapping</span> <span class="n">polyhedra</span> <span class="ow">in</span> <span class="n">QQ</span><span class="o">^</span><span class="mi">2</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">e</span> <span class="o">=</span> <span class="n">E</span><span class="p">(</span><span class="n">U</span><span class="p">({</span><span class="mi">1</span><span class="p">:</span><span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span>
+<span class="o">....</span><span class="p">:</span>          <span class="mi">2</span><span class="p">:</span><span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span>
+<span class="o">....</span><span class="p">:</span>          <span class="p">}))</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">e</span>
+<span class="n">Embedding</span> <span class="n">of</span> <span class="n">disjoint</span> <span class="n">union</span> <span class="n">of</span> <span class="mi">2</span> <span class="n">nonoverlapping</span> <span class="n">polyhedra</span> <span class="ow">in</span> <span class="n">QQ</span><span class="o">^</span><span class="mi">2</span> <span class="n">into</span> <span class="n">disjoint</span> <span class="n">union</span> <span class="n">of</span> <span class="mi">1</span> <span class="n">nonoverlapping</span> <span class="n">polyhedra</span> <span class="ow">in</span> <span class="n">QQ</span><span class="o">^</span><span class="mi">2</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">pt</span> <span class="o">=</span> <span class="n">union</span><span class="o">.</span><span class="n">point</span><span class="p">((</span><span class="mi">4</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">pt</span>
+<span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="mi">4</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">e</span><span class="o">.</span><span class="n">preimage</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span>
+<span class="n">Point</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="mi">4</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id10">
+<span class="sig-name descname"><span class="pre">subunion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ambient_label</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.ElementMethods.subunion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id10" title="Link to this definition"></a></dt>
+<dd><p>Return the restriction of the codomain union to polytopes mapped into the polytope
+with the provided <cite>ambient_label</cite>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id11">
+<span class="sig-name descname"><span class="pre">subunion_labels</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.ElementMethods.subunion_labels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id11" title="Link to this definition"></a></dt>
+<dd><p>Return a mapping sending an <cite>ambient_label</cite> to the collection of labels that correspond
+to polytopes that map into the polytope with the provided <cite>ambient_label</cite>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id12">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ImmersionsCategory.</span></span><span class="sig-name descname"><span class="pre">Injective</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Injective"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id12" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">CategoryWithAxiom</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="id13">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ElementMethods</span></span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Injective.ElementMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id13" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="id14">
+<span class="sig-name descname"><span class="pre">subunion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ambient_label</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Injective.ElementMethods.subunion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id14" title="Link to this definition"></a></dt>
+<dd><p>Return a mapping sending an <cite>ambient_label</cite> to the restriction of the subunion to polytopes
+contained within the polytope with the provided <cite>ambient_label</cite>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id15">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ParentMethods</span></span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Injective.ParentMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id15" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="id16">
+<span class="sig-name descname"><span class="pre">is_injective</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Injective.ParentMethods.is_injective"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id16" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id17">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SubcategoryMethods</span></span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Injective.SubcategoryMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id17" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="id18">
+<span class="sig-name descname"><span class="pre">description</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Injective.SubcategoryMethods.description"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id18" title="Link to this definition"></a></dt>
+<dd><p>Return a string describing the type of maps</p>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id19">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ImmersionsCategory.Injective.</span></span><span class="sig-name descname"><span class="pre">ElementMethods</span></span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Injective.ElementMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id19" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="id20">
+<span class="sig-name descname"><span class="pre">subunion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ambient_label</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Injective.ElementMethods.subunion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id20" title="Link to this definition"></a></dt>
+<dd><p>Return a mapping sending an <cite>ambient_label</cite> to the restriction of the subunion to polytopes
+contained within the polytope with the provided <cite>ambient_label</cite>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id21">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ImmersionsCategory.Injective.</span></span><span class="sig-name descname"><span class="pre">ParentMethods</span></span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Injective.ParentMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id21" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="id22">
+<span class="sig-name descname"><span class="pre">is_injective</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Injective.ParentMethods.is_injective"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id22" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id23">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ImmersionsCategory.Injective.</span></span><span class="sig-name descname"><span class="pre">SubcategoryMethods</span></span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Injective.SubcategoryMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id23" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="id24">
+<span class="sig-name descname"><span class="pre">description</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Injective.SubcategoryMethods.description"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id24" title="Link to this definition"></a></dt>
+<dd><p>Return a string describing the type of maps</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id25">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ImmersionsCategory.</span></span><span class="sig-name descname"><span class="pre">ParentMethods</span></span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.ParentMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id25" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="id26">
+<span class="sig-name descname"><span class="pre">ambient_union</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.ParentMethods.ambient_union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id26" title="Link to this definition"></a></dt>
+<dd><p>Return the ambient polyhedral union. This is also the codomain of the immersion.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id27">
+<span class="sig-name descname"><span class="pre">dimension</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.ParentMethods.dimension"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id27" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id28">
+<span class="sig-name descname"><span class="pre">field</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.ParentMethods.field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id28" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id29">
+<span class="sig-name descname"><span class="pre">is_injective</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.ParentMethods.is_injective"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id29" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id30">
+<span class="sig-name descname"><span class="pre">is_surjective</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.ParentMethods.is_surjective"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id30" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id31">
+<span class="sig-name descname"><span class="pre">piecewise_affine_maps</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.ParentMethods.piecewise_affine_maps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id31" title="Link to this definition"></a></dt>
+<dd><p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="k">class</span> <span class="nc">Foo</span><span class="p">:</span>
+<span class="o">....</span><span class="p">:</span>     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<span class="o">....</span><span class="p">:</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_x</span> <span class="o">=</span> <span class="n">x</span>
+<span class="o">....</span><span class="p">:</span>     <span class="nd">@cached_method</span>
+<span class="o">....</span><span class="p">:</span>     <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="o">....</span><span class="p">:</span>         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="o">^</span><span class="mi">2</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">a</span> <span class="o">=</span> <span class="n">Foo</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">cache</span><span class="p">)</span>
+<span class="kc">None</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">a</span><span class="o">.</span><span class="n">f</span><span class="p">()</span>
+<span class="mi">4</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">a</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">cache</span>
+<span class="mi">4</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id32">
+<span class="sig-name descname"><span class="pre">polytope_unions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.ParentMethods.polytope_unions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id32" title="Link to this definition"></a></dt>
+<dd><p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="k">class</span> <span class="nc">Foo</span><span class="p">:</span>
+<span class="o">....</span><span class="p">:</span>     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<span class="o">....</span><span class="p">:</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_x</span> <span class="o">=</span> <span class="n">x</span>
+<span class="o">....</span><span class="p">:</span>     <span class="nd">@cached_method</span>
+<span class="o">....</span><span class="p">:</span>     <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="o">....</span><span class="p">:</span>         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="o">^</span><span class="mi">2</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">a</span> <span class="o">=</span> <span class="n">Foo</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">cache</span><span class="p">)</span>
+<span class="kc">None</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">a</span><span class="o">.</span><span class="n">f</span><span class="p">()</span>
+<span class="mi">4</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">a</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">cache</span>
+<span class="mi">4</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id33">
+<span class="sig-name descname"><span class="pre">with_different_axioms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">injective</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surjective</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.ParentMethods.with_different_axioms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id33" title="Link to this definition"></a></dt>
+<dd><p>Return a parent with the provided axioms.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id34">
+<span class="sig-name descname"><span class="pre">with_different_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_field</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.ParentMethods.with_different_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id34" title="Link to this definition"></a></dt>
+<dd><p>Return the same object but defined over a new bigger field.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id35">
+<span class="sig-name descname"><span class="pre">with_different_union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_ambient_union</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.ParentMethods.with_different_union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id35" title="Link to this definition"></a></dt>
+<dd><p>Constructor for abstract methods</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="o">....</span><span class="p">:</span>     <span class="s2">&quot;doc of f&quot;</span>
+<span class="o">....</span><span class="p">:</span>     <span class="k">return</span> <span class="mi">1</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">x</span> <span class="o">=</span> <span class="n">abstract_method</span><span class="p">(</span><span class="n">f</span><span class="p">);</span> <span class="n">x</span>
+<span class="o">&lt;</span><span class="n">abstract</span> <span class="n">method</span> <span class="n">f</span> <span class="n">at</span> <span class="o">...&gt;</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="vm">__doc__</span>
+<span class="s1">&#39;doc of f&#39;</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="vm">__name__</span>
+<span class="s1">&#39;f&#39;</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="vm">__module__</span>
+<span class="s1">&#39;__main__&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id36">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ImmersionsCategory.</span></span><span class="sig-name descname"><span class="pre">SubcategoryMethods</span></span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.SubcategoryMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id36" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="id37">
+<span class="sig-name descname"><span class="pre">Injective</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.SubcategoryMethods.Injective"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id37" title="Link to this definition"></a></dt>
+<dd><p>Return this category with ‘Injective’ added to the axioms.</p>
+<p>An immersion is injective if it is one-to-one when restricted to the interior of the polytopes.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon.immersion</span> <span class="kn">import</span> <span class="n">ImmersionsCategory</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">ImmersionsCategory</span><span class="p">()</span><span class="o">.</span><span class="n">Injective</span><span class="p">()</span>
+<span class="n">Category</span> <span class="n">of</span> <span class="n">embeddings</span> <span class="n">into</span> <span class="n">a</span> <span class="n">polytope</span> <span class="n">union</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">ImmersionsCategory</span><span class="p">()</span><span class="o">.</span><span class="n">Surjective</span><span class="p">()</span><span class="o">.</span><span class="n">Injective</span><span class="p">()</span>
+<span class="n">Category</span> <span class="n">of</span> <span class="n">surjective</span> <span class="n">embeddings</span> <span class="n">into</span> <span class="n">a</span> <span class="n">polytope</span> <span class="n">union</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id38">
+<span class="sig-name descname"><span class="pre">Surjective</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.SubcategoryMethods.Surjective"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id38" title="Link to this definition"></a></dt>
+<dd><p>Return this category with ‘Surjective’ added to the axioms.</p>
+<p>An immersion is injective if it maps onto the ambient polytope union.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon.immersion</span> <span class="kn">import</span> <span class="n">ImmersionsCategory</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">ImmersionsCategory</span><span class="p">()</span><span class="o">.</span><span class="n">Surjective</span><span class="p">()</span>
+<span class="n">Category</span> <span class="n">of</span> <span class="n">surjective</span> <span class="n">immersions</span> <span class="n">into</span> <span class="n">a</span> <span class="n">polytope</span> <span class="n">union</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">ImmersionsCategory</span><span class="p">()</span><span class="o">.</span><span class="n">Injective</span><span class="p">()</span><span class="o">.</span><span class="n">Surjective</span><span class="p">()</span>
+<span class="n">Category</span> <span class="n">of</span> <span class="n">surjective</span> <span class="n">embeddings</span> <span class="n">into</span> <span class="n">a</span> <span class="n">polytope</span> <span class="n">union</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id39">
+<span class="sig-name descname"><span class="pre">description</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.SubcategoryMethods.description"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id39" title="Link to this definition"></a></dt>
+<dd><p>Return a string describing the type of maps</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id40">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ImmersionsCategory.</span></span><span class="sig-name descname"><span class="pre">Surjective</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Surjective"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id40" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">CategoryWithAxiom</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="id41">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ElementMethods</span></span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Surjective.ElementMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id41" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id42">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Injective</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Surjective.Injective"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id42" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">CategoryWithAxiom</span></code></p>
+<p>This is the category of surjective embeddings into a polytope union</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="id43">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ElementMethods</span></span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Surjective.Injective.ElementMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id43" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id44">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ParentMethods</span></span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Surjective.Injective.ParentMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id44" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="id45">
+<span class="sig-name descname"><span class="pre">partitions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Surjective.Injective.ParentMethods.partitions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id45" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id46">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SubcategoryMethods</span></span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Surjective.Injective.SubcategoryMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id46" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="id47">
+<span class="sig-name descname"><span class="pre">description</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Surjective.Injective.SubcategoryMethods.description"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id47" title="Link to this definition"></a></dt>
+<dd><p>Return a string describing the type of maps</p>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id48">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ParentMethods</span></span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Surjective.ParentMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id48" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="id49">
+<span class="sig-name descname"><span class="pre">is_surjective</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Surjective.ParentMethods.is_surjective"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id49" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id50">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SubcategoryMethods</span></span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Surjective.SubcategoryMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id50" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="id51">
+<span class="sig-name descname"><span class="pre">description</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Surjective.SubcategoryMethods.description"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id51" title="Link to this definition"></a></dt>
+<dd><p>Return a string describing the type of maps</p>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id52">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ImmersionsCategory.Surjective.</span></span><span class="sig-name descname"><span class="pre">ElementMethods</span></span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Surjective.ElementMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id52" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id53">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ImmersionsCategory.Surjective.</span></span><span class="sig-name descname"><span class="pre">Injective</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Surjective.Injective"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id53" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">CategoryWithAxiom</span></code></p>
+<p>This is the category of surjective embeddings into a polytope union</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="id54">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ElementMethods</span></span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Surjective.Injective.ElementMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id54" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id55">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ParentMethods</span></span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Surjective.Injective.ParentMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id55" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="id56">
+<span class="sig-name descname"><span class="pre">partitions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Surjective.Injective.ParentMethods.partitions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id56" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id57">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SubcategoryMethods</span></span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Surjective.Injective.SubcategoryMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id57" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="id58">
+<span class="sig-name descname"><span class="pre">description</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Surjective.Injective.SubcategoryMethods.description"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id58" title="Link to this definition"></a></dt>
+<dd><p>Return a string describing the type of maps</p>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id59">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ImmersionsCategory.Surjective.Injective.</span></span><span class="sig-name descname"><span class="pre">ElementMethods</span></span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Surjective.Injective.ElementMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id59" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id60">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ImmersionsCategory.Surjective.Injective.</span></span><span class="sig-name descname"><span class="pre">ParentMethods</span></span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Surjective.Injective.ParentMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id60" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="id61">
+<span class="sig-name descname"><span class="pre">partitions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Surjective.Injective.ParentMethods.partitions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id61" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id62">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ImmersionsCategory.Surjective.Injective.</span></span><span class="sig-name descname"><span class="pre">SubcategoryMethods</span></span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Surjective.Injective.SubcategoryMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id62" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="id63">
+<span class="sig-name descname"><span class="pre">description</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Surjective.Injective.SubcategoryMethods.description"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id63" title="Link to this definition"></a></dt>
+<dd><p>Return a string describing the type of maps</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id64">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ImmersionsCategory.Surjective.</span></span><span class="sig-name descname"><span class="pre">ParentMethods</span></span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Surjective.ParentMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id64" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="id65">
+<span class="sig-name descname"><span class="pre">is_surjective</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Surjective.ParentMethods.is_surjective"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id65" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id66">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ImmersionsCategory.Surjective.</span></span><span class="sig-name descname"><span class="pre">SubcategoryMethods</span></span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Surjective.SubcategoryMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id66" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="id67">
+<span class="sig-name descname"><span class="pre">description</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.Surjective.SubcategoryMethods.description"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id67" title="Link to this definition"></a></dt>
+<dd><p>Return a string describing the type of maps</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pet_salon.immersion.Partition">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pet_salon.immersion.</span></span><span class="sig-name descname"><span class="pre">Partition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surjective_embedding</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#Partition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.Partition" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Element</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.Partition.surjective_embedding">
+<span class="sig-name descname"><span class="pre">surjective_embedding</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#Partition.surjective_embedding"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.Partition.surjective_embedding" title="Link to this definition"></a></dt>
+<dd><p>Return the associated surjective embedding.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pet_salon.immersion.Partitions">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pet_salon.immersion.</span></span><span class="sig-name descname"><span class="pre">Partitions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ambient_union</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#Partitions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.Partitions" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">UniqueRepresentation</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Parent</span></code></p>
+<p>The collection of partitions of a polytope union.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon</span> <span class="kn">import</span> <span class="n">PolytopeUnions</span><span class="p">,</span> <span class="n">rectangle</span>
+<span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon.immersion</span> <span class="kn">import</span> <span class="n">Partitions</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">U</span> <span class="o">=</span> <span class="n">PolytopeUnions</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">QQ</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">union</span> <span class="o">=</span> <span class="n">U</span><span class="p">(</span><span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;union&#39;</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">union</span>
+<span class="n">union</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">P</span> <span class="o">=</span> <span class="n">Partitions</span><span class="p">(</span><span class="n">union</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">P</span>
+<span class="n">Partitions</span> <span class="n">of</span> <span class="n">union</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">TestSuite</span><span class="p">(</span><span class="n">P</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">inverse</span><span class="p">(</span><span class="n">U</span><span class="p">({</span>
+<span class="o">....</span><span class="p">:</span>     <span class="mi">1</span><span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span>
+<span class="o">....</span><span class="p">:</span>     <span class="mi">2</span><span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span>   <span class="mi">1</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span>
+<span class="o">....</span><span class="p">:</span>     <span class="mi">3</span><span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span>   <span class="mi">1</span><span class="p">),</span>
+<span class="o">....</span><span class="p">:</span>     <span class="mi">4</span><span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span>   <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span>   <span class="mi">1</span><span class="p">),</span>
+<span class="o">....</span><span class="p">:</span> <span class="p">}))</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">f</span>
+<span class="n">Partition</span> <span class="n">of</span> <span class="n">union</span> <span class="n">into</span> <span class="mi">4</span> <span class="n">subpolytopes</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">TestSuite</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">f</span><span class="p">(</span><span class="n">union</span><span class="o">.</span><span class="n">point</span><span class="p">((</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">)))</span>
+<span class="n">Point</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pet_salon.immersion.Partitions.Element">
+<span class="sig-name descname"><span class="pre">Element</span></span><a class="headerlink" href="#pet_salon.immersion.Partitions.Element" title="Link to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#pet_salon.immersion.Partition" title="pet_salon.immersion.Partition"><code class="xref py py-class docutils literal notranslate"><span class="pre">Partition</span></code></a></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.Partitions.ambient_union">
+<span class="sig-name descname"><span class="pre">ambient_union</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#Partitions.ambient_union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.Partitions.ambient_union" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.Partitions.inverse">
+<span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#Partitions.inverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.Partitions.inverse" title="Link to this definition"></a></dt>
+<dd><p>Construct the partition that is the inverse of a surjective embedding.</p>
+<p>All arguments except the keyword argument <cite>‘name’</cite> are passed to the constructor in the parent <cite>self.surjective_embeddings()</cite>. In particular,
+any collection of arguments that produce a surjective embedding can be used here to produce a Partition. The <cite>name</cite> keyword argument is
+passed to the constructor of the partition, allowing it to be provided with a name.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pet_salon.immersion.PartitionsCategory">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pet_salon.immersion.</span></span><span class="sig-name descname"><span class="pre">PartitionsCategory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#PartitionsCategory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.PartitionsCategory" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Category</span></code></p>
+<p>The category of polyhedral decompositions of an ambient polyhedral union.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon.immersion</span> <span class="kn">import</span> <span class="n">PartitionsCategory</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">PartitionsCategory</span><span class="p">()</span>
+<span class="n">Category</span> <span class="n">of</span> <span class="n">partitions</span> <span class="n">of</span> <span class="n">a</span> <span class="n">polytope</span> <span class="n">union</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="pet_salon.immersion.PartitionsCategory.ElementMethods">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ElementMethods</span></span><a class="reference internal" href="_modules/pet_salon/immersion.html#PartitionsCategory.ElementMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.PartitionsCategory.ElementMethods" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.PartitionsCategory.ElementMethods.ambient_labels">
+<span class="sig-name descname"><span class="pre">ambient_labels</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#PartitionsCategory.ElementMethods.ambient_labels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.PartitionsCategory.ElementMethods.ambient_labels" title="Link to this definition"></a></dt>
+<dd><p>Return a mapping sending labels in the subunion to labels in the ambient union.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.PartitionsCategory.ElementMethods.codomain">
+<span class="sig-name descname"><span class="pre">codomain</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#PartitionsCategory.ElementMethods.codomain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.PartitionsCategory.ElementMethods.codomain" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.PartitionsCategory.ElementMethods.domain">
+<span class="sig-name descname"><span class="pre">domain</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#PartitionsCategory.ElementMethods.domain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.PartitionsCategory.ElementMethods.domain" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.PartitionsCategory.ElementMethods.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain_kwds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">codomain_kwds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#PartitionsCategory.ElementMethods.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.PartitionsCategory.ElementMethods.plot" title="Link to this definition"></a></dt>
+<dd><p>Return a <cite>graphics_array</cite> containing plots of the domain and codomain.</p>
+<p>The parameters <cite>domain_kwds</cite> and <cite>codomain_kwds</cite> are passed to the <cite>plot</cite> methods of
+the respective <a href="#id68"><span class="problematic" id="id69">`</span></a>PolytopeUnion`s.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.PartitionsCategory.ElementMethods.subunion">
+<span class="sig-name descname"><span class="pre">subunion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ambient_label</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#PartitionsCategory.ElementMethods.subunion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.PartitionsCategory.ElementMethods.subunion" title="Link to this definition"></a></dt>
+<dd><p>Return the restriction of the codomain subunion to polytopes that the polytope with the
+provided <cite>ambient_label</cite> is divided into.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.PartitionsCategory.ElementMethods.subunion_labels">
+<span class="sig-name descname"><span class="pre">subunion_labels</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#PartitionsCategory.ElementMethods.subunion_labels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.PartitionsCategory.ElementMethods.subunion_labels" title="Link to this definition"></a></dt>
+<dd><p>Return a mapping sending an <cite>ambient_label</cite> to the collection of labels of the codomain
+representing the pieces of the polytope with the provided <cite>ambient_label</cite>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.PartitionsCategory.ElementMethods.surjective_embedding">
+<span class="sig-name descname"><span class="pre">surjective_embedding</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#PartitionsCategory.ElementMethods.surjective_embedding"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.PartitionsCategory.ElementMethods.surjective_embedding" title="Link to this definition"></a></dt>
+<dd><p>Return the associated surjective embedding.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pet_salon.immersion.PartitionsCategory.ParentMethods">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ParentMethods</span></span><a class="reference internal" href="_modules/pet_salon/immersion.html#PartitionsCategory.ParentMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.PartitionsCategory.ParentMethods" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.PartitionsCategory.ParentMethods.ambient_union">
+<span class="sig-name descname"><span class="pre">ambient_union</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#PartitionsCategory.ParentMethods.ambient_union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.PartitionsCategory.ParentMethods.ambient_union" title="Link to this definition"></a></dt>
+<dd><p>Return the ambient polyhedral union. This is also the codomain of partitions in the collection viewed as maps.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.PartitionsCategory.ParentMethods.dimension">
+<span class="sig-name descname"><span class="pre">dimension</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#PartitionsCategory.ParentMethods.dimension"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.PartitionsCategory.ParentMethods.dimension" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.PartitionsCategory.ParentMethods.field">
+<span class="sig-name descname"><span class="pre">field</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#PartitionsCategory.ParentMethods.field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.PartitionsCategory.ParentMethods.field" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.PartitionsCategory.ParentMethods.piecewise_affine_maps">
+<span class="sig-name descname"><span class="pre">piecewise_affine_maps</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#PartitionsCategory.ParentMethods.piecewise_affine_maps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.PartitionsCategory.ParentMethods.piecewise_affine_maps" title="Link to this definition"></a></dt>
+<dd><p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="k">class</span> <span class="nc">Foo</span><span class="p">:</span>
+<span class="o">....</span><span class="p">:</span>     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<span class="o">....</span><span class="p">:</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_x</span> <span class="o">=</span> <span class="n">x</span>
+<span class="o">....</span><span class="p">:</span>     <span class="nd">@cached_method</span>
+<span class="o">....</span><span class="p">:</span>     <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="o">....</span><span class="p">:</span>         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="o">^</span><span class="mi">2</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">a</span> <span class="o">=</span> <span class="n">Foo</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">cache</span><span class="p">)</span>
+<span class="kc">None</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">a</span><span class="o">.</span><span class="n">f</span><span class="p">()</span>
+<span class="mi">4</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">a</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">cache</span>
+<span class="mi">4</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.PartitionsCategory.ParentMethods.surjective_embeddings">
+<span class="sig-name descname"><span class="pre">surjective_embeddings</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#PartitionsCategory.ParentMethods.surjective_embeddings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.PartitionsCategory.ParentMethods.surjective_embeddings" title="Link to this definition"></a></dt>
+<dd><p>Return the collection of surjective embeddings into the ambient union.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.PartitionsCategory.ParentMethods.with_different_field">
+<span class="sig-name descname"><span class="pre">with_different_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_field</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#PartitionsCategory.ParentMethods.with_different_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.PartitionsCategory.ParentMethods.with_different_field" title="Link to this definition"></a></dt>
+<dd><p>Return the same object but defined over a new bigger field.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.immersion.PartitionsCategory.super_categories">
+<span class="sig-name descname"><span class="pre">super_categories</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#PartitionsCategory.super_categories"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.PartitionsCategory.super_categories" title="Link to this definition"></a></dt>
+<dd><p>Return the categories subdivisions automatically belong to.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon.immersion</span> <span class="kn">import</span> <span class="n">PartitionsCategory</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">C</span> <span class="o">=</span> <span class="n">PartitionsCategory</span><span class="p">()</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">C</span><span class="o">.</span><span class="n">super_categories</span><span class="p">()</span>
+<span class="p">[</span><span class="n">Category</span> <span class="n">of</span> <span class="n">sets</span><span class="p">]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id70">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PartitionsCategory.</span></span><span class="sig-name descname"><span class="pre">ElementMethods</span></span><a class="reference internal" href="_modules/pet_salon/immersion.html#PartitionsCategory.ElementMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id70" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="id71">
+<span class="sig-name descname"><span class="pre">ambient_labels</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#PartitionsCategory.ElementMethods.ambient_labels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id71" title="Link to this definition"></a></dt>
+<dd><p>Return a mapping sending labels in the subunion to labels in the ambient union.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id72">
+<span class="sig-name descname"><span class="pre">codomain</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#PartitionsCategory.ElementMethods.codomain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id72" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id73">
+<span class="sig-name descname"><span class="pre">domain</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#PartitionsCategory.ElementMethods.domain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id73" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id74">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain_kwds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">codomain_kwds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#PartitionsCategory.ElementMethods.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id74" title="Link to this definition"></a></dt>
+<dd><p>Return a <cite>graphics_array</cite> containing plots of the domain and codomain.</p>
+<p>The parameters <cite>domain_kwds</cite> and <cite>codomain_kwds</cite> are passed to the <cite>plot</cite> methods of
+the respective <a href="#id75"><span class="problematic" id="id76">`</span></a>PolytopeUnion`s.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id77">
+<span class="sig-name descname"><span class="pre">subunion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ambient_label</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#PartitionsCategory.ElementMethods.subunion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id77" title="Link to this definition"></a></dt>
+<dd><p>Return the restriction of the codomain subunion to polytopes that the polytope with the
+provided <cite>ambient_label</cite> is divided into.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id78">
+<span class="sig-name descname"><span class="pre">subunion_labels</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#PartitionsCategory.ElementMethods.subunion_labels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id78" title="Link to this definition"></a></dt>
+<dd><p>Return a mapping sending an <cite>ambient_label</cite> to the collection of labels of the codomain
+representing the pieces of the polytope with the provided <cite>ambient_label</cite>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id79">
+<span class="sig-name descname"><span class="pre">surjective_embedding</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#PartitionsCategory.ElementMethods.surjective_embedding"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id79" title="Link to this definition"></a></dt>
+<dd><p>Return the associated surjective embedding.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id80">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PartitionsCategory.</span></span><span class="sig-name descname"><span class="pre">ParentMethods</span></span><a class="reference internal" href="_modules/pet_salon/immersion.html#PartitionsCategory.ParentMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id80" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="id81">
+<span class="sig-name descname"><span class="pre">ambient_union</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#PartitionsCategory.ParentMethods.ambient_union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id81" title="Link to this definition"></a></dt>
+<dd><p>Return the ambient polyhedral union. This is also the codomain of partitions in the collection viewed as maps.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id82">
+<span class="sig-name descname"><span class="pre">dimension</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#PartitionsCategory.ParentMethods.dimension"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id82" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id83">
+<span class="sig-name descname"><span class="pre">field</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#PartitionsCategory.ParentMethods.field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id83" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id84">
+<span class="sig-name descname"><span class="pre">piecewise_affine_maps</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#PartitionsCategory.ParentMethods.piecewise_affine_maps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id84" title="Link to this definition"></a></dt>
+<dd><p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="k">class</span> <span class="nc">Foo</span><span class="p">:</span>
+<span class="o">....</span><span class="p">:</span>     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<span class="o">....</span><span class="p">:</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_x</span> <span class="o">=</span> <span class="n">x</span>
+<span class="o">....</span><span class="p">:</span>     <span class="nd">@cached_method</span>
+<span class="o">....</span><span class="p">:</span>     <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="o">....</span><span class="p">:</span>         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="o">^</span><span class="mi">2</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">a</span> <span class="o">=</span> <span class="n">Foo</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">cache</span><span class="p">)</span>
+<span class="kc">None</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">a</span><span class="o">.</span><span class="n">f</span><span class="p">()</span>
+<span class="mi">4</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">a</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">cache</span>
+<span class="mi">4</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id85">
+<span class="sig-name descname"><span class="pre">surjective_embeddings</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#PartitionsCategory.ParentMethods.surjective_embeddings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id85" title="Link to this definition"></a></dt>
+<dd><p>Return the collection of surjective embeddings into the ambient union.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id86">
+<span class="sig-name descname"><span class="pre">with_different_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_field</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#PartitionsCategory.ParentMethods.with_different_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id86" title="Link to this definition"></a></dt>
+<dd><p>Return the same object but defined over a new bigger field.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pet_salon.immersion.SurjectiveEmbeddings">
+<span class="sig-prename descclassname"><span class="pre">pet_salon.immersion.</span></span><span class="sig-name descname"><span class="pre">SurjectiveEmbeddings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ambient_union</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#SurjectiveEmbeddings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.SurjectiveEmbeddings" title="Link to this definition"></a></dt>
+<dd><p>Construct the collection of surjective embedings into the provided ambient union.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon</span> <span class="kn">import</span> <span class="n">PolytopeUnions</span><span class="p">,</span> <span class="n">rectangle</span>
+<span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon.immersion</span> <span class="kn">import</span> <span class="n">SurjectiveEmbeddings</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">U</span> <span class="o">=</span> <span class="n">PolytopeUnions</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">QQ</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">union</span> <span class="o">=</span> <span class="n">U</span><span class="p">(</span><span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">union</span>
+<span class="n">Disjoint</span> <span class="n">union</span> <span class="n">of</span> <span class="mi">1</span> <span class="n">nonoverlapping</span> <span class="n">polyhedra</span> <span class="ow">in</span> <span class="n">QQ</span><span class="o">^</span><span class="mi">2</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">P</span> <span class="o">=</span> <span class="n">SurjectiveEmbeddings</span><span class="p">(</span><span class="n">union</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">P</span>
+<span class="n">Surjective</span> <span class="n">embeddings</span> <span class="n">into</span> <span class="n">disjoint</span> <span class="n">union</span> <span class="n">of</span> <span class="mi">1</span> <span class="n">nonoverlapping</span> <span class="n">polyhedra</span> <span class="ow">in</span> <span class="n">QQ</span><span class="o">^</span><span class="mi">2</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">TestSuite</span><span class="p">(</span><span class="n">P</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">P</span><span class="p">(</span><span class="n">U</span><span class="p">({</span>
+<span class="o">....</span><span class="p">:</span>     <span class="mi">1</span><span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span>
+<span class="o">....</span><span class="p">:</span>     <span class="mi">2</span><span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span>   <span class="mi">1</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span>
+<span class="o">....</span><span class="p">:</span>     <span class="mi">3</span><span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span>   <span class="mi">1</span><span class="p">),</span>
+<span class="o">....</span><span class="p">:</span>     <span class="mi">4</span><span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span>   <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span>   <span class="mi">1</span><span class="p">),</span>
+<span class="o">....</span><span class="p">:</span> <span class="p">}))</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">f</span>
+<span class="n">Surjective</span> <span class="n">embedding</span> <span class="n">of</span> <span class="n">disjoint</span> <span class="n">union</span> <span class="n">of</span> <span class="mi">4</span> <span class="n">nonoverlapping</span> <span class="n">polyhedra</span> <span class="ow">in</span> <span class="n">QQ</span><span class="o">^</span><span class="mi">2</span> <span class="n">into</span> <span class="n">disjoint</span> <span class="n">union</span> <span class="n">of</span> <span class="mi">1</span> <span class="n">nonoverlapping</span> <span class="n">polyhedra</span> <span class="ow">in</span> <span class="n">QQ</span><span class="o">^</span><span class="mi">2</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">TestSuite</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pet_salon.immersion.SurjectiveImmersions">
+<span class="sig-prename descclassname"><span class="pre">pet_salon.immersion.</span></span><span class="sig-name descname"><span class="pre">SurjectiveImmersions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ambient_union</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#SurjectiveImmersions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.SurjectiveImmersions" title="Link to this definition"></a></dt>
+<dd><p>Construct the collection of surjective embedings into the provided ambient union.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon</span> <span class="kn">import</span> <span class="n">PolytopeUnions</span><span class="p">,</span> <span class="n">rectangle</span>
+<span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon.immersion</span> <span class="kn">import</span> <span class="n">SurjectiveImmersions</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">U</span> <span class="o">=</span> <span class="n">PolytopeUnions</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">QQ</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">union</span> <span class="o">=</span> <span class="n">U</span><span class="p">(</span><span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">union</span>
+<span class="n">Disjoint</span> <span class="n">union</span> <span class="n">of</span> <span class="mi">1</span> <span class="n">nonoverlapping</span> <span class="n">polyhedra</span> <span class="ow">in</span> <span class="n">QQ</span><span class="o">^</span><span class="mi">2</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">P</span> <span class="o">=</span> <span class="n">SurjectiveImmersions</span><span class="p">(</span><span class="n">union</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">P</span>
+<span class="n">Surjective</span> <span class="n">immersions</span> <span class="n">into</span> <span class="n">disjoint</span> <span class="n">union</span> <span class="n">of</span> <span class="mi">1</span> <span class="n">nonoverlapping</span> <span class="n">polyhedra</span> <span class="ow">in</span> <span class="n">QQ</span><span class="o">^</span><span class="mi">2</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">TestSuite</span><span class="p">(</span><span class="n">P</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">V</span> <span class="o">=</span> <span class="n">PolytopeUnions</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">QQ</span><span class="p">,</span> <span class="n">nonoverlapping</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">P</span><span class="p">(</span><span class="n">V</span><span class="p">({</span>
+<span class="o">....</span><span class="p">:</span>     <span class="mi">1</span><span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+<span class="o">....</span><span class="p">:</span>     <span class="mi">2</span><span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span>   <span class="mi">1</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+<span class="o">....</span><span class="p">:</span> <span class="p">}))</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">f</span>
+<span class="n">Surjective</span> <span class="n">immersion</span> <span class="n">of</span> <span class="n">disjoint</span> <span class="n">union</span> <span class="n">of</span> <span class="mi">2</span> <span class="n">polyhedra</span> <span class="ow">in</span> <span class="n">QQ</span><span class="o">^</span><span class="mi">2</span> <span class="n">into</span> <span class="n">disjoint</span> <span class="n">union</span> <span class="n">of</span> <span class="mi">1</span> <span class="n">nonoverlapping</span> <span class="n">polyhedra</span> <span class="ow">in</span> <span class="n">QQ</span><span class="o">^</span><span class="mi">2</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">TestSuite</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pet_salon.collection.html" class="btn btn-neutral float-left" title="pet_salon.collection module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pet_salon.label.html" class="btn btn-neutral float-right" title="pet_salon.label module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, W. Patrick Hooper.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -37,7 +37,11 @@ sage -t pet_salon/polyhedra.py
 
 ## Documentation
 
+You may view the [software documentation](https://wphooper.github.io/pet_salon/). This documentation is still a work in progress. If you see something you'd like documented, please write to Pat Hooper <whooper@ccny.cuny.edu>.
+
 A [tutorial](doc/Tutorial.ipynb) is provided.
+
+## Citing
 
 This software is still very much a work-in-progress and will develop according to research needs. If you would like to use this software, please write to Pat Hooper <whooper@ccny.cuny.edu>.
 

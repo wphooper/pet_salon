@@ -6,7 +6,7 @@
 Welcome to pet_salon's documentation!
 =====================================
 
-This documentation is still very much a work in progress.
+This documentation is still very much a work in progress. If you have suggestions about how to improve the documentation, please write to `whooper@ccny.cuny.edu <mailto:whooper@ccny.cuny.edu>`_.
 
 .. toctree::
    :maxdepth: 4

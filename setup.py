@@ -4,13 +4,13 @@ with open("README.md") as f:
     long_description = f.read()
 
 setup(
-    name="PET Salon",
+    name="pet_salon",
     author="W. Patrick Hooper",
     author_email="whooper@ccny.cuny.edu",
     description="Polytope Exchange Transformations in SageMath",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    version="0.0.2",
+    version="0.0.4",
     url="https://github.com/wphooper/pet_salon",
     license="GNU General Public License, version 2",
     packages=[

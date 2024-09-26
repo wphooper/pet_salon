@@ -1,5 +1,5 @@
 r'''
-# Examples of Piecewise Affine Maps
+Examples of Piecewise Affine Maps
 '''
 # ********************************************************************
 #  This file is part of pet_salon.
@@ -31,13 +31,13 @@ from . import rectangle, PolytopeUnions, Partitions, AffineHomeomorphisms, Surje
 from .affine import PiecewiseAffineMaps
 
 def integer_multiplication(dimension, field, k):
-    r'''A representation of $v \mapsto k*v \pmod{\mathbb Z^d}$ as a piecewise affine map.
+    r'''A representation of :math:`v \mapsto k*v \pmod{\mathbb Z^d}` as a piecewise affine map.
 
-    The domain will be the cube $[0, 1]^d$ with $d$ the `dimension`. The map will be defined over the provided field. The parameter $k$ should be an integer that is at least $1$.
+    The domain will be the cube :math:`[0, 1]^d` with :math:`d` the ``dimension``\. The map will be defined over the provided field. The parameter :math:`k` should be an integer that is at least :math:`1`.
 
-    EXAMPLES::
+    EXAMPLES
 
-    Multiplication by 3 in two dimensions:
+    Multiplication by 3 in two dimensions::
 
         sage: from pet_salon.pam_examples import integer_multiplication
         sage: f = integer_multiplication(2, QQ, 3)

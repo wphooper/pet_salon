@@ -17,6 +17,11 @@
 #  along with pet_salon. If not, see <https://www.gnu.org/licenses/>.
 # ********************************************************************
 
+'''
+This module contains classes related to ``PolytopeUnions``\, disjoint unions of polytopes.
+'''
+
+
 from collections.abc import Mapping
 from copy import copy
 
@@ -87,7 +92,7 @@ class PolytopeUnionsCategory(Category):
         def Nonoverlapping(self):
             r'''We say a PolytopeUnion is *nonoverlapping* if the polytopes, viewed as subsets of the vector space containing them, have disjoint interiors.
 
-            This will make available the `find` method.'''
+            This will make available the ``find`` method.'''
             return self._with_axiom('Nonoverlapping')
 
         def _fix_name(self):
@@ -118,16 +123,16 @@ class PolytopeUnionsCategory(Category):
             pass
 
         def is_finite(self):
-            r'''Return `True` if this parent only contains finite objects.
+            r'''Return ``True`` if this parent only contains finite objects.
 
-            Return `False` otherwise.
+            Return ``False`` otherwise.
             '''
             return False
 
         def is_nonoverlapping(self):
-            r'''Return `True` if this parent only contains disjoint unions of polytopes that are pairwise disjoint.
+            r'''Return ``True`` if this parent only contains disjoint unions of polytopes that are pairwise disjoint.
 
-            Return `False` otherwise.
+            Return ``False`` otherwise.
             '''
             return False
 
@@ -253,9 +258,9 @@ class PolytopeUnionsCategory(Category):
         def restrict(self, new_labels, nonoverlapping=False):
             r'''Return a new PolytopeUnion with a restricted label set but the same polytopes.
 
-            The parameter `new_labels` should be a collection of the new labels.
+            The parameter ``new_labels`` should be a collection of the new labels.
 
-            The parameter `nonoverlapping` allows you to specify whether the labels have overlaps.
+            The parameter ``nonoverlapping`` allows you to specify whether the labels have overlaps.
 
             EXAMPLES::
 
@@ -299,12 +304,12 @@ class PolytopeUnionsCategory(Category):
         def plot(self, **kwds):
             r'''Plot this polytope union. This only currently works in 2 and 3 dimensions.
 
-            The parameters `polytope_args` and `polytope_kwds` are passed to the `plot_polytope_union`
-            function from the `pet_salon.plot` module.
+            The parameters ``polytope_args`` and ``polytope_kwds`` are passed to the ``plot_polytope_union``
+            function from the ``pet_salon.plot`` module.
 
             EXAMPLES::
 
-            A 2-D example:
+            A 2-D example::
 
                 sage: from pet_salon import PolytopeUnions
                 sage: union = PolytopeUnions(2, QQ).an_element()
@@ -313,7 +318,7 @@ class PolytopeUnionsCategory(Category):
                 sage: # Colors chosen by label:
                 sage: union.plot(polytope_kwds={'fill': {0:'red', 1:'orange'}}) # not tested
 
-            A 3-D example:
+            A 3-D example::
 
                 sage: from pet_salon import PolytopeUnions
                 sage: union = PolytopeUnions(3, QQ).an_element()
@@ -359,9 +364,9 @@ class PolytopeUnionsCategory(Category):
             def restrict(self, new_labels, nonoverlapping=False):
                 r'''Return a new PolytopeUnion with a restricted label set but the same polytopes.
 
-                The parameter `new_labels` should be a collection of the new labels.
+                The parameter ``new_labels`` should be a collection of the new labels.
 
-                The parameter `nonoverlapping` allows you to specify whether the labels have overlaps.
+                The parameter ``nonoverlapping`` allows you to specify whether the labels have overlaps.
                 '''
                 new_dict = function_mapping(new_labels, self.polytope)
                 if nonoverlapping:
@@ -388,9 +393,9 @@ class PolytopeUnionsCategory(Category):
         class ParentMethods:
 
             def is_nonoverlapping(self):
-                r'''Return `True` if this parent only contains disjoint unions of polytopes that are pairwise disjoint.
+                r'''Return ``True`` if this parent only contains disjoint unions of polytopes that are pairwise disjoint.
 
-                Return `False` otherwise.
+                Return ``False`` otherwise.
                 '''
                 return True
 
@@ -412,20 +417,20 @@ class PolytopeUnionsCategory(Category):
                 r'''
                 Find a polytope containing the position (point).
 
-                By default, we return the pair `(label, polytope)` associated to the
-                first polytope found containing the point. If none is found `None` is
+                By default, we return the pair ``(label, polytope)`` associated to the
+                first polytope found containing the point. If none is found ``None`` is
                 returned.
 
                 Since the polytopes only have disjoint interiors, it is possible
                 that more than one polytope contains the position. To see all the polytopes,
-                set the parameter `all=True`, then instead a generator is returned that
+                set the parameter ``all=True``, then instead a generator is returned that
                 iterates through all the polytopes containing the point. This option is
                 (currently) only possible if the union is finite.
 
-                For infinite unions, there is a `limit` parameter which describes how many
+                For infinite unions, there is a ``limit`` parameter which describes how many
                 polytopes to check before giving up. The default limit is available from
-                the module level method `get_find_limit()` and can be changed with
-                `set_find_limit(new_limit)`.
+                the module level method ``get_find_limit()`` and can be changed with
+                ``set_find_limit(new_limit)``.
 
                 The implementation here just iterates through all nonoverlapping polyhedra in the union,
                 checking for containment. This method should be overriden by a more
@@ -511,9 +516,9 @@ class PolytopeUnionsCategory(Category):
             def restrict(self, new_labels, nonoverlapping=False):
                 r'''Return a new PolytopeUnion with a restricted label set but the same polytopes.
 
-                The parameter `new_labels` should be a collection of the new labels.
+                The parameter ``new_labels`` should be a collection of the new labels.
 
-                We ignore the `nonoverlapping` parameter because this union has no overlaps.
+                We ignore the ``nonoverlapping`` parameter because this union has no overlaps.
                 '''
                 new_dict = function_mapping(new_labels, self.polytope)
                 if length(new_dict) < infinity:
@@ -553,7 +558,7 @@ class PolytopeUnion(Element):
         r'''
         Construct a new Polytope union.
 
-        The `parent` should be a `PolytopeUnions`, which specifies the `field`
+        The ``parent`` should be a ``PolytopeUnions``, which specifies the ``field``
         as well as the dimension. The mapping should send labels to polyhedra.
         '''
         self._mapping = mapping
@@ -610,7 +615,7 @@ class PolytopeUnions(UniqueRepresentation, Parent):
 
     EXAMPLES::
 
-    We can convert a single polyhedron to a union. It creates a union with a label of `0`.
+    We can convert a single polyhedron to a union. It creates a union with a label of ``0``::
 
         sage: from pet_salon import PolytopeUnions
         sage: from sage.geometry.polyhedron.constructor import Polyhedron
@@ -628,7 +633,7 @@ class PolytopeUnions(UniqueRepresentation, Parent):
         sage: print(union.polytope(0))
         A 2-dimensional polyhedron in QQ^2 defined as the convex hull of 3 vertices
 
-    An example of an infinite union:
+    An example of an infinite union::
 
         sage: from collections.abc import Mapping
         sage: from pet_salon import PolytopeUnions
@@ -801,7 +806,7 @@ def finite_polytope_union(dimension, field, mapping, name=None):
     r'''
     Construct a finite polytope union.
 
-    The parameters are the `dimension` $d$, a base `field` $F$, and a dictionary sending labels to polytopes with vertices in $F^d$. If a `name` is provided, the name of the union will be set to this.
+    The parameters are the ``dimension`` $d$, a base ``field`` $F$, and a dictionary sending labels to polytopes with vertices in $F^d$. If a ``name`` is provided, the name of the union will be set to this.
 
     An advantage of this function is that it automatically decides if the polytopes overlap.
     '''
@@ -815,11 +820,11 @@ def finite_polytope_union(dimension, field, mapping, name=None):
 _find_limit = 100
 
 def get_find_limit():
-    r'''Get the limit for number of polytopes to check in a `find` operation in an infinite polyhedral union.'''
+    r'''Get the limit for number of polytopes to check in a ``find`` operation in an infinite polyhedral union.'''
     return _find_limit
 
 def set_find_limit(new_limit):
-    r'''Set the limit for number of polytopes to check in a `find` operation in an infinite polyhedral union.'''
+    r'''Set the limit for number of polytopes to check in a ``find`` operation in an infinite polyhedral union.'''
     global _find_limit
     _find_limit = new_limit
 

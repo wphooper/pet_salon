@@ -65,7 +65,7 @@ def plot_polytope_union(union, *args, fill=None, point = False, line = False, **
 
     EXAMPLES::
 
-    Two dimensional examples:
+    Two dimensional examples::
 
         sage: from pet_salon import PolytopeUnions
         sage: from pet_salon.plot import plot_polytope_union
@@ -75,7 +75,7 @@ def plot_polytope_union(union, *args, fill=None, point = False, line = False, **
         sage: # Chosen colors:
         sage: plot_polytope_union(union, fill={0:'red', 1:'blue'}, axes=False) # not tested
 
-    Three dimensional example:
+    Three dimensional example::
 
         sage: from pet_salon import PolytopeUnions
         sage: union = PolytopeUnions(3, QQ).an_element()

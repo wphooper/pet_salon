@@ -30,6 +30,7 @@ from sage.structure.unique_representation import CachedRepresentation
 from pet_salon import PolytopeUnions
 
 class _ZZ2mapping(Mapping):
+    r'''The mapping sending ``v`` in $\mathbb Z^2$ to the square with lower-left hand corner ``v``.'''
     def __init__(self, unions):
         self._ZZ2 = ZZ.cartesian_product(ZZ)
         self._U = unions
@@ -52,7 +53,7 @@ class _ZZ2mapping(Mapping):
 @cached_function
 def square_tiling(field):
     r'''
-    Construct the square tiling in the plane.
+    Construct the square tiling in the plane as a PolytopeUnion.
 
     EXAMPLES::
 

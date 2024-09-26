@@ -16,6 +16,11 @@
 #  You should have received a copy of the GNU General Public License
 #  along with pet_salon. If not, see <https://www.gnu.org/licenses/>.
 # ********************************************************************
+
+r'''
+This module allows for the construction of AffineHomeomorphims between PolygonUnions.
+'''
+
 from collections.abc import Mapping
 from frozendict import frozendict
 
@@ -39,6 +44,7 @@ from .union import PolytopeUnions, PolytopeUnionsCategory, is_nonoverlapping
 
 class AffineHomeomorphismsCategory(Category):
     r'''The category of (label respecting) affine homeomorphisms between polytope unions.'''
+
     def __init__(self, *args, **options):
         Category.__init__(self, *args, **options)
         self.rename(f'Category of affine homeomorphisms between polytope unions')
@@ -121,19 +127,32 @@ class AffineHomeomorphismsCategory(Category):
             return self.field().has_coerce_map_from(parent.field())
 
     class ElementMethods:
+        '''Methods that will be added to any AffineHomeomorphism.'''
 
         @abstract_method
         def domain(self):
+            r'''
+            Return the domain of the map.
+
+            This is an abstract method and must be overriden.
+            '''
             pass
 
         @abstract_method
         def codomain(self):
+            r'''
+            Return the codomain of the map.
+
+            This is an abstract method and must be overriden.
+            '''
             pass
 
         @abstract_method
         def affine_mapping(self):
             r'''
-            Return a mapping sending labels to the corresponding element of the affine group
+            Return a mapping sending labels to the corresponding element of the affine group.
+
+            This is an abstract method and must be overriden.
             '''
             pass
 
@@ -191,10 +210,10 @@ class AffineHomeomorphismsCategory(Category):
 
         def plot(self, domain_kwds={}, codomain_kwds={}):
             r'''
-            Return a `graphics_array` containing plots of the domain and codomain.
+            Return a ``graphics_array`` containing plots of the domain and codomain.
 
-            The parameters `domain_kwds` and `codomain_kwds` are passed to the `plot` methods of
-            the respective `PolytopeUnion`s.
+            The parameters ``domain_kwds`` and ``codomain_kwds`` are passed to the ``plot`` methods of
+            the respective ``PolytopeUnion``\s.
             '''
             return graphics_array([
                 self.domain().plot(**domain_kwds),

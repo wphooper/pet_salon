@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with pet_salon. If not, see <https://www.gnu.org/licenses/>.
 # ********************************************************************
+'''This module contains classes related to points in a `PolytopeUnion`.'''
 
 from sage.categories.all import Sets
 from sage.categories.category import Category
@@ -128,6 +129,7 @@ class PointSet(Parent):
     Represents the set of points in a `PolytopeUnion`.
 
     EXAMPLES::
+
         sage: from pet_salon import PolytopeUnions
         sage: U = PolytopeUnions(2, QQ, finite=True)
         sage: union = U.an_element()
@@ -155,6 +157,7 @@ class PointSet(Parent):
         self.rename(f'Set of points in {union_name[0].lower()}{union_name[1:]}')
 
     def union(self):
+        '''Return the `PolytopeUnion` that contains the points.'''
         return self._union
 
     def __eq__(self, other):

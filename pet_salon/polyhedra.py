@@ -1,7 +1,7 @@
 r"""
 Examples of polyhedra.
 
-See also [polytopes from sage.geometry.polyhedron.library](https://doc.sagemath.org/html/en/reference/discrete_geometry/sage/geometry/polyhedron/library.html).
+See also `polytopes from sage.geometry.polyhedron.library <https://doc.sagemath.org/html/en/reference/discqrete_geometry/sage/geometry/polyhedron/library.html>`_.
 """
 # ********************************************************************
 #  This file is part of pet_salon.

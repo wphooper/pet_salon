@@ -1,5 +1,5 @@
 r"""
-**pet_salon:** Polytope Exchange Transformations in [SageMath](https://www.sagemath.org/).
+**pet_salon:** Polytope Exchange Transformations (PETs) in `SageMath <https://www.sagemath.org/>`_.
 """
 # ********************************************************************
 #  This file is part of pet_salon.

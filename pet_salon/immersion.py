@@ -782,12 +782,13 @@ class Immersions(UniqueRepresentation, Parent):
     def __hash__(self):
         return hash((self.category(), self.ambient_union()))
 
-    def restriction(self, ambient_label_collection):
+    def restriction(self, ambient_label_collection, nonoverlapping=False):
         if 'Surjective' in self.category().axioms() and ambient_label_collection != self.ambient_union().labels():
             raise ValueError('The only restriction that is surjective is the trivial one')
         U = PolytopeUnions(self.dimension(), self.field(), finite=True, nonoverlapping=True)
         return self.element_class(self,
-                                  self.ambient_union().restrict(ambient_label_collection),
+                                  self.ambient_union().restrict(ambient_label_collection,
+                                                                nonoverlapping=nonoverlapping),
                                   identity_mapping(ambient_label_collection),
                                   function_mapping(ambient_label_collection, tuple_singleton))
 

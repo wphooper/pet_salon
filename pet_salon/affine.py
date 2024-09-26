@@ -207,6 +207,7 @@ class AffineHomeomorphismsCategory(Category):
             '''
             if x in self.domain().point_set():
                 return self.codomain().point(x.label(), self.affine_mapping()[x.label()](x.position()))
+            raise ValueError('x is not in the domain\'s point set')
 
         def plot(self, domain_kwds={}, codomain_kwds={}):
             r'''

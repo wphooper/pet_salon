@@ -255,7 +255,7 @@ class PolytopeUnionsCategory(Category):
                     raise ValueError('position is probably not within polytope')
             return pt
 
-        def restrict(self, new_labels, nonoverlapping=False):
+        def restrict(self, new_labels, nonoverlapping=False, mapping=False):
             r'''Return a new PolytopeUnion with a restricted label set but the same polytopes.
 
             The parameter ``new_labels`` should be a collection of the new labels.
@@ -282,14 +282,19 @@ class PolytopeUnionsCategory(Category):
                 2 True
                 sage: TestSuite(res).run()
             '''
-            new_dict = function_mapping(new_labels, self.polytope)
-            if length(new_dict) < infinity:
-                return self.parent().with_different_axioms(finite=True, nonoverlapping = is_nonoverlapping)(new_dict)
+            if mapping:
+                from pet_salon.immersion import Embeddings
+                e = Embeddings(self)
+                return e.restriction(new_labels, nonoverlapping=nonoverlapping)
             else:
-                if nonoverlapping:
-                    return self.parent().with_different_axioms(nonoverlapping = is_nonoverlapping)(new_dict)
+                new_dict = function_mapping(new_labels, self.polytope)
+                if length(new_dict) < infinity:
+                    return self.parent().with_different_axioms(finite=True, nonoverlapping = is_nonoverlapping)(new_dict)
                 else:
-                    return self.parent()(new_dict)
+                    if nonoverlapping:
+                        return self.parent().with_different_axioms(nonoverlapping = is_nonoverlapping)(new_dict)
+                    else:
+                        return self.parent()(new_dict)
 
         def _test_polytope_parents(self, tester=None, limit=20):
             r'''Check that the union has the correct field for all polytopes.'''
@@ -361,19 +366,35 @@ class PolytopeUnionsCategory(Category):
             def volume(self, limit=None):
                 return sum([p.volume() for _,p in self.polytopes().items()])
 
-            def restrict(self, new_labels, nonoverlapping=False):
+            def restrict(self, new_labels, nonoverlapping=False, mapping=False):
                 r'''Return a new PolytopeUnion with a restricted label set but the same polytopes.
 
                 The parameter ``new_labels`` should be a collection of the new labels.
 
                 The parameter ``nonoverlapping`` allows you to specify whether the labels have overlaps.
-                '''
-                new_dict = function_mapping(new_labels, self.polytope)
-                if nonoverlapping:
-                    return self.parent().with_different_axioms(nonoverlapping = is_nonoverlapping)(new_dict)
-                else:
-                    return self.parent()(new_dict)
 
+                If ``mapping`` is set to ``True`` then an embedding will be returned rather than union.
+
+                EXAMPLES::
+
+                    sage: from pet_salon import *
+                    sage: two_squares = finite_polytope_union(2, QQ, {
+                    ....:     0 : rectangle(QQ, 0, 1, 0, 1),
+                    ....:     1 : rectangle(QQ, 0, 1, 0, 1),
+                    ....: })
+                    sage: two_squares.restrict([1], nonoverlapping=True, mapping=True)
+                    Embedding of disjoint union of 1 nonoverlapping polyhedra in QQ^2 into disjoint union of 2 polyhedra in QQ^2
+                '''
+                if mapping:
+                    from pet_salon.immersion import Embeddings
+                    e = Embeddings(self)
+                    return e.restriction(new_labels, nonoverlapping=nonoverlapping)
+                else:
+                    new_dict = function_mapping(new_labels, self.polytope)
+                    if nonoverlapping:
+                        return self.parent().with_different_axioms(nonoverlapping = nonoverlapping)(new_dict)
+                    else:
+                        return self.parent()(new_dict)
 
     class Nonoverlapping(CategoryWithAxiom):
         r"""
@@ -513,18 +534,23 @@ class PolytopeUnionsCategory(Category):
                             raise ValueError('position is probably not within polytope')
                     return pt
 
-            def restrict(self, new_labels, nonoverlapping=False):
+            def restrict(self, new_labels, nonoverlapping=False, mapping=True):
                 r'''Return a new PolytopeUnion with a restricted label set but the same polytopes.
 
                 The parameter ``new_labels`` should be a collection of the new labels.
 
                 We ignore the ``nonoverlapping`` parameter because this union has no overlaps.
                 '''
-                new_dict = function_mapping(new_labels, self.polytope)
-                if length(new_dict) < infinity:
-                    return self.parent().with_different_axioms(finite=True)(new_dict)
+                if mapping:
+                    from pet_salon.immersion import Embeddings
+                    e = Embeddings(self)
+                    return e.restriction(new_labels, nonoverlapping=nonoverlapping)
                 else:
-                    return self.parent()(new_dict)
+                    new_dict = function_mapping(new_labels, self.polytope)
+                    if length(new_dict) < infinity:
+                        return self.parent().with_different_axioms(finite=True)(new_dict)
+                    else:
+                        return self.parent()(new_dict)
 
         class Finite(CategoryWithAxiom):
             r"""
@@ -543,15 +569,20 @@ class PolytopeUnionsCategory(Category):
 
             class ElementMethods:
 
-                def restrict(self, new_labels, nonoverlapping=False):
+                def restrict(self, new_labels, nonoverlapping=False, mapping=False):
                     r'''Return a new PolytopeUnion with a restricted label set but the same polytopes.
 
                     The parameter `new_labels` should be a collection of the new labels.
 
                     We ignore the `nonoverlapping` parameter because this union has no overlaps.
                     '''
-                    new_dict = function_mapping(new_labels, self.polytope)
-                    return self.parent()(new_dict)
+                    if mapping:
+                        from pet_salon.immersion import Embeddings
+                        e = Embeddings(self)
+                        return e.restriction(new_labels, nonoverlapping=nonoverlapping)
+                    else:
+                        new_dict = function_mapping(new_labels, self.polytope)
+                        return self.parent()(new_dict)
 
 class PolytopeUnion(Element):
     def __init__(self, parent, mapping, name=None):

@@ -323,6 +323,7 @@
 <span class="sd">            &#39;&#39;&#39;</span>
             <span class="k">if</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span><span class="o">.</span><span class="n">point_set</span><span class="p">():</span>
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span><span class="o">.</span><span class="n">point</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">label</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">affine_mapping</span><span class="p">()[</span><span class="n">x</span><span class="o">.</span><span class="n">label</span><span class="p">()](</span><span class="n">x</span><span class="o">.</span><span class="n">position</span><span class="p">()))</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;x is not in the domain</span><span class="se">\&#39;</span><span class="s1">s point set&#39;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="AffineHomeomorphismsCategory.ElementMethods.plot">
 <a class="viewcode-back" href="../../pet_salon.affine.html#pet_salon.affine.AffineHomeomorphismsCategory.ElementMethods.plot">[docs]</a>

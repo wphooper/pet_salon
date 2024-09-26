@@ -8,6 +8,10 @@ Welcome to pet_salon's documentation!
 
 This documentation is still very much a work in progress. If you have suggestions about how to improve the documentation, please write to `whooper@ccny.cuny.edu <mailto:whooper@ccny.cuny.edu>`_.
 
+This is the software documentation. To download the software, and for installation instructions, see `pet_salon's GitHub repository <https://github.com/wphooper/pet_salon>`\.
+
+You may also be interested in viewing the `Tutorial <https://github.com/wphooper/pet_salon/tree/main/notebooks/Tutorial.ipynb>`\, which is a Jupyter notebook.
+
 .. toctree::
    :maxdepth: 4
    :caption: Contents:

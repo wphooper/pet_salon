@@ -706,7 +706,7 @@ class Immersions(UniqueRepresentation, Parent):
 
     EXAMPLES::
 
-    Construct the trivial SurjectiveEmbedding:
+    Construct the trivial SurjectiveEmbedding::
 
         sage: from pet_salon.immersion import SurjectiveEmbeddings
         sage: from pet_salon import PolytopeUnions

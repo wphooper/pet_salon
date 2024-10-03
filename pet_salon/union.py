@@ -43,7 +43,12 @@ from pet_salon.collection import length, function_mapping, postcomposition_mappi
 all_axioms += ("Nonoverlapping",)
 
 def is_nonoverlapping(polytope_collection):
-    assert length(polytope_collection) < infinity, 'is_nonoverlapping only works for finite collections of polytopes!'
+    r'''Return if the polytope collection is non-overlapping.
+
+    We require the collection to be finite.
+    '''
+    if length(polytope_collection) == infinity:
+        raise ValueError('is_nonoverlapping only works for finite collections of polytopes!')
     polytopes = list(polytope_collection)
     for i in range(len(polytopes)):
         p1 = polytopes[i]
@@ -63,11 +68,6 @@ class PolytopeUnionsCategory(Category):
         sage: PolytopeUnionsCategory()
         Category of disjoint polytope unions
     """
-
-    # TODO: Fix category names. Currently
-    # PolytopeUnionsCategory().Nonoverlapping().Finite()
-    # has a nonsensical name.
-
     def __init__(self, *args, **options):
         Category.__init__(self, *args, **options)
         self._fix_name()
@@ -130,9 +130,8 @@ class PolytopeUnionsCategory(Category):
             return False
 
         def is_nonoverlapping(self):
-            r'''Return ``True`` if this parent only contains disjoint unions of polytopes that are pairwise disjoint.
-
-            Return ``False`` otherwise.
+            r'''
+            Return ``False`` because this collection of polytopes is not known to have pairwise disjoint interiors.
             '''
             return False
 
@@ -151,13 +150,22 @@ class PolytopeUnionsCategory(Category):
             return VectorSpace(self.field(), self.dimension())
 
         def polyhedra(self):
+            r'''
+            Return the parent ``Polyhedra`` over the base field with the same dimension.
+            '''
             return Polyhedra(self.field(), self.dimension())
 
         @cached_method
         def point_set_category(self):
+            r'''
+            Return the category of ``PointSets`` over the base field.
+            '''
             return PointSets(self.field())
 
         def affine_group(self):
+            r'''
+            Return the affine group with the same dimension and base field.
+            '''
             from pet_salon.affine_gps.affine_group import AffineGroup
             return AffineGroup(self.dimension(), self.field())
 
@@ -204,7 +212,7 @@ class PolytopeUnionsCategory(Category):
         """
         @abstract_method
         def polytopes(self):
-            r'''Return the a mapping from labels to polytopes.'''
+            r'''Return the a mapping (dictionary) sending labels to polytopes.'''
             pass
 
         def labels(self):
@@ -217,7 +225,7 @@ class PolytopeUnionsCategory(Category):
 
         def is_finite(self):
             r"""
-            Return whether this is a finite subdivision, which it is.
+            Return whether this is a finite subdivision.
             """
             try:
                 len(self.polytopes())
@@ -227,6 +235,7 @@ class PolytopeUnionsCategory(Category):
                 return False
 
         def is_nonoverlapping(self):
+            r'''Return if the parent is nonoverlapping.'''
             return self.parent().is_nonoverlapping()
 
         @cached_method
@@ -312,8 +321,6 @@ class PolytopeUnionsCategory(Category):
             The parameters ``polytope_args`` and ``polytope_kwds`` are passed to the ``plot_polytope_union``
             function from the ``pet_salon.plot`` module.
 
-            EXAMPLES::
-
             A 2-D example::
 
                 sage: from pet_salon import PolytopeUnions
@@ -364,6 +371,9 @@ class PolytopeUnionsCategory(Category):
 
             @cached_method
             def volume(self, limit=None):
+                r'''
+                Return the total volume of the collection of polytopes.
+                '''
                 return sum([p.volume() for _,p in self.polytopes().items()])
 
             def restrict(self, new_labels, nonoverlapping=False, mapping=False):
@@ -371,9 +381,9 @@ class PolytopeUnionsCategory(Category):
 
                 The parameter ``new_labels`` should be a collection of the new labels.
 
-                The parameter ``nonoverlapping`` allows you to specify whether the labels have overlaps.
+                The parameter ``nonoverlapping`` allows you to specify whether the polytopes associated to the new_labels have overlaps.
 
-                If ``mapping`` is set to ``True`` then an embedding will be returned rather than union.
+                If ``mapping`` is set to ``True`` then an embedding will be returned rather than the union.
 
                 EXAMPLES::
 
@@ -396,9 +406,137 @@ class PolytopeUnionsCategory(Category):
                     else:
                         return self.parent()(new_dict)
 
+            def relabel(self, relabel_dict, mapping = False):
+                r'''
+                Relabel this Polytope union according to the dictionary `relabel_dict` which maps current
+                labels to the new new labels.
+
+                If `mapping` is true, then we construct the surjective embedding from the the current
+                polytope union to the relabeled union.
+
+                TODO: Support infinite unions.
+
+                EXAMPLES::
+
+                    sage: from pet_salon import *
+                    sage: from pet_salon.pam_examples import quadrilateral_map
+                    sage: f = quadrilateral_map(QQ, (2,3/2))
+                    sage: codomain = f.codomain()
+                    sage: relabeled_codomain = codomain.relabel({0:2})
+                    sage: relabeled_codomain
+                    Disjoint union of 1 nonoverlapping polyhedra in QQ^2
+                    sage: list(relabeled_codomain.labels())
+                    [2]
+                    sage: relabeled_mapping = codomain.relabel({0:2}, mapping=True)
+                    sage: relabeled_mapping.ambient_labels()
+                    {0: 2}
+                '''
+                from pet_salon.immersion import SurjectiveEmbeddings
+                new_polytopes = {}
+                for label, polytope in self.polytopes().items():
+                    new_polytopes[relabel_dict[label]] = polytope
+                new_union = self.parent()(new_polytopes)
+                if not mapping:
+                    return new_union
+                se = SurjectiveEmbeddings(new_union)
+                return se(self, relabel_dict)
+
+            def union(self, another, mappings=False):
+                r'''
+                Construct the union of this PolytopeUnion with another PolytopeUnion.
+
+                If the unions share a common label, then they must refer to the same polygon. (Otherwise a ValueError is raised.)
+
+                If `mappings` is False we return the union. Otherwise we return the pair of inclusions into the union.
+
+                EXAMPLES::
+
+                    sage: from pet_salon import *
+                    sage: two_squares = finite_polytope_union(2, QQ, {
+                    ....:     0 : rectangle(QQ, 0, 2, 0, 2),
+                    ....:     1 : rectangle(QQ, 1, 3, 1, 3),
+                    ....: })
+                    sage: square_and_rectangle = finite_polytope_union(2, QQ, {
+                    ....:     0 : rectangle(QQ, 0, 2, 0, 2),
+                    ....:     2 : rectangle(QQ, 2, 4, 0, 1),
+                    ....: })
+                    sage: u = two_squares.union(square_and_rectangle)
+                    sage: u
+                    Disjoint union of 3 polyhedra in QQ^2
+                    sage: f,g = two_squares.union(square_and_rectangle, mappings=True)
+                    sage: f.domain() == two_squares and g.domain() == square_and_rectangle
+                    True
+                    sage: u == f.codomain() == g.codomain()
+                    True
+                '''
+                d = copy(self.polytopes())
+                for label, polytope in another.polytopes().items():
+                    if label in d and d[label] != polytope:
+                        raise ValueError(f'The two union both have label {label} but the polytopes are different.')
+                    else:
+                        d[label] = polytope
+                union = self.parent()(d)
+                if not mappings:
+                    return union
+                first_map = union.restrict(self.labels(), mapping=True)
+                second_map = union.restrict(another.labels(), mapping=True)
+                return (first_map, second_map)
+
+            def disjoint_union(self, another, mappings=False):
+                r'''
+                Construct the disjoint union of this PolytopeUnion with another PolytopeUnion.
+
+                If `mappings` is False we return the union. Otherwise we return the pair of inclusions into the union.
+
+                EXAMPLES::
+
+                    sage: from pet_salon import *
+                    sage: two_squares = finite_polytope_union(2, QQ, {
+                    ....:     0 : rectangle(QQ, 0, 2, 0, 2),
+                    ....:     1 : rectangle(QQ, 1, 3, 1, 3),
+                    ....: })
+                    sage: square_and_rectangle = finite_polytope_union(2, QQ, {
+                    ....:     0 : rectangle(QQ, 0, 2, 0, 2),
+                    ....:     2 : rectangle(QQ, 2, 4, 0, 1),
+                    ....: })
+                    sage: u = two_squares.disjoint_union(square_and_rectangle)
+                    sage: u
+                    Disjoint union of 4 polyhedra in QQ^2
+                    sage: f,g = two_squares.disjoint_union(square_and_rectangle, mappings=True)
+                    sage: f.domain() == two_squares and g.domain() == square_and_rectangle
+                    True
+                    sage: u == f.codomain() == g.codomain()
+                    True
+                '''
+                if not mappings:
+                    relabel_self_dict = {}
+                    for label in self.labels():
+                        relabel_self_dict[label] = (0, label)
+                    relabeled_self = self.relabel(relabel_self_dict)
+
+                    relabel_another_dict = {}
+                    for label in another.labels():
+                        relabel_another_dict[label] = (1, label)
+                    relabeled_another = another.relabel(relabel_another_dict)
+
+                    du = relabeled_self.union(relabeled_another)
+                    return du
+                relabel_self_dict = {}
+                for label in self.labels():
+                    relabel_self_dict[label] = (0, label)
+                relabeled_self_map = self.relabel(relabel_self_dict, mapping=True)
+
+                relabel_another_dict = {}
+                for label in another.labels():
+                    relabel_another_dict[label] = (1, label)
+                relabeled_another_map = another.relabel(relabel_another_dict, mapping=True)
+
+                self_inc, another_inc = relabeled_self_map.codomain().union(relabeled_another_map.codomain(), mappings=True)
+                return (self_inc*relabeled_self_map, another_inc*relabeled_another_map)
+
     class Nonoverlapping(CategoryWithAxiom):
         r"""
-        The axiom satisfied by finite subdivisions.
+        The axiom satisfied by polytope unions with disjoint interiors.
 
         EXAMPLES::
 
@@ -584,6 +722,8 @@ class PolytopeUnionsCategory(Category):
                         new_dict = function_mapping(new_labels, self.polytope)
                         return self.parent()(new_dict)
 
+
+
 class PolytopeUnion(Element):
     def __init__(self, parent, mapping, name=None):
         r'''
@@ -644,7 +784,14 @@ class PolytopeUnions(UniqueRepresentation, Parent):
     r'''
     Parent for domains of PETs of a given dimension that are defined over a given field.
 
-    EXAMPLES::
+    To construct a PolytopeUnions, call with a ``dimension`` and a ``field``. Keyword parameters include ``finite``
+    and ``nonoverlapping`` which should be either true or false. These keywords determine the category.
+
+    To construct a PolytopeUnion from a PolytopeUnions object ``U``, you use
+    ```python
+    union = U(polytopes_mapping)
+    ```
+    where ``polytopes_mapping`` is a mapping sending labels to polytopes (of the right dimension).
 
     We can convert a single polyhedron to a union. It creates a union with a label of ``0``::
 
@@ -663,6 +810,18 @@ class PolytopeUnions(UniqueRepresentation, Parent):
         dict_keys([0])
         sage: print(union.polytope(0))
         A 2-dimensional polyhedron in QQ^2 defined as the convex hull of 3 vertices
+
+    Constructing a finite polytope union::
+
+        sage: from pet_salon import PolytopeUnions, rectangle
+        sage: pu = PolytopeUnions(2, AA, finite=True, nonoverlapping=False)
+        sage: p = pu({   0: rectangle(QQ, 0, 1, 0, 1),     # [0,1] x [0,1]
+        ....:          'a': rectangle(QQ, 1/2, 1, 1/2, 2) # [1/2, 1] x [1/2, 1]
+        ....:        })
+        sage: p
+        Disjoint union of 2 polyhedra in AA^2
+        sage: print(p.polytope('a'))
+        A 2-dimensional polyhedron in AA^2 defined as the convex hull of 4 vertices
 
     An example of an infinite union::
 
@@ -790,7 +949,6 @@ class PolytopeUnions(UniqueRepresentation, Parent):
         self._intersection_check_limit = limit
 
     def _element_constructor_(self, *args, **kwds):
-        #print(f'Called element_constructor with args={args} and kwds={kwds}')
         if len(args)==1:
             if hasattr(args[0],'parent'):
                 if args[0].parent() == self:
@@ -837,7 +995,7 @@ def finite_polytope_union(dimension, field, mapping, name=None):
     r'''
     Construct a finite polytope union.
 
-    The parameters are the ``dimension`` $d$, a base ``field`` $F$, and a dictionary sending labels to polytopes with vertices in $F^d$. If a ``name`` is provided, the name of the union will be set to this.
+    The parameters are the ``dimension`` `d`, a base ``field`` `F`, and a dictionary sending labels to polytopes with vertices in `F^d`. If a ``name`` is provided, the name of the union will be set to this.
 
     An advantage of this function is that it automatically decides if the polytopes overlap.
     '''

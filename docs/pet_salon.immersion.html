@@ -170,29 +170,29 @@ to polytopes that map into the polytope with the provided <cite>ambient_label</c
 <p>We call the fixed disjoint union the “ambient union.”</p>
 <p>EXAMPLES:</p>
 <p>Construct the trivial SurjectiveEmbedding:</p>
-<blockquote>
-<div><p>sage: from pet_salon.immersion import SurjectiveEmbeddings
-sage: from pet_salon import PolytopeUnions
-sage: U = PolytopeUnions(2, QQ)
-sage: union = U.an_element()
-sage: union
-Disjoint union of 2 nonoverlapping polyhedra in QQ^2
-sage: S = SurjectiveEmbeddings(union)
-sage: p = S() # p is the trivial SurjectiveEmbedding
-sage: p
-Surjective embedding of disjoint union of 2 nonoverlapping polyhedra in QQ^2 into disjoint union of 2 nonoverlapping polyhedra in QQ^2
-sage: p.domain() == union
-True
-sage: p.ambient_labels()
-{0: 0, 1: 1}
-sage: pt = p.domain().point((0,0))
-sage: pt
-Point(0, (0, 0))
-sage: pt == p.preimage(pt)
-True
-sage: pt == p(pt)
-True</p>
-</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon.immersion</span> <span class="kn">import</span> <span class="n">SurjectiveEmbeddings</span>
+<span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon</span> <span class="kn">import</span> <span class="n">PolytopeUnions</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">U</span> <span class="o">=</span> <span class="n">PolytopeUnions</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">QQ</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">union</span> <span class="o">=</span> <span class="n">U</span><span class="o">.</span><span class="n">an_element</span><span class="p">()</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">union</span>
+<span class="n">Disjoint</span> <span class="n">union</span> <span class="n">of</span> <span class="mi">2</span> <span class="n">nonoverlapping</span> <span class="n">polyhedra</span> <span class="ow">in</span> <span class="n">QQ</span><span class="o">^</span><span class="mi">2</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">S</span> <span class="o">=</span> <span class="n">SurjectiveEmbeddings</span><span class="p">(</span><span class="n">union</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">S</span><span class="p">()</span> <span class="c1"># p is the trivial SurjectiveEmbedding</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">p</span>
+<span class="n">Surjective</span> <span class="n">embedding</span> <span class="n">of</span> <span class="n">disjoint</span> <span class="n">union</span> <span class="n">of</span> <span class="mi">2</span> <span class="n">nonoverlapping</span> <span class="n">polyhedra</span> <span class="ow">in</span> <span class="n">QQ</span><span class="o">^</span><span class="mi">2</span> <span class="n">into</span> <span class="n">disjoint</span> <span class="n">union</span> <span class="n">of</span> <span class="mi">2</span> <span class="n">nonoverlapping</span> <span class="n">polyhedra</span> <span class="ow">in</span> <span class="n">QQ</span><span class="o">^</span><span class="mi">2</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span> <span class="o">==</span> <span class="n">union</span>
+<span class="kc">True</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">ambient_labels</span><span class="p">()</span>
+<span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">pt</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span><span class="o">.</span><span class="n">point</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">pt</span>
+<span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">pt</span> <span class="o">==</span> <span class="n">p</span><span class="o">.</span><span class="n">preimage</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span>
+<span class="kc">True</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">pt</span> <span class="o">==</span> <span class="n">p</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span>
+<span class="kc">True</span>
+</pre></div>
+</div>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pet_salon.immersion.Immersions.Element">
 <span class="sig-name descname"><span class="pre">Element</span></span><a class="headerlink" href="#pet_salon.immersion.Immersions.Element" title="Link to this definition"></a></dt>

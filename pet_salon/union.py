@@ -359,6 +359,50 @@ class PolytopeUnionsCategory(Category):
             Provides methods available to all parents of finite disjoint unions.
             """
 
+            def union(self, union_list, mappings=False):
+                assert len(union_list) >= 2, 'Union only defined for at least two PolytopeUnions.'
+                d = copy(union_list[0].polytopes())
+                for another in union_list[1:]:
+                    for label, polytope in another.polytopes().items():
+                        if label in d and d[label] != polytope:
+                            raise ValueError(f'Two unions have label {label} but different polytopes.')
+                        else:
+                            d[label] = polytope
+                print(d)
+                union = self(d)
+                if not mappings:
+                    return union
+                maps = []
+                for another in union_list:
+                    maps.append( union.restrict(another.labels(), mapping=True) )
+                return maps
+
+            def disjoint_union(self, union_list, mappings=False):
+                assert len(union_list) >= 2, 'Disjoint union only defined for at least two PolytopeUnions.'
+                if not mappings:
+                    relabeled_unions = []
+                    for i, u in enumerate(union_list):
+                        relabel_dict = {}
+                        for label in u.labels():
+                            relabel_dict[label] = (i, label)
+                        relabeled_unions.append(u.relabel(relabel_dict))
+
+                    ret = self.union(relabeled_unions)
+                    return ret
+                relabel_maps = []
+                for i, u in enumerate(union_list):
+                    relabel_dict = {}
+                    for label in u.labels():
+                        relabel_dict[label] = (i, label)
+                    relabel_maps.append(u.relabel(relabel_dict, mapping=True))
+    
+                codomains = [m.codomain() for m in relabel_maps]
+                maps_into_the_union = self.union(codomains, mappings=True)
+                compositions = []
+                for i in range(len(union_list)):
+                    compositions.append( maps_into_the_union[i]*relabel_maps[i] )
+                return compositions
+
         class ElementMethods:
             r"""
             Provides methods available to all finite disjoint unions.

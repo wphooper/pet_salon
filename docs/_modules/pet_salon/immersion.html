@@ -324,6 +324,9 @@
 <span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">            Return a mapping sending an `ambient_label` to the collection of labels that correspond</span>
 <span class="sd">            to polytopes that map into the polytope with the provided `ambient_label`.</span>
+
+<span class="sd">            Warning: We do not require that an `ambient_label` for which there is no polytopes that map in be</span>
+<span class="sd">            included in the mapping.</span>
 <span class="sd">            &#39;&#39;&#39;</span>
             <span class="k">pass</span></div>
 
@@ -336,7 +339,10 @@
 <span class="sd">            Return the restriction of the codomain union to polytopes mapped into the polytope</span>
 <span class="sd">            with the provided `ambient_label`.</span>
 <span class="sd">            &#39;&#39;&#39;</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span><span class="o">.</span><span class="n">restrict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subunion_labels</span><span class="p">()[</span><span class="n">ambient_label</span><span class="p">])</span></div>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span><span class="o">.</span><span class="n">restrict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subunion_labels</span><span class="p">()[</span><span class="n">ambient_label</span><span class="p">])</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">empty_union</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="ImmersionsCategory.ElementMethods.codomain">

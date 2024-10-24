@@ -18,7 +18,7 @@
 # ********************************************************************
 
 '''
-This module contains classes related to ``PolytopeUnions``\, disjoint unions of polytopes.
+This module contains classes related to ``PolytopeUnions``, disjoint unions of polytopes.
 '''
 
 
@@ -121,6 +121,20 @@ class PolytopeUnionsCategory(Category):
         @abstract_method
         def dimension(self):
             pass
+
+        def empty_union(self):
+            r'''Return the empty union with this parent.
+
+            EXAMPLES::
+
+                sage: from pet_salon import *
+                sage: PU = PolytopeUnions(2, QQ)
+                sage: eu = PU.empty_union()
+                sage: TestSuite(eu).run()
+                sage: eu
+                Disjoint union of 0 nonoverlapping polyhedra in QQ^2
+            '''
+            return self({})
 
         def is_finite(self):
             r'''Return ``True`` if this parent only contains finite objects.
@@ -359,8 +373,62 @@ class PolytopeUnionsCategory(Category):
             Provides methods available to all parents of finite disjoint unions.
             """
 
-            def union(self, union_list, mappings=False):
-                assert len(union_list) >= 2, 'Union only defined for at least two PolytopeUnions.'
+            def union(self, union_list, mappings=False, check=True):
+                r'''
+                Return the union of multiple PolytopeUnions, included in `union_list`.
+
+                If `mappings` is set to True, instead we return the list of inclusions of the
+                PolytopeUnions into their union.
+
+                The result will be an object with this class as the parent. Note that the union
+                of nonoverlapping polytope unions is not necessarily nonoverlapping. If `check` is
+                `True` (the default) and this class represents nonoverlapping polytopes, we check to
+                see if the polytopes in the list are all nonoverlapping and we check that the
+                resulting union is nonoverlapping.
+
+                EXAMPLES::
+
+                    sage: from pet_salon import *
+                    sage: PU = PolytopeUnions(2, QQ)
+                    sage: PU
+                    Finite disjoint unions of nonoverlapping polyhedra in dimension 2 over Rational Field
+                    sage: square0 = PU({0:rectangle(QQ, 0, 2, 0, 2)})
+                    sage: square0
+                    Disjoint union of 1 nonoverlapping polyhedra in QQ^2
+                    sage: square1 = PU({1:rectangle(QQ, 1, 3, 1, 3)})
+                    sage: square1
+                    Disjoint union of 1 nonoverlapping polyhedra in QQ^2
+                    sage: PU.union([square0, square1])
+                    Traceback (most recent call last):
+                    ...
+                    ValueError: The union is overlapping (but this parent represents nonoverlapping PolytopeUnions).
+
+                    sage: from pet_salon import *
+                    sage: PU = PolytopeUnions(2, QQ)
+                    sage: square0 = PU({0:rectangle(QQ, 0, 2, 0, 2)})
+                    sage: square1 = PU({1:rectangle(QQ, 1, 3, 1, 3)})
+                    sage: PUO = PolytopeUnions(2, QQ, nonoverlapping=False)
+                    sage: pu = PUO.union([square0, square1])
+                    sage: pu
+                    Disjoint union of 2 polyhedra in QQ^2
+                    sage: TestSuite(pu).run()
+                    sage: PUO.union([square0, square1], mappings=True)
+                    [Embedding of disjoint union of 1 polyhedra in QQ^2 into disjoint union of 2 polyhedra in QQ^2,
+                     Embedding of disjoint union of 1 polyhedra in QQ^2 into disjoint union of 2 polyhedra in QQ^2]
+                '''
+                try:
+                    if len(union_list) < 2:
+                        raise ValueError('Union only defined for at least two PolytopeUnions.')
+                except TypeError:
+                    raise ValueError('The first parameter to `union()` must be a list of PolytopeUnions.')
+                if check and self.is_nonoverlapping():
+                    for another in union_list:
+                        if not another.is_nonoverlapping():
+                            raise ValueError('In order for a union to be nonoverlapping, the pieces must also be nonoverlapping.')
+
+                # Convert into the same parent.
+                union_list = [self(x) for x in union_list]
+
                 d = copy(union_list[0].polytopes())
                 for another in union_list[1:]:
                     for label, polytope in another.polytopes().items():
@@ -368,7 +436,9 @@ class PolytopeUnionsCategory(Category):
                             raise ValueError(f'Two unions have label {label} but different polytopes.')
                         else:
                             d[label] = polytope
-                print(d)
+                if check and self.is_nonoverlapping():
+                    if not is_nonoverlapping(d.values()):
+                        raise ValueError(f'The union is overlapping (but this parent represents nonoverlapping PolytopeUnions).')
                 union = self(d)
                 if not mappings:
                     return union
@@ -395,7 +465,7 @@ class PolytopeUnionsCategory(Category):
                     for label in u.labels():
                         relabel_dict[label] = (i, label)
                     relabel_maps.append(u.relabel(relabel_dict, mapping=True))
-    
+
                 codomains = [m.codomain() for m in relabel_maps]
                 maps_into_the_union = self.union(codomains, mappings=True)
                 compositions = []
@@ -485,13 +555,18 @@ class PolytopeUnionsCategory(Category):
                 se = SurjectiveEmbeddings(new_union)
                 return se(self, relabel_dict)
 
-            def union(self, another, mappings=False):
+            def union(self, another, mappings=False, nonoverlapping=False, check=True):
                 r'''
                 Construct the union of this PolytopeUnion with another PolytopeUnion.
 
                 If the unions share a common label, then they must refer to the same polygon. (Otherwise a ValueError is raised.)
 
                 If `mappings` is False we return the union. Otherwise we return the pair of inclusions into the union.
+
+                Note that the union of nonoverlapping PolytopeUnions may be overlapping. By default the returned
+                PolytopeUnion is assumed to be overlapping. To declare it nonoverlapping set `nonoverlapping=True`.
+                In this case, by default we check to make sure the result is nonoverlapping. To disable this behavior,
+                set `check=False`.
 
                 EXAMPLES::
 
@@ -513,18 +588,20 @@ class PolytopeUnionsCategory(Category):
                     sage: u == f.codomain() == g.codomain()
                     True
                 '''
-                d = copy(self.polytopes())
-                for label, polytope in another.polytopes().items():
-                    if label in d and d[label] != polytope:
-                        raise ValueError(f'The two union both have label {label} but the polytopes are different.')
-                    else:
-                        d[label] = polytope
-                union = self.parent()(d)
-                if not mappings:
-                    return union
-                first_map = union.restrict(self.labels(), mapping=True)
-                second_map = union.restrict(another.labels(), mapping=True)
-                return (first_map, second_map)
+                parent = self.parent().with_different_axioms(nonoverlapping=nonoverlapping)
+                return parent.union([self, another], mappings=mappings, check=check)
+#                d = copy(self.polytopes())
+#                for label, polytope in another.polytopes().items():
+#                    if label in d and d[label] != polytope:
+#                        raise ValueError(f'The two union both have label {label} but the polytopes are different.')
+#                    else:
+#                        d[label] = polytope
+#                union = self.parent()(d)
+#                if not mappings:
+#                    return union
+#                first_map = union.restrict(self.labels(), mapping=True)
+#                second_map = union.restrict(another.labels(), mapping=True)
+#                return (first_map, second_map)
 
             def disjoint_union(self, another, mappings=False):
                 r'''

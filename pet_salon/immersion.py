@@ -188,6 +188,9 @@ class ImmersionsCategory(Category):
             r'''
             Return a mapping sending an `ambient_label` to the collection of labels that correspond
             to polytopes that map into the polytope with the provided `ambient_label`.
+
+            Warning: We do not require that an `ambient_label` for which there is no polytopes that map in be
+            included in the mapping.
             '''
             pass
 
@@ -197,7 +200,10 @@ class ImmersionsCategory(Category):
             Return the restriction of the codomain union to polytopes mapped into the polytope
             with the provided `ambient_label`.
             '''
-            return self.domain().restrict(self.subunion_labels()[ambient_label])
+            try:
+                return self.domain().restrict(self.subunion_labels()[ambient_label])
+            except KeyError:
+                return self.domain().parent().empty_union()
 
         def codomain(self):
             r'''Return the codomain which is also the ambient union.'''

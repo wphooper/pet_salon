@@ -94,7 +94,7 @@
 <span class="c1"># ********************************************************************</span>
 
 <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">This module contains classes related to ``PolytopeUnions``\, disjoint unions of polytopes.</span>
+<span class="sd">This module contains classes related to ``PolytopeUnions``, disjoint unions of polytopes.</span>
 <span class="sd">&#39;&#39;&#39;</span>
 
 
@@ -122,7 +122,7 @@
 <a class="viewcode-back" href="../../pet_salon.union.html#pet_salon.union.is_nonoverlapping">[docs]</a>
 <span class="k">def</span> <span class="nf">is_nonoverlapping</span><span class="p">(</span><span class="n">polytope_collection</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return if the polytope collection is non-overlapping.</span>
-<span class="sd">    </span>
+
 <span class="sd">    We require the collection to be finite.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">if</span> <span class="n">length</span><span class="p">(</span><span class="n">polytope_collection</span><span class="p">)</span> <span class="o">==</span> <span class="n">infinity</span><span class="p">:</span>
@@ -218,6 +218,23 @@
         <span class="nd">@abstract_method</span>
         <span class="k">def</span> <span class="nf">dimension</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="PolytopeUnionsCategory.ParentMethods.empty_union">
+<a class="viewcode-back" href="../../pet_salon.union.html#pet_salon.union.PolytopeUnionsCategory.ParentMethods.empty_union">[docs]</a>
+        <span class="k">def</span> <span class="nf">empty_union</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return the empty union with this parent.</span>
+<span class="sd">            </span>
+<span class="sd">            EXAMPLES::</span>
+
+<span class="sd">                sage: from pet_salon import *</span>
+<span class="sd">                sage: PU = PolytopeUnions(2, QQ)</span>
+<span class="sd">                sage: eu = PU.empty_union()</span>
+<span class="sd">                sage: TestSuite(eu).run()</span>
+<span class="sd">                sage: eu</span>
+<span class="sd">                Disjoint union of 0 nonoverlapping polyhedra in QQ^2</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="p">({})</span></div>
 
 
 <div class="viewcode-block" id="PolytopeUnionsCategory.ParentMethods.is_finite">
@@ -517,7 +534,113 @@
         <span class="k">class</span> <span class="nc">ParentMethods</span><span class="p">:</span>
 <span class="w">            </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Provides methods available to all parents of finite disjoint unions.</span>
-<span class="sd">            &quot;&quot;&quot;</span></div>
+<span class="sd">            &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="PolytopeUnionsCategory.Finite.ParentMethods.union">
+<a class="viewcode-back" href="../../pet_salon.union.html#pet_salon.union.PolytopeUnionsCategory.Finite.ParentMethods.union">[docs]</a>
+            <span class="k">def</span> <span class="nf">union</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">union_list</span><span class="p">,</span> <span class="n">mappings</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">                </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">                Return the union of multiple PolytopeUnions, included in `union_list`.</span>
+
+<span class="sd">                If `mappings` is set to True, instead we return the list of inclusions of the </span>
+<span class="sd">                PolytopeUnions into their union.</span>
+
+<span class="sd">                The result will be an object with this class as the parent. Note that the union</span>
+<span class="sd">                of nonoverlapping polytope unions is not necessarily nonoverlapping. If `check` is</span>
+<span class="sd">                `True` (the default) and this class represents nonoverlapping polytopes, we check to </span>
+<span class="sd">                see if the polytopes in the list are all nonoverlapping and we check that the</span>
+<span class="sd">                resulting union is nonoverlapping.</span>
+
+<span class="sd">                EXAMPLES::</span>
+
+<span class="sd">                    sage: from pet_salon import *</span>
+<span class="sd">                    sage: PU = PolytopeUnions(2, QQ)</span>
+<span class="sd">                    sage: PU</span>
+<span class="sd">                    Finite disjoint unions of nonoverlapping polyhedra in dimension 2 over Rational Field</span>
+<span class="sd">                    sage: square0 = PU({0:rectangle(QQ, 0, 2, 0, 2)})</span>
+<span class="sd">                    sage: square0</span>
+<span class="sd">                    Disjoint union of 1 nonoverlapping polyhedra in QQ^2</span>
+<span class="sd">                    sage: square1 = PU({1:rectangle(QQ, 1, 3, 1, 3)})</span>
+<span class="sd">                    sage: square1</span>
+<span class="sd">                    Disjoint union of 1 nonoverlapping polyhedra in QQ^2</span>
+<span class="sd">                    sage: PU.union([square0, square1])</span>
+<span class="sd">                    Traceback (most recent call last):</span>
+<span class="sd">                    ...</span>
+<span class="sd">                    ValueError: The union is overlapping (but this parent represents nonoverlapping PolytopeUnions).</span>
+
+<span class="sd">                    sage: from pet_salon import *</span>
+<span class="sd">                    sage: PU = PolytopeUnions(2, QQ)</span>
+<span class="sd">                    sage: square0 = PU({0:rectangle(QQ, 0, 2, 0, 2)})</span>
+<span class="sd">                    sage: square1 = PU({1:rectangle(QQ, 1, 3, 1, 3)})</span>
+<span class="sd">                    sage: PUO = PolytopeUnions(2, QQ, nonoverlapping=False)</span>
+<span class="sd">                    sage: pu = PUO.union([square0, square1])</span>
+<span class="sd">                    sage: pu</span>
+<span class="sd">                    Disjoint union of 2 polyhedra in QQ^2</span>
+<span class="sd">                    sage: TestSuite(pu).run()</span>
+<span class="sd">                    sage: PUO.union([square0, square1], mappings=True)</span>
+<span class="sd">                    [Embedding of disjoint union of 1 polyhedra in QQ^2 into disjoint union of 2 polyhedra in QQ^2,</span>
+<span class="sd">                     Embedding of disjoint union of 1 polyhedra in QQ^2 into disjoint union of 2 polyhedra in QQ^2]</span>
+<span class="sd">                &#39;&#39;&#39;</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">union_list</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Union only defined for at least two PolytopeUnions.&#39;</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The first parameter to `union()` must be a list of PolytopeUnions.&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">check</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_nonoverlapping</span><span class="p">():</span>
+                    <span class="k">for</span> <span class="n">another</span> <span class="ow">in</span> <span class="n">union_list</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="ow">not</span> <span class="n">another</span><span class="o">.</span><span class="n">is_nonoverlapping</span><span class="p">():</span>
+                            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;In order for a union to be nonoverlapping, the pieces must also be nonoverlapping.&#39;</span><span class="p">)</span>
+
+                <span class="c1"># Convert into the same parent.</span>
+                <span class="n">union_list</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">union_list</span><span class="p">]</span>
+
+                <span class="n">d</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">union_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">polytopes</span><span class="p">())</span>
+                <span class="k">for</span> <span class="n">another</span> <span class="ow">in</span> <span class="n">union_list</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+                    <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">polytope</span> <span class="ow">in</span> <span class="n">another</span><span class="o">.</span><span class="n">polytopes</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                        <span class="k">if</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">d</span> <span class="ow">and</span> <span class="n">d</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">!=</span> <span class="n">polytope</span><span class="p">:</span>
+                            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Two unions have label </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s1"> but different polytopes.&#39;</span><span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">d</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">polytope</span>
+                <span class="k">if</span> <span class="n">check</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_nonoverlapping</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_nonoverlapping</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The union is overlapping (but this parent represents nonoverlapping PolytopeUnions).&#39;</span><span class="p">)</span>
+                <span class="n">union</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">mappings</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">union</span>
+                <span class="n">maps</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">another</span> <span class="ow">in</span> <span class="n">union_list</span><span class="p">:</span>
+                    <span class="n">maps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">union</span><span class="o">.</span><span class="n">restrict</span><span class="p">(</span><span class="n">another</span><span class="o">.</span><span class="n">labels</span><span class="p">(),</span> <span class="n">mapping</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="p">)</span>
+                <span class="k">return</span> <span class="n">maps</span></div>
+
+
+<div class="viewcode-block" id="PolytopeUnionsCategory.Finite.ParentMethods.disjoint_union">
+<a class="viewcode-back" href="../../pet_salon.union.html#pet_salon.union.PolytopeUnionsCategory.Finite.ParentMethods.disjoint_union">[docs]</a>
+            <span class="k">def</span> <span class="nf">disjoint_union</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">union_list</span><span class="p">,</span> <span class="n">mappings</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+                <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">union_list</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Disjoint union only defined for at least two PolytopeUnions.&#39;</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">mappings</span><span class="p">:</span>
+                    <span class="n">relabeled_unions</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">u</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">union_list</span><span class="p">):</span>
+                        <span class="n">relabel_dict</span> <span class="o">=</span> <span class="p">{}</span>
+                        <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">u</span><span class="o">.</span><span class="n">labels</span><span class="p">():</span>
+                            <span class="n">relabel_dict</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+                        <span class="n">relabeled_unions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">relabel</span><span class="p">(</span><span class="n">relabel_dict</span><span class="p">))</span>
+
+                    <span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">relabeled_unions</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="n">ret</span>
+                <span class="n">relabel_maps</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">u</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">union_list</span><span class="p">):</span>
+                    <span class="n">relabel_dict</span> <span class="o">=</span> <span class="p">{}</span>
+                    <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">u</span><span class="o">.</span><span class="n">labels</span><span class="p">():</span>
+                        <span class="n">relabel_dict</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+                    <span class="n">relabel_maps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">relabel</span><span class="p">(</span><span class="n">relabel_dict</span><span class="p">,</span> <span class="n">mapping</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+    
+                <span class="n">codomains</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">relabel_maps</span><span class="p">]</span>
+                <span class="n">maps_into_the_union</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">codomains</span><span class="p">,</span> <span class="n">mappings</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">compositions</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">union_list</span><span class="p">)):</span>
+                    <span class="n">compositions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">maps_into_the_union</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">relabel_maps</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">)</span>
+                <span class="k">return</span> <span class="n">compositions</span></div>
+</div>
 
 
 <div class="viewcode-block" id="PolytopeUnionsCategory.Finite.ElementMethods">
@@ -585,7 +708,7 @@
 <span class="sd">                Relabel this Polytope union according to the dictionary `relabel_dict` which maps current</span>
 <span class="sd">                labels to the new new labels.</span>
 
-<span class="sd">                If `mapping` is true, then we construct the surjective embedding from the the current </span>
+<span class="sd">                If `mapping` is true, then we construct the surjective embedding from the the current</span>
 <span class="sd">                polytope union to the relabeled union.</span>
 
 <span class="sd">                TODO: Support infinite unions.</span>
@@ -618,13 +741,18 @@
 
 <div class="viewcode-block" id="PolytopeUnionsCategory.Finite.ElementMethods.union">
 <a class="viewcode-back" href="../../pet_salon.union.html#pet_salon.union.PolytopeUnionsCategory.Finite.ElementMethods.union">[docs]</a>
-            <span class="k">def</span> <span class="nf">union</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">another</span><span class="p">,</span> <span class="n">mappings</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+            <span class="k">def</span> <span class="nf">union</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">another</span><span class="p">,</span> <span class="n">mappings</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">nonoverlapping</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">                </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">                Construct the union of this PolytopeUnion with another PolytopeUnion.</span>
 
 <span class="sd">                If the unions share a common label, then they must refer to the same polygon. (Otherwise a ValueError is raised.)</span>
 
 <span class="sd">                If `mappings` is False we return the union. Otherwise we return the pair of inclusions into the union.</span>
+
+<span class="sd">                Note that the union of nonoverlapping PolytopeUnions may be overlapping. By default the returned</span>
+<span class="sd">                PolytopeUnion is assumed to be overlapping. To declare it nonoverlapping set `nonoverlapping=True`.</span>
+<span class="sd">                In this case, by default we check to make sure the result is nonoverlapping. To disable this behavior,</span>
+<span class="sd">                set `check=False`.</span>
 
 <span class="sd">                EXAMPLES::</span>
 
@@ -646,19 +774,21 @@
 <span class="sd">                    sage: u == f.codomain() == g.codomain()</span>
 <span class="sd">                    True</span>
 <span class="sd">                &#39;&#39;&#39;</span>
-                <span class="n">d</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">polytopes</span><span class="p">())</span>
-                <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">polytope</span> <span class="ow">in</span> <span class="n">another</span><span class="o">.</span><span class="n">polytopes</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                    <span class="k">if</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">d</span> <span class="ow">and</span> <span class="n">d</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">!=</span> <span class="n">polytope</span><span class="p">:</span>
-                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The two union both have label </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s1"> but the polytopes are different.&#39;</span><span class="p">)</span>
-                    <span class="k">else</span><span class="p">:</span>
-                        <span class="n">d</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">polytope</span>
-                <span class="n">union</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()(</span><span class="n">d</span><span class="p">)</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">mappings</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="n">union</span>
-                <span class="n">first_map</span> <span class="o">=</span> <span class="n">union</span><span class="o">.</span><span class="n">restrict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">(),</span> <span class="n">mapping</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-                <span class="n">second_map</span> <span class="o">=</span> <span class="n">union</span><span class="o">.</span><span class="n">restrict</span><span class="p">(</span><span class="n">another</span><span class="o">.</span><span class="n">labels</span><span class="p">(),</span> <span class="n">mapping</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-                <span class="k">return</span> <span class="p">(</span><span class="n">first_map</span><span class="p">,</span> <span class="n">second_map</span><span class="p">)</span></div>
+                <span class="n">parent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">with_different_axioms</span><span class="p">(</span><span class="n">nonoverlapping</span><span class="o">=</span><span class="n">nonoverlapping</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">parent</span><span class="o">.</span><span class="n">union</span><span class="p">([</span><span class="bp">self</span><span class="p">,</span> <span class="n">another</span><span class="p">],</span> <span class="n">mappings</span><span class="o">=</span><span class="n">mappings</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="n">check</span><span class="p">)</span></div>
 
+<span class="c1">#                d = copy(self.polytopes())</span>
+<span class="c1">#                for label, polytope in another.polytopes().items():</span>
+<span class="c1">#                    if label in d and d[label] != polytope:</span>
+<span class="c1">#                        raise ValueError(f&#39;The two union both have label {label} but the polytopes are different.&#39;)</span>
+<span class="c1">#                    else:</span>
+<span class="c1">#                        d[label] = polytope</span>
+<span class="c1">#                union = self.parent()(d)</span>
+<span class="c1">#                if not mappings:</span>
+<span class="c1">#                    return union</span>
+<span class="c1">#                first_map = union.restrict(self.labels(), mapping=True)</span>
+<span class="c1">#                second_map = union.restrict(another.labels(), mapping=True)</span>
+<span class="c1">#                return (first_map, second_map)</span>
 
 <div class="viewcode-block" id="PolytopeUnionsCategory.Finite.ElementMethods.disjoint_union">
 <a class="viewcode-back" href="../../pet_salon.union.html#pet_salon.union.PolytopeUnionsCategory.Finite.ElementMethods.disjoint_union">[docs]</a>
@@ -693,12 +823,12 @@
                     <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">():</span>
                         <span class="n">relabel_self_dict</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
                     <span class="n">relabeled_self</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">relabel</span><span class="p">(</span><span class="n">relabel_self_dict</span><span class="p">)</span>
-                    
+
                     <span class="n">relabel_another_dict</span> <span class="o">=</span> <span class="p">{}</span>
                     <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">another</span><span class="o">.</span><span class="n">labels</span><span class="p">():</span>
                         <span class="n">relabel_another_dict</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
                     <span class="n">relabeled_another</span> <span class="o">=</span> <span class="n">another</span><span class="o">.</span><span class="n">relabel</span><span class="p">(</span><span class="n">relabel_another_dict</span><span class="p">)</span>
-                    
+
                     <span class="n">du</span> <span class="o">=</span> <span class="n">relabeled_self</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">relabeled_another</span><span class="p">)</span>
                     <span class="k">return</span> <span class="n">du</span>
                 <span class="n">relabel_self_dict</span> <span class="o">=</span> <span class="p">{}</span>
@@ -936,7 +1066,7 @@
 </div>
 
 
-                
+
 
 <div class="viewcode-block" id="PolytopeUnion">
 <a class="viewcode-back" href="../../pet_salon.union.html#pet_salon.union.PolytopeUnion">[docs]</a>
@@ -1006,10 +1136,10 @@
 <span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Parent for domains of PETs of a given dimension that are defined over a given field.</span>
 
-<span class="sd">    To construct a PolytopeUnions, call with a ``dimension`` and a ``field``. Keyword parameters include ``finite`` </span>
+<span class="sd">    To construct a PolytopeUnions, call with a ``dimension`` and a ``field``. Keyword parameters include ``finite``</span>
 <span class="sd">    and ``nonoverlapping`` which should be either true or false. These keywords determine the category.</span>
 
-<span class="sd">    To construct a PolytopeUnion from a PolytopeUnions object ``U``, you use </span>
+<span class="sd">    To construct a PolytopeUnion from a PolytopeUnions object ``U``, you use</span>
 <span class="sd">    ```python</span>
 <span class="sd">    union = U(polytopes_mapping)</span>
 <span class="sd">    ```</span>

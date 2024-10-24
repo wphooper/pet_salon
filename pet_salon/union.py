@@ -373,9 +373,17 @@ class PolytopeUnionsCategory(Category):
             Provides methods available to all parents of finite disjoint unions.
             """
 
-            def union(self, union_list, mappings=False, check=True):
+            def union(self, union_list, disjoint=False, mappings=False, check=True):
                 r'''
                 Return the union of multiple PolytopeUnions, included in `union_list`.
+
+                If `disjoint` is set to `True`, then we take a disjoint union instead of a
+                regular union. In this case, the polytopes we take a union of are relabeled:
+                `old_label` becomes the pair `(i, old_label)` where `i` is the index in the
+                union_list.
+
+                By default `disjoint` is `False`. In this case, an error will occur if two
+                labels from different PolytopeUnions correspond to different polytopes.
 
                 If `mappings` is set to True, instead we return the list of inclusions of the
                 PolytopeUnions into their union.
@@ -421,57 +429,57 @@ class PolytopeUnionsCategory(Category):
                         raise ValueError('Union only defined for at least two PolytopeUnions.')
                 except TypeError:
                     raise ValueError('The first parameter to `union()` must be a list of PolytopeUnions.')
-                if check and self.is_nonoverlapping():
+                if not disjoint:
+                    if check and self.is_nonoverlapping():
+                        for another in union_list:
+                            if not another.is_nonoverlapping():
+                                raise ValueError('In order for a union to be nonoverlapping, the pieces must also be nonoverlapping.')
+
+                    # Convert into the same parent.
+                    union_list = [self(x) for x in union_list]
+
+                    d = copy(union_list[0].polytopes())
+                    for another in union_list[1:]:
+                        for label, polytope in another.polytopes().items():
+                            if label in d and d[label] != polytope:
+                                raise ValueError(f'Two unions have label {label} but different polytopes.')
+                            else:
+                                d[label] = polytope
+                    if check and self.is_nonoverlapping():
+                        if not is_nonoverlapping(d.values()):
+                            raise ValueError(f'The union is overlapping (but this parent represents nonoverlapping PolytopeUnions).')
+                    union = self(d)
+                    if not mappings:
+                        return union
+                    maps = []
                     for another in union_list:
-                        if not another.is_nonoverlapping():
-                            raise ValueError('In order for a union to be nonoverlapping, the pieces must also be nonoverlapping.')
+                        maps.append( union.restrict(another.labels(), mapping=True) )
+                    return maps
+                else:
+                    # This is the disjoint case.
+                    if not mappings:
+                        relabeled_unions = []
+                        for i, u in enumerate(union_list):
+                            relabel_dict = {}
+                            for label in u.labels():
+                                relabel_dict[label] = (i, label)
+                            relabeled_unions.append(u.relabel(relabel_dict))
 
-                # Convert into the same parent.
-                union_list = [self(x) for x in union_list]
-
-                d = copy(union_list[0].polytopes())
-                for another in union_list[1:]:
-                    for label, polytope in another.polytopes().items():
-                        if label in d and d[label] != polytope:
-                            raise ValueError(f'Two unions have label {label} but different polytopes.')
-                        else:
-                            d[label] = polytope
-                if check and self.is_nonoverlapping():
-                    if not is_nonoverlapping(d.values()):
-                        raise ValueError(f'The union is overlapping (but this parent represents nonoverlapping PolytopeUnions).')
-                union = self(d)
-                if not mappings:
-                    return union
-                maps = []
-                for another in union_list:
-                    maps.append( union.restrict(another.labels(), mapping=True) )
-                return maps
-
-            def disjoint_union(self, union_list, mappings=False):
-                assert len(union_list) >= 2, 'Disjoint union only defined for at least two PolytopeUnions.'
-                if not mappings:
-                    relabeled_unions = []
+                        ret = self.union(relabeled_unions, check=check)
+                        return ret
+                    relabel_maps = []
                     for i, u in enumerate(union_list):
                         relabel_dict = {}
                         for label in u.labels():
                             relabel_dict[label] = (i, label)
-                        relabeled_unions.append(u.relabel(relabel_dict))
+                        relabel_maps.append(u.relabel(relabel_dict, mapping=True))
 
-                    ret = self.union(relabeled_unions)
-                    return ret
-                relabel_maps = []
-                for i, u in enumerate(union_list):
-                    relabel_dict = {}
-                    for label in u.labels():
-                        relabel_dict[label] = (i, label)
-                    relabel_maps.append(u.relabel(relabel_dict, mapping=True))
-
-                codomains = [m.codomain() for m in relabel_maps]
-                maps_into_the_union = self.union(codomains, mappings=True)
-                compositions = []
-                for i in range(len(union_list)):
-                    compositions.append( maps_into_the_union[i]*relabel_maps[i] )
-                return compositions
+                    codomains = [m.codomain() for m in relabel_maps]
+                    maps_into_the_union = self.union(codomains, mappings=True, check=check)
+                    compositions = []
+                    for i in range(len(union_list)):
+                        compositions.append( maps_into_the_union[i]*relabel_maps[i] )
+                    return compositions
 
         class ElementMethods:
             r"""
@@ -555,13 +563,18 @@ class PolytopeUnionsCategory(Category):
                 se = SurjectiveEmbeddings(new_union)
                 return se(self, relabel_dict)
 
-            def union(self, another, mappings=False, nonoverlapping=False, check=True):
+            def union(self, another, mappings=False, disjoint=False, nonoverlapping=False, check=True):
                 r'''
                 Construct the union of this PolytopeUnion with another PolytopeUnion.
 
-                If the unions share a common label, then they must refer to the same polygon. (Otherwise a ValueError is raised.)
+                If `disjoint` is set to `True`, then we relabel the polytopes: `old_label` is changed to
+                `(i, old_label)` where `i` is `0` for polytopes in self, and `1` for polytopes in another.
 
-                If `mappings` is False we return the union. Otherwise we return the pair of inclusions into the union.
+                If `disjoint` is set to `False`: If the unions share a common label, then they must refer
+                to the same polygon. (Otherwise a ValueError is raised.)
+
+                If `mappings` is false (the default) we return the union. Otherwise we return the pair of
+                inclusions into the union.
 
                 Note that the union of nonoverlapping PolytopeUnions may be overlapping. By default the returned
                 PolytopeUnion is assumed to be overlapping. To declare it nonoverlapping set `nonoverlapping=True`.
@@ -587,9 +600,28 @@ class PolytopeUnionsCategory(Category):
                     True
                     sage: u == f.codomain() == g.codomain()
                     True
+
+                    sage: from pet_salon import *
+                    sage: two_squares = finite_polytope_union(2, QQ, {
+                    ....:     0 : rectangle(QQ, 0, 2, 0, 2),
+                    ....:     1 : rectangle(QQ, 1, 3, 1, 3),
+                    ....: })
+                    sage: square_and_rectangle = finite_polytope_union(2, QQ, {
+                    ....:     0 : rectangle(QQ, 0, 2, 0, 2),
+                    ....:     2 : rectangle(QQ, 2, 4, 0, 1),
+                    ....: })
+                    sage: u = two_squares.union(square_and_rectangle, disjoint=True)
+                    sage: u
+                    Disjoint union of 4 polyhedra in QQ^2
+                    sage: f,g = two_squares.union(square_and_rectangle, mappings=True, disjoint=True)
+                    sage: f.domain() == two_squares and g.domain() == square_and_rectangle
+                    True
+                    sage: u == f.codomain() == g.codomain()
+                    True
+
                 '''
                 parent = self.parent().with_different_axioms(nonoverlapping=nonoverlapping)
-                return parent.union([self, another], mappings=mappings, check=check)
+                return parent.union([self, another], disjoint=disjoint, mappings=mappings, check=check)
 #                d = copy(self.polytopes())
 #                for label, polytope in another.polytopes().items():
 #                    if label in d and d[label] != polytope:
@@ -603,57 +635,42 @@ class PolytopeUnionsCategory(Category):
 #                second_map = union.restrict(another.labels(), mapping=True)
 #                return (first_map, second_map)
 
-            def disjoint_union(self, another, mappings=False):
-                r'''
-                Construct the disjoint union of this PolytopeUnion with another PolytopeUnion.
+#            def disjoint_union(self, another, mappings=False):
+#                r'''
+#                Construct the disjoint union of this PolytopeUnion with another PolytopeUnion.
 
-                If `mappings` is False we return the union. Otherwise we return the pair of inclusions into the union.
+#                If `mappings` is False we return the union. Otherwise we return the pair of inclusions into the union.
 
-                EXAMPLES::
+#                EXAMPLES::
 
-                    sage: from pet_salon import *
-                    sage: two_squares = finite_polytope_union(2, QQ, {
-                    ....:     0 : rectangle(QQ, 0, 2, 0, 2),
-                    ....:     1 : rectangle(QQ, 1, 3, 1, 3),
-                    ....: })
-                    sage: square_and_rectangle = finite_polytope_union(2, QQ, {
-                    ....:     0 : rectangle(QQ, 0, 2, 0, 2),
-                    ....:     2 : rectangle(QQ, 2, 4, 0, 1),
-                    ....: })
-                    sage: u = two_squares.disjoint_union(square_and_rectangle)
-                    sage: u
-                    Disjoint union of 4 polyhedra in QQ^2
-                    sage: f,g = two_squares.disjoint_union(square_and_rectangle, mappings=True)
-                    sage: f.domain() == two_squares and g.domain() == square_and_rectangle
-                    True
-                    sage: u == f.codomain() == g.codomain()
-                    True
-                '''
-                if not mappings:
-                    relabel_self_dict = {}
-                    for label in self.labels():
-                        relabel_self_dict[label] = (0, label)
-                    relabeled_self = self.relabel(relabel_self_dict)
+#                '''
+#                parent = self.parent().with_different_axioms(nonoverlapping=nonoverlapping)
+#                return parent.union([self, another], mappings=mappings, check=check)
+#                if not mappings:
+#                    relabel_self_dict = {}
+#                    for label in self.labels():
+#                        relabel_self_dict[label] = (0, label)
+#                    relabeled_self = self.relabel(relabel_self_dict)
 
-                    relabel_another_dict = {}
-                    for label in another.labels():
-                        relabel_another_dict[label] = (1, label)
-                    relabeled_another = another.relabel(relabel_another_dict)
+#                    relabel_another_dict = {}
+#                    for label in another.labels():
+#                        relabel_another_dict[label] = (1, label)
+#                    relabeled_another = another.relabel(relabel_another_dict)
 
-                    du = relabeled_self.union(relabeled_another)
-                    return du
-                relabel_self_dict = {}
-                for label in self.labels():
-                    relabel_self_dict[label] = (0, label)
-                relabeled_self_map = self.relabel(relabel_self_dict, mapping=True)
+#                    du = relabeled_self.union(relabeled_another)
+#                    return du
+#                relabel_self_dict = {}
+#                for label in self.labels():
+#                    relabel_self_dict[label] = (0, label)
+#                relabeled_self_map = self.relabel(relabel_self_dict, mapping=True)
 
-                relabel_another_dict = {}
-                for label in another.labels():
-                    relabel_another_dict[label] = (1, label)
-                relabeled_another_map = another.relabel(relabel_another_dict, mapping=True)
+#                relabel_another_dict = {}
+#                for label in another.labels():
+#                    relabel_another_dict[label] = (1, label)
+#                relabeled_another_map = another.relabel(relabel_another_dict, mapping=True)
 
-                self_inc, another_inc = relabeled_self_map.codomain().union(relabeled_another_map.codomain(), mappings=True)
-                return (self_inc*relabeled_self_map, another_inc*relabeled_another_map)
+#                self_inc, another_inc = relabeled_self_map.codomain().union(relabeled_another_map.codomain(), mappings=True)
+#                return (self_inc*relabeled_self_map, another_inc*relabeled_another_map)
 
     class Nonoverlapping(CategoryWithAxiom):
         r"""

@@ -407,33 +407,6 @@ function from the <code class="docutils literal notranslate"><span class="pre">p
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Provides methods available to all finite disjoint unions.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="pet_salon.union.PolytopeUnionsCategory.Finite.ElementMethods.disjoint_union">
-<span class="sig-name descname"><span class="pre">disjoint_union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">another</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mappings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ElementMethods.disjoint_union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.union.PolytopeUnionsCategory.Finite.ElementMethods.disjoint_union" title="Link to this definition"></a></dt>
-<dd><p>Construct the disjoint union of this PolytopeUnion with another PolytopeUnion.</p>
-<p>If <cite>mappings</cite> is False we return the union. Otherwise we return the pair of inclusions into the union.</p>
-<p>EXAMPLES:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">two_squares</span> <span class="o">=</span> <span class="n">finite_polytope_union</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">QQ</span><span class="p">,</span> <span class="p">{</span>
-<span class="o">....</span><span class="p">:</span>     <span class="mi">0</span> <span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-<span class="o">....</span><span class="p">:</span>     <span class="mi">1</span> <span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
-<span class="o">....</span><span class="p">:</span> <span class="p">})</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">square_and_rectangle</span> <span class="o">=</span> <span class="n">finite_polytope_union</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">QQ</span><span class="p">,</span> <span class="p">{</span>
-<span class="o">....</span><span class="p">:</span>     <span class="mi">0</span> <span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-<span class="o">....</span><span class="p">:</span>     <span class="mi">2</span> <span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-<span class="o">....</span><span class="p">:</span> <span class="p">})</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">u</span> <span class="o">=</span> <span class="n">two_squares</span><span class="o">.</span><span class="n">disjoint_union</span><span class="p">(</span><span class="n">square_and_rectangle</span><span class="p">)</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">u</span>
-<span class="n">Disjoint</span> <span class="n">union</span> <span class="n">of</span> <span class="mi">4</span> <span class="n">polyhedra</span> <span class="ow">in</span> <span class="n">QQ</span><span class="o">^</span><span class="mi">2</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">f</span><span class="p">,</span><span class="n">g</span> <span class="o">=</span> <span class="n">two_squares</span><span class="o">.</span><span class="n">disjoint_union</span><span class="p">(</span><span class="n">square_and_rectangle</span><span class="p">,</span> <span class="n">mappings</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span> <span class="o">==</span> <span class="n">two_squares</span> <span class="ow">and</span> <span class="n">g</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span> <span class="o">==</span> <span class="n">square_and_rectangle</span>
-<span class="kc">True</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">u</span> <span class="o">==</span> <span class="n">f</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span> <span class="o">==</span> <span class="n">g</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span>
-<span class="kc">True</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="pet_salon.union.PolytopeUnionsCategory.Finite.ElementMethods.is_finite">
 <span class="sig-name descname"><span class="pre">is_finite</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ElementMethods.is_finite"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.union.PolytopeUnionsCategory.Finite.ElementMethods.is_finite" title="Link to this definition"></a></dt>
 <dd><p>Return whether this is a finite subdivision, which it is.</p>
@@ -485,10 +458,14 @@ polytope union to the relabeled union.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pet_salon.union.PolytopeUnionsCategory.Finite.ElementMethods.union">
-<span class="sig-name descname"><span class="pre">union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">another</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mappings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonoverlapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ElementMethods.union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.union.PolytopeUnionsCategory.Finite.ElementMethods.union" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">another</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mappings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disjoint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonoverlapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ElementMethods.union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.union.PolytopeUnionsCategory.Finite.ElementMethods.union" title="Link to this definition"></a></dt>
 <dd><p>Construct the union of this PolytopeUnion with another PolytopeUnion.</p>
-<p>If the unions share a common label, then they must refer to the same polygon. (Otherwise a ValueError is raised.)</p>
-<p>If <cite>mappings</cite> is False we return the union. Otherwise we return the pair of inclusions into the union.</p>
+<p>If <cite>disjoint</cite> is set to <cite>True</cite>, then we relabel the polytopes: <cite>old_label</cite> is changed to
+<cite>(i, old_label)</cite> where <cite>i</cite> is <cite>0</cite> for polytopes in self, and <cite>1</cite> for polytopes in another.</p>
+<p>If <cite>disjoint</cite> is set to <cite>False</cite>: If the unions share a common label, then they must refer 
+to the same polygon. (Otherwise a ValueError is raised.)</p>
+<p>If <cite>mappings</cite> is false (the default) we return the union. Otherwise we return the pair of 
+inclusions into the union.</p>
 <p>Note that the union of nonoverlapping PolytopeUnions may be overlapping. By default the returned
 PolytopeUnion is assumed to be overlapping. To declare it nonoverlapping set <cite>nonoverlapping=True</cite>.
 In this case, by default we check to make sure the result is nonoverlapping. To disable this behavior,
@@ -511,6 +488,24 @@ set <cite>check=False</cite>.</p>
 <span class="kc">True</span>
 <span class="n">sage</span><span class="p">:</span> <span class="n">u</span> <span class="o">==</span> <span class="n">f</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span> <span class="o">==</span> <span class="n">g</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span>
 <span class="kc">True</span>
+
+<span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">two_squares</span> <span class="o">=</span> <span class="n">finite_polytope_union</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">QQ</span><span class="p">,</span> <span class="p">{</span>
+<span class="o">....</span><span class="p">:</span>     <span class="mi">0</span> <span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+<span class="o">....</span><span class="p">:</span>     <span class="mi">1</span> <span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+<span class="o">....</span><span class="p">:</span> <span class="p">})</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">square_and_rectangle</span> <span class="o">=</span> <span class="n">finite_polytope_union</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">QQ</span><span class="p">,</span> <span class="p">{</span>
+<span class="o">....</span><span class="p">:</span>     <span class="mi">0</span> <span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+<span class="o">....</span><span class="p">:</span>     <span class="mi">2</span> <span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+<span class="o">....</span><span class="p">:</span> <span class="p">})</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">u</span> <span class="o">=</span> <span class="n">two_squares</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">square_and_rectangle</span><span class="p">,</span> <span class="n">disjoint</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">u</span>
+<span class="n">Disjoint</span> <span class="n">union</span> <span class="n">of</span> <span class="mi">4</span> <span class="n">polyhedra</span> <span class="ow">in</span> <span class="n">QQ</span><span class="o">^</span><span class="mi">2</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">f</span><span class="p">,</span><span class="n">g</span> <span class="o">=</span> <span class="n">two_squares</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">square_and_rectangle</span><span class="p">,</span> <span class="n">mappings</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">disjoint</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span> <span class="o">==</span> <span class="n">two_squares</span> <span class="ow">and</span> <span class="n">g</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span> <span class="o">==</span> <span class="n">square_and_rectangle</span>
+<span class="kc">True</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">u</span> <span class="o">==</span> <span class="n">f</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span> <span class="o">==</span> <span class="n">g</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span>
+<span class="kc">True</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -529,19 +524,20 @@ set <cite>check=False</cite>.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Provides methods available to all parents of finite disjoint unions.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="pet_salon.union.PolytopeUnionsCategory.Finite.ParentMethods.disjoint_union">
-<span class="sig-name descname"><span class="pre">disjoint_union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">union_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mappings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ParentMethods.disjoint_union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.union.PolytopeUnionsCategory.Finite.ParentMethods.disjoint_union" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="pet_salon.union.PolytopeUnionsCategory.Finite.ParentMethods.union">
-<span class="sig-name descname"><span class="pre">union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">union_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mappings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ParentMethods.union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.union.PolytopeUnionsCategory.Finite.ParentMethods.union" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">union_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disjoint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mappings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ParentMethods.union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.union.PolytopeUnionsCategory.Finite.ParentMethods.union" title="Link to this definition"></a></dt>
 <dd><p>Return the union of multiple PolytopeUnions, included in <cite>union_list</cite>.</p>
-<p>If <cite>mappings</cite> is set to True, instead we return the list of inclusions of the 
+<p>If <cite>disjoint</cite> is set to <cite>True</cite>, then we take a disjoint union instead of a 
+regular union. In this case, the polytopes we take a union of are relabeled:
+<cite>old_label</cite> becomes the pair <cite>(i, old_label)</cite> where <cite>i</cite> is the index in the
+union_list.</p>
+<p>By default <cite>disjoint</cite> is <cite>False</cite>. In this case, an error will occur if two
+labels from different PolytopeUnions correspond to different polytopes.</p>
+<p>If <cite>mappings</cite> is set to True, instead we return the list of inclusions of the
 PolytopeUnions into their union.</p>
 <p>The result will be an object with this class as the parent. Note that the union
 of nonoverlapping polytope unions is not necessarily nonoverlapping. If <cite>check</cite> is
-<cite>True</cite> (the default) and this class represents nonoverlapping polytopes, we check to 
+<cite>True</cite> (the default) and this class represents nonoverlapping polytopes, we check to
 see if the polytopes in the list are all nonoverlapping and we check that the
 resulting union is nonoverlapping.</p>
 <p>EXAMPLES:</p>
@@ -1008,40 +1004,13 @@ function from the <code class="docutils literal notranslate"><span class="pre">p
 <p>Provides methods available to all finite disjoint unions.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="id12">
-<span class="sig-name descname"><span class="pre">disjoint_union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">another</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mappings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ElementMethods.disjoint_union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id12" title="Link to this definition"></a></dt>
-<dd><p>Construct the disjoint union of this PolytopeUnion with another PolytopeUnion.</p>
-<p>If <cite>mappings</cite> is False we return the union. Otherwise we return the pair of inclusions into the union.</p>
-<p>EXAMPLES:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">two_squares</span> <span class="o">=</span> <span class="n">finite_polytope_union</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">QQ</span><span class="p">,</span> <span class="p">{</span>
-<span class="o">....</span><span class="p">:</span>     <span class="mi">0</span> <span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-<span class="o">....</span><span class="p">:</span>     <span class="mi">1</span> <span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
-<span class="o">....</span><span class="p">:</span> <span class="p">})</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">square_and_rectangle</span> <span class="o">=</span> <span class="n">finite_polytope_union</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">QQ</span><span class="p">,</span> <span class="p">{</span>
-<span class="o">....</span><span class="p">:</span>     <span class="mi">0</span> <span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-<span class="o">....</span><span class="p">:</span>     <span class="mi">2</span> <span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-<span class="o">....</span><span class="p">:</span> <span class="p">})</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">u</span> <span class="o">=</span> <span class="n">two_squares</span><span class="o">.</span><span class="n">disjoint_union</span><span class="p">(</span><span class="n">square_and_rectangle</span><span class="p">)</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">u</span>
-<span class="n">Disjoint</span> <span class="n">union</span> <span class="n">of</span> <span class="mi">4</span> <span class="n">polyhedra</span> <span class="ow">in</span> <span class="n">QQ</span><span class="o">^</span><span class="mi">2</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">f</span><span class="p">,</span><span class="n">g</span> <span class="o">=</span> <span class="n">two_squares</span><span class="o">.</span><span class="n">disjoint_union</span><span class="p">(</span><span class="n">square_and_rectangle</span><span class="p">,</span> <span class="n">mappings</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span> <span class="o">==</span> <span class="n">two_squares</span> <span class="ow">and</span> <span class="n">g</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span> <span class="o">==</span> <span class="n">square_and_rectangle</span>
-<span class="kc">True</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">u</span> <span class="o">==</span> <span class="n">f</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span> <span class="o">==</span> <span class="n">g</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span>
-<span class="kc">True</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id13">
-<span class="sig-name descname"><span class="pre">is_finite</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ElementMethods.is_finite"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id13" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">is_finite</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ElementMethods.is_finite"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id12" title="Link to this definition"></a></dt>
 <dd><p>Return whether this is a finite subdivision, which it is.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id14">
-<span class="sig-name descname"><span class="pre">relabel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">relabel_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ElementMethods.relabel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id14" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id13">
+<span class="sig-name descname"><span class="pre">relabel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">relabel_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ElementMethods.relabel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id13" title="Link to this definition"></a></dt>
 <dd><p>Relabel this Polytope union according to the dictionary <cite>relabel_dict</cite> which maps current
 labels to the new new labels.</p>
 <p>If <cite>mapping</cite> is true, then we construct the surjective embedding from the the current
@@ -1060,35 +1029,39 @@ polytope union to the relabeled union.</p>
 <span class="n">sage</span><span class="p">:</span> <span class="n">relabeled_mapping</span> <span class="o">=</span> <span class="n">codomain</span><span class="o">.</span><span class="n">relabel</span><span class="p">({</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">},</span> <span class="n">mapping</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">sage</span><span class="p">:</span> <span class="n">relabeled_mapping</span><span class="o">.</span><span class="n">ambient_labels</span><span class="p">()</span>
 <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id14">
+<span class="sig-name descname"><span class="pre">restrict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonoverlapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ElementMethods.restrict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id14" title="Link to this definition"></a></dt>
+<dd><p>Return a new PolytopeUnion with a restricted label set but the same polytopes.</p>
+<p>The parameter <code class="docutils literal notranslate"><span class="pre">new_labels</span></code> should be a collection of the new labels.</p>
+<p>The parameter <code class="docutils literal notranslate"><span class="pre">nonoverlapping</span></code> allows you to specify whether the polytopes associated to the new_labels have overlaps.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">mapping</span></code> is set to <code class="docutils literal notranslate"><span class="pre">True</span></code> then an embedding will be returned rather than the union.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">two_squares</span> <span class="o">=</span> <span class="n">finite_polytope_union</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">QQ</span><span class="p">,</span> <span class="p">{</span>
+<span class="o">....</span><span class="p">:</span>     <span class="mi">0</span> <span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+<span class="o">....</span><span class="p">:</span>     <span class="mi">1</span> <span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+<span class="o">....</span><span class="p">:</span> <span class="p">})</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">two_squares</span><span class="o">.</span><span class="n">restrict</span><span class="p">([</span><span class="mi">1</span><span class="p">],</span> <span class="n">nonoverlapping</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mapping</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">Embedding</span> <span class="n">of</span> <span class="n">disjoint</span> <span class="n">union</span> <span class="n">of</span> <span class="mi">1</span> <span class="n">nonoverlapping</span> <span class="n">polyhedra</span> <span class="ow">in</span> <span class="n">QQ</span><span class="o">^</span><span class="mi">2</span> <span class="n">into</span> <span class="n">disjoint</span> <span class="n">union</span> <span class="n">of</span> <span class="mi">2</span> <span class="n">polyhedra</span> <span class="ow">in</span> <span class="n">QQ</span><span class="o">^</span><span class="mi">2</span>
 </pre></div>
 </div>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id15">
-<span class="sig-name descname"><span class="pre">restrict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonoverlapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ElementMethods.restrict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id15" title="Link to this definition"></a></dt>
-<dd><p>Return a new PolytopeUnion with a restricted label set but the same polytopes.</p>
-<p>The parameter <code class="docutils literal notranslate"><span class="pre">new_labels</span></code> should be a collection of the new labels.</p>
-<p>The parameter <code class="docutils literal notranslate"><span class="pre">nonoverlapping</span></code> allows you to specify whether the polytopes associated to the new_labels have overlaps.</p>
-<p>If <code class="docutils literal notranslate"><span class="pre">mapping</span></code> is set to <code class="docutils literal notranslate"><span class="pre">True</span></code> then an embedding will be returned rather than the union.</p>
-<p>EXAMPLES:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">two_squares</span> <span class="o">=</span> <span class="n">finite_polytope_union</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">QQ</span><span class="p">,</span> <span class="p">{</span>
-<span class="o">....</span><span class="p">:</span>     <span class="mi">0</span> <span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-<span class="o">....</span><span class="p">:</span>     <span class="mi">1</span> <span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-<span class="o">....</span><span class="p">:</span> <span class="p">})</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">two_squares</span><span class="o">.</span><span class="n">restrict</span><span class="p">([</span><span class="mi">1</span><span class="p">],</span> <span class="n">nonoverlapping</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mapping</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">Embedding</span> <span class="n">of</span> <span class="n">disjoint</span> <span class="n">union</span> <span class="n">of</span> <span class="mi">1</span> <span class="n">nonoverlapping</span> <span class="n">polyhedra</span> <span class="ow">in</span> <span class="n">QQ</span><span class="o">^</span><span class="mi">2</span> <span class="n">into</span> <span class="n">disjoint</span> <span class="n">union</span> <span class="n">of</span> <span class="mi">2</span> <span class="n">polyhedra</span> <span class="ow">in</span> <span class="n">QQ</span><span class="o">^</span><span class="mi">2</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id16">
-<span class="sig-name descname"><span class="pre">union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">another</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mappings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonoverlapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ElementMethods.union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id16" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">another</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mappings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disjoint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonoverlapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ElementMethods.union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id15" title="Link to this definition"></a></dt>
 <dd><p>Construct the union of this PolytopeUnion with another PolytopeUnion.</p>
-<p>If the unions share a common label, then they must refer to the same polygon. (Otherwise a ValueError is raised.)</p>
-<p>If <cite>mappings</cite> is False we return the union. Otherwise we return the pair of inclusions into the union.</p>
+<p>If <cite>disjoint</cite> is set to <cite>True</cite>, then we relabel the polytopes: <cite>old_label</cite> is changed to
+<cite>(i, old_label)</cite> where <cite>i</cite> is <cite>0</cite> for polytopes in self, and <cite>1</cite> for polytopes in another.</p>
+<p>If <cite>disjoint</cite> is set to <cite>False</cite>: If the unions share a common label, then they must refer 
+to the same polygon. (Otherwise a ValueError is raised.)</p>
+<p>If <cite>mappings</cite> is false (the default) we return the union. Otherwise we return the pair of 
+inclusions into the union.</p>
 <p>Note that the union of nonoverlapping PolytopeUnions may be overlapping. By default the returned
 PolytopeUnion is assumed to be overlapping. To declare it nonoverlapping set <cite>nonoverlapping=True</cite>.
 In this case, by default we check to make sure the result is nonoverlapping. To disable this behavior,
@@ -1111,37 +1084,56 @@ set <cite>check=False</cite>.</p>
 <span class="kc">True</span>
 <span class="n">sage</span><span class="p">:</span> <span class="n">u</span> <span class="o">==</span> <span class="n">f</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span> <span class="o">==</span> <span class="n">g</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span>
 <span class="kc">True</span>
+
+<span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">two_squares</span> <span class="o">=</span> <span class="n">finite_polytope_union</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">QQ</span><span class="p">,</span> <span class="p">{</span>
+<span class="o">....</span><span class="p">:</span>     <span class="mi">0</span> <span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+<span class="o">....</span><span class="p">:</span>     <span class="mi">1</span> <span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+<span class="o">....</span><span class="p">:</span> <span class="p">})</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">square_and_rectangle</span> <span class="o">=</span> <span class="n">finite_polytope_union</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">QQ</span><span class="p">,</span> <span class="p">{</span>
+<span class="o">....</span><span class="p">:</span>     <span class="mi">0</span> <span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+<span class="o">....</span><span class="p">:</span>     <span class="mi">2</span> <span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+<span class="o">....</span><span class="p">:</span> <span class="p">})</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">u</span> <span class="o">=</span> <span class="n">two_squares</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">square_and_rectangle</span><span class="p">,</span> <span class="n">disjoint</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">u</span>
+<span class="n">Disjoint</span> <span class="n">union</span> <span class="n">of</span> <span class="mi">4</span> <span class="n">polyhedra</span> <span class="ow">in</span> <span class="n">QQ</span><span class="o">^</span><span class="mi">2</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">f</span><span class="p">,</span><span class="n">g</span> <span class="o">=</span> <span class="n">two_squares</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">square_and_rectangle</span><span class="p">,</span> <span class="n">mappings</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">disjoint</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span> <span class="o">==</span> <span class="n">two_squares</span> <span class="ow">and</span> <span class="n">g</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span> <span class="o">==</span> <span class="n">square_and_rectangle</span>
+<span class="kc">True</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">u</span> <span class="o">==</span> <span class="n">f</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span> <span class="o">==</span> <span class="n">g</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span>
+<span class="kc">True</span>
 </pre></div>
 </div>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id17">
-<span class="sig-name descname"><span class="pre">volume</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ElementMethods.volume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id17" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id16">
+<span class="sig-name descname"><span class="pre">volume</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ElementMethods.volume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id16" title="Link to this definition"></a></dt>
 <dd><p>Return the total volume of the collection of polytopes.</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="id18">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ParentMethods</span></span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ParentMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id18" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id17">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ParentMethods</span></span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ParentMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id17" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Provides methods available to all parents of finite disjoint unions.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="id19">
-<span class="sig-name descname"><span class="pre">disjoint_union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">union_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mappings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ParentMethods.disjoint_union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id19" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id20">
-<span class="sig-name descname"><span class="pre">union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">union_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mappings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ParentMethods.union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id20" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id18">
+<span class="sig-name descname"><span class="pre">union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">union_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disjoint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mappings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ParentMethods.union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id18" title="Link to this definition"></a></dt>
 <dd><p>Return the union of multiple PolytopeUnions, included in <cite>union_list</cite>.</p>
-<p>If <cite>mappings</cite> is set to True, instead we return the list of inclusions of the 
+<p>If <cite>disjoint</cite> is set to <cite>True</cite>, then we take a disjoint union instead of a 
+regular union. In this case, the polytopes we take a union of are relabeled:
+<cite>old_label</cite> becomes the pair <cite>(i, old_label)</cite> where <cite>i</cite> is the index in the
+union_list.</p>
+<p>By default <cite>disjoint</cite> is <cite>False</cite>. In this case, an error will occur if two
+labels from different PolytopeUnions correspond to different polytopes.</p>
+<p>If <cite>mappings</cite> is set to True, instead we return the list of inclusions of the
 PolytopeUnions into their union.</p>
 <p>The result will be an object with this class as the parent. Note that the union
 of nonoverlapping polytope unions is not necessarily nonoverlapping. If <cite>check</cite> is
-<cite>True</cite> (the default) and this class represents nonoverlapping polytopes, we check to 
+<cite>True</cite> (the default) and this class represents nonoverlapping polytopes, we check to
 see if the polytopes in the list are all nonoverlapping and we check that the
 resulting union is nonoverlapping.</p>
 <p>EXAMPLES:</p>
@@ -1181,46 +1173,19 @@ resulting union is nonoverlapping.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="id21">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PolytopeUnionsCategory.Finite.</span></span><span class="sig-name descname"><span class="pre">ElementMethods</span></span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ElementMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id21" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id19">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PolytopeUnionsCategory.Finite.</span></span><span class="sig-name descname"><span class="pre">ElementMethods</span></span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ElementMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id19" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Provides methods available to all finite disjoint unions.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="id22">
-<span class="sig-name descname"><span class="pre">disjoint_union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">another</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mappings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ElementMethods.disjoint_union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id22" title="Link to this definition"></a></dt>
-<dd><p>Construct the disjoint union of this PolytopeUnion with another PolytopeUnion.</p>
-<p>If <cite>mappings</cite> is False we return the union. Otherwise we return the pair of inclusions into the union.</p>
-<p>EXAMPLES:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">two_squares</span> <span class="o">=</span> <span class="n">finite_polytope_union</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">QQ</span><span class="p">,</span> <span class="p">{</span>
-<span class="o">....</span><span class="p">:</span>     <span class="mi">0</span> <span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-<span class="o">....</span><span class="p">:</span>     <span class="mi">1</span> <span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
-<span class="o">....</span><span class="p">:</span> <span class="p">})</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">square_and_rectangle</span> <span class="o">=</span> <span class="n">finite_polytope_union</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">QQ</span><span class="p">,</span> <span class="p">{</span>
-<span class="o">....</span><span class="p">:</span>     <span class="mi">0</span> <span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-<span class="o">....</span><span class="p">:</span>     <span class="mi">2</span> <span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-<span class="o">....</span><span class="p">:</span> <span class="p">})</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">u</span> <span class="o">=</span> <span class="n">two_squares</span><span class="o">.</span><span class="n">disjoint_union</span><span class="p">(</span><span class="n">square_and_rectangle</span><span class="p">)</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">u</span>
-<span class="n">Disjoint</span> <span class="n">union</span> <span class="n">of</span> <span class="mi">4</span> <span class="n">polyhedra</span> <span class="ow">in</span> <span class="n">QQ</span><span class="o">^</span><span class="mi">2</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">f</span><span class="p">,</span><span class="n">g</span> <span class="o">=</span> <span class="n">two_squares</span><span class="o">.</span><span class="n">disjoint_union</span><span class="p">(</span><span class="n">square_and_rectangle</span><span class="p">,</span> <span class="n">mappings</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span> <span class="o">==</span> <span class="n">two_squares</span> <span class="ow">and</span> <span class="n">g</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span> <span class="o">==</span> <span class="n">square_and_rectangle</span>
-<span class="kc">True</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">u</span> <span class="o">==</span> <span class="n">f</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span> <span class="o">==</span> <span class="n">g</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span>
-<span class="kc">True</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id23">
-<span class="sig-name descname"><span class="pre">is_finite</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ElementMethods.is_finite"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id23" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id20">
+<span class="sig-name descname"><span class="pre">is_finite</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ElementMethods.is_finite"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id20" title="Link to this definition"></a></dt>
 <dd><p>Return whether this is a finite subdivision, which it is.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id24">
-<span class="sig-name descname"><span class="pre">relabel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">relabel_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ElementMethods.relabel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id24" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id21">
+<span class="sig-name descname"><span class="pre">relabel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">relabel_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ElementMethods.relabel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id21" title="Link to this definition"></a></dt>
 <dd><p>Relabel this Polytope union according to the dictionary <cite>relabel_dict</cite> which maps current
 labels to the new new labels.</p>
 <p>If <cite>mapping</cite> is true, then we construct the surjective embedding from the the current
@@ -1244,8 +1209,8 @@ polytope union to the relabeled union.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id25">
-<span class="sig-name descname"><span class="pre">restrict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonoverlapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ElementMethods.restrict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id25" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id22">
+<span class="sig-name descname"><span class="pre">restrict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonoverlapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ElementMethods.restrict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id22" title="Link to this definition"></a></dt>
 <dd><p>Return a new PolytopeUnion with a restricted label set but the same polytopes.</p>
 <p>The parameter <code class="docutils literal notranslate"><span class="pre">new_labels</span></code> should be a collection of the new labels.</p>
 <p>The parameter <code class="docutils literal notranslate"><span class="pre">nonoverlapping</span></code> allows you to specify whether the polytopes associated to the new_labels have overlaps.</p>
@@ -1263,11 +1228,15 @@ polytope union to the relabeled union.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id26">
-<span class="sig-name descname"><span class="pre">union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">another</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mappings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonoverlapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ElementMethods.union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id26" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id23">
+<span class="sig-name descname"><span class="pre">union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">another</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mappings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disjoint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonoverlapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ElementMethods.union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id23" title="Link to this definition"></a></dt>
 <dd><p>Construct the union of this PolytopeUnion with another PolytopeUnion.</p>
-<p>If the unions share a common label, then they must refer to the same polygon. (Otherwise a ValueError is raised.)</p>
-<p>If <cite>mappings</cite> is False we return the union. Otherwise we return the pair of inclusions into the union.</p>
+<p>If <cite>disjoint</cite> is set to <cite>True</cite>, then we relabel the polytopes: <cite>old_label</cite> is changed to
+<cite>(i, old_label)</cite> where <cite>i</cite> is <cite>0</cite> for polytopes in self, and <cite>1</cite> for polytopes in another.</p>
+<p>If <cite>disjoint</cite> is set to <cite>False</cite>: If the unions share a common label, then they must refer 
+to the same polygon. (Otherwise a ValueError is raised.)</p>
+<p>If <cite>mappings</cite> is false (the default) we return the union. Otherwise we return the pair of 
+inclusions into the union.</p>
 <p>Note that the union of nonoverlapping PolytopeUnions may be overlapping. By default the returned
 PolytopeUnion is assumed to be overlapping. To declare it nonoverlapping set <cite>nonoverlapping=True</cite>.
 In this case, by default we check to make sure the result is nonoverlapping. To disable this behavior,
@@ -1290,37 +1259,56 @@ set <cite>check=False</cite>.</p>
 <span class="kc">True</span>
 <span class="n">sage</span><span class="p">:</span> <span class="n">u</span> <span class="o">==</span> <span class="n">f</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span> <span class="o">==</span> <span class="n">g</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span>
 <span class="kc">True</span>
+
+<span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">two_squares</span> <span class="o">=</span> <span class="n">finite_polytope_union</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">QQ</span><span class="p">,</span> <span class="p">{</span>
+<span class="o">....</span><span class="p">:</span>     <span class="mi">0</span> <span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+<span class="o">....</span><span class="p">:</span>     <span class="mi">1</span> <span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+<span class="o">....</span><span class="p">:</span> <span class="p">})</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">square_and_rectangle</span> <span class="o">=</span> <span class="n">finite_polytope_union</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">QQ</span><span class="p">,</span> <span class="p">{</span>
+<span class="o">....</span><span class="p">:</span>     <span class="mi">0</span> <span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+<span class="o">....</span><span class="p">:</span>     <span class="mi">2</span> <span class="p">:</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+<span class="o">....</span><span class="p">:</span> <span class="p">})</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">u</span> <span class="o">=</span> <span class="n">two_squares</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">square_and_rectangle</span><span class="p">,</span> <span class="n">disjoint</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">u</span>
+<span class="n">Disjoint</span> <span class="n">union</span> <span class="n">of</span> <span class="mi">4</span> <span class="n">polyhedra</span> <span class="ow">in</span> <span class="n">QQ</span><span class="o">^</span><span class="mi">2</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">f</span><span class="p">,</span><span class="n">g</span> <span class="o">=</span> <span class="n">two_squares</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">square_and_rectangle</span><span class="p">,</span> <span class="n">mappings</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">disjoint</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span> <span class="o">==</span> <span class="n">two_squares</span> <span class="ow">and</span> <span class="n">g</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span> <span class="o">==</span> <span class="n">square_and_rectangle</span>
+<span class="kc">True</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">u</span> <span class="o">==</span> <span class="n">f</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span> <span class="o">==</span> <span class="n">g</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span>
+<span class="kc">True</span>
 </pre></div>
 </div>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id27">
-<span class="sig-name descname"><span class="pre">volume</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ElementMethods.volume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id27" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id24">
+<span class="sig-name descname"><span class="pre">volume</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ElementMethods.volume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id24" title="Link to this definition"></a></dt>
 <dd><p>Return the total volume of the collection of polytopes.</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="id28">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PolytopeUnionsCategory.Finite.</span></span><span class="sig-name descname"><span class="pre">ParentMethods</span></span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ParentMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id28" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id25">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PolytopeUnionsCategory.Finite.</span></span><span class="sig-name descname"><span class="pre">ParentMethods</span></span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ParentMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id25" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Provides methods available to all parents of finite disjoint unions.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="id29">
-<span class="sig-name descname"><span class="pre">disjoint_union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">union_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mappings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ParentMethods.disjoint_union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id29" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id30">
-<span class="sig-name descname"><span class="pre">union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">union_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mappings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ParentMethods.union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id30" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id26">
+<span class="sig-name descname"><span class="pre">union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">union_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disjoint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mappings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ParentMethods.union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id26" title="Link to this definition"></a></dt>
 <dd><p>Return the union of multiple PolytopeUnions, included in <cite>union_list</cite>.</p>
-<p>If <cite>mappings</cite> is set to True, instead we return the list of inclusions of the 
+<p>If <cite>disjoint</cite> is set to <cite>True</cite>, then we take a disjoint union instead of a 
+regular union. In this case, the polytopes we take a union of are relabeled:
+<cite>old_label</cite> becomes the pair <cite>(i, old_label)</cite> where <cite>i</cite> is the index in the
+union_list.</p>
+<p>By default <cite>disjoint</cite> is <cite>False</cite>. In this case, an error will occur if two
+labels from different PolytopeUnions correspond to different polytopes.</p>
+<p>If <cite>mappings</cite> is set to True, instead we return the list of inclusions of the
 PolytopeUnions into their union.</p>
 <p>The result will be an object with this class as the parent. Note that the union
 of nonoverlapping polytope unions is not necessarily nonoverlapping. If <cite>check</cite> is
-<cite>True</cite> (the default) and this class represents nonoverlapping polytopes, we check to 
+<cite>True</cite> (the default) and this class represents nonoverlapping polytopes, we check to
 see if the polytopes in the list are all nonoverlapping and we check that the
 resulting union is nonoverlapping.</p>
 <p>EXAMPLES:</p>
@@ -1358,8 +1346,8 @@ resulting union is nonoverlapping.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="id31">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PolytopeUnionsCategory.</span></span><span class="sig-name descname"><span class="pre">Nonoverlapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id31" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id27">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PolytopeUnionsCategory.</span></span><span class="sig-name descname"><span class="pre">Nonoverlapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id27" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">CategoryWithAxiom</span></code></p>
 <p>The axiom satisfied by polytope unions with disjoint interiors.</p>
 <p>EXAMPLES:</p>
@@ -1370,12 +1358,12 @@ resulting union is nonoverlapping.</p>
 </pre></div>
 </div>
 <dl class="py class">
-<dt class="sig sig-object py" id="id32">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ElementMethods</span></span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping.ElementMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id32" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id28">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ElementMethods</span></span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping.ElementMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id28" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
-<dt class="sig sig-object py" id="id33">
-<span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping.ElementMethods.find"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id33" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id29">
+<span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping.ElementMethods.find"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id29" title="Link to this definition"></a></dt>
 <dd><p>Find a polytope containing the position (point).</p>
 <p>By default, we return the pair <code class="docutils literal notranslate"><span class="pre">(label,</span> <span class="pre">polytope)</span></code> associated to the
 first polytope found containing the point. If none is found <code class="docutils literal notranslate"><span class="pre">None</span></code> is
@@ -1409,8 +1397,8 @@ finite unions.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id34">
-<span class="sig-name descname"><span class="pre">point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label_or_position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping.ElementMethods.point"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id34" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id30">
+<span class="sig-name descname"><span class="pre">point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label_or_position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping.ElementMethods.point"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id30" title="Link to this definition"></a></dt>
 <dd><p>Construct a points in this disjoint union from a <cite>label</cite> of a polytope and a <cite>position</cite> (vector) within it, or simply a position.</p>
 <p>EXAMPLES:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon</span> <span class="kn">import</span> <span class="n">PolytopeUnions</span>
@@ -1428,8 +1416,8 @@ finite unions.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id35">
-<span class="sig-name descname"><span class="pre">restrict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonoverlapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping.ElementMethods.restrict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id35" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id31">
+<span class="sig-name descname"><span class="pre">restrict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonoverlapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping.ElementMethods.restrict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id31" title="Link to this definition"></a></dt>
 <dd><p>Return a new PolytopeUnion with a restricted label set but the same polytopes.</p>
 <p>The parameter <code class="docutils literal notranslate"><span class="pre">new_labels</span></code> should be a collection of the new labels.</p>
 <p>We ignore the <code class="docutils literal notranslate"><span class="pre">nonoverlapping</span></code> parameter because this union has no overlaps.</p>
@@ -1438,8 +1426,8 @@ finite unions.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="id36">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Finite</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping.Finite"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id36" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id32">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Finite</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping.Finite"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id32" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">CategoryWithAxiom</span></code></p>
 <p>The axiom satisfied by finite subdivisions.</p>
 <p>EXAMPLES:</p>
@@ -1450,12 +1438,12 @@ finite unions.</p>
 </pre></div>
 </div>
 <dl class="py class">
-<dt class="sig sig-object py" id="id37">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ElementMethods</span></span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping.Finite.ElementMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id37" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id33">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ElementMethods</span></span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping.Finite.ElementMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id33" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
-<dt class="sig sig-object py" id="id38">
-<span class="sig-name descname"><span class="pre">restrict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonoverlapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping.Finite.ElementMethods.restrict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id38" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id34">
+<span class="sig-name descname"><span class="pre">restrict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonoverlapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping.Finite.ElementMethods.restrict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id34" title="Link to this definition"></a></dt>
 <dd><p>Return a new PolytopeUnion with a restricted label set but the same polytopes.</p>
 <p>The parameter <cite>new_labels</cite> should be a collection of the new labels.</p>
 <p>We ignore the <cite>nonoverlapping</cite> parameter because this union has no overlaps.</p>
@@ -1466,91 +1454,91 @@ finite unions.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="id39">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ParentMethods</span></span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping.ParentMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id39" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id35">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ParentMethods</span></span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping.ParentMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id35" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
-<dt class="sig sig-object py" id="id40">
-<span class="sig-name descname"><span class="pre">is_nonoverlapping</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping.ParentMethods.is_nonoverlapping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id40" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id36">
+<span class="sig-name descname"><span class="pre">is_nonoverlapping</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping.ParentMethods.is_nonoverlapping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id36" title="Link to this definition"></a></dt>
 <dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if this parent only contains disjoint unions of polytopes that are pairwise disjoint.</p>
 <p>Return <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
 </dd></dl>
 
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id37">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PolytopeUnionsCategory.Nonoverlapping.</span></span><span class="sig-name descname"><span class="pre">ElementMethods</span></span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping.ElementMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id37" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="id38">
+<span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping.ElementMethods.find"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id38" title="Link to this definition"></a></dt>
+<dd><p>Find a polytope containing the position (point).</p>
+<p>By default, we return the pair <code class="docutils literal notranslate"><span class="pre">(label,</span> <span class="pre">polytope)</span></code> associated to the
+first polytope found containing the point. If none is found <code class="docutils literal notranslate"><span class="pre">None</span></code> is
+returned.</p>
+<p>Since the polytopes only have disjoint interiors, it is possible
+that more than one polytope contains the position. To see all the polytopes,
+set the parameter <code class="docutils literal notranslate"><span class="pre">all=True</span></code>, then instead a generator is returned that
+iterates through all the polytopes containing the point. This option is
+(currently) only possible if the union is finite.</p>
+<p>For infinite unions, there is a <code class="docutils literal notranslate"><span class="pre">limit</span></code> parameter which describes how many
+polytopes to check before giving up. The default limit is available from
+the module level method <code class="docutils literal notranslate"><span class="pre">get_find_limit()</span></code> and can be changed with
+<code class="docutils literal notranslate"><span class="pre">set_find_limit(new_limit)</span></code>.</p>
+<p>The implementation here just iterates through all nonoverlapping polyhedra in the union,
+checking for containment. This method should be overriden by a more
+efficient algorithm in the infinite case and in the case of large
+finite unions.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon</span> <span class="kn">import</span> <span class="n">PolytopeUnions</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">U</span> <span class="o">=</span> <span class="n">PolytopeUnions</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">QQ</span><span class="p">,</span> <span class="n">finite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nonoverlapping</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">union</span> <span class="o">=</span> <span class="n">U</span><span class="o">.</span><span class="n">an_element</span><span class="p">()</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">pt</span> <span class="o">=</span> <span class="n">union</span><span class="o">.</span><span class="n">polytope</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">union</span><span class="o">.</span><span class="n">polytope</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">center</span><span class="p">()</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">pt</span>
+<span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="k">for</span> <span class="n">label</span><span class="p">,</span><span class="n">polytope</span> <span class="ow">in</span> <span class="n">union</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">pt</span><span class="p">,</span> <span class="nb">all</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="o">....</span><span class="p">:</span>     <span class="nb">print</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+<span class="mi">0</span>
+<span class="mi">1</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id39">
+<span class="sig-name descname"><span class="pre">point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label_or_position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping.ElementMethods.point"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id39" title="Link to this definition"></a></dt>
+<dd><p>Construct a points in this disjoint union from a <cite>label</cite> of a polytope and a <cite>position</cite> (vector) within it, or simply a position.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon</span> <span class="kn">import</span> <span class="n">PolytopeUnions</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">U</span> <span class="o">=</span> <span class="n">PolytopeUnions</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">QQ</span><span class="p">,</span> <span class="n">finite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nonoverlapping</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">union</span> <span class="o">=</span> <span class="n">U</span><span class="o">.</span><span class="n">an_element</span><span class="p">()</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">pt</span> <span class="o">=</span> <span class="n">union</span><span class="o">.</span><span class="n">polytope</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">union</span><span class="o">.</span><span class="n">polytope</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">center</span><span class="p">()</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">pt</span>
+<span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">union</span><span class="o">.</span><span class="n">point</span><span class="p">(</span><span class="n">pt</span><span class="p">,</span> <span class="nb">all</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="o">....</span><span class="p">:</span>     <span class="nb">print</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span>
+<span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="n">Point</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id40">
+<span class="sig-name descname"><span class="pre">restrict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonoverlapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping.ElementMethods.restrict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id40" title="Link to this definition"></a></dt>
+<dd><p>Return a new PolytopeUnion with a restricted label set but the same polytopes.</p>
+<p>The parameter <code class="docutils literal notranslate"><span class="pre">new_labels</span></code> should be a collection of the new labels.</p>
+<p>We ignore the <code class="docutils literal notranslate"><span class="pre">nonoverlapping</span></code> parameter because this union has no overlaps.</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="id41">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PolytopeUnionsCategory.Nonoverlapping.</span></span><span class="sig-name descname"><span class="pre">ElementMethods</span></span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping.ElementMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id41" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="id42">
-<span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping.ElementMethods.find"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id42" title="Link to this definition"></a></dt>
-<dd><p>Find a polytope containing the position (point).</p>
-<p>By default, we return the pair <code class="docutils literal notranslate"><span class="pre">(label,</span> <span class="pre">polytope)</span></code> associated to the
-first polytope found containing the point. If none is found <code class="docutils literal notranslate"><span class="pre">None</span></code> is
-returned.</p>
-<p>Since the polytopes only have disjoint interiors, it is possible
-that more than one polytope contains the position. To see all the polytopes,
-set the parameter <code class="docutils literal notranslate"><span class="pre">all=True</span></code>, then instead a generator is returned that
-iterates through all the polytopes containing the point. This option is
-(currently) only possible if the union is finite.</p>
-<p>For infinite unions, there is a <code class="docutils literal notranslate"><span class="pre">limit</span></code> parameter which describes how many
-polytopes to check before giving up. The default limit is available from
-the module level method <code class="docutils literal notranslate"><span class="pre">get_find_limit()</span></code> and can be changed with
-<code class="docutils literal notranslate"><span class="pre">set_find_limit(new_limit)</span></code>.</p>
-<p>The implementation here just iterates through all nonoverlapping polyhedra in the union,
-checking for containment. This method should be overriden by a more
-efficient algorithm in the infinite case and in the case of large
-finite unions.</p>
-<p>EXAMPLES:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon</span> <span class="kn">import</span> <span class="n">PolytopeUnions</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">U</span> <span class="o">=</span> <span class="n">PolytopeUnions</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">QQ</span><span class="p">,</span> <span class="n">finite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nonoverlapping</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">union</span> <span class="o">=</span> <span class="n">U</span><span class="o">.</span><span class="n">an_element</span><span class="p">()</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">pt</span> <span class="o">=</span> <span class="n">union</span><span class="o">.</span><span class="n">polytope</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">union</span><span class="o">.</span><span class="n">polytope</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">center</span><span class="p">()</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">pt</span>
-<span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-<span class="n">sage</span><span class="p">:</span> <span class="k">for</span> <span class="n">label</span><span class="p">,</span><span class="n">polytope</span> <span class="ow">in</span> <span class="n">union</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">pt</span><span class="p">,</span> <span class="nb">all</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="o">....</span><span class="p">:</span>     <span class="nb">print</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
-<span class="mi">0</span>
-<span class="mi">1</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id43">
-<span class="sig-name descname"><span class="pre">point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label_or_position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping.ElementMethods.point"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id43" title="Link to this definition"></a></dt>
-<dd><p>Construct a points in this disjoint union from a <cite>label</cite> of a polytope and a <cite>position</cite> (vector) within it, or simply a position.</p>
-<p>EXAMPLES:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon</span> <span class="kn">import</span> <span class="n">PolytopeUnions</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">U</span> <span class="o">=</span> <span class="n">PolytopeUnions</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">QQ</span><span class="p">,</span> <span class="n">finite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nonoverlapping</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">union</span> <span class="o">=</span> <span class="n">U</span><span class="o">.</span><span class="n">an_element</span><span class="p">()</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">pt</span> <span class="o">=</span> <span class="n">union</span><span class="o">.</span><span class="n">polytope</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">union</span><span class="o">.</span><span class="n">polytope</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">center</span><span class="p">()</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">pt</span>
-<span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-<span class="n">sage</span><span class="p">:</span> <span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">union</span><span class="o">.</span><span class="n">point</span><span class="p">(</span><span class="n">pt</span><span class="p">,</span> <span class="nb">all</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="o">....</span><span class="p">:</span>     <span class="nb">print</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span>
-<span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
-<span class="n">Point</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id44">
-<span class="sig-name descname"><span class="pre">restrict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonoverlapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping.ElementMethods.restrict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id44" title="Link to this definition"></a></dt>
-<dd><p>Return a new PolytopeUnion with a restricted label set but the same polytopes.</p>
-<p>The parameter <code class="docutils literal notranslate"><span class="pre">new_labels</span></code> should be a collection of the new labels.</p>
-<p>We ignore the <code class="docutils literal notranslate"><span class="pre">nonoverlapping</span></code> parameter because this union has no overlaps.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="id45">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PolytopeUnionsCategory.Nonoverlapping.</span></span><span class="sig-name descname"><span class="pre">Finite</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping.Finite"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id45" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PolytopeUnionsCategory.Nonoverlapping.</span></span><span class="sig-name descname"><span class="pre">Finite</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping.Finite"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id41" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">CategoryWithAxiom</span></code></p>
 <p>The axiom satisfied by finite subdivisions.</p>
 <p>EXAMPLES:</p>
@@ -1561,42 +1549,42 @@ finite unions.</p>
 </pre></div>
 </div>
 <dl class="py class">
+<dt class="sig sig-object py" id="id42">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ElementMethods</span></span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping.Finite.ElementMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id42" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="id43">
+<span class="sig-name descname"><span class="pre">restrict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonoverlapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping.Finite.ElementMethods.restrict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id43" title="Link to this definition"></a></dt>
+<dd><p>Return a new PolytopeUnion with a restricted label set but the same polytopes.</p>
+<p>The parameter <cite>new_labels</cite> should be a collection of the new labels.</p>
+<p>We ignore the <cite>nonoverlapping</cite> parameter because this union has no overlaps.</p>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id44">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PolytopeUnionsCategory.Nonoverlapping.Finite.</span></span><span class="sig-name descname"><span class="pre">ElementMethods</span></span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping.Finite.ElementMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id44" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="id45">
+<span class="sig-name descname"><span class="pre">restrict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonoverlapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping.Finite.ElementMethods.restrict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id45" title="Link to this definition"></a></dt>
+<dd><p>Return a new PolytopeUnion with a restricted label set but the same polytopes.</p>
+<p>The parameter <cite>new_labels</cite> should be a collection of the new labels.</p>
+<p>We ignore the <cite>nonoverlapping</cite> parameter because this union has no overlaps.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="id46">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ElementMethods</span></span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping.Finite.ElementMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id46" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PolytopeUnionsCategory.Nonoverlapping.</span></span><span class="sig-name descname"><span class="pre">ParentMethods</span></span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping.ParentMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id46" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="id47">
-<span class="sig-name descname"><span class="pre">restrict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonoverlapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping.Finite.ElementMethods.restrict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id47" title="Link to this definition"></a></dt>
-<dd><p>Return a new PolytopeUnion with a restricted label set but the same polytopes.</p>
-<p>The parameter <cite>new_labels</cite> should be a collection of the new labels.</p>
-<p>We ignore the <cite>nonoverlapping</cite> parameter because this union has no overlaps.</p>
-</dd></dl>
-
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="id48">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PolytopeUnionsCategory.Nonoverlapping.Finite.</span></span><span class="sig-name descname"><span class="pre">ElementMethods</span></span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping.Finite.ElementMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id48" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="id49">
-<span class="sig-name descname"><span class="pre">restrict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonoverlapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping.Finite.ElementMethods.restrict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id49" title="Link to this definition"></a></dt>
-<dd><p>Return a new PolytopeUnion with a restricted label set but the same polytopes.</p>
-<p>The parameter <cite>new_labels</cite> should be a collection of the new labels.</p>
-<p>We ignore the <cite>nonoverlapping</cite> parameter because this union has no overlaps.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="id50">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PolytopeUnionsCategory.Nonoverlapping.</span></span><span class="sig-name descname"><span class="pre">ParentMethods</span></span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping.ParentMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id50" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="id51">
-<span class="sig-name descname"><span class="pre">is_nonoverlapping</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping.ParentMethods.is_nonoverlapping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id51" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">is_nonoverlapping</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Nonoverlapping.ParentMethods.is_nonoverlapping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id47" title="Link to this definition"></a></dt>
 <dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if this parent only contains disjoint unions of polytopes that are pairwise disjoint.</p>
 <p>Return <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
 </dd></dl>
@@ -1604,27 +1592,27 @@ finite unions.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="id52">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PolytopeUnionsCategory.</span></span><span class="sig-name descname"><span class="pre">ParentMethods</span></span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.ParentMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id52" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id48">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PolytopeUnionsCategory.</span></span><span class="sig-name descname"><span class="pre">ParentMethods</span></span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.ParentMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id48" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Provides methods available to all subdivisions.</p>
 <p>If you want to add functionality to all subdivisions, independent of
 implementation, you probably want to put it here.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="id53">
-<span class="sig-name descname"><span class="pre">affine_group</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.ParentMethods.affine_group"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id53" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id49">
+<span class="sig-name descname"><span class="pre">affine_group</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.ParentMethods.affine_group"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id49" title="Link to this definition"></a></dt>
 <dd><p>Return the affine group with the same dimension and base field.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id54">
-<span class="sig-name descname"><span class="pre">affine_homeomorphisms</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.ParentMethods.affine_homeomorphisms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id54" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id50">
+<span class="sig-name descname"><span class="pre">affine_homeomorphisms</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.ParentMethods.affine_homeomorphisms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id50" title="Link to this definition"></a></dt>
 <dd><p>Return the collection of AffineHomeomorphisms of the same dimension and over the same field.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id55">
-<span class="sig-name descname"><span class="pre">dimension</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.ParentMethods.dimension"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id55" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id51">
+<span class="sig-name descname"><span class="pre">dimension</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.ParentMethods.dimension"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id51" title="Link to this definition"></a></dt>
 <dd><p>Constructor for abstract methods</p>
 <p>EXAMPLES:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
@@ -1643,8 +1631,8 @@ implementation, you probably want to put it here.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id56">
-<span class="sig-name descname"><span class="pre">empty_union</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.ParentMethods.empty_union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id56" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id52">
+<span class="sig-name descname"><span class="pre">empty_union</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.ParentMethods.empty_union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id52" title="Link to this definition"></a></dt>
 <dd><p>Return the empty union with this parent.</p>
 <p>EXAMPLES:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon</span> <span class="kn">import</span> <span class="o">*</span>
@@ -1658,8 +1646,8 @@ implementation, you probably want to put it here.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id57">
-<span class="sig-name descname"><span class="pre">field</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.ParentMethods.field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id57" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id53">
+<span class="sig-name descname"><span class="pre">field</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.ParentMethods.field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id53" title="Link to this definition"></a></dt>
 <dd><p>Constructor for abstract methods</p>
 <p>EXAMPLES:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
@@ -1678,39 +1666,39 @@ implementation, you probably want to put it here.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id58">
-<span class="sig-name descname"><span class="pre">is_finite</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.ParentMethods.is_finite"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id58" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id54">
+<span class="sig-name descname"><span class="pre">is_finite</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.ParentMethods.is_finite"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id54" title="Link to this definition"></a></dt>
 <dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if this parent only contains finite objects.</p>
 <p>Return <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id59">
-<span class="sig-name descname"><span class="pre">is_nonoverlapping</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.ParentMethods.is_nonoverlapping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id59" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id55">
+<span class="sig-name descname"><span class="pre">is_nonoverlapping</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.ParentMethods.is_nonoverlapping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id55" title="Link to this definition"></a></dt>
 <dd><p>Return <code class="docutils literal notranslate"><span class="pre">False</span></code> because this collection of polytopes is not known to have pairwise disjoint interiors.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id60">
-<span class="sig-name descname"><span class="pre">point_set_category</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.ParentMethods.point_set_category"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id60" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id56">
+<span class="sig-name descname"><span class="pre">point_set_category</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.ParentMethods.point_set_category"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id56" title="Link to this definition"></a></dt>
 <dd><p>Return the category of <code class="docutils literal notranslate"><span class="pre">PointSets</span></code> over the base field.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id61">
-<span class="sig-name descname"><span class="pre">polyhedra</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.ParentMethods.polyhedra"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id61" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id57">
+<span class="sig-name descname"><span class="pre">polyhedra</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.ParentMethods.polyhedra"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id57" title="Link to this definition"></a></dt>
 <dd><p>Return the parent <code class="docutils literal notranslate"><span class="pre">Polyhedra</span></code> over the base field with the same dimension.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id62">
-<span class="sig-name descname"><span class="pre">vector_space</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.ParentMethods.vector_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id62" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id58">
+<span class="sig-name descname"><span class="pre">vector_space</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.ParentMethods.vector_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id58" title="Link to this definition"></a></dt>
 <dd><p>Return the vector space over the provided field of the provided dimension.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id63">
-<span class="sig-name descname"><span class="pre">with_different_axioms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">finite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonoverlapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.ParentMethods.with_different_axioms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id63" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id59">
+<span class="sig-name descname"><span class="pre">with_different_axioms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">finite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonoverlapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.ParentMethods.with_different_axioms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id59" title="Link to this definition"></a></dt>
 <dd><p>Constructor for abstract methods</p>
 <p>EXAMPLES:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
@@ -1729,8 +1717,8 @@ implementation, you probably want to put it here.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id64">
-<span class="sig-name descname"><span class="pre">with_different_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_field</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.ParentMethods.with_different_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id64" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id60">
+<span class="sig-name descname"><span class="pre">with_different_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_field</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.ParentMethods.with_different_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id60" title="Link to this definition"></a></dt>
 <dd><p>Constructor for abstract methods</p>
 <p>EXAMPLES:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
@@ -1751,12 +1739,12 @@ implementation, you probably want to put it here.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="id65">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PolytopeUnionsCategory.</span></span><span class="sig-name descname"><span class="pre">SubcategoryMethods</span></span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.SubcategoryMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id65" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id61">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PolytopeUnionsCategory.</span></span><span class="sig-name descname"><span class="pre">SubcategoryMethods</span></span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.SubcategoryMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id61" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
-<dt class="sig sig-object py" id="id66">
-<span class="sig-name descname"><span class="pre">Nonoverlapping</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.SubcategoryMethods.Nonoverlapping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id66" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id62">
+<span class="sig-name descname"><span class="pre">Nonoverlapping</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.SubcategoryMethods.Nonoverlapping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id62" title="Link to this definition"></a></dt>
 <dd><p>We say a PolytopeUnion is <em>nonoverlapping</em> if the polytopes, viewed as subsets of the vector space containing them, have disjoint interiors.</p>
 <p>This will make available the <code class="docutils literal notranslate"><span class="pre">find</span></code> method.</p>
 </dd></dl>

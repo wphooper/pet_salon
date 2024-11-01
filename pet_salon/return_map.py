@@ -1,4 +1,6 @@
 from pet_salon import Embeddings, PolytopeUnions, SurjectiveEmbeddings, AffineHomeomorphisms, Immersions
+from sage.misc.cachefunc import cached_method
+from copy import copy
 
 class ReturnMap:
     def __init__(self, f, return_labels):
@@ -87,4 +89,7 @@ class ReturnMap:
         '''Return the map which applies f up to n times to points in the the domain of
         the return map. After the first application, we only apply f to points that are
         not in the domain of the return map.'''
-        return self._g_power(n-1)*self._f_A
+        if n==1:
+            return self._f_A
+        else:
+            return self._g_power(n-1)*self._f_A

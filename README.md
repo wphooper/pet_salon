@@ -50,6 +50,7 @@ This software is still very much a work-in-progress and will develop according t
 So far, this software has been written by:
 
 * [W. Patrick Hooper](http://wphooper.com/) (City College of New York and CUNY Graduate Center)
+* Yash Chandra
 
 ## Acknowledgement
 

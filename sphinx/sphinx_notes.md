@@ -5,11 +5,14 @@ Currently, to setup Sage to be able to compile the documentation, I am using:
 sage -pip install sphinx sphinx_rtd_theme myst-parser
 ```
 
-Then from the `doc/` subdirectory I am running the command
+Then from the `sphinx/` subdirectory I am running the command
 
 ```bash
+sage -sh -c "make html"
 make html
 ```
+
+There is also a bash script which runs this, run with `./run_sphinx`.
 
 This will create html documentation which is contained in the directory `doc/build/html/`.
 

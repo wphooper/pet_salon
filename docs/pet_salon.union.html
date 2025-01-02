@@ -462,9 +462,9 @@ polytope union to the relabeled union.</p>
 <dd><p>Construct the union of this PolytopeUnion with another PolytopeUnion.</p>
 <p>If <cite>disjoint</cite> is set to <cite>True</cite>, then we relabel the polytopes: <cite>old_label</cite> is changed to
 <cite>(i, old_label)</cite> where <cite>i</cite> is <cite>0</cite> for polytopes in self, and <cite>1</cite> for polytopes in another.</p>
-<p>If <cite>disjoint</cite> is set to <cite>False</cite>: If the unions share a common label, then they must refer 
+<p>If <cite>disjoint</cite> is set to <cite>False</cite>: If the unions share a common label, then they must refer
 to the same polygon. (Otherwise a ValueError is raised.)</p>
-<p>If <cite>mappings</cite> is false (the default) we return the union. Otherwise we return the pair of 
+<p>If <cite>mappings</cite> is false (the default) we return the union. Otherwise we return the pair of
 inclusions into the union.</p>
 <p>Note that the union of nonoverlapping PolytopeUnions may be overlapping. By default the returned
 PolytopeUnion is assumed to be overlapping. To declare it nonoverlapping set <cite>nonoverlapping=True</cite>.
@@ -527,7 +527,7 @@ set <cite>check=False</cite>.</p>
 <dt class="sig sig-object py" id="pet_salon.union.PolytopeUnionsCategory.Finite.ParentMethods.union">
 <span class="sig-name descname"><span class="pre">union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">union_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disjoint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mappings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ParentMethods.union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.union.PolytopeUnionsCategory.Finite.ParentMethods.union" title="Link to this definition"></a></dt>
 <dd><p>Return the union of multiple PolytopeUnions, included in <cite>union_list</cite>.</p>
-<p>If <cite>disjoint</cite> is set to <cite>True</cite>, then we take a disjoint union instead of a 
+<p>If <cite>disjoint</cite> is set to <cite>True</cite>, then we take a disjoint union instead of a
 regular union. In this case, the polytopes we take a union of are relabeled:
 <cite>old_label</cite> becomes the pair <cite>(i, old_label)</cite> where <cite>i</cite> is the index in the
 union_list.</p>
@@ -787,9 +787,9 @@ implementation, you probably want to put it here.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pet_salon.union.PolytopeUnionsCategory.ParentMethods.point_set_category">
-<span class="sig-name descname"><span class="pre">point_set_category</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.ParentMethods.point_set_category"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.union.PolytopeUnionsCategory.ParentMethods.point_set_category" title="Link to this definition"></a></dt>
-<dd><p>Return the category of <code class="docutils literal notranslate"><span class="pre">PointSets</span></code> over the base field.</p>
+<dt class="sig sig-object py" id="pet_salon.union.PolytopeUnionsCategory.ParentMethods.point_set">
+<span class="sig-name descname"><span class="pre">point_set</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.ParentMethods.point_set"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.union.PolytopeUnionsCategory.ParentMethods.point_set" title="Link to this definition"></a></dt>
+<dd><p>Return the parent of points in the union.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1058,9 +1058,9 @@ polytope union to the relabeled union.</p>
 <dd><p>Construct the union of this PolytopeUnion with another PolytopeUnion.</p>
 <p>If <cite>disjoint</cite> is set to <cite>True</cite>, then we relabel the polytopes: <cite>old_label</cite> is changed to
 <cite>(i, old_label)</cite> where <cite>i</cite> is <cite>0</cite> for polytopes in self, and <cite>1</cite> for polytopes in another.</p>
-<p>If <cite>disjoint</cite> is set to <cite>False</cite>: If the unions share a common label, then they must refer 
+<p>If <cite>disjoint</cite> is set to <cite>False</cite>: If the unions share a common label, then they must refer
 to the same polygon. (Otherwise a ValueError is raised.)</p>
-<p>If <cite>mappings</cite> is false (the default) we return the union. Otherwise we return the pair of 
+<p>If <cite>mappings</cite> is false (the default) we return the union. Otherwise we return the pair of
 inclusions into the union.</p>
 <p>Note that the union of nonoverlapping PolytopeUnions may be overlapping. By default the returned
 PolytopeUnion is assumed to be overlapping. To declare it nonoverlapping set <cite>nonoverlapping=True</cite>.
@@ -1123,7 +1123,7 @@ set <cite>check=False</cite>.</p>
 <dt class="sig sig-object py" id="id18">
 <span class="sig-name descname"><span class="pre">union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">union_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disjoint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mappings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ParentMethods.union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id18" title="Link to this definition"></a></dt>
 <dd><p>Return the union of multiple PolytopeUnions, included in <cite>union_list</cite>.</p>
-<p>If <cite>disjoint</cite> is set to <cite>True</cite>, then we take a disjoint union instead of a 
+<p>If <cite>disjoint</cite> is set to <cite>True</cite>, then we take a disjoint union instead of a
 regular union. In this case, the polytopes we take a union of are relabeled:
 <cite>old_label</cite> becomes the pair <cite>(i, old_label)</cite> where <cite>i</cite> is the index in the
 union_list.</p>
@@ -1233,9 +1233,9 @@ polytope union to the relabeled union.</p>
 <dd><p>Construct the union of this PolytopeUnion with another PolytopeUnion.</p>
 <p>If <cite>disjoint</cite> is set to <cite>True</cite>, then we relabel the polytopes: <cite>old_label</cite> is changed to
 <cite>(i, old_label)</cite> where <cite>i</cite> is <cite>0</cite> for polytopes in self, and <cite>1</cite> for polytopes in another.</p>
-<p>If <cite>disjoint</cite> is set to <cite>False</cite>: If the unions share a common label, then they must refer 
+<p>If <cite>disjoint</cite> is set to <cite>False</cite>: If the unions share a common label, then they must refer
 to the same polygon. (Otherwise a ValueError is raised.)</p>
-<p>If <cite>mappings</cite> is false (the default) we return the union. Otherwise we return the pair of 
+<p>If <cite>mappings</cite> is false (the default) we return the union. Otherwise we return the pair of
 inclusions into the union.</p>
 <p>Note that the union of nonoverlapping PolytopeUnions may be overlapping. By default the returned
 PolytopeUnion is assumed to be overlapping. To declare it nonoverlapping set <cite>nonoverlapping=True</cite>.
@@ -1298,7 +1298,7 @@ set <cite>check=False</cite>.</p>
 <dt class="sig sig-object py" id="id26">
 <span class="sig-name descname"><span class="pre">union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">union_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disjoint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mappings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.Finite.ParentMethods.union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id26" title="Link to this definition"></a></dt>
 <dd><p>Return the union of multiple PolytopeUnions, included in <cite>union_list</cite>.</p>
-<p>If <cite>disjoint</cite> is set to <cite>True</cite>, then we take a disjoint union instead of a 
+<p>If <cite>disjoint</cite> is set to <cite>True</cite>, then we take a disjoint union instead of a
 regular union. In this case, the polytopes we take a union of are relabeled:
 <cite>old_label</cite> becomes the pair <cite>(i, old_label)</cite> where <cite>i</cite> is the index in the
 union_list.</p>
@@ -1680,8 +1680,8 @@ implementation, you probably want to put it here.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id56">
-<span class="sig-name descname"><span class="pre">point_set_category</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.ParentMethods.point_set_category"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id56" title="Link to this definition"></a></dt>
-<dd><p>Return the category of <code class="docutils literal notranslate"><span class="pre">PointSets</span></code> over the base field.</p>
+<span class="sig-name descname"><span class="pre">point_set</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#PolytopeUnionsCategory.ParentMethods.point_set"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id56" title="Link to this definition"></a></dt>
+<dd><p>Return the parent of points in the union.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1755,8 +1755,15 @@ implementation, you probably want to put it here.</p>
 <dt class="sig sig-object py" id="pet_salon.union.finite_polytope_union">
 <span class="sig-prename descclassname"><span class="pre">pet_salon.union.</span></span><span class="sig-name descname"><span class="pre">finite_polytope_union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dimension</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#finite_polytope_union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.union.finite_polytope_union" title="Link to this definition"></a></dt>
 <dd><p>Construct a finite polytope union.</p>
-<p>The parameters are the <code class="docutils literal notranslate"><span class="pre">dimension</span></code> <cite>d</cite>, a base <code class="docutils literal notranslate"><span class="pre">field</span></code> <cite>F</cite>, and a dictionary sending labels to polytopes with vertices in <cite>F^d</cite>. If a <code class="docutils literal notranslate"><span class="pre">name</span></code> is provided, the name of the union will be set to this.</p>
-<p>An advantage of this function is that it automatically decides if the polytopes overlap.</p>
+<p>Parameters:
+dimension (int): The dimension of the polytopes.
+field (field): The base field where the vertices of the polytopes lie.
+mapping (dict): A dictionary mapping labels to polytopes with vertices in <cite>F^d</cite>.
+name (str, optional): The name of the union. Defaults to None.</p>
+<p>Returns:
+PolytopeUnions: An instance of PolytopeUnions representing the union of the given polytopes.</p>
+<p>Notes:
+This function automatically determines if the polytopes overlap and constructs the union accordingly.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -1770,6 +1777,12 @@ implementation, you probably want to put it here.</p>
 <span class="sig-prename descclassname"><span class="pre">pet_salon.union.</span></span><span class="sig-name descname"><span class="pre">is_nonoverlapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">polytope_collection</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union.html#is_nonoverlapping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.union.is_nonoverlapping" title="Link to this definition"></a></dt>
 <dd><p>Return if the polytope collection is non-overlapping.</p>
 <p>We require the collection to be finite.</p>
+<p>Parameters:
+polytope_collection (iterable): A collection of polytopes.</p>
+<p>Returns:
+bool: True if the collection is non-overlapping, False otherwise.</p>
+<p>Raises:
+ValueError: If the collection is infinite.</p>
 </dd></dl>
 
 <dl class="py function">

@@ -109,6 +109,7 @@
 <span class="kn">from</span> <span class="nn">sage.misc.abstract_method</span> <span class="kn">import</span> <span class="n">abstract_method</span>
 <span class="kn">from</span> <span class="nn">sage.modules.free_module</span> <span class="kn">import</span> <span class="n">VectorSpace</span>
 <span class="kn">from</span> <span class="nn">sage.rings.infinity</span> <span class="kn">import</span> <span class="n">infinity</span>
+<span class="kn">from</span> <span class="nn">sage.rings.integer_ring</span> <span class="kn">import</span> <span class="n">ZZ</span>
 <span class="kn">from</span> <span class="nn">sage.structure.element</span> <span class="kn">import</span> <span class="n">Element</span>
 <span class="kn">from</span> <span class="nn">sage.structure.parent</span> <span class="kn">import</span> <span class="n">Parent</span>
 <span class="kn">from</span> <span class="nn">sage.structure.unique_representation</span> <span class="kn">import</span> <span class="n">UniqueRepresentation</span>
@@ -124,6 +125,15 @@
 <span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return if the polytope collection is non-overlapping.</span>
 
 <span class="sd">    We require the collection to be finite.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    polytope_collection (iterable): A collection of polytopes.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    bool: True if the collection is non-overlapping, False otherwise.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">    ValueError: If the collection is infinite.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">if</span> <span class="n">length</span><span class="p">(</span><span class="n">polytope_collection</span><span class="p">)</span> <span class="o">==</span> <span class="n">infinity</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;is_nonoverlapping only works for finite collections of polytopes!&#39;</span><span class="p">)</span>
@@ -135,6 +145,23 @@
             <span class="k">if</span> <span class="n">p1</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span><span class="o">.</span><span class="n">volume</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">False</span>
     <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<span class="n">_find_limit</span> <span class="o">=</span> <span class="mi">100</span>
+
+<div class="viewcode-block" id="get_find_limit">
+<a class="viewcode-back" href="../../pet_salon.union.html#pet_salon.union.get_find_limit">[docs]</a>
+<span class="k">def</span> <span class="nf">get_find_limit</span><span class="p">():</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Get the limit for number of polytopes to check in a ``find`` operation in an infinite polyhedral union.&#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">_find_limit</span></div>
+
+
+<div class="viewcode-block" id="set_find_limit">
+<a class="viewcode-back" href="../../pet_salon.union.html#pet_salon.union.set_find_limit">[docs]</a>
+<span class="k">def</span> <span class="nf">set_find_limit</span><span class="p">(</span><span class="n">new_limit</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Set the limit for number of polytopes to check in a ``find`` operation in an infinite polyhedral union.&#39;&#39;&#39;</span>
+    <span class="k">global</span> <span class="n">_find_limit</span>
+    <span class="n">_find_limit</span> <span class="o">=</span> <span class="n">new_limit</span></div>
 
 
 <div class="viewcode-block" id="PolytopeUnionsCategory">
@@ -288,14 +315,15 @@
             <span class="k">return</span> <span class="n">Polyhedra</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">field</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">())</span></div>
 
 
-<div class="viewcode-block" id="PolytopeUnionsCategory.ParentMethods.point_set_category">
-<a class="viewcode-back" href="../../pet_salon.union.html#pet_salon.union.PolytopeUnionsCategory.ParentMethods.point_set_category">[docs]</a>
+<div class="viewcode-block" id="PolytopeUnionsCategory.ParentMethods.point_set">
+<a class="viewcode-back" href="../../pet_salon.union.html#pet_salon.union.PolytopeUnionsCategory.ParentMethods.point_set">[docs]</a>
         <span class="nd">@cached_method</span>
-        <span class="k">def</span> <span class="nf">point_set_category</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">point_set</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">            Return the category of ``PointSets`` over the base field.</span>
+<span class="sd">            Return the parent of points in the union.</span>
 <span class="sd">            &#39;&#39;&#39;</span>
-            <span class="k">return</span> <span class="n">PointSets</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">field</span><span class="p">())</span></div>
+            <span class="kn">from</span> <span class="nn">pet_salon.point</span> <span class="kn">import</span> <span class="n">PointSet</span>
+            <span class="k">return</span> <span class="n">PointSet</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="PolytopeUnionsCategory.ParentMethods.affine_group">
@@ -542,7 +570,7 @@
 <span class="w">                </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">                Return the union of multiple PolytopeUnions, included in `union_list`.</span>
 
-<span class="sd">                If `disjoint` is set to `True`, then we take a disjoint union instead of a </span>
+<span class="sd">                If `disjoint` is set to `True`, then we take a disjoint union instead of a</span>
 <span class="sd">                regular union. In this case, the polytopes we take a union of are relabeled:</span>
 <span class="sd">                `old_label` becomes the pair `(i, old_label)` where `i` is the index in the</span>
 <span class="sd">                union_list.</span>
@@ -753,10 +781,10 @@
 <span class="sd">                If `disjoint` is set to `True`, then we relabel the polytopes: `old_label` is changed to</span>
 <span class="sd">                `(i, old_label)` where `i` is `0` for polytopes in self, and `1` for polytopes in another.</span>
 
-<span class="sd">                If `disjoint` is set to `False`: If the unions share a common label, then they must refer </span>
+<span class="sd">                If `disjoint` is set to `False`: If the unions share a common label, then they must refer</span>
 <span class="sd">                to the same polygon. (Otherwise a ValueError is raised.)</span>
 
-<span class="sd">                If `mappings` is false (the default) we return the union. Otherwise we return the pair of </span>
+<span class="sd">                If `mappings` is false (the default) we return the union. Otherwise we return the pair of</span>
 <span class="sd">                inclusions into the union.</span>
 
 <span class="sd">                Note that the union of nonoverlapping PolytopeUnions may be overlapping. By default the returned</span>
@@ -963,7 +991,7 @@
                     <span class="k">if</span> <span class="nb">all</span><span class="p">:</span>
                         <span class="k">raise</span> <span class="bp">NotImplemented</span><span class="p">(</span><span class="s1">&#39;Currently can only find all in a finite union.&#39;</span><span class="p">)</span>
                     <span class="k">if</span> <span class="ow">not</span> <span class="n">limit</span><span class="p">:</span>
-                        <span class="n">limit</span> <span class="o">=</span> <span class="n">_find_limit</span>
+                        <span class="n">limit</span> <span class="o">=</span> <span class="n">get_find_limit</span><span class="p">()</span>
                     <span class="k">for</span> <span class="n">pair</span><span class="p">,</span><span class="n">_</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">polytopes</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="nb">range</span><span class="p">(</span><span class="n">limit</span><span class="p">)):</span>
                         <span class="k">if</span> <span class="n">position</span> <span class="ow">in</span> <span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
                             <span class="k">return</span> <span class="n">pair</span>
@@ -1394,39 +1422,27 @@
 <div class="viewcode-block" id="finite_polytope_union">
 <a class="viewcode-back" href="../../pet_salon.union.html#pet_salon.union.finite_polytope_union">[docs]</a>
 <span class="k">def</span> <span class="nf">finite_polytope_union</span><span class="p">(</span><span class="n">dimension</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">mapping</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Construct a finite polytope union.</span>
 
-<span class="sd">    The parameters are the ``dimension`` `d`, a base ``field`` `F`, and a dictionary sending labels to polytopes with vertices in `F^d`. If a ``name`` is provided, the name of the union will be set to this.</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    dimension (int): The dimension of the polytopes.</span>
+<span class="sd">    field (field): The base field where the vertices of the polytopes lie.</span>
+<span class="sd">    mapping (dict): A dictionary mapping labels to polytopes with vertices in `F^d`.</span>
+<span class="sd">    name (str, optional): The name of the union. Defaults to None.</span>
 
-<span class="sd">    An advantage of this function is that it automatically decides if the polytopes overlap.</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    Returns:</span>
+<span class="sd">    PolytopeUnions: An instance of PolytopeUnions representing the union of the given polytopes.</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">    This function automatically determines if the polytopes overlap and constructs the union accordingly.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">is_nonoverlapping</span><span class="p">(</span><span class="n">mapping</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
         <span class="n">U</span> <span class="o">=</span> <span class="n">PolytopeUnions</span><span class="p">(</span><span class="n">dimension</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">finite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nonoverlapping</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">U</span><span class="p">(</span><span class="n">mapping</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">U</span> <span class="o">=</span> <span class="n">PolytopeUnions</span><span class="p">(</span><span class="n">dimension</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">finite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nonoverlapping</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">U</span><span class="p">(</span><span class="n">mapping</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div>
-
-
-<span class="n">_find_limit</span> <span class="o">=</span> <span class="mi">100</span>
-
-<div class="viewcode-block" id="get_find_limit">
-<a class="viewcode-back" href="../../pet_salon.union.html#pet_salon.union.get_find_limit">[docs]</a>
-<span class="k">def</span> <span class="nf">get_find_limit</span><span class="p">():</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Get the limit for number of polytopes to check in a ``find`` operation in an infinite polyhedral union.&#39;&#39;&#39;</span>
-    <span class="k">return</span> <span class="n">_find_limit</span></div>
-
-
-<div class="viewcode-block" id="set_find_limit">
-<a class="viewcode-back" href="../../pet_salon.union.html#pet_salon.union.set_find_limit">[docs]</a>
-<span class="k">def</span> <span class="nf">set_find_limit</span><span class="p">(</span><span class="n">new_limit</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Set the limit for number of polytopes to check in a ``find`` operation in an infinite polyhedral union.&#39;&#39;&#39;</span>
-    <span class="k">global</span> <span class="n">_find_limit</span>
-    <span class="n">_find_limit</span> <span class="o">=</span> <span class="n">new_limit</span></div>
-
-
-
 
 </pre></div>
 

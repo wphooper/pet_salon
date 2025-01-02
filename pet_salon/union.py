@@ -33,6 +33,7 @@ from sage.misc.cachefunc import cached_method
 from sage.misc.abstract_method import abstract_method
 from sage.modules.free_module import VectorSpace
 from sage.rings.infinity import infinity
+from sage.rings.integer_ring import ZZ
 from sage.structure.element import Element
 from sage.structure.parent import Parent
 from sage.structure.unique_representation import UniqueRepresentation
@@ -46,6 +47,15 @@ def is_nonoverlapping(polytope_collection):
     r'''Return if the polytope collection is non-overlapping.
 
     We require the collection to be finite.
+
+    Parameters:
+    polytope_collection (iterable): A collection of polytopes.
+
+    Returns:
+    bool: True if the collection is non-overlapping, False otherwise.
+
+    Raises:
+    ValueError: If the collection is infinite.
     '''
     if length(polytope_collection) == infinity:
         raise ValueError('is_nonoverlapping only works for finite collections of polytopes!')
@@ -57,6 +67,17 @@ def is_nonoverlapping(polytope_collection):
             if p1.intersection(p2).volume() != 0:
                 return False
     return True
+
+_find_limit = 100
+
+def get_find_limit():
+    r'''Get the limit for number of polytopes to check in a ``find`` operation in an infinite polyhedral union.'''
+    return _find_limit
+
+def set_find_limit(new_limit):
+    r'''Set the limit for number of polytopes to check in a ``find`` operation in an infinite polyhedral union.'''
+    global _find_limit
+    _find_limit = new_limit
 
 class PolytopeUnionsCategory(Category):
     r"""
@@ -170,11 +191,12 @@ class PolytopeUnionsCategory(Category):
             return Polyhedra(self.field(), self.dimension())
 
         @cached_method
-        def point_set_category(self):
+        def point_set(self):
             r'''
-            Return the category of ``PointSets`` over the base field.
+            Return the parent of points in the union.
             '''
-            return PointSets(self.field())
+            from pet_salon.point import PointSet
+            return PointSet(self)
 
         def affine_group(self):
             r'''
@@ -765,7 +787,7 @@ class PolytopeUnionsCategory(Category):
                     if all:
                         raise NotImplemented('Currently can only find all in a finite union.')
                     if not limit:
-                        limit = _find_limit
+                        limit = get_find_limit()
                     for pair,_ in zip(self.polytopes().items(), range(limit)):
                         if position in pair[1]:
                             return pair
@@ -1130,30 +1152,24 @@ class PolytopeUnions(UniqueRepresentation, Parent):
             return self({0:p0, 1:p1})
 
 def finite_polytope_union(dimension, field, mapping, name=None):
-    r'''
+    """
     Construct a finite polytope union.
 
-    The parameters are the ``dimension`` `d`, a base ``field`` `F`, and a dictionary sending labels to polytopes with vertices in `F^d`. If a ``name`` is provided, the name of the union will be set to this.
+    Parameters:
+    dimension (int): The dimension of the polytopes.
+    field (field): The base field where the vertices of the polytopes lie.
+    mapping (dict): A dictionary mapping labels to polytopes with vertices in `F^d`.
+    name (str, optional): The name of the union. Defaults to None.
 
-    An advantage of this function is that it automatically decides if the polytopes overlap.
-    '''
+    Returns:
+    PolytopeUnions: An instance of PolytopeUnions representing the union of the given polytopes.
+
+    Notes:
+    This function automatically determines if the polytopes overlap and constructs the union accordingly.
+    """
     if is_nonoverlapping(mapping.values()):
         U = PolytopeUnions(dimension, field, finite=True, nonoverlapping=True)
         return U(mapping, name=name)
     else:
         U = PolytopeUnions(dimension, field, finite=True, nonoverlapping=False)
         return U(mapping, name=name)
-
-_find_limit = 100
-
-def get_find_limit():
-    r'''Get the limit for number of polytopes to check in a ``find`` operation in an infinite polyhedral union.'''
-    return _find_limit
-
-def set_find_limit(new_limit):
-    r'''Set the limit for number of polytopes to check in a ``find`` operation in an infinite polyhedral union.'''
-    global _find_limit
-    _find_limit = new_limit
-
-
-

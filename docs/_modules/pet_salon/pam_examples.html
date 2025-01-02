@@ -15,7 +15,7 @@
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../../_static/documentation_options.js?v=8c5712d9"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -170,6 +170,37 @@
 <div class="viewcode-block" id="CombinatorialConvexPolygonTriangulation">
 <a class="viewcode-back" href="../../pet_salon.pam_examples.html#pet_salon.pam_examples.CombinatorialConvexPolygonTriangulation">[docs]</a>
 <span class="k">class</span> <span class="nc">CombinatorialConvexPolygonTriangulation</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class to represent a combinatorial convex polygon triangulation.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    _n : int</span>
+<span class="sd">        The number of vertices of the polygon being triangulated.</span>
+<span class="sd">    _triangles : set</span>
+<span class="sd">        A set of frozensets, each containing three indices representing a triangle.</span>
+<span class="sd">    _edges : set</span>
+<span class="sd">        A set of frozensets, each containing two indices representing an edge.</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    __init__(n, triangles=None, edges=None):</span>
+<span class="sd">        Initializes the triangulation with n vertices, and optionally with given triangles and edges.</span>
+<span class="sd">    n():</span>
+<span class="sd">        Returns the number of vertices of the polygon being triangulated.</span>
+<span class="sd">    triangles():</span>
+<span class="sd">        Returns the collection of triples of indices of vertices forming the triangles.</span>
+<span class="sd">    edges():</span>
+<span class="sd">        Returns the collection of pairs of indices of vertices forming the edges.</span>
+<span class="sd">    flip(edge=None):</span>
+<span class="sd">        Flips the given edge (or a random edge if none is provided) in the triangulation.</span>
+<span class="sd">    surjective_embedding(vertices):</span>
+<span class="sd">        Returns the surjective embedding associated with this triangulation of a polygon with the provided vertices.</span>
+<span class="sd">    partition(vertices):</span>
+<span class="sd">        Returns the partition associated with this triangulation of a polygon with the provided vertices.</span>
+<span class="sd">    image(vertex_action):</span>
+<span class="sd">        Returns the image of this triangulation under the provided vertex action.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">triangles</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">edges</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="k">assert</span> <span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">3</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_n</span> <span class="o">=</span> <span class="n">n</span>
@@ -250,7 +281,7 @@
 <span class="w">        </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Return the surjective embedding associated to this triangulation of a polygon with the provided `vertices`, a list in cyclic order.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="n">P</span> <span class="o">=</span> <span class="n">PolytopeUnions</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">QQ</span><span class="p">)</span>
+        <span class="n">P</span> <span class="o">=</span> <span class="n">PolytopeUnions</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">base_ring</span><span class="p">())</span>
         <span class="n">codomain</span> <span class="o">=</span> <span class="n">P</span><span class="p">(</span><span class="n">Polyhedron</span><span class="p">(</span><span class="n">vertices</span><span class="o">=</span><span class="n">vertices</span><span class="p">))</span>
         <span class="n">SE</span> <span class="o">=</span> <span class="n">SurjectiveEmbeddings</span><span class="p">(</span><span class="n">codomain</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">SE</span><span class="p">(</span><span class="n">P</span><span class="p">({</span> <span class="n">i</span> <span class="p">:</span> <span class="n">Polyhedron</span><span class="p">(</span><span class="n">vertices</span><span class="o">=</span><span class="p">{</span><span class="n">vertices</span><span class="p">[</span><span class="n">a</span><span class="p">],</span> <span class="n">vertices</span><span class="p">[</span><span class="n">b</span><span class="p">],</span> <span class="n">vertices</span><span class="p">[</span><span class="n">c</span><span class="p">]})</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">triangles</span><span class="p">())}))</span></div>

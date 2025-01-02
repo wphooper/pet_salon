@@ -16,7 +16,7 @@
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="_static/documentation_options.js?v=8c5712d9"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -59,9 +59,26 @@
 <li class="toctree-l4"><a class="reference internal" href="#pet_salon.immersion.Immersion"><code class="docutils literal notranslate"><span class="pre">Immersion</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pet_salon.immersion.Immersions"><code class="docutils literal notranslate"><span class="pre">Immersions</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pet_salon.immersion.ImmersionsCategory"><code class="docutils literal notranslate"><span class="pre">ImmersionsCategory</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">ImmersionsCategory.ElementMethods</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id12"><code class="docutils literal notranslate"><span class="pre">ImmersionsCategory.Injective</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id19"><code class="docutils literal notranslate"><span class="pre">ImmersionsCategory.Injective.ElementMethods</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id21"><code class="docutils literal notranslate"><span class="pre">ImmersionsCategory.Injective.ParentMethods</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id23"><code class="docutils literal notranslate"><span class="pre">ImmersionsCategory.Injective.SubcategoryMethods</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id25"><code class="docutils literal notranslate"><span class="pre">ImmersionsCategory.ParentMethods</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id36"><code class="docutils literal notranslate"><span class="pre">ImmersionsCategory.SubcategoryMethods</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id40"><code class="docutils literal notranslate"><span class="pre">ImmersionsCategory.Surjective</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id52"><code class="docutils literal notranslate"><span class="pre">ImmersionsCategory.Surjective.ElementMethods</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id53"><code class="docutils literal notranslate"><span class="pre">ImmersionsCategory.Surjective.Injective</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id59"><code class="docutils literal notranslate"><span class="pre">ImmersionsCategory.Surjective.Injective.ElementMethods</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id60"><code class="docutils literal notranslate"><span class="pre">ImmersionsCategory.Surjective.Injective.ParentMethods</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id62"><code class="docutils literal notranslate"><span class="pre">ImmersionsCategory.Surjective.Injective.SubcategoryMethods</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id64"><code class="docutils literal notranslate"><span class="pre">ImmersionsCategory.Surjective.ParentMethods</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id66"><code class="docutils literal notranslate"><span class="pre">ImmersionsCategory.Surjective.SubcategoryMethods</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pet_salon.immersion.Partition"><code class="docutils literal notranslate"><span class="pre">Partition</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pet_salon.immersion.Partitions"><code class="docutils literal notranslate"><span class="pre">Partitions</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pet_salon.immersion.PartitionsCategory"><code class="docutils literal notranslate"><span class="pre">PartitionsCategory</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id70"><code class="docutils literal notranslate"><span class="pre">PartitionsCategory.ElementMethods</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id80"><code class="docutils literal notranslate"><span class="pre">PartitionsCategory.ParentMethods</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pet_salon.immersion.SurjectiveEmbeddings"><code class="docutils literal notranslate"><span class="pre">SurjectiveEmbeddings()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pet_salon.immersion.SurjectiveImmersions"><code class="docutils literal notranslate"><span class="pre">SurjectiveImmersions()</span></code></a></li>
 </ul>
@@ -445,7 +462,7 @@ contained within the polytope with the provided <cite>ambient_label</cite>.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pet_salon.immersion.ImmersionsCategory.ParentMethods.with_different_union">
 <span class="sig-name descname"><span class="pre">with_different_union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_ambient_union</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.ParentMethods.with_different_union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.immersion.ImmersionsCategory.ParentMethods.with_different_union" title="Link to this definition"></a></dt>
-<dd><p>Constructor for abstract methods</p>
+<dd><p>Constructor for abstract methods.</p>
 <p>EXAMPLES:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
 <span class="o">....</span><span class="p">:</span>     <span class="s2">&quot;doc of f&quot;</span>
@@ -833,7 +850,7 @@ contained within the polytope with the provided <cite>ambient_label</cite>.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="id35">
 <span class="sig-name descname"><span class="pre">with_different_union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_ambient_union</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/immersion.html#ImmersionsCategory.ParentMethods.with_different_union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id35" title="Link to this definition"></a></dt>
-<dd><p>Constructor for abstract methods</p>
+<dd><p>Constructor for abstract methods.</p>
 <p>EXAMPLES:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
 <span class="o">....</span><span class="p">:</span>     <span class="s2">&quot;doc of f&quot;</span>

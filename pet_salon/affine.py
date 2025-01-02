@@ -553,6 +553,10 @@ class PiecewiseAffineMapsCategory(Category):
         def affine_homeomorphisms(self):
             return AffineHomeomorphisms(self.dimension(), self.field())
 
+        def trivial_piecewise_affine_map(self, union):
+            r'''Return the trivial piecewise affine map of union into union.'''
+            return self(self.affine_homeomorphisms().trivial_affine_homeomorphism(union))
+
         @abstract_method
         def with_different_field(self, new_field):
             pass
@@ -682,11 +686,16 @@ class PiecewiseAffineMapsCategory(Category):
             domain_kwds = {'fill':False, 'line':'black', 'thickness':2, 'aspect_ratio':1}
             aff_domain_kwds = {}
             ```
-            The defaul `domain_kwds` just produce a black line of thickness one.
+            The default `domain_kwds` just produce a black line of thickness two bounding each polygon.
 
-            On the right we di
-            The parameters `domain_kwds` and `codomain_kwds` are passed to the `plot` methods of
-            the respective `PolytopeUnion`s.
+            On the right, we display both the codomain of the PAM and the codomain of the internal
+            affine homeomorphism. These can be adjusted with the parameters `codomain_kwds` and
+            `aff_codomain_kwds`, which should be dictionaries. By default:
+            ```python
+            codomain_kwds = {'fill':False, 'line':'black', 'thickness':2, 'aspect_ratio':1}
+            aff_codomain_kwds = {}
+            ```
+            Again, this just produces a black line of thickness two bounding each polygon in the codomain.
             '''
             domain_kwds = {'fill':False, 'line':'black', 'thickness':1.5, 'aspect_ratio':1} | domain_kwds
             codomain_kwds = {'fill':False, 'line':'black', 'thickness':1.5, 'aspect_ratio':1} | codomain_kwds
@@ -696,6 +705,29 @@ class PiecewiseAffineMapsCategory(Category):
                 self.affine_homeomorphism().codomain().plot(**aff_codomain_kwds) + \
                     self.codomain().plot(**codomain_kwds)
             ])
+
+        @cached_method
+        def _pow_int(self, n):
+            r'''
+            Return the `n`-th power of the map.
+
+            :param int n: The exponent to which the map is raised.
+            :return: The `n`-th power of the map.
+            :rtype: PiecewiseAffineMap
+
+            This is the composition of the map with itself `n` times.
+            '''
+            if n < 0:
+                return ~self**(-n)
+            if n == 0:
+                return self.parent().trivial_piecewise_affine_map(self.domain())
+            if n == 1:
+                return self
+            if n%2 == 0:
+                rt = self ** (n//2)
+                return rt*rt
+            if n%2 == 1:
+                return self * (self ** (n-1))
 
         def __call__(self, x):
             r'''Return the image of x under the mapping.'''
@@ -838,7 +870,8 @@ class PiecewiseAffineMaps(UniqueRepresentation, Parent):
                     return args[0]
                 if hasattr(args[0].parent(),'category'):
                     if args[0].parent().category().is_subcategory(PiecewiseAffineMapsCategory()):
-                        assert args[0].parent().dimension() == self.dimension(), 'In order to convert, the passed PAM must have dimension matching this parent.'
+                        if args[0].parent().dimension() != self.dimension():
+                            raise ValueError('In order to convert, the passed PAM must have dimension matching this parent.')
                         # The field should be different or else, the parents would be the same.
                         p = args[0].partition()
                         ah = args[0].affine_homeomorphism()
@@ -850,7 +883,8 @@ class PiecewiseAffineMaps(UniqueRepresentation, Parent):
                             p.parent().with_different_field(self.field())(p),
                             **kwds)
                     if args[0].parent().category().is_subcategory(PartitionsCategory()):
-                        assert args[0].parent().dimension() == self.dimension(), 'A partition must have have dimension matching this parent.'
+                        if args[0].parent().dimension() != self.dimension():
+                            raise ValueError('A partition must have dimension matching this parent.')
                         p = args[0]
                         if p.parent().field() != self.field():
                             p = p.parent().with_different_field(self.field())(p)
@@ -861,7 +895,8 @@ class PiecewiseAffineMaps(UniqueRepresentation, Parent):
                                                   p,
                                                   **kwds)
                     if args[0].parent().category().is_subcategory(AffineHomeomorphismsCategory()):
-                        assert args[0].parent().dimension() == self.dimension(), 'An affine homeomorphism must have have dimension matching this parent.'
+                        if args[0].parent().dimension() != self.dimension():
+                            raise ValueError('An affine homeomorphism must have dimension matching this parent.')
                         ah = args[0]
                         if ah.parent().field() != self.field():
                             ah = ah.parent().with_different_field(self.field())(ah)
@@ -874,7 +909,8 @@ class PiecewiseAffineMaps(UniqueRepresentation, Parent):
                                                   P(),
                                                   **kwds)
                     if args[0].parent().category().is_subcategory(ImmersionsCategory()):
-                        assert args[0].parent().dimension() == self.dimension(), 'An immersion must have have dimension matching this parent.'
+                        if args[0].parent().dimension() != self.dimension():
+                            raise ValueError('An immersion must have dimension matching this parent.')
                         i = args[0]
                         if i.parent().field() != self.field():
                             i = i.parent().with_different_field(self.field())(i)
@@ -886,18 +922,24 @@ class PiecewiseAffineMaps(UniqueRepresentation, Parent):
                                                   P(),
                                                   **kwds)
         if len(args)==3:
-            assert args[0].parent().category().is_subcategory(ImmersionsCategory()), 'With three arguments, the first must be an immersion.'
-            assert args[0].parent().dimension() == self.dimension(), 'An immersion must have have dimension matching this parent.'
+            if not args[0].parent().category().is_subcategory(ImmersionsCategory()):
+                raise ValueError('With three arguments, the first must be an immersion.')
+            if args[0].parent().dimension() != self.dimension():
+                raise ValueError('An immersion must have dimension matching this parent.')
             i = args[0]
             if i.parent().field() != self.field():
                 i = i.parent().with_different_field(self.field())(i)
-            assert args[1].parent().category().is_subcategory(AffineHomeomorphismsCategory()), 'With three arguments, the second must be an affine homeomorphism.'
-            assert args[1].parent().dimension() == self.dimension(), 'An affine homeomorphism must have have dimension matching this parent.'
+            if not args[1].parent().category().is_subcategory(AffineHomeomorphismsCategory()):
+                raise ValueError('With three arguments, the second must be an affine homeomorphism.')
+            if args[1].parent().dimension() != self.dimension():
+                raise ValueError('An affine homeomorphism must have dimension matching this parent.')
             ah = args[1]
             if ah.parent().field() != self.field():
                 ah = ah.parent().with_different_field(self.field())(ah)
-            assert args[2].parent().category().is_subcategory(PartitionsCategory()), 'With three arguments, the third must be a partition.'
-            assert args[2].parent().dimension() == self.dimension(), 'A partition must have have dimension matching this parent.'
+            if not args[2].parent().category().is_subcategory(PartitionsCategory()):
+                raise ValueError('With three arguments, the third must be a partition.')
+            if args[2].parent().dimension() != self.dimension():
+                raise ValueError('A partition must have dimension matching this parent.')
             p = args[2]
             if p.parent().field() != self.field():
                 p = p.parent().with_different_field(self.field())(p)

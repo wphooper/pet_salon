@@ -50,7 +50,6 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="pet_salon.html">pet_salon package</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="pet_salon.html#module-pet_salon">Module contents</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="pet_salon.html#submodules">Submodules</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="pet_salon.affine.html">pet_salon.affine module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pet_salon.collection.html">pet_salon.collection module</a></li>
@@ -62,15 +61,16 @@
 <li class="toctree-l3"><a class="reference internal" href="pet_salon.point.html">pet_salon.point module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pet_salon.polyhedra.html">pet_salon.polyhedra module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pet_salon.polytope.html">pet_salon.polytope module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_salon.return_map.html">pet_salon.return_map module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pet_salon.union.html">pet_salon.union module</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">pet_salon.union_generators module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#pet_salon.union_generators.square_tiling"><code class="docutils literal notranslate"><span class="pre">square_tiling()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">square_tiling()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="pet_salon.version.html">pet_salon.version module</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="pet_salon.html#module-pet_salon">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -105,32 +105,7 @@
 <p>Initialize self.  See help(type(self)) for accurate signature.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="pet_salon.union_generators.square_tiling">
-<span class="sig-prename descclassname"><span class="pre">pet_salon.union_generators.</span></span><span class="sig-name descname"><span class="pre">square_tiling</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union_generators.html#square_tiling"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.union_generators.square_tiling" title="Link to this definition"></a></dt>
-<dd><p>Construct the square tiling in the plane as a PolytopeUnion.</p>
-<p>EXAMPLES:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sage: from pet_salon.union_generators import square_tiling
-sage: union = square_tiling(QQ)
-sage: union
-Disjoint union of ∞ly many nonoverlapping polyhedra in QQ^2
-sage: TestSuite(union).run()
-sage: union.polytope((2,1)).vertices()
-(A vertex at (2, 1),
- A vertex at (2, 2),
- A vertex at (3, 1),
- A vertex at (3, 2))
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="field-list simple">
-<dt class="field-odd">undoc-members<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p></dd>
-<dt class="field-even">show-inheritance<span class="colon">:</span></dt>
-<dd class="field-even"><p></p></dd>
-</dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="id0">
-<span class="sig-prename descclassname"><span class="pre">pet_salon.union_generators.</span></span><span class="sig-name descname"><span class="pre">square_tiling</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union_generators.html#square_tiling"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">pet_salon.union_generators.</span></span><span class="sig-name descname"><span class="pre">square_tiling</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union_generators.html#square_tiling"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.union_generators.square_tiling" title="Link to this definition"></a></dt>
 <dd><p>Construct the square tiling in the plane as a PolytopeUnion.</p>
 <p>EXAMPLES:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sage: from pet_salon.union_generators import square_tiling

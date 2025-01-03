@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pet_salon.polytope module &mdash; pet_salon 0.0.4 documentation</title>
+  <title>pet_salon.return_map module &mdash; pet_salon 0.0.4 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
@@ -21,8 +21,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="pet_salon.return_map module" href="pet_salon.return_map.html" />
-    <link rel="prev" title="pet_salon.polyhedra module" href="pet_salon.polyhedra.html" /> 
+    <link rel="next" title="pet_salon.union module" href="pet_salon.union.html" />
+    <link rel="prev" title="pet_salon.polytope module" href="pet_salon.polytope.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -60,11 +60,11 @@
 <li class="toctree-l3"><a class="reference internal" href="pet_salon.plot.html">pet_salon.plot module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pet_salon.point.html">pet_salon.point module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pet_salon.polyhedra.html">pet_salon.polyhedra module</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">pet_salon.polytope module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#pet_salon.polytope.is_subpolytope"><code class="docutils literal notranslate"><span class="pre">is_subpolytope()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_salon.polytope.html">pet_salon.polytope module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">pet_salon.return_map module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pet_salon.return_map.ReturnMap"><code class="docutils literal notranslate"><span class="pre">ReturnMap</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="pet_salon.return_map.html">pet_salon.return_map module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pet_salon.union.html">pet_salon.union module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pet_salon.union_generators.html">pet_salon.union_generators module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pet_salon.version.html">pet_salon.version module</a></li>
@@ -90,9 +90,9 @@
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="pet_salon.html">pet_salon package</a></li>
-      <li class="breadcrumb-item active">pet_salon.polytope module</li>
+      <li class="breadcrumb-item active">pet_salon.return_map module</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/pet_salon.polytope.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/pet_salon.return_map.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -100,16 +100,35 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-pet_salon.polytope">
-<span id="pet-salon-polytope-module"></span><h1>pet_salon.polytope module<a class="headerlink" href="#module-pet_salon.polytope" title="Link to this heading"></a></h1>
+  <section id="module-pet_salon.return_map">
+<span id="pet-salon-return-map-module"></span><h1>pet_salon.return_map module<a class="headerlink" href="#module-pet_salon.return_map" title="Link to this heading"></a></h1>
 <p>Initialize self.  See help(type(self)) for accurate signature.</p>
-<dl class="py function">
-<dt class="sig sig-object py" id="pet_salon.polytope.is_subpolytope">
-<span class="sig-prename descclassname"><span class="pre">pet_salon.polytope.</span></span><span class="sig-name descname"><span class="pre">is_subpolytope</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">polytope</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">potential_subpolytope</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/polytope.html#is_subpolytope"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.polytope.is_subpolytope" title="Link to this definition"></a></dt>
-<dd><p>Return <cite>True</cite> if <cite>potential_subpolytope</cite> is contained in <cite>polytope</cite>.
-Return <cite>False</cite> otherwise.</p>
-<p>This function checks to see if all the vertices of <cite>potential_subpolytope</cite>
-are contained in <cite>polytope</cite>. It is not clear if this is the best algorithm.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pet_salon.return_map.ReturnMap">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pet_salon.return_map.</span></span><span class="sig-name descname"><span class="pre">ReturnMap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_labels</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/return_map.html#ReturnMap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.return_map.ReturnMap" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Constructing the first return map to the union of polytopes with labels in
+the list <cite>return_labels</cite>.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.return_map.ReturnMap.approximate">
+<span class="sig-name descname"><span class="pre">approximate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/return_map.html#ReturnMap.approximate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.return_map.ReturnMap.approximate" title="Link to this definition"></a></dt>
+<dd><p>Return the map which applies f up to n times to points in the the domain of
+the return map. After the first application, we only apply f to points that are
+not in the domain of the return map.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.return_map.ReturnMap.get_return_map">
+<span class="sig-name descname"><span class="pre">get_return_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/return_map.html#ReturnMap.get_return_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.return_map.ReturnMap.get_return_map" title="Link to this definition"></a></dt>
+<dd><p>Either returns <cite>(True, return_map)</cite> or <cite>(False, approximate)</cite> with <cite>n=limit</cite>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.return_map.ReturnMap.return_labels">
+<span class="sig-name descname"><span class="pre">return_labels</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/return_map.html#ReturnMap.return_labels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.return_map.ReturnMap.return_labels" title="Link to this definition"></a></dt>
+<dd><p>Return a frozenset containing the collection of labels we return to.</p>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -118,8 +137,8 @@ are contained in <cite>polytope</cite>. It is not clear if this is the best algo
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="pet_salon.polyhedra.html" class="btn btn-neutral float-left" title="pet_salon.polyhedra module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="pet_salon.return_map.html" class="btn btn-neutral float-right" title="pet_salon.return_map module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="pet_salon.polytope.html" class="btn btn-neutral float-left" title="pet_salon.polytope module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pet_salon.union.html" class="btn btn-neutral float-right" title="pet_salon.union module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

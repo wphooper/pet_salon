@@ -1,19 +1,11 @@
 pet\_salon package
 ==================
 
-Module contents
----------------
-
-.. automodule:: pet_salon
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 Submodules
 ----------
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 4
 
    pet_salon.affine
    pet_salon.collection
@@ -25,8 +17,15 @@ Submodules
    pet_salon.point
    pet_salon.polyhedra
    pet_salon.polytope
+   pet_salon.return_map
    pet_salon.union
    pet_salon.union_generators
    pet_salon.version
 
+Module contents
+---------------
 
+.. automodule:: pet_salon
+   :members:
+   :undoc-members:
+   :show-inheritance:

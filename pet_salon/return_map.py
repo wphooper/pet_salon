@@ -8,10 +8,10 @@ class ReturnMap:
         the list `return_labels`.'''
         assert f.domain().is_finite(), 'Return maps are only defined for maps with finite domains.'
         assert f.domain()==f.codomain(), 'Return maps are only defined for self maps.'
-        return_labels = set(return_labels)
+        return_labels = frozenset(return_labels)
         all_labels = set(f.domain().labels())
         assert all_labels.issuperset(return_labels), 'return labels should be a subset of all labels of f.'
-        other_labels = all_labels.difference(return_labels)
+        other_labels = frozenset(all_labels.difference(return_labels))
 
         X = f.domain()
         I = X.restrict(return_labels, mapping=True)
@@ -74,6 +74,12 @@ class ReturnMap:
         # Store some important objects
         self._G = G
         self._f_A = f_A
+        self._return_labels = return_labels
+        #self._other_labels = other_labels
+
+    def return_labels(self):
+        """Return a frozenset containing the collection of labels we return to."""
+        return self._return_labels
 
     def approximate(self, n):
         '''Return the map which applies f up to n times to points in the the domain of
@@ -84,6 +90,21 @@ class ReturnMap:
         else:
             return self._G**(n-1)*self._f_A
 
-    #def get_return_map(self, limit):
-    #    '''Return the return map of the first return map to the union of polytopes.'''
-    #    approx = self.approximate(limit)
+    def get_return_map(self, limit):
+        '''
+        Either returns `(True, return_map)` or `(False, approximate)` with `n=limit`.
+        '''
+        approx = self.approximate(limit)
+        imm = approx.immersion()
+        image_labels = set(imm.subunion_labels())
+        if image_labels.issubset(self._return_labels):
+            # make the approximate into a return map
+            codomain = imm.codomain()
+            new_codomain = codomain.restrict(self._return_labels)
+            # TODO: The return map is not always a surjective embedding!
+            SE = SurjectiveEmbeddings(new_codomain)
+            new_imm = SE(imm.domain(), imm.ambient_labels(), imm.subunion_labels())
+            return_map = new_imm * approx.affine_homeomorphism() * approx.partition()
+            return (True, return_map)
+        else:
+            return (False, approx)

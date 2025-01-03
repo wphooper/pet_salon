@@ -696,7 +696,14 @@
             <span class="nd">@cached_method</span>
             <span class="k">def</span> <span class="nf">volume</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">                </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">                Return the total volume of the collection of polytopes.</span>
+<span class="sd">                Calculate the total volume of the collection of polytopes.</span>
+
+<span class="sd">                This method iterates through all polytopes in the collection and sums their individual volumes.</span>
+
+<span class="sd">                :param limit: (Optional) A parameter to limit the calculation. Currently not used in the implementation.</span>
+<span class="sd">                :type limit: Any</span>
+<span class="sd">                :return: The total volume of all polytopes in the collection.</span>
+<span class="sd">                :rtype: Element in the base field</span>
 <span class="sd">                &#39;&#39;&#39;</span>
                 <span class="k">return</span> <span class="nb">sum</span><span class="p">([</span><span class="n">p</span><span class="o">.</span><span class="n">volume</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span><span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">polytopes</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span></div>
 

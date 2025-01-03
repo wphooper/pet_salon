@@ -20,6 +20,7 @@ from collections.abc import Mapping
 
 from sage.misc.prandom import random
 from sage.plot.colors import hue
+from sage.plot.text import text
 
 class RandomColorChooser:
     r'''Generates random colors with prechosen saturation and value.'''
@@ -97,5 +98,7 @@ def plot_polytope_union(union, *args, fill=None, point = False, line = False, **
             plt += plt2
         else:
             plt = plt2
+        plt2 = text(label, p.center(), color = "black")
+        plt += plt2
     return plt
 

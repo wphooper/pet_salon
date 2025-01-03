@@ -16,7 +16,7 @@
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="_static/documentation_options.js?v=8c5712d9"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -56,9 +56,15 @@
 <li class="toctree-l4"><a class="reference internal" href="#pet_salon.affine.AffineHomeomorphism"><code class="docutils literal notranslate"><span class="pre">AffineHomeomorphism</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pet_salon.affine.AffineHomeomorphisms"><code class="docutils literal notranslate"><span class="pre">AffineHomeomorphisms</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pet_salon.affine.AffineHomeomorphismsCategory"><code class="docutils literal notranslate"><span class="pre">AffineHomeomorphismsCategory</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">AffineHomeomorphismsCategory.ElementMethods</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5"><code class="docutils literal notranslate"><span class="pre">AffineHomeomorphismsCategory.ParentMethods</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id12"><code class="docutils literal notranslate"><span class="pre">AffineHomeomorphismsCategory.SubcategoryMethods</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pet_salon.affine.PiecewiseAffineMap"><code class="docutils literal notranslate"><span class="pre">PiecewiseAffineMap</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pet_salon.affine.PiecewiseAffineMaps"><code class="docutils literal notranslate"><span class="pre">PiecewiseAffineMaps</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pet_salon.affine.PiecewiseAffineMapsCategory"><code class="docutils literal notranslate"><span class="pre">PiecewiseAffineMapsCategory</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id13"><code class="docutils literal notranslate"><span class="pre">PiecewiseAffineMapsCategory.ElementMethods</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id23"><code class="docutils literal notranslate"><span class="pre">PiecewiseAffineMapsCategory.ParentMethods</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id30"><code class="docutils literal notranslate"><span class="pre">PiecewiseAffineMapsCategory.SubcategoryMethods</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="pet_salon.collection.html">pet_salon.collection module</a></li>
@@ -240,7 +246,7 @@ the respective <code class="docutils literal notranslate"><span class="pre">Poly
 <dl class="py method">
 <dt class="sig sig-object py" id="pet_salon.affine.AffineHomeomorphismsCategory.ParentMethods.dimension">
 <span class="sig-name descname"><span class="pre">dimension</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#AffineHomeomorphismsCategory.ParentMethods.dimension"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.affine.AffineHomeomorphismsCategory.ParentMethods.dimension" title="Link to this definition"></a></dt>
-<dd><p>Constructor for abstract methods</p>
+<dd><p>Constructor for abstract methods.</p>
 <p>EXAMPLES:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
 <span class="o">....</span><span class="p">:</span>     <span class="s2">&quot;doc of f&quot;</span>
@@ -260,7 +266,7 @@ the respective <code class="docutils literal notranslate"><span class="pre">Poly
 <dl class="py method">
 <dt class="sig sig-object py" id="pet_salon.affine.AffineHomeomorphismsCategory.ParentMethods.field">
 <span class="sig-name descname"><span class="pre">field</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#AffineHomeomorphismsCategory.ParentMethods.field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.affine.AffineHomeomorphismsCategory.ParentMethods.field" title="Link to this definition"></a></dt>
-<dd><p>Constructor for abstract methods</p>
+<dd><p>Constructor for abstract methods.</p>
 <p>EXAMPLES:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
 <span class="o">....</span><span class="p">:</span>     <span class="s2">&quot;doc of f&quot;</span>
@@ -307,7 +313,7 @@ the respective <code class="docutils literal notranslate"><span class="pre">Poly
 <dl class="py method">
 <dt class="sig sig-object py" id="pet_salon.affine.AffineHomeomorphismsCategory.ParentMethods.with_different_field">
 <span class="sig-name descname"><span class="pre">with_different_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_field</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#AffineHomeomorphismsCategory.ParentMethods.with_different_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.affine.AffineHomeomorphismsCategory.ParentMethods.with_different_field" title="Link to this definition"></a></dt>
-<dd><p>Constructor for abstract methods</p>
+<dd><p>Constructor for abstract methods.</p>
 <p>EXAMPLES:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
 <span class="o">....</span><span class="p">:</span>     <span class="s2">&quot;doc of f&quot;</span>
@@ -388,7 +394,7 @@ the respective <code class="docutils literal notranslate"><span class="pre">Poly
 <dl class="py method">
 <dt class="sig sig-object py" id="id7">
 <span class="sig-name descname"><span class="pre">dimension</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#AffineHomeomorphismsCategory.ParentMethods.dimension"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id7" title="Link to this definition"></a></dt>
-<dd><p>Constructor for abstract methods</p>
+<dd><p>Constructor for abstract methods.</p>
 <p>EXAMPLES:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
 <span class="o">....</span><span class="p">:</span>     <span class="s2">&quot;doc of f&quot;</span>
@@ -408,7 +414,7 @@ the respective <code class="docutils literal notranslate"><span class="pre">Poly
 <dl class="py method">
 <dt class="sig sig-object py" id="id8">
 <span class="sig-name descname"><span class="pre">field</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#AffineHomeomorphismsCategory.ParentMethods.field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id8" title="Link to this definition"></a></dt>
-<dd><p>Constructor for abstract methods</p>
+<dd><p>Constructor for abstract methods.</p>
 <p>EXAMPLES:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
 <span class="o">....</span><span class="p">:</span>     <span class="s2">&quot;doc of f&quot;</span>
@@ -455,7 +461,7 @@ the respective <code class="docutils literal notranslate"><span class="pre">Poly
 <dl class="py method">
 <dt class="sig sig-object py" id="id11">
 <span class="sig-name descname"><span class="pre">with_different_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_field</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#AffineHomeomorphismsCategory.ParentMethods.with_different_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id11" title="Link to this definition"></a></dt>
-<dd><p>Constructor for abstract methods</p>
+<dd><p>Constructor for abstract methods.</p>
 <p>EXAMPLES:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
 <span class="o">....</span><span class="p">:</span>     <span class="s2">&quot;doc of f&quot;</span>
@@ -602,10 +608,15 @@ affine homeomorphism. These can be adjusted with the parameters <cite>domain_kwd
 <span class="pre">domain_kwds</span> <span class="pre">=</span> <span class="pre">{'fill':False,</span> <span class="pre">'line':'black',</span> <span class="pre">'thickness':2,</span> <span class="pre">'aspect_ratio':1}</span>
 <span class="pre">aff_domain_kwds</span> <span class="pre">=</span> <span class="pre">{}</span>
 <span class="pre">`</span></code>
-The defaul <cite>domain_kwds</cite> just produce a black line of thickness one.</p>
-<p>On the right we di
-The parameters <cite>domain_kwds</cite> and <cite>codomain_kwds</cite> are passed to the <cite>plot</cite> methods of
-the respective <a href="#id13"><span class="problematic" id="id14">`</span></a>PolytopeUnion`s.</p>
+The default <cite>domain_kwds</cite> just produce a black line of thickness two bounding each polygon.</p>
+<p>On the right, we display both the codomain of the PAM and the codomain of the internal
+affine homeomorphism. These can be adjusted with the parameters <cite>codomain_kwds</cite> and
+<cite>aff_codomain_kwds</cite>, which should be dictionaries. By default:
+<code class="docutils literal notranslate"><span class="pre">`python</span>
+<span class="pre">codomain_kwds</span> <span class="pre">=</span> <span class="pre">{'fill':False,</span> <span class="pre">'line':'black',</span> <span class="pre">'thickness':2,</span> <span class="pre">'aspect_ratio':1}</span>
+<span class="pre">aff_codomain_kwds</span> <span class="pre">=</span> <span class="pre">{}</span>
+<span class="pre">`</span></code>
+Again, this just produces a black line of thickness two bounding each polygon in the codomain.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -636,7 +647,7 @@ immersion, then the original map is <cite>i*ah*p</cite>. The splitting is <cite>
 <dl class="py method">
 <dt class="sig sig-object py" id="pet_salon.affine.PiecewiseAffineMapsCategory.ParentMethods.dimension">
 <span class="sig-name descname"><span class="pre">dimension</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ParentMethods.dimension"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.affine.PiecewiseAffineMapsCategory.ParentMethods.dimension" title="Link to this definition"></a></dt>
-<dd><p>Constructor for abstract methods</p>
+<dd><p>Constructor for abstract methods.</p>
 <p>EXAMPLES:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
 <span class="o">....</span><span class="p">:</span>     <span class="s2">&quot;doc of f&quot;</span>
@@ -656,7 +667,7 @@ immersion, then the original map is <cite>i*ah*p</cite>. The splitting is <cite>
 <dl class="py method">
 <dt class="sig sig-object py" id="pet_salon.affine.PiecewiseAffineMapsCategory.ParentMethods.field">
 <span class="sig-name descname"><span class="pre">field</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ParentMethods.field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.affine.PiecewiseAffineMapsCategory.ParentMethods.field" title="Link to this definition"></a></dt>
-<dd><p>Constructor for abstract methods</p>
+<dd><p>Constructor for abstract methods.</p>
 <p>EXAMPLES:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
 <span class="o">....</span><span class="p">:</span>     <span class="s2">&quot;doc of f&quot;</span>
@@ -674,9 +685,15 @@ immersion, then the original map is <cite>i*ah*p</cite>. The splitting is <cite>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.affine.PiecewiseAffineMapsCategory.ParentMethods.trivial_piecewise_affine_map">
+<span class="sig-name descname"><span class="pre">trivial_piecewise_affine_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">union</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ParentMethods.trivial_piecewise_affine_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.affine.PiecewiseAffineMapsCategory.ParentMethods.trivial_piecewise_affine_map" title="Link to this definition"></a></dt>
+<dd><p>Return the trivial piecewise affine map of union into union.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pet_salon.affine.PiecewiseAffineMapsCategory.ParentMethods.with_different_field">
 <span class="sig-name descname"><span class="pre">with_different_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_field</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ParentMethods.with_different_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.affine.PiecewiseAffineMapsCategory.ParentMethods.with_different_field" title="Link to this definition"></a></dt>
-<dd><p>Constructor for abstract methods</p>
+<dd><p>Constructor for abstract methods.</p>
 <p>EXAMPLES:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
 <span class="o">....</span><span class="p">:</span>     <span class="s2">&quot;doc of f&quot;</span>
@@ -710,54 +727,54 @@ immersion, then the original map is <cite>i*ah*p</cite>. The splitting is <cite>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="id15">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PiecewiseAffineMapsCategory.</span></span><span class="sig-name descname"><span class="pre">ElementMethods</span></span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ElementMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id15" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id13">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PiecewiseAffineMapsCategory.</span></span><span class="sig-name descname"><span class="pre">ElementMethods</span></span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ElementMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id13" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
-<dt class="sig sig-object py" id="id16">
-<span class="sig-name descname"><span class="pre">affine_homeomorphism</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ElementMethods.affine_homeomorphism"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id16" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id14">
+<span class="sig-name descname"><span class="pre">affine_homeomorphism</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ElementMethods.affine_homeomorphism"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id14" title="Link to this definition"></a></dt>
 <dd><p>The affine homeomorphism between the partitions. This is the second step of the map.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="id15">
+<span class="sig-name descname"><span class="pre">codomain</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ElementMethods.codomain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id15" title="Link to this definition"></a></dt>
+<dd><p>The domain for the map: A polytope union.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id16">
+<span class="sig-name descname"><span class="pre">domain</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ElementMethods.domain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id16" title="Link to this definition"></a></dt>
+<dd><p>The domain for the map: A polytope union.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="id17">
-<span class="sig-name descname"><span class="pre">codomain</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ElementMethods.codomain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id17" title="Link to this definition"></a></dt>
-<dd><p>The domain for the map: A polytope union.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id18">
-<span class="sig-name descname"><span class="pre">domain</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ElementMethods.domain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id18" title="Link to this definition"></a></dt>
-<dd><p>The domain for the map: A polytope union.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id19">
-<span class="sig-name descname"><span class="pre">immersion</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ElementMethods.immersion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id19" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">immersion</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ElementMethods.immersion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id17" title="Link to this definition"></a></dt>
 <dd><p>The immersion for the map. This is the third step of the map.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id20">
-<span class="sig-name descname"><span class="pre">is_injective</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ElementMethods.is_injective"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id20" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id18">
+<span class="sig-name descname"><span class="pre">is_injective</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ElementMethods.is_injective"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id18" title="Link to this definition"></a></dt>
 <dd><p>Return <cite>True</cite> if the map is injective. <cite>False</cite> if not.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id21">
-<span class="sig-name descname"><span class="pre">is_surjective</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ElementMethods.is_surjective"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id21" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id19">
+<span class="sig-name descname"><span class="pre">is_surjective</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ElementMethods.is_surjective"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id19" title="Link to this definition"></a></dt>
 <dd><p>Return <cite>True</cite> if the map is surjective. <cite>False</cite> if not.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id22">
-<span class="sig-name descname"><span class="pre">partition</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ElementMethods.partition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id22" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id20">
+<span class="sig-name descname"><span class="pre">partition</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ElementMethods.partition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id20" title="Link to this definition"></a></dt>
 <dd><p>The domain partition for the map. This is the first step of the map.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id23">
-<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain_kwds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aff_domain_kwds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">codomain_kwds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aff_codomain_kwds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ElementMethods.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id23" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id21">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain_kwds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aff_domain_kwds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">codomain_kwds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aff_codomain_kwds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ElementMethods.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id21" title="Link to this definition"></a></dt>
 <dd><p>Return a <cite>graphics_array</cite> containing plots of the domain and codomain.</p>
 <p>On the left, we display both the domain of the PAM and the domain of the internal
 affine homeomorphism. These can be adjusted with the parameters <cite>domain_kwds</cite> and
@@ -766,15 +783,20 @@ affine homeomorphism. These can be adjusted with the parameters <cite>domain_kwd
 <span class="pre">domain_kwds</span> <span class="pre">=</span> <span class="pre">{'fill':False,</span> <span class="pre">'line':'black',</span> <span class="pre">'thickness':2,</span> <span class="pre">'aspect_ratio':1}</span>
 <span class="pre">aff_domain_kwds</span> <span class="pre">=</span> <span class="pre">{}</span>
 <span class="pre">`</span></code>
-The defaul <cite>domain_kwds</cite> just produce a black line of thickness one.</p>
-<p>On the right we di
-The parameters <cite>domain_kwds</cite> and <cite>codomain_kwds</cite> are passed to the <cite>plot</cite> methods of
-the respective <a href="#id24"><span class="problematic" id="id25">`</span></a>PolytopeUnion`s.</p>
+The default <cite>domain_kwds</cite> just produce a black line of thickness two bounding each polygon.</p>
+<p>On the right, we display both the codomain of the PAM and the codomain of the internal
+affine homeomorphism. These can be adjusted with the parameters <cite>codomain_kwds</cite> and
+<cite>aff_codomain_kwds</cite>, which should be dictionaries. By default:
+<code class="docutils literal notranslate"><span class="pre">`python</span>
+<span class="pre">codomain_kwds</span> <span class="pre">=</span> <span class="pre">{'fill':False,</span> <span class="pre">'line':'black',</span> <span class="pre">'thickness':2,</span> <span class="pre">'aspect_ratio':1}</span>
+<span class="pre">aff_codomain_kwds</span> <span class="pre">=</span> <span class="pre">{}</span>
+<span class="pre">`</span></code>
+Again, this just produces a black line of thickness two bounding each polygon in the codomain.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id26">
-<span class="sig-name descname"><span class="pre">splitting</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ElementMethods.splitting"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id26" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id22">
+<span class="sig-name descname"><span class="pre">splitting</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ElementMethods.splitting"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id22" title="Link to this definition"></a></dt>
 <dd><p>Return the map conjugated by the partition.</p>
 <p>This results in a map from the codomain of the partition into itself.</p>
 <p>If <cite>p</cite> is the parition, <cite>ah</cite> is the affine homeomorphism, and <cite>i</cite> is the
@@ -784,63 +806,69 @@ immersion, then the original map is <cite>i*ah*p</cite>. The splitting is <cite>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="id27">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PiecewiseAffineMapsCategory.</span></span><span class="sig-name descname"><span class="pre">ParentMethods</span></span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ParentMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id27" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id23">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PiecewiseAffineMapsCategory.</span></span><span class="sig-name descname"><span class="pre">ParentMethods</span></span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ParentMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id23" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
-<dt class="sig sig-object py" id="id28">
-<span class="sig-name descname"><span class="pre">affine_group</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ParentMethods.affine_group"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id28" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id24">
+<span class="sig-name descname"><span class="pre">affine_group</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ParentMethods.affine_group"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id24" title="Link to this definition"></a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id25">
+<span class="sig-name descname"><span class="pre">affine_homeomorphisms</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ParentMethods.affine_homeomorphisms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id25" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id26">
+<span class="sig-name descname"><span class="pre">dimension</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ParentMethods.dimension"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id26" title="Link to this definition"></a></dt>
+<dd><p>Constructor for abstract methods.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="o">....</span><span class="p">:</span>     <span class="s2">&quot;doc of f&quot;</span>
+<span class="o">....</span><span class="p">:</span>     <span class="k">return</span> <span class="mi">1</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">x</span> <span class="o">=</span> <span class="n">abstract_method</span><span class="p">(</span><span class="n">f</span><span class="p">);</span> <span class="n">x</span>
+<span class="o">&lt;</span><span class="n">abstract</span> <span class="n">method</span> <span class="n">f</span> <span class="n">at</span> <span class="o">...&gt;</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="vm">__doc__</span>
+<span class="s1">&#39;doc of f&#39;</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="vm">__name__</span>
+<span class="s1">&#39;f&#39;</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="vm">__module__</span>
+<span class="s1">&#39;__main__&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id27">
+<span class="sig-name descname"><span class="pre">field</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ParentMethods.field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id27" title="Link to this definition"></a></dt>
+<dd><p>Constructor for abstract methods.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="o">....</span><span class="p">:</span>     <span class="s2">&quot;doc of f&quot;</span>
+<span class="o">....</span><span class="p">:</span>     <span class="k">return</span> <span class="mi">1</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">x</span> <span class="o">=</span> <span class="n">abstract_method</span><span class="p">(</span><span class="n">f</span><span class="p">);</span> <span class="n">x</span>
+<span class="o">&lt;</span><span class="n">abstract</span> <span class="n">method</span> <span class="n">f</span> <span class="n">at</span> <span class="o">...&gt;</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="vm">__doc__</span>
+<span class="s1">&#39;doc of f&#39;</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="vm">__name__</span>
+<span class="s1">&#39;f&#39;</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="vm">__module__</span>
+<span class="s1">&#39;__main__&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id28">
+<span class="sig-name descname"><span class="pre">trivial_piecewise_affine_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">union</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ParentMethods.trivial_piecewise_affine_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id28" title="Link to this definition"></a></dt>
+<dd><p>Return the trivial piecewise affine map of union into union.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id29">
-<span class="sig-name descname"><span class="pre">affine_homeomorphisms</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ParentMethods.affine_homeomorphisms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id29" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id30">
-<span class="sig-name descname"><span class="pre">dimension</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ParentMethods.dimension"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id30" title="Link to this definition"></a></dt>
-<dd><p>Constructor for abstract methods</p>
-<p>EXAMPLES:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-<span class="o">....</span><span class="p">:</span>     <span class="s2">&quot;doc of f&quot;</span>
-<span class="o">....</span><span class="p">:</span>     <span class="k">return</span> <span class="mi">1</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">x</span> <span class="o">=</span> <span class="n">abstract_method</span><span class="p">(</span><span class="n">f</span><span class="p">);</span> <span class="n">x</span>
-<span class="o">&lt;</span><span class="n">abstract</span> <span class="n">method</span> <span class="n">f</span> <span class="n">at</span> <span class="o">...&gt;</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="vm">__doc__</span>
-<span class="s1">&#39;doc of f&#39;</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="vm">__name__</span>
-<span class="s1">&#39;f&#39;</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="vm">__module__</span>
-<span class="s1">&#39;__main__&#39;</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id31">
-<span class="sig-name descname"><span class="pre">field</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ParentMethods.field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id31" title="Link to this definition"></a></dt>
-<dd><p>Constructor for abstract methods</p>
-<p>EXAMPLES:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-<span class="o">....</span><span class="p">:</span>     <span class="s2">&quot;doc of f&quot;</span>
-<span class="o">....</span><span class="p">:</span>     <span class="k">return</span> <span class="mi">1</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">x</span> <span class="o">=</span> <span class="n">abstract_method</span><span class="p">(</span><span class="n">f</span><span class="p">);</span> <span class="n">x</span>
-<span class="o">&lt;</span><span class="n">abstract</span> <span class="n">method</span> <span class="n">f</span> <span class="n">at</span> <span class="o">...&gt;</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="vm">__doc__</span>
-<span class="s1">&#39;doc of f&#39;</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="vm">__name__</span>
-<span class="s1">&#39;f&#39;</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="vm">__module__</span>
-<span class="s1">&#39;__main__&#39;</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id32">
-<span class="sig-name descname"><span class="pre">with_different_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_field</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ParentMethods.with_different_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id32" title="Link to this definition"></a></dt>
-<dd><p>Constructor for abstract methods</p>
+<span class="sig-name descname"><span class="pre">with_different_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_field</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ParentMethods.with_different_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id29" title="Link to this definition"></a></dt>
+<dd><p>Constructor for abstract methods.</p>
 <p>EXAMPLES:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
 <span class="o">....</span><span class="p">:</span>     <span class="s2">&quot;doc of f&quot;</span>
@@ -860,8 +888,8 @@ immersion, then the original map is <cite>i*ah*p</cite>. The splitting is <cite>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="id33">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PiecewiseAffineMapsCategory.</span></span><span class="sig-name descname"><span class="pre">SubcategoryMethods</span></span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.SubcategoryMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id33" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id30">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PiecewiseAffineMapsCategory.</span></span><span class="sig-name descname"><span class="pre">SubcategoryMethods</span></span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.SubcategoryMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id30" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 </dd></dl>
 

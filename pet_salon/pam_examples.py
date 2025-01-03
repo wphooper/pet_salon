@@ -89,6 +89,37 @@ def integer_multiplication(dimension, field, k):
     return pet
 
 class CombinatorialConvexPolygonTriangulation:
+    """
+    A class to represent a combinatorial convex polygon triangulation.
+
+    Attributes
+    ----------
+    _n : int
+        The number of vertices of the polygon being triangulated.
+    _triangles : set
+        A set of frozensets, each containing three indices representing a triangle.
+    _edges : set
+        A set of frozensets, each containing two indices representing an edge.
+
+    Methods
+    -------
+    __init__(n, triangles=None, edges=None):
+        Initializes the triangulation with n vertices, and optionally with given triangles and edges.
+    n():
+        Returns the number of vertices of the polygon being triangulated.
+    triangles():
+        Returns the collection of triples of indices of vertices forming the triangles.
+    edges():
+        Returns the collection of pairs of indices of vertices forming the edges.
+    flip(edge=None):
+        Flips the given edge (or a random edge if none is provided) in the triangulation.
+    surjective_embedding(vertices):
+        Returns the surjective embedding associated with this triangulation of a polygon with the provided vertices.
+    partition(vertices):
+        Returns the partition associated with this triangulation of a polygon with the provided vertices.
+    image(vertex_action):
+        Returns the image of this triangulation under the provided vertex action.
+    """
     def __init__(self, n, triangles = None, edges = None):
         assert n >= 3
         self._n = n
@@ -155,7 +186,7 @@ class CombinatorialConvexPolygonTriangulation:
         r'''
         Return the surjective embedding associated to this triangulation of a polygon with the provided `vertices`, a list in cyclic order.
         '''
-        P = PolytopeUnions(2, QQ)
+        P = PolytopeUnions(2, vertices[0].parent().base_ring())
         codomain = P(Polyhedron(vertices=vertices))
         SE = SurjectiveEmbeddings(codomain)
         return SE(P({ i : Polyhedron(vertices={vertices[a], vertices[b], vertices[c]}) for i, (a,b,c) in enumerate(self.triangles())}))

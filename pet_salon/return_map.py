@@ -75,16 +75,6 @@ class ReturnMap:
         self._G = G
         self._f_A = f_A
 
-    @cached_method
-    def _g_power(self, n):
-        if n==1:
-            return self._G
-        if n%2 == 0:
-            rt = self._g_power(n/2)
-            return rt*rt
-        if n%2 == 1:
-            return self._G * self._g_power(n-1)
-
     def approximate(self, n):
         '''Return the map which applies f up to n times to points in the the domain of
         the return map. After the first application, we only apply f to points that are
@@ -92,4 +82,8 @@ class ReturnMap:
         if n==1:
             return self._f_A
         else:
-            return self._g_power(n-1)*self._f_A
+            return self._G**(n-1)*self._f_A
+
+    #def get_return_map(self, limit):
+    #    '''Return the return map of the first return map to the union of polytopes.'''
+    #    approx = self.approximate(limit)

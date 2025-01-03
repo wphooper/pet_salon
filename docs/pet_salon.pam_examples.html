@@ -16,7 +16,7 @@
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="_static/documentation_options.js?v=8c5712d9"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
@@ -110,6 +110,38 @@
 <dt class="sig sig-object py" id="pet_salon.pam_examples.CombinatorialConvexPolygonTriangulation">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pet_salon.pam_examples.</span></span><span class="sig-name descname"><span class="pre">CombinatorialConvexPolygonTriangulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">triangles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/pam_examples.html#CombinatorialConvexPolygonTriangulation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.pam_examples.CombinatorialConvexPolygonTriangulation" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class to represent a combinatorial convex polygon triangulation.</p>
+<section id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>_n<span class="classifier">int</span></dt><dd><p>The number of vertices of the polygon being triangulated.</p>
+</dd>
+<dt>_triangles<span class="classifier">set</span></dt><dd><p>A set of frozensets, each containing three indices representing a triangle.</p>
+</dd>
+<dt>_edges<span class="classifier">set</span></dt><dd><p>A set of frozensets, each containing two indices representing an edge.</p>
+</dd>
+</dl>
+</section>
+<section id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>__init__(n, triangles=None, edges=None):</dt><dd><p>Initializes the triangulation with n vertices, and optionally with given triangles and edges.</p>
+</dd>
+<dt>n():</dt><dd><p>Returns the number of vertices of the polygon being triangulated.</p>
+</dd>
+<dt>triangles():</dt><dd><p>Returns the collection of triples of indices of vertices forming the triangles.</p>
+</dd>
+<dt>edges():</dt><dd><p>Returns the collection of pairs of indices of vertices forming the edges.</p>
+</dd>
+<dt>flip(edge=None):</dt><dd><p>Flips the given edge (or a random edge if none is provided) in the triangulation.</p>
+</dd>
+<dt>surjective_embedding(vertices):</dt><dd><p>Returns the surjective embedding associated with this triangulation of a polygon with the provided vertices.</p>
+</dd>
+<dt>partition(vertices):</dt><dd><p>Returns the partition associated with this triangulation of a polygon with the provided vertices.</p>
+</dd>
+<dt>image(vertex_action):</dt><dd><p>Returns the image of this triangulation under the provided vertex action.</p>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="pet_salon.pam_examples.CombinatorialConvexPolygonTriangulation.edges">
 <span class="sig-name descname"><span class="pre">edges</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/pam_examples.html#CombinatorialConvexPolygonTriangulation.edges"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.pam_examples.CombinatorialConvexPolygonTriangulation.edges" title="Link to this definition"></a></dt>
@@ -153,6 +185,7 @@
 <dd><p>Return the collection of triples of indices of vertices forming the triangles.</p>
 </dd></dl>
 
+</section>
 </dd></dl>
 
 <dl class="py function">
@@ -185,7 +218,7 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pet_salon.pam_examples.polygon_triangulation_mapping">
-<span class="sig-prename descclassname"><span class="pre">pet_salon.pam_examples.</span></span><span class="sig-name descname"><span class="pre">polygon_triangulation_mapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vertices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">triangles</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vertex_action=&lt;function</span> <span class="pre">&lt;lambda&gt;</span> <span class="pre">at</span> <span class="pre">0x7f25511fb380&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/pam_examples.html#polygon_triangulation_mapping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.pam_examples.polygon_triangulation_mapping" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">pet_salon.pam_examples.</span></span><span class="sig-name descname"><span class="pre">polygon_triangulation_mapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vertices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">triangles</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vertex_action=&lt;function</span> <span class="pre">&lt;lambda&gt;</span> <span class="pre">at</span> <span class="pre">0x7f7f78d0e660&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/pam_examples.html#polygon_triangulation_mapping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.pam_examples.polygon_triangulation_mapping" title="Link to this definition"></a></dt>
 <dd><p>Return a Piecewise Affine Mapping of a convex n-gon that acts affinely on each triangle in a triangulation.</p>
 <p>Parameters determine the convex n-gon, a triangulation of it, and a (dihedral) action on vertices.</p>
 <dl class="field-list simple">
@@ -202,7 +235,7 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pet_salon.pam_examples.quadrilateral_map">
-<span class="sig-prename descclassname"><span class="pre">pet_salon.pam_examples.</span></span><span class="sig-name descname"><span class="pre">quadrilateral_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vertices_or_vertex</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vertex_action=&lt;function</span> <span class="pre">&lt;lambda&gt;</span> <span class="pre">at</span> <span class="pre">0x7f25511f9c60&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_triangulation=0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/pam_examples.html#quadrilateral_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.pam_examples.quadrilateral_map" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">pet_salon.pam_examples.</span></span><span class="sig-name descname"><span class="pre">quadrilateral_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vertices_or_vertex</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vertex_action=&lt;function</span> <span class="pre">&lt;lambda&gt;</span> <span class="pre">at</span> <span class="pre">0x7f7f78d0eca0&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_triangulation=0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/pam_examples.html#quadrilateral_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.pam_examples.quadrilateral_map" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </section>

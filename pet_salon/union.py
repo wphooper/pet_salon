@@ -516,7 +516,14 @@ class PolytopeUnionsCategory(Category):
             @cached_method
             def volume(self, limit=None):
                 r'''
-                Return the total volume of the collection of polytopes.
+                Calculate the total volume of the collection of polytopes.
+
+                This method iterates through all polytopes in the collection and sums their individual volumes.
+
+                :param limit: (Optional) A parameter to limit the calculation. Currently not used in the implementation.
+                :type limit: Any
+                :return: The total volume of all polytopes in the collection.
+                :rtype: Element in the base field
                 '''
                 return sum([p.volume() for _,p in self.polytopes().items()])
 

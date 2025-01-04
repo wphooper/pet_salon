@@ -377,7 +377,47 @@
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">TestSuite</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">codomain</span><span class="p">())</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">catch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">raise_on_failure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The codomain has an error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+                <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The codomain has an error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="AffineHomeomorphismsCategory.ElementMethods.relabel">
+<a class="viewcode-back" href="../../pet_salon.affine.html#pet_salon.affine.AffineHomeomorphismsCategory.ElementMethods.relabel">[docs]</a>
+        <span class="k">def</span> <span class="nf">relabel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">relabel_dict</span><span class="p">,</span> <span class="n">mappings</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Return a new affine homeomorphism with the labels relabeled.</span>
+
+<span class="sd">            The relabeling is done by the dictionary `relabel_dict`. By default only the affine homeomorphism</span>
+<span class="sd">            is returned. If `mappings` is `True`, then a triple is returned consisting the relabeled affine homeomorphism,</span>
+<span class="sd">            the mapping that relabels the domain, and the mapping that relabels the codomain. If `name` is provided,</span>
+<span class="sd">            the new affine homeomorphism will be given the name `name`.</span>
+
+<span class="sd">            EXAMPLES::</span>
+
+<span class="sd">            sage: from pet_salon.pam_examples import integer_multiplication</span>
+<span class="sd">            sage: g = integer_multiplication(3, QQ, 2)</span>
+<span class="sd">            sage: ah = g.affine_homeomorphism()</span>
+<span class="sd">            sage: relabel_dict = {i:chr(96+i) for i in range(1, 9)}</span>
+<span class="sd">            sage: relabel_dict</span>
+<span class="sd">            {1: &#39;a&#39;, 2: &#39;b&#39;, 3: &#39;c&#39;, 4: &#39;d&#39;, 5: &#39;e&#39;, 6: &#39;f&#39;, 7: &#39;g&#39;, 8: &#39;h&#39;}</span>
+<span class="sd">            sage: relabeled_ah = ah.relabel(relabel_dict)</span>
+<span class="sd">            sage: list(relabeled_ah.domain().labels())</span>
+<span class="sd">            [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;, &#39;f&#39;, &#39;g&#39;, &#39;h&#39;]</span>
+<span class="sd">            sage: relabeled_ah, a, b = ah.relabel(relabel_dict, mappings=True, name=&#39;x&#39;)</span>
+<span class="sd">            sage: relabeled_ah</span>
+<span class="sd">            x</span>
+<span class="sd">            sage: relabeled_ah*a == b*ah</span>
+<span class="sd">            True</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span><span class="o">.</span><span class="n">is_finite</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;Relabeling is only implemented for finite unions.&#39;</span><span class="p">)</span>
+            <span class="n">domain_mapping</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span><span class="o">.</span><span class="n">relabel</span><span class="p">(</span><span class="n">relabel_dict</span><span class="p">,</span> <span class="n">mapping</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">codomain_mapping</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span><span class="o">.</span><span class="n">relabel</span><span class="p">(</span><span class="n">relabel_dict</span><span class="p">,</span> <span class="n">mapping</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">affine_mapping</span> <span class="o">=</span> <span class="p">{</span><span class="n">relabel_dict</span><span class="p">[</span><span class="n">label</span><span class="p">]:</span> <span class="n">aff</span> <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">aff</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">affine_mapping</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+            <span class="n">ah</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()(</span><span class="n">domain_mapping</span><span class="o">.</span><span class="n">codomain</span><span class="p">(),</span> <span class="n">affine_mapping</span><span class="p">,</span> <span class="n">codomain_mapping</span><span class="o">.</span><span class="n">codomain</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">mappings</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">ah</span><span class="p">,</span> <span class="n">domain_mapping</span><span class="p">,</span> <span class="n">codomain_mapping</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">ah</span></div>
+</div>
 </div>
 
 

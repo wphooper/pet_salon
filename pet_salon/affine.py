@@ -260,6 +260,43 @@ class AffineHomeomorphismsCategory(Category):
             except Exception as e:
                 raise AssertionError(f'The codomain has an error: {e}')
 
+        def relabel(self, relabel_dict, mappings=False, name=None):
+            r'''
+            Return a new affine homeomorphism with the labels relabeled.
+
+            The relabeling is done by the dictionary `relabel_dict`. By default only the affine homeomorphism
+            is returned. If `mappings` is `True`, then a triple is returned consisting the relabeled affine homeomorphism,
+            the mapping that relabels the domain, and the mapping that relabels the codomain. If `name` is provided,
+            the new affine homeomorphism will be given the name `name`.
+
+            EXAMPLES::
+
+            sage: from pet_salon.pam_examples import integer_multiplication
+            sage: g = integer_multiplication(3, QQ, 2)
+            sage: ah = g.affine_homeomorphism()
+            sage: relabel_dict = {i:chr(96+i) for i in range(1, 9)}
+            sage: relabel_dict
+            {1: 'a', 2: 'b', 3: 'c', 4: 'd', 5: 'e', 6: 'f', 7: 'g', 8: 'h'}
+            sage: relabeled_ah = ah.relabel(relabel_dict)
+            sage: list(relabeled_ah.domain().labels())
+            ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
+            sage: relabeled_ah, a, b = ah.relabel(relabel_dict, mappings=True, name='x')
+            sage: relabeled_ah
+            x
+            sage: relabeled_ah*a == b*ah
+            True
+            '''
+            if not self.domain().is_finite():
+                raise NotImplementedError('Relabeling is only implemented for finite unions.')
+            domain_mapping = self.domain().relabel(relabel_dict, mapping=True)
+            codomain_mapping = self.codomain().relabel(relabel_dict, mapping=True)
+            affine_mapping = {relabel_dict[label]: aff for label, aff in self.affine_mapping().items()}
+            ah = self.parent()(domain_mapping.codomain(), affine_mapping, codomain_mapping.codomain(), name=name)
+            if mappings:
+                return ah, domain_mapping, codomain_mapping
+            else:
+                return ah
+
 class AffineHomeomorphism(Element):
     r'''
     EXAMPLES::

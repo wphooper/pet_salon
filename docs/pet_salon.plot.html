@@ -58,7 +58,10 @@
 <li class="toctree-l3"><a class="reference internal" href="pet_salon.orbit.html">pet_salon.orbit module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pet_salon.pam_examples.html">pet_salon.pam_examples module</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">pet_salon.plot module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pet_salon.plot.ColorChooser"><code class="docutils literal notranslate"><span class="pre">ColorChooser</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pet_salon.plot.DeclareColorChooser"><code class="docutils literal notranslate"><span class="pre">DeclareColorChooser</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pet_salon.plot.RandomColorChooser"><code class="docutils literal notranslate"><span class="pre">RandomColorChooser</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pet_salon.plot.RotationIntegerColorChooser"><code class="docutils literal notranslate"><span class="pre">RotationIntegerColorChooser</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pet_salon.plot.get_color"><code class="docutils literal notranslate"><span class="pre">get_color()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pet_salon.plot.plot_polytope_union"><code class="docutils literal notranslate"><span class="pre">plot_polytope_union()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pet_salon.plot.set_color"><code class="docutils literal notranslate"><span class="pre">set_color()</span></code></a></li>
@@ -105,22 +108,80 @@
              
   <section id="module-pet_salon.plot">
 <span id="pet-salon-plot-module"></span><h1>pet_salon.plot module<a class="headerlink" href="#module-pet_salon.plot" title="Link to this heading"></a></h1>
-<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+<p>This module provides functionality for choosing colors for labels in plots.</p>
+<p>A <cite>ColorChooser</cite> is a function or class that takes as input a label and returns a color. 
+Color choosers are allowed to fail, instead raising a <cite>ValueError</cite> or <cite>TypeError</cite>.</p>
+<p>This module maintains a list of color choosers in the module variable <cite>COLOR_CHOOSERS</cite>. The 
+<cite>get_color</cite> method simply goes through the color choosers in <cite>COLOR_CHOOSERS</cite> in order
+and returns the color returned by the first successful application of a color choser to this
+label.</p>
+<p>To explicitly select a color for a label, use the <cite>set_color</cite> method, which makes use of the
+<cite>DECLARE_COLOR_CHOOSER</cite> instance of the <cite>DeclareColorChooser</cite> class.</p>
+<dl class="simple">
+<dt>Classes:</dt><dd><ul class="simple">
+<li><p>DeclareColorChooser: Allows explicit color assignment for each label.</p></li>
+<li><p>RotationIntegerColorChooser: Generates colors for integer labels using a rotation and hue.</p></li>
+<li><p>RandomColorChooser: Generates random colors with predefined saturation and value.</p></li>
+</ul>
+</dd>
+</dl>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon.plot</span> <span class="kn">import</span> <span class="n">COLOR_CHOOSERS</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">COLOR_CHOOSERS</span>
+<span class="p">[</span><span class="n">DeclareColorChooser</span><span class="p">,</span>
+<span class="n">RotationIntegerColorChooser</span><span class="p">(</span><span class="n">s</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mf">0.6180339887498949</span><span class="p">),</span>
+<span class="n">RandomColorChooser</span><span class="p">(</span><span class="n">s</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
+
+<span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon.plot</span> <span class="kn">import</span> <span class="n">get_color</span><span class="p">,</span> <span class="n">set_color</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">get_color</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">set_color</span><span class="p">(</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">get_color</span><span class="p">(</span><span class="s1">&#39;g&#39;</span><span class="p">)</span>
+<span class="s1">&#39;green&#39;</span>
+
+<span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon.plot</span> <span class="kn">import</span> <span class="n">ROTATION_INTEGER_COLOR_CHOOSER</span>
+<span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">sage.misc.functional</span> <span class="kn">import</span> <span class="n">sqrt</span>
+<span class="n">sage</span><span class="p">:</span> <span class="c1"># Use colors as bright as possible with a rotation by sqrt(2)-1:</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">ROTATION_INTEGER_COLOR_CHOOSER</span><span class="o">.</span><span class="n">change_parameters</span><span class="p">(</span><span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">get_color</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="pet_salon.plot.ColorChooser">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pet_salon.plot.</span></span><span class="sig-name descname"><span class="pre">ColorChooser</span></span><a class="reference internal" href="_modules/pet_salon/plot.html#ColorChooser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.plot.ColorChooser" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Abstract class to choose a color for a provided label.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pet_salon.plot.DeclareColorChooser">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pet_salon.plot.</span></span><span class="sig-name descname"><span class="pre">DeclareColorChooser</span></span><a class="reference internal" href="_modules/pet_salon/plot.html#DeclareColorChooser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.plot.DeclareColorChooser" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pet_salon.plot.ColorChooser" title="pet_salon.plot.ColorChooser"><code class="xref py py-class docutils literal notranslate"><span class="pre">ColorChooser</span></code></a></p>
+<p>This chooser lets the programmer explicitly choose a color for each label.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.plot.DeclareColorChooser.set">
+<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/plot.html#DeclareColorChooser.set"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.plot.DeclareColorChooser.set" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="pet_salon.plot.RandomColorChooser">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pet_salon.plot.</span></span><span class="sig-name descname"><span class="pre">RandomColorChooser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/plot.html#RandomColorChooser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.plot.RandomColorChooser" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="#pet_salon.plot.ColorChooser" title="pet_salon.plot.ColorChooser"><code class="xref py py-class docutils literal notranslate"><span class="pre">ColorChooser</span></code></a></p>
 <p>Generates random colors with prechosen saturation and value.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="pet_salon.plot.RandomColorChooser.change_parameters">
-<span class="sig-name descname"><span class="pre">change_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/plot.html#RandomColorChooser.change_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.plot.RandomColorChooser.change_parameters" title="Link to this definition"></a></dt>
-<dd><p>Change the saturation to <cite>s</cite> and the value to <cite>v</cite>.</p>
 </dd></dl>
 
+<dl class="py class">
+<dt class="sig sig-object py" id="pet_salon.plot.RotationIntegerColorChooser">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pet_salon.plot.</span></span><span class="sig-name descname"><span class="pre">RotationIntegerColorChooser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/plot.html#RotationIntegerColorChooser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.plot.RotationIntegerColorChooser" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pet_salon.plot.ColorChooser" title="pet_salon.plot.ColorChooser"><code class="xref py py-class docutils literal notranslate"><span class="pre">ColorChooser</span></code></a></p>
+<p>Generates colors for integer labels using a rotation and hue.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="pet_salon.plot.RandomColorChooser.get">
-<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/plot.html#RandomColorChooser.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.plot.RandomColorChooser.get" title="Link to this definition"></a></dt>
-<dd><p>Generate a random color.</p>
+<dt class="sig sig-object py" id="pet_salon.plot.RotationIntegerColorChooser.change_parameters">
+<span class="sig-name descname"><span class="pre">change_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/plot.html#RotationIntegerColorChooser.change_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.plot.RotationIntegerColorChooser.change_parameters" title="Link to this definition"></a></dt>
+<dd><p>Change the saturation to <cite>s</cite> and the value to <cite>v</cite>.</p>
 </dd></dl>
 
 </dd></dl>
@@ -129,6 +190,12 @@
 <dt class="sig sig-object py" id="pet_salon.plot.get_color">
 <span class="sig-prename descclassname"><span class="pre">pet_salon.plot.</span></span><span class="sig-name descname"><span class="pre">get_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/plot.html#get_color"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.plot.get_color" title="Link to this definition"></a></dt>
 <dd><p>Get a color associated to a label.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon.plot</span> <span class="kn">import</span> <span class="n">get_color</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">get_color</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py function">
@@ -162,6 +229,13 @@ colors can be chosen for each polytope in the union.</p>
 <dt class="sig sig-object py" id="pet_salon.plot.set_color">
 <span class="sig-prename descclassname"><span class="pre">pet_salon.plot.</span></span><span class="sig-name descname"><span class="pre">set_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/plot.html#set_color"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.plot.set_color" title="Link to this definition"></a></dt>
 <dd><p>Set the color associated to a label to the provided color.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon.plot</span> <span class="kn">import</span> <span class="n">get_color</span><span class="p">,</span> <span class="n">set_color</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">set_color</span><span class="p">(</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">get_color</span><span class="p">(</span><span class="s1">&#39;g&#39;</span><span class="p">)</span>
+<span class="s1">&#39;green&#39;</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </section>

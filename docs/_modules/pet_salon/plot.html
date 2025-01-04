@@ -77,7 +77,7 @@
 <span></span><span class="c1"># ********************************************************************</span>
 <span class="c1">#  This file is part of pet_salon.</span>
 <span class="c1">#</span>
-<span class="c1">#        Copyright (C) 2024 W. Patrick Hooper</span>
+<span class="c1">#        Copyright (C) 2024-2025 W. Patrick Hooper</span>
 <span class="c1">#</span>
 <span class="c1">#  pet_salon is free software: you can redistribute it and/or modify</span>
 <span class="c1">#  it under the terms of the GNU General Public License as published by</span>
@@ -92,15 +92,102 @@
 <span class="c1">#  You should have received a copy of the GNU General Public License</span>
 <span class="c1">#  along with pet_salon. If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
 <span class="c1"># ********************************************************************</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">This module provides functionality for choosing colors for labels in plots.</span>
+
+<span class="sd">A `ColorChooser` is a function or class that takes as input a label and returns a color. </span>
+<span class="sd">Color choosers are allowed to fail, instead raising a `ValueError` or `TypeError`.</span>
+
+<span class="sd">This module maintains a list of color choosers in the module variable `COLOR_CHOOSERS`. The </span>
+<span class="sd">`get_color` method simply goes through the color choosers in `COLOR_CHOOSERS` in order</span>
+<span class="sd">and returns the color returned by the first successful application of a color choser to this</span>
+<span class="sd">label.</span>
+
+<span class="sd">To explicitly select a color for a label, use the `set_color` method, which makes use of the</span>
+<span class="sd">`DECLARE_COLOR_CHOOSER` instance of the `DeclareColorChooser` class.</span>
+
+<span class="sd">Classes:</span>
+<span class="sd">    - DeclareColorChooser: Allows explicit color assignment for each label.</span>
+<span class="sd">    - RotationIntegerColorChooser: Generates colors for integer labels using a rotation and hue.</span>
+<span class="sd">    - RandomColorChooser: Generates random colors with predefined saturation and value.</span>
+
+<span class="sd">EXAMPLES::</span>
+
+<span class="sd">    sage: from pet_salon.plot import COLOR_CHOOSERS</span>
+<span class="sd">    sage: COLOR_CHOOSERS</span>
+<span class="sd">    [DeclareColorChooser,</span>
+<span class="sd">    RotationIntegerColorChooser(s=0.75, v=1, r=0.6180339887498949),</span>
+<span class="sd">    RandomColorChooser(s=0.75, v=1)]</span>
+
+<span class="sd">    sage: from pet_salon.plot import get_color, set_color</span>
+<span class="sd">    sage: get_color(0)</span>
+<span class="sd">    (1.0, 0.25, 0.25)</span>
+<span class="sd">    sage: set_color(&#39;g&#39;, &#39;green&#39;)</span>
+<span class="sd">    sage: get_color(&#39;g&#39;)</span>
+<span class="sd">    &#39;green&#39;</span>
+
+<span class="sd">    sage: from pet_salon.plot import ROTATION_INTEGER_COLOR_CHOOSER</span>
+<span class="sd">    sage: from sage.misc.functional import sqrt</span>
+<span class="sd">    sage: # Use colors as bright as possible with a rotation by sqrt(2)-1:</span>
+<span class="sd">    sage: ROTATION_INTEGER_COLOR_CHOOSER.change_parameters(s=1, v=1, r=sqrt(2)-1)</span>
+<span class="sd">    sage: get_color(0)</span>
+<span class="sd">    (1.0, 0.0, 0.0)</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
 <span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Mapping</span>
 
+<span class="kn">from</span> <span class="nn">sage.functions.other</span> <span class="kn">import</span> <span class="n">floor</span>
+<span class="kn">from</span> <span class="nn">sage.misc.abstract_method</span> <span class="kn">import</span> <span class="n">abstract_method</span>
+<span class="kn">from</span> <span class="nn">sage.misc.cachefunc</span> <span class="kn">import</span> <span class="n">cached_method</span>
 <span class="kn">from</span> <span class="nn">sage.misc.prandom</span> <span class="kn">import</span> <span class="n">random</span>
 <span class="kn">from</span> <span class="nn">sage.plot.colors</span> <span class="kn">import</span> <span class="n">hue</span>
 <span class="kn">from</span> <span class="nn">sage.plot.text</span> <span class="kn">import</span> <span class="n">text</span>
+<span class="kn">from</span> <span class="nn">sage.rings.real_double</span> <span class="kn">import</span> <span class="n">RDF</span>
+<span class="kn">from</span> <span class="nn">sage.rings.integer_ring</span> <span class="kn">import</span> <span class="n">ZZ</span>
+<span class="kn">from</span> <span class="nn">sage.symbolic.constants</span> <span class="kn">import</span> <span class="n">golden_ratio</span>
+
+<div class="viewcode-block" id="ColorChooser">
+<a class="viewcode-back" href="../../pet_salon.plot.html#pet_salon.plot.ColorChooser">[docs]</a>
+<span class="k">class</span> <span class="nc">ColorChooser</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;Abstract class to choose a color for a provided label.&#39;&#39;&#39;</span>
+    
+    <span class="nd">@abstract_method</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Return a choice of a color for the provided label.</span>
+<span class="sd">        </span>
+<span class="sd">        If there is no way to choose a color, a `TypeError` or `ValueError` should be raised.&#39;&#39;&#39;</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="DeclareColorChooser">
+<a class="viewcode-back" href="../../pet_salon.plot.html#pet_salon.plot.DeclareColorChooser">[docs]</a>
+<span class="k">class</span> <span class="nc">DeclareColorChooser</span><span class="p">(</span><span class="n">ColorChooser</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;This chooser lets the programmer explicitly choose a color for each label.&#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_label_to_color</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+<div class="viewcode-block" id="DeclareColorChooser.set">
+<a class="viewcode-back" href="../../pet_salon.plot.html#pet_salon.plot.DeclareColorChooser.set">[docs]</a>
+    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_label_to_color</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">color</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_label_to_color</span><span class="p">[</span><span class="n">label</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Color for label not yet declared.&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;DeclareColorChooser&#39;</span></div>
+
+
+<span class="n">DECLARE_COLOR_CHOOSER</span> <span class="o">=</span> <span class="n">DeclareColorChooser</span><span class="p">()</span>
 
 <div class="viewcode-block" id="RandomColorChooser">
 <a class="viewcode-back" href="../../pet_salon.plot.html#pet_salon.plot.RandomColorChooser">[docs]</a>
-<span class="k">class</span> <span class="nc">RandomColorChooser</span><span class="p">:</span>
+<span class="k">class</span> <span class="nc">RandomColorChooser</span><span class="p">(</span><span class="n">ColorChooser</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Generates random colors with prechosen saturation and value.&#39;&#39;&#39;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
@@ -108,43 +195,90 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_s</span> <span class="o">=</span> <span class="n">s</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_v</span> <span class="o">=</span> <span class="n">v</span>
 
-<div class="viewcode-block" id="RandomColorChooser.change_parameters">
-<a class="viewcode-back" href="../../pet_salon.plot.html#pet_salon.plot.RandomColorChooser.change_parameters">[docs]</a>
-    <span class="k">def</span> <span class="nf">change_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+    <span class="nd">@cached_method</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Generate a random color.&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">hue</span><span class="p">(</span><span class="n">random</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_s</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_v</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;RandomColorChooser(s=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_s</span><span class="si">}</span><span class="s1">, v=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_v</span><span class="si">}</span><span class="s1">)&#39;</span></div>
+
+
+
+<div class="viewcode-block" id="RotationIntegerColorChooser">
+<a class="viewcode-back" href="../../pet_salon.plot.html#pet_salon.plot.RotationIntegerColorChooser">[docs]</a>
+<span class="k">class</span> <span class="nc">RotationIntegerColorChooser</span><span class="p">(</span><span class="n">ColorChooser</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Generates colors for integer labels using a rotation and hue.&#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Construct a random color chooser with the provided saturation `s` and value `v`,</span>
+<span class="sd">        and rotation given by `r` modulo one.&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_s</span> <span class="o">=</span> <span class="n">s</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_v</span> <span class="o">=</span> <span class="n">v</span>
+        <span class="k">if</span> <span class="n">r</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_r</span> <span class="o">=</span> <span class="n">RDF</span><span class="p">(</span><span class="n">golden_ratio</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_r</span> <span class="o">=</span> <span class="n">RDF</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+
+<div class="viewcode-block" id="RotationIntegerColorChooser.change_parameters">
+<a class="viewcode-back" href="../../pet_salon.plot.html#pet_salon.plot.RotationIntegerColorChooser.change_parameters">[docs]</a>
+    <span class="k">def</span> <span class="nf">change_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Change the saturation to `s` and the value to `v`.&#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_s</span> <span class="o">=</span> <span class="n">s</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_v</span> <span class="o">=</span> <span class="n">v</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_v</span> <span class="o">=</span> <span class="n">v</span>
+        <span class="k">if</span> <span class="n">r</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_r</span> <span class="o">=</span> <span class="n">RDF</span><span class="p">(</span><span class="n">r</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="RandomColorChooser.get">
-<a class="viewcode-back" href="../../pet_salon.plot.html#pet_salon.plot.RandomColorChooser.get">[docs]</a>
-    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">integer_label</span><span class="p">):</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Generate a random color.&#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="n">hue</span><span class="p">(</span><span class="n">random</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_s</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_v</span><span class="p">)</span></div>
-</div>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">ZZ</span><span class="p">(</span><span class="n">integer_label</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_r</span>
+        <span class="k">return</span> <span class="n">hue</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">floor</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_s</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_v</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;RotationIntegerColorChooser(s=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_s</span><span class="si">}</span><span class="s1">, v=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_v</span><span class="si">}</span><span class="s1">, r=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_r</span><span class="si">}</span><span class="s1">)&#39;</span></div>
 
 
-<span class="n">label_random_color_chooser</span> <span class="o">=</span> <span class="n">RandomColorChooser</span><span class="p">(</span><span class="n">s</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ROTATION_INTEGER_COLOR_CHOOSER</span> <span class="o">=</span> <span class="n">RotationIntegerColorChooser</span><span class="p">(</span><span class="n">s</span><span class="o">=</span><span class="mf">0.75</span><span class="p">)</span>
 
-<span class="n">_label_to_color</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">COLOR_CHOOSERS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">DECLARE_COLOR_CHOOSER</span><span class="p">,</span>
+    <span class="n">ROTATION_INTEGER_COLOR_CHOOSER</span><span class="p">,</span>
+    <span class="n">RandomColorChooser</span><span class="p">(</span><span class="n">s</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+<span class="p">]</span>
 
 <div class="viewcode-block" id="get_color">
 <a class="viewcode-back" href="../../pet_salon.plot.html#pet_salon.plot.get_color">[docs]</a>
 <span class="k">def</span> <span class="nf">get_color</span><span class="p">(</span><span class="n">label</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Get a color associated to a label.&#39;&#39;&#39;</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">_label_to_color</span><span class="p">[</span><span class="n">label</span><span class="p">]</span>
-    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-        <span class="n">color</span> <span class="o">=</span> <span class="n">label_random_color_chooser</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-        <span class="n">_label_to_color</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">color</span>
-        <span class="k">return</span> <span class="n">color</span></div>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Get a color associated to a label.</span>
+<span class="sd">    </span>
+<span class="sd">    EXAMPLES::</span>
+
+<span class="sd">        sage: from pet_salon.plot import get_color</span>
+<span class="sd">        sage: get_color(0)</span>
+<span class="sd">        (1.0, 0.0, 0.0)</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">for</span> <span class="n">color_chooser</span> <span class="ow">in</span> <span class="n">COLOR_CHOOSERS</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">color_chooser</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+            <span class="k">pass</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Unable to select a color from available color choosers.&#39;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="set_color">
 <a class="viewcode-back" href="../../pet_salon.plot.html#pet_salon.plot.set_color">[docs]</a>
 <span class="k">def</span> <span class="nf">set_color</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Set the color associated to a label to the provided color.&#39;&#39;&#39;</span>
-    <span class="n">_label_to_color</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">color</span></div>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Set the color associated to a label to the provided color.</span>
+<span class="sd">    </span>
+<span class="sd">    EXAMPLES::</span>
+
+<span class="sd">        sage: from pet_salon.plot import get_color, set_color</span>
+<span class="sd">        sage: set_color(&#39;g&#39;, &#39;green&#39;)</span>
+<span class="sd">        sage: get_color(&#39;g&#39;)</span>
+<span class="sd">        &#39;green&#39;</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">DECLARE_COLOR_CHOOSER</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="plot_polytope_union">
@@ -194,7 +328,6 @@
         <span class="n">plt2</span> <span class="o">=</span> <span class="n">text</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">center</span><span class="p">(),</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span><span class="p">)</span>
         <span class="n">plt</span> <span class="o">+=</span> <span class="n">plt2</span>
     <span class="k">return</span> <span class="n">plt</span></div>
-
 
 </pre></div>
 

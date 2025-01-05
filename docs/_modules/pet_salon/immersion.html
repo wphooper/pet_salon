@@ -734,7 +734,41 @@
 
                 <span class="k">def</span> <span class="fm">__invert__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">                    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return the associated surjective embedding.&#39;&#39;&#39;</span>
-                    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">partitions</span><span class="p">()</span><span class="o">.</span><span class="n">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+                    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">partitions</span><span class="p">()</span><span class="o">.</span><span class="n">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ImmersionsCategory.Surjective.Injective.ElementMethods.is_relabeling">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.Surjective.Injective.ElementMethods.is_relabeling">[docs]</a>
+                <span class="k">def</span> <span class="nf">is_relabeling</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">                    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return `True` if the surjective embedding is a relabeling. This means that each subunion is a singleton.</span>
+<span class="sd">                    </span>
+<span class="sd">                    A relabeling can be converted to a partition.</span>
+
+<span class="sd">                    EXAMPLES::</span>
+<span class="sd">                    </span>
+<span class="sd">                        sage: from pet_salon import rectangle, PolytopeUnions, Partitions</span>
+<span class="sd">                        sage: PU = PolytopeUnions(1, QQ)</span>
+<span class="sd">                        sage: U = PU({0: rectangle(QQ, 0, 1), 1: rectangle(QQ, 1, 2)}, name=&#39;U&#39;)</span>
+<span class="sd">                        sage: V = PU({&#39;a&#39;: rectangle(QQ, 0, 1), &#39;b&#39;: rectangle(QQ, 1, 2)})</span>
+<span class="sd">                        sage: emb = U.relabel({0:&#39;a&#39;, 1:&#39;b&#39;}, mapping=True)</span>
+<span class="sd">                        sage: emb.codomain() == V</span>
+<span class="sd">                        True</span>
+<span class="sd">                        sage: emb.is_relabeling()</span>
+<span class="sd">                        True</span>
+<span class="sd">                        sage: part = Partitions(U)(emb)</span>
+<span class="sd">                        sage: part</span>
+<span class="sd">                        Partition of u into 2 subpolytopes</span>
+<span class="sd">                        sage: part.codomain()==V</span>
+<span class="sd">                        True</span>
+<span class="sd">                        sage: part.subunion_labels()</span>
+<span class="sd">                        {0: [&#39;a&#39;], 1: [&#39;b&#39;]}</span>
+<span class="sd">                    &#39;&#39;&#39;</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span><span class="o">.</span><span class="n">is_finite</span><span class="p">():</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The domain must be finite to check if the surjective embedding is a relabeling&#39;</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">ambient_label</span><span class="p">,</span> <span class="n">subunion_labels</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">subunion_labels</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">subunion_labels</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+                            <span class="k">return</span> <span class="kc">False</span>
+                    <span class="k">return</span> <span class="kc">True</span></div>
+</div>
 </div>
 </div>
 </div>
@@ -1540,6 +1574,18 @@
                 <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="p">:</span>
                     <span class="c1"># Note: Ignoring possible name definition.</span>
                     <span class="k">return</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+                <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">category</span><span class="p">()</span><span class="o">.</span><span class="n">is_subcategory</span><span class="p">(</span><span class="n">ImmersionsCategory</span><span class="o">.</span><span class="n">Surjective</span><span class="o">.</span><span class="n">Injective</span><span class="p">()):</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">is_relabeling</span><span class="p">():</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The surjective embedding must be a relabeling to convert to a partition.&#39;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">():</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The domain of the relabeling must match the ambient union.&#39;</span><span class="p">)</span>
+                    <span class="n">r</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">r</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span><span class="o">.</span><span class="n">is_finite</span><span class="p">():</span>
+                        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;The domain must be finite to convert to a partition.&#39;</span><span class="p">)</span>
+                    <span class="n">SE</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">surjective_embeddings</span><span class="p">()</span>
+                    <span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="n">ambient_label</span><span class="p">:</span><span class="n">subunion_label</span> <span class="k">for</span> <span class="n">subunion_label</span><span class="p">,</span> <span class="n">ambient_label</span> <span class="ow">in</span> <span class="n">r</span><span class="o">.</span><span class="n">ambient_labels</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+                    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_class</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">SE</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">codomain</span><span class="p">(),</span> <span class="n">d</span><span class="p">),</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
 
                 <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">category</span><span class="p">()</span><span class="o">.</span><span class="n">is_subcategory</span><span class="p">(</span><span class="n">PartitionsCategory</span><span class="p">()):</span>
                     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_class</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">surjective_embeddings</span><span class="p">()(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">surjective_embedding</span><span class="p">()),</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>

@@ -392,20 +392,20 @@
 
 <span class="sd">            EXAMPLES::</span>
 
-<span class="sd">            sage: from pet_salon.pam_examples import integer_multiplication</span>
-<span class="sd">            sage: g = integer_multiplication(3, QQ, 2)</span>
-<span class="sd">            sage: ah = g.affine_homeomorphism()</span>
-<span class="sd">            sage: relabel_dict = {i:chr(96+i) for i in range(1, 9)}</span>
-<span class="sd">            sage: relabel_dict</span>
-<span class="sd">            {1: &#39;a&#39;, 2: &#39;b&#39;, 3: &#39;c&#39;, 4: &#39;d&#39;, 5: &#39;e&#39;, 6: &#39;f&#39;, 7: &#39;g&#39;, 8: &#39;h&#39;}</span>
-<span class="sd">            sage: relabeled_ah = ah.relabel(relabel_dict)</span>
-<span class="sd">            sage: list(relabeled_ah.domain().labels())</span>
-<span class="sd">            [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;, &#39;f&#39;, &#39;g&#39;, &#39;h&#39;]</span>
-<span class="sd">            sage: relabeled_ah, a, b = ah.relabel(relabel_dict, mappings=True, name=&#39;x&#39;)</span>
-<span class="sd">            sage: relabeled_ah</span>
-<span class="sd">            x</span>
-<span class="sd">            sage: relabeled_ah*a == b*ah</span>
-<span class="sd">            True</span>
+<span class="sd">                sage: from pet_salon.pam_examples import integer_multiplication</span>
+<span class="sd">                sage: g = integer_multiplication(3, QQ, 2)</span>
+<span class="sd">                sage: ah = g.affine_homeomorphism()</span>
+<span class="sd">                sage: relabel_dict = {i:chr(96+i) for i in range(1, 9)}</span>
+<span class="sd">                sage: relabel_dict</span>
+<span class="sd">                {1: &#39;a&#39;, 2: &#39;b&#39;, 3: &#39;c&#39;, 4: &#39;d&#39;, 5: &#39;e&#39;, 6: &#39;f&#39;, 7: &#39;g&#39;, 8: &#39;h&#39;}</span>
+<span class="sd">                sage: relabeled_ah = ah.relabel(relabel_dict)</span>
+<span class="sd">                sage: list(relabeled_ah.domain().labels())</span>
+<span class="sd">                [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;, &#39;f&#39;, &#39;g&#39;, &#39;h&#39;]</span>
+<span class="sd">                sage: relabeled_ah, a, b = ah.relabel(relabel_dict, mappings=True, name=&#39;x&#39;)</span>
+<span class="sd">                sage: relabeled_ah</span>
+<span class="sd">                x</span>
+<span class="sd">                sage: relabeled_ah*a == b*ah</span>
+<span class="sd">                True</span>
 <span class="sd">            &#39;&#39;&#39;</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span><span class="o">.</span><span class="n">is_finite</span><span class="p">():</span>
                 <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;Relabeling is only implemented for finite unions.&#39;</span><span class="p">)</span>
@@ -950,6 +950,91 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">affine_homeomorphism</span><span class="p">()</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">**</span><span class="n">aff_codomain_kwds</span><span class="p">)</span> <span class="o">+</span> \
                     <span class="bp">self</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">**</span><span class="n">codomain_kwds</span><span class="p">)</span>
             <span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="PiecewiseAffineMapsCategory.ElementMethods.relabel">
+<a class="viewcode-back" href="../../pet_salon.affine.html#pet_salon.affine.PiecewiseAffineMapsCategory.ElementMethods.relabel">[docs]</a>
+        <span class="k">def</span> <span class="nf">relabel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                    <span class="n">domain_relabel_dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">inner_relabel_dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">codomain_relabel_dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">mappings</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                    <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Return a new piecewise affine map with the polytope unions relabeled.</span>
+
+<span class="sd">            The relabeling is done by the dictionaries `domain_relabel_dict`, `inner_relabel_dict`, and `codomain_relabel_dict`.</span>
+<span class="sd">            If `domain_relabel_dict` is provided, then the domain is relabeled. If `inner_relabel_dict` is provided, then the</span>
+<span class="sd">            affine homeomorphism is relabeled. If `codomain_relabel_dict` is provided, then the codomain is relabeled.</span>
+
+<span class="sd">            If `mappings` is `True`, then a tuple is returned consisting of the new piecewise affine map (first) and relabeling</span>
+<span class="sd">            mappings in order from domain to codomain. Intermediate mappings for the affine homeomorphism are included inbetween,</span>
+<span class="sd">            so the order is dommain relabeling, affine homeomorphism domain relabeling, affine homeomorphism codomain relabeling,</span>
+<span class="sd">            and codomain relabeling. If a `domain_relabel_dict` is not provided, then the domain relabeling is skipped. If an</span>
+<span class="sd">            `inner_relabel_dict` is not provided, then the affine homeomorphism domain and codomain relabelings are skipped. If a </span>
+<span class="sd">            `codomain_relabel_dict` is not provided, then the codomain relabeling is skipped.</span>
+
+<span class="sd">            The parameter `name` is used to name the new piecewise affine map.</span>
+
+<span class="sd">            EXAMPLES::</span>
+
+<span class="sd">                sage: from pet_salon.pam_examples import integer_multiplication</span>
+<span class="sd">                sage: f = integer_multiplication(2, QQ, 2)</span>
+<span class="sd">                sage: f_relabeled = f.relabel(domain_relabel_dict={0:&#39;a&#39;},</span>
+<span class="sd">                ....:                         inner_relabel_dict={1:&#39;b&#39;, 2:&#39;c&#39;, 3:&#39;d&#39;, 4:&#39;e&#39;},</span>
+<span class="sd">                ....:                         codomain_relabel_dict={0:&#39;f&#39;})</span>
+<span class="sd">                sage: list(f_relabeled.domain().labels())</span>
+<span class="sd">                [&#39;a&#39;]</span>
+<span class="sd">                sage: list(f_relabeled.affine_homeomorphism().domain().labels())</span>
+<span class="sd">                [&#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;]</span>
+<span class="sd">                sage: list(f_relabeled.affine_homeomorphism().codomain().labels())</span>
+<span class="sd">                [&#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;]</span>
+<span class="sd">                sage: list(f_relabeled.codomain().labels())</span>
+<span class="sd">                [&#39;f&#39;]</span>
+<span class="sd">                sage: TestSuite(f_relabeled).run()</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="n">ah</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">affine_homeomorphism</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">inner_relabel_dict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">new_ah</span> <span class="o">=</span> <span class="n">ah</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">new_ah</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">ah</span><span class="o">.</span><span class="n">relabel</span><span class="p">(</span><span class="n">inner_relabel_dict</span><span class="p">,</span> <span class="n">mappings</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">domain_relabel_dict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">inner_relabel_dict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">partition</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">partition</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">partition</span> <span class="o">=</span> <span class="n">Partitions</span><span class="p">(</span><span class="n">ah</span><span class="o">.</span><span class="n">domain</span><span class="p">())(</span><span class="n">b</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">partition</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># a is a surjective embedding from the original domain to the new domain</span>
+                <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span><span class="o">.</span><span class="n">relabel</span><span class="p">(</span><span class="n">domain_relabel_dict</span><span class="p">,</span> <span class="n">mapping</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">inner_relabel_dict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">partition</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">partition</span><span class="p">()</span><span class="o">*~</span><span class="n">a</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">partition</span> <span class="o">=</span> <span class="n">Partitions</span><span class="p">(</span><span class="n">ah</span><span class="o">.</span><span class="n">domain</span><span class="p">())(</span><span class="n">b</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">partition</span><span class="p">()</span><span class="o">*~</span><span class="n">a</span>
+            <span class="k">if</span> <span class="n">codomain_relabel_dict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">inner_relabel_dict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">immersion</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">immersion</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">immersion</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">immersion</span><span class="p">()</span><span class="o">*~</span><span class="n">Partitions</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">domain</span><span class="p">())(</span><span class="n">c</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># d is a surjective embedding from the original codomain to the new codomain</span>
+                <span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span><span class="o">.</span><span class="n">relabel</span><span class="p">(</span><span class="n">codomain_relabel_dict</span><span class="p">,</span> <span class="n">mapping</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">inner_relabel_dict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">immersion</span> <span class="o">=</span> <span class="n">d</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">immersion</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">immersion</span> <span class="o">=</span> <span class="n">d</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">immersion</span><span class="p">()</span><span class="o">*~</span><span class="n">Partitions</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">domain</span><span class="p">())(</span><span class="n">c</span><span class="p">)</span>
+            <span class="n">new_pam</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()(</span><span class="n">immersion</span><span class="p">,</span> <span class="n">new_ah</span><span class="p">,</span> <span class="n">partition</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">mappings</span><span class="p">:</span>
+                <span class="n">maps</span> <span class="o">=</span> <span class="p">[</span><span class="n">new_pam</span><span class="p">,]</span>
+                <span class="k">if</span> <span class="s1">&#39;a&#39;</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">():</span>
+                    <span class="n">maps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+                <span class="k">if</span> <span class="s1">&#39;b&#39;</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">():</span>
+                    <span class="n">maps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+                    <span class="n">maps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+                <span class="k">if</span> <span class="s1">&#39;d&#39;</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">():</span>
+                    <span class="n">maps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+                <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">maps</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">new_pam</span></div>
 
 
         <span class="nd">@cached_method</span>

@@ -62,8 +62,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#pet_salon.affine.PiecewiseAffineMaps"><code class="docutils literal notranslate"><span class="pre">PiecewiseAffineMaps</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pet_salon.affine.PiecewiseAffineMapsCategory"><code class="docutils literal notranslate"><span class="pre">PiecewiseAffineMapsCategory</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id14"><code class="docutils literal notranslate"><span class="pre">PiecewiseAffineMapsCategory.ElementMethods</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id24"><code class="docutils literal notranslate"><span class="pre">PiecewiseAffineMapsCategory.ParentMethods</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id31"><code class="docutils literal notranslate"><span class="pre">PiecewiseAffineMapsCategory.SubcategoryMethods</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id25"><code class="docutils literal notranslate"><span class="pre">PiecewiseAffineMapsCategory.ParentMethods</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id32"><code class="docutils literal notranslate"><span class="pre">PiecewiseAffineMapsCategory.SubcategoryMethods</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="pet_salon.collection.html">pet_salon.collection module</a></li>
@@ -242,20 +242,22 @@ is returned. If <cite>mappings</cite> is <cite>True</cite>, then a triple is ret
 the mapping that relabels the domain, and the mapping that relabels the codomain. If <cite>name</cite> is provided,
 the new affine homeomorphism will be given the name <cite>name</cite>.</p>
 <p>EXAMPLES:</p>
-<p>sage: from pet_salon.pam_examples import integer_multiplication
-sage: g = integer_multiplication(3, QQ, 2)
-sage: ah = g.affine_homeomorphism()
-sage: relabel_dict = {i:chr(96+i) for i in range(1, 9)}
-sage: relabel_dict
-{1: ‘a’, 2: ‘b’, 3: ‘c’, 4: ‘d’, 5: ‘e’, 6: ‘f’, 7: ‘g’, 8: ‘h’}
-sage: relabeled_ah = ah.relabel(relabel_dict)
-sage: list(relabeled_ah.domain().labels())
-[‘a’, ‘b’, ‘c’, ‘d’, ‘e’, ‘f’, ‘g’, ‘h’]
-sage: relabeled_ah, a, b = ah.relabel(relabel_dict, mappings=True, name=’x’)
-sage: relabeled_ah
-x
-sage: relabeled_ah*a == b*ah
-True</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon.pam_examples</span> <span class="kn">import</span> <span class="n">integer_multiplication</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">g</span> <span class="o">=</span> <span class="n">integer_multiplication</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">QQ</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">ah</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">affine_homeomorphism</span><span class="p">()</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">relabel_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span><span class="nb">chr</span><span class="p">(</span><span class="mi">96</span><span class="o">+</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">9</span><span class="p">)}</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">relabel_dict</span>
+<span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span> <span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="mi">5</span><span class="p">:</span> <span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="mi">6</span><span class="p">:</span> <span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="mi">7</span><span class="p">:</span> <span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="mi">8</span><span class="p">:</span> <span class="s1">&#39;h&#39;</span><span class="p">}</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">relabeled_ah</span> <span class="o">=</span> <span class="n">ah</span><span class="o">.</span><span class="n">relabel</span><span class="p">(</span><span class="n">relabel_dict</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">relabeled_ah</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span><span class="o">.</span><span class="n">labels</span><span class="p">())</span>
+<span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">]</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">relabeled_ah</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">ah</span><span class="o">.</span><span class="n">relabel</span><span class="p">(</span><span class="n">relabel_dict</span><span class="p">,</span> <span class="n">mappings</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">relabeled_ah</span>
+<span class="n">x</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">relabeled_ah</span><span class="o">*</span><span class="n">a</span> <span class="o">==</span> <span class="n">b</span><span class="o">*</span><span class="n">ah</span>
+<span class="kc">True</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </dd></dl>
@@ -415,20 +417,22 @@ is returned. If <cite>mappings</cite> is <cite>True</cite>, then a triple is ret
 the mapping that relabels the domain, and the mapping that relabels the codomain. If <cite>name</cite> is provided,
 the new affine homeomorphism will be given the name <cite>name</cite>.</p>
 <p>EXAMPLES:</p>
-<p>sage: from pet_salon.pam_examples import integer_multiplication
-sage: g = integer_multiplication(3, QQ, 2)
-sage: ah = g.affine_homeomorphism()
-sage: relabel_dict = {i:chr(96+i) for i in range(1, 9)}
-sage: relabel_dict
-{1: ‘a’, 2: ‘b’, 3: ‘c’, 4: ‘d’, 5: ‘e’, 6: ‘f’, 7: ‘g’, 8: ‘h’}
-sage: relabeled_ah = ah.relabel(relabel_dict)
-sage: list(relabeled_ah.domain().labels())
-[‘a’, ‘b’, ‘c’, ‘d’, ‘e’, ‘f’, ‘g’, ‘h’]
-sage: relabeled_ah, a, b = ah.relabel(relabel_dict, mappings=True, name=’x’)
-sage: relabeled_ah
-x
-sage: relabeled_ah*a == b*ah
-True</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon.pam_examples</span> <span class="kn">import</span> <span class="n">integer_multiplication</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">g</span> <span class="o">=</span> <span class="n">integer_multiplication</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">QQ</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">ah</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">affine_homeomorphism</span><span class="p">()</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">relabel_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span><span class="nb">chr</span><span class="p">(</span><span class="mi">96</span><span class="o">+</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">9</span><span class="p">)}</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">relabel_dict</span>
+<span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span> <span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="mi">5</span><span class="p">:</span> <span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="mi">6</span><span class="p">:</span> <span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="mi">7</span><span class="p">:</span> <span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="mi">8</span><span class="p">:</span> <span class="s1">&#39;h&#39;</span><span class="p">}</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">relabeled_ah</span> <span class="o">=</span> <span class="n">ah</span><span class="o">.</span><span class="n">relabel</span><span class="p">(</span><span class="n">relabel_dict</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">relabeled_ah</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span><span class="o">.</span><span class="n">labels</span><span class="p">())</span>
+<span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">]</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">relabeled_ah</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">ah</span><span class="o">.</span><span class="n">relabel</span><span class="p">(</span><span class="n">relabel_dict</span><span class="p">,</span> <span class="n">mappings</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">relabeled_ah</span>
+<span class="n">x</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">relabeled_ah</span><span class="o">*</span><span class="n">a</span> <span class="o">==</span> <span class="n">b</span><span class="o">*</span><span class="n">ah</span>
+<span class="kc">True</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </dd></dl>
@@ -671,6 +675,39 @@ Again, this just produces a black line of thickness two bounding each polygon in
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pet_salon.affine.PiecewiseAffineMapsCategory.ElementMethods.relabel">
+<span class="sig-name descname"><span class="pre">relabel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain_relabel_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inner_relabel_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">codomain_relabel_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mappings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ElementMethods.relabel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.affine.PiecewiseAffineMapsCategory.ElementMethods.relabel" title="Link to this definition"></a></dt>
+<dd><p>Return a new piecewise affine map with the polytope unions relabeled.</p>
+<p>The relabeling is done by the dictionaries <cite>domain_relabel_dict</cite>, <cite>inner_relabel_dict</cite>, and <cite>codomain_relabel_dict</cite>.
+If <cite>domain_relabel_dict</cite> is provided, then the domain is relabeled. If <cite>inner_relabel_dict</cite> is provided, then the
+affine homeomorphism is relabeled. If <cite>codomain_relabel_dict</cite> is provided, then the codomain is relabeled.</p>
+<p>If <cite>mappings</cite> is <cite>True</cite>, then a tuple is returned consisting of the new piecewise affine map (first) and relabeling
+mappings in order from domain to codomain. Intermediate mappings for the affine homeomorphism are included inbetween,
+so the order is dommain relabeling, affine homeomorphism domain relabeling, affine homeomorphism codomain relabeling,
+and codomain relabeling. If a <cite>domain_relabel_dict</cite> is not provided, then the domain relabeling is skipped. If an
+<cite>inner_relabel_dict</cite> is not provided, then the affine homeomorphism domain and codomain relabelings are skipped. If a 
+<cite>codomain_relabel_dict</cite> is not provided, then the codomain relabeling is skipped.</p>
+<p>The parameter <cite>name</cite> is used to name the new piecewise affine map.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon.pam_examples</span> <span class="kn">import</span> <span class="n">integer_multiplication</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">integer_multiplication</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">QQ</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">f_relabeled</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">relabel</span><span class="p">(</span><span class="n">domain_relabel_dict</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span><span class="s1">&#39;a&#39;</span><span class="p">},</span>
+<span class="o">....</span><span class="p">:</span>                         <span class="n">inner_relabel_dict</span><span class="o">=</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span><span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span><span class="s1">&#39;e&#39;</span><span class="p">},</span>
+<span class="o">....</span><span class="p">:</span>                         <span class="n">codomain_relabel_dict</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span><span class="s1">&#39;f&#39;</span><span class="p">})</span>
+<span class="n">sage</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">f_relabeled</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span><span class="o">.</span><span class="n">labels</span><span class="p">())</span>
+<span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]</span>
+<span class="n">sage</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">f_relabeled</span><span class="o">.</span><span class="n">affine_homeomorphism</span><span class="p">()</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span><span class="o">.</span><span class="n">labels</span><span class="p">())</span>
+<span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">]</span>
+<span class="n">sage</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">f_relabeled</span><span class="o">.</span><span class="n">affine_homeomorphism</span><span class="p">()</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span><span class="o">.</span><span class="n">labels</span><span class="p">())</span>
+<span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">]</span>
+<span class="n">sage</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">f_relabeled</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span><span class="o">.</span><span class="n">labels</span><span class="p">())</span>
+<span class="p">[</span><span class="s1">&#39;f&#39;</span><span class="p">]</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">TestSuite</span><span class="p">(</span><span class="n">f_relabeled</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pet_salon.affine.PiecewiseAffineMapsCategory.ElementMethods.splitting">
 <span class="sig-name descname"><span class="pre">splitting</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ElementMethods.splitting"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.affine.PiecewiseAffineMapsCategory.ElementMethods.splitting" title="Link to this definition"></a></dt>
 <dd><p>Return the map conjugated by the partition.</p>
@@ -847,7 +884,40 @@ Again, this just produces a black line of thickness two bounding each polygon in
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id23">
-<span class="sig-name descname"><span class="pre">splitting</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ElementMethods.splitting"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id23" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">relabel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain_relabel_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inner_relabel_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">codomain_relabel_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mappings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ElementMethods.relabel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id23" title="Link to this definition"></a></dt>
+<dd><p>Return a new piecewise affine map with the polytope unions relabeled.</p>
+<p>The relabeling is done by the dictionaries <cite>domain_relabel_dict</cite>, <cite>inner_relabel_dict</cite>, and <cite>codomain_relabel_dict</cite>.
+If <cite>domain_relabel_dict</cite> is provided, then the domain is relabeled. If <cite>inner_relabel_dict</cite> is provided, then the
+affine homeomorphism is relabeled. If <cite>codomain_relabel_dict</cite> is provided, then the codomain is relabeled.</p>
+<p>If <cite>mappings</cite> is <cite>True</cite>, then a tuple is returned consisting of the new piecewise affine map (first) and relabeling
+mappings in order from domain to codomain. Intermediate mappings for the affine homeomorphism are included inbetween,
+so the order is dommain relabeling, affine homeomorphism domain relabeling, affine homeomorphism codomain relabeling,
+and codomain relabeling. If a <cite>domain_relabel_dict</cite> is not provided, then the domain relabeling is skipped. If an
+<cite>inner_relabel_dict</cite> is not provided, then the affine homeomorphism domain and codomain relabelings are skipped. If a 
+<cite>codomain_relabel_dict</cite> is not provided, then the codomain relabeling is skipped.</p>
+<p>The parameter <cite>name</cite> is used to name the new piecewise affine map.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon.pam_examples</span> <span class="kn">import</span> <span class="n">integer_multiplication</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">integer_multiplication</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">QQ</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">f_relabeled</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">relabel</span><span class="p">(</span><span class="n">domain_relabel_dict</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span><span class="s1">&#39;a&#39;</span><span class="p">},</span>
+<span class="o">....</span><span class="p">:</span>                         <span class="n">inner_relabel_dict</span><span class="o">=</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span><span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span><span class="s1">&#39;e&#39;</span><span class="p">},</span>
+<span class="o">....</span><span class="p">:</span>                         <span class="n">codomain_relabel_dict</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span><span class="s1">&#39;f&#39;</span><span class="p">})</span>
+<span class="n">sage</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">f_relabeled</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span><span class="o">.</span><span class="n">labels</span><span class="p">())</span>
+<span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]</span>
+<span class="n">sage</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">f_relabeled</span><span class="o">.</span><span class="n">affine_homeomorphism</span><span class="p">()</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span><span class="o">.</span><span class="n">labels</span><span class="p">())</span>
+<span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">]</span>
+<span class="n">sage</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">f_relabeled</span><span class="o">.</span><span class="n">affine_homeomorphism</span><span class="p">()</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span><span class="o">.</span><span class="n">labels</span><span class="p">())</span>
+<span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">]</span>
+<span class="n">sage</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">f_relabeled</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span><span class="o">.</span><span class="n">labels</span><span class="p">())</span>
+<span class="p">[</span><span class="s1">&#39;f&#39;</span><span class="p">]</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">TestSuite</span><span class="p">(</span><span class="n">f_relabeled</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id24">
+<span class="sig-name descname"><span class="pre">splitting</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ElementMethods.splitting"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id24" title="Link to this definition"></a></dt>
 <dd><p>Return the map conjugated by the partition.</p>
 <p>This results in a map from the codomain of the partition into itself.</p>
 <p>If <cite>p</cite> is the parition, <cite>ah</cite> is the affine homeomorphism, and <cite>i</cite> is the
@@ -857,42 +927,22 @@ immersion, then the original map is <cite>i*ah*p</cite>. The splitting is <cite>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="id24">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PiecewiseAffineMapsCategory.</span></span><span class="sig-name descname"><span class="pre">ParentMethods</span></span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ParentMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id24" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id25">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PiecewiseAffineMapsCategory.</span></span><span class="sig-name descname"><span class="pre">ParentMethods</span></span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ParentMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id25" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
-<dt class="sig sig-object py" id="id25">
-<span class="sig-name descname"><span class="pre">affine_group</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ParentMethods.affine_group"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id25" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="id26">
-<span class="sig-name descname"><span class="pre">affine_homeomorphisms</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ParentMethods.affine_homeomorphisms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id26" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">affine_group</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ParentMethods.affine_group"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id26" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id27">
-<span class="sig-name descname"><span class="pre">dimension</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ParentMethods.dimension"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id27" title="Link to this definition"></a></dt>
-<dd><p>Constructor for abstract methods.</p>
-<p>EXAMPLES:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-<span class="o">....</span><span class="p">:</span>     <span class="s2">&quot;doc of f&quot;</span>
-<span class="o">....</span><span class="p">:</span>     <span class="k">return</span> <span class="mi">1</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">x</span> <span class="o">=</span> <span class="n">abstract_method</span><span class="p">(</span><span class="n">f</span><span class="p">);</span> <span class="n">x</span>
-<span class="o">&lt;</span><span class="n">abstract</span> <span class="n">method</span> <span class="n">f</span> <span class="n">at</span> <span class="o">...&gt;</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="vm">__doc__</span>
-<span class="s1">&#39;doc of f&#39;</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="vm">__name__</span>
-<span class="s1">&#39;f&#39;</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="vm">__module__</span>
-<span class="s1">&#39;__main__&#39;</span>
-</pre></div>
-</div>
-</dd></dl>
+<span class="sig-name descname"><span class="pre">affine_homeomorphisms</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ParentMethods.affine_homeomorphisms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id27" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id28">
-<span class="sig-name descname"><span class="pre">field</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ParentMethods.field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id28" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">dimension</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ParentMethods.dimension"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id28" title="Link to this definition"></a></dt>
 <dd><p>Constructor for abstract methods.</p>
 <p>EXAMPLES:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
@@ -912,13 +962,33 @@ immersion, then the original map is <cite>i*ah*p</cite>. The splitting is <cite>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id29">
-<span class="sig-name descname"><span class="pre">trivial_piecewise_affine_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">union</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ParentMethods.trivial_piecewise_affine_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id29" title="Link to this definition"></a></dt>
-<dd><p>Return the trivial piecewise affine map of union into union.</p>
+<span class="sig-name descname"><span class="pre">field</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ParentMethods.field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id29" title="Link to this definition"></a></dt>
+<dd><p>Constructor for abstract methods.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="o">....</span><span class="p">:</span>     <span class="s2">&quot;doc of f&quot;</span>
+<span class="o">....</span><span class="p">:</span>     <span class="k">return</span> <span class="mi">1</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">x</span> <span class="o">=</span> <span class="n">abstract_method</span><span class="p">(</span><span class="n">f</span><span class="p">);</span> <span class="n">x</span>
+<span class="o">&lt;</span><span class="n">abstract</span> <span class="n">method</span> <span class="n">f</span> <span class="n">at</span> <span class="o">...&gt;</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="vm">__doc__</span>
+<span class="s1">&#39;doc of f&#39;</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="vm">__name__</span>
+<span class="s1">&#39;f&#39;</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="vm">__module__</span>
+<span class="s1">&#39;__main__&#39;</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id30">
-<span class="sig-name descname"><span class="pre">with_different_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_field</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ParentMethods.with_different_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id30" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">trivial_piecewise_affine_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">union</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ParentMethods.trivial_piecewise_affine_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id30" title="Link to this definition"></a></dt>
+<dd><p>Return the trivial piecewise affine map of union into union.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id31">
+<span class="sig-name descname"><span class="pre">with_different_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_field</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ParentMethods.with_different_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id31" title="Link to this definition"></a></dt>
 <dd><p>Constructor for abstract methods.</p>
 <p>EXAMPLES:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
@@ -939,8 +1009,8 @@ immersion, then the original map is <cite>i*ah*p</cite>. The splitting is <cite>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="id31">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PiecewiseAffineMapsCategory.</span></span><span class="sig-name descname"><span class="pre">SubcategoryMethods</span></span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.SubcategoryMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id31" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id32">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PiecewiseAffineMapsCategory.</span></span><span class="sig-name descname"><span class="pre">SubcategoryMethods</span></span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.SubcategoryMethods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id32" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 </dd></dl>
 

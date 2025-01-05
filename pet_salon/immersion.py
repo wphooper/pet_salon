@@ -532,6 +532,37 @@ class ImmersionsCategory(Category):
                     r'''Return the associated surjective embedding.'''
                     return self.parent().partitions().inverse(self)
 
+                def is_relabeling(self):
+                    r'''Return `True` if the surjective embedding is a relabeling. This means that each subunion is a singleton.
+                    
+                    A relabeling can be converted to a partition.
+
+                    EXAMPLES::
+                    
+                        sage: from pet_salon import rectangle, PolytopeUnions, Partitions
+                        sage: PU = PolytopeUnions(1, QQ)
+                        sage: U = PU({0: rectangle(QQ, 0, 1), 1: rectangle(QQ, 1, 2)}, name='U')
+                        sage: V = PU({'a': rectangle(QQ, 0, 1), 'b': rectangle(QQ, 1, 2)})
+                        sage: emb = U.relabel({0:'a', 1:'b'}, mapping=True)
+                        sage: emb.codomain() == V
+                        True
+                        sage: emb.is_relabeling()
+                        True
+                        sage: part = Partitions(U)(emb)
+                        sage: part
+                        Partition of u into 2 subpolytopes
+                        sage: part.codomain()==V
+                        True
+                        sage: part.subunion_labels()
+                        {0: ['a'], 1: ['b']}
+                    '''
+                    if not self.domain().is_finite():
+                        raise ValueError('The domain must be finite to check if the surjective embedding is a relabeling')
+                    for ambient_label, subunion_labels in self.subunion_labels().items():
+                        if len(subunion_labels) != 1:
+                            return False
+                    return True
+
 class Immersion(Element):
     def __init__(self, parent, domain, ambient_labels_mapping, subunion_labels_mapping, name=None):
         self._domain = domain
@@ -1228,6 +1259,18 @@ class Partitions(UniqueRepresentation, Parent):
                 if args[0].parent() == self:
                     # Note: Ignoring possible name definition.
                     return args[0]
+
+                if args[0].parent().category().is_subcategory(ImmersionsCategory.Surjective.Injective()):
+                    if not args[0].is_relabeling():
+                        raise ValueError('The surjective embedding must be a relabeling to convert to a partition.')
+                    if args[0].domain() != self.ambient_union():
+                        raise ValueError('The domain of the relabeling must match the ambient union.')
+                    r = args[0]
+                    if not r.domain().is_finite():
+                        raise NotImplementedError('The domain must be finite to convert to a partition.')
+                    SE = self.surjective_embeddings()
+                    d = {ambient_label:subunion_label for subunion_label, ambient_label in r.ambient_labels().items()}
+                    return self.element_class(self, SE(r.codomain(), d), **kwds)
 
                 if args[0].parent().category().is_subcategory(PartitionsCategory()):
                     return self.element_class(self, self.surjective_embeddings()(args[0].surjective_embedding()), **kwds)

@@ -271,20 +271,20 @@ class AffineHomeomorphismsCategory(Category):
 
             EXAMPLES::
 
-            sage: from pet_salon.pam_examples import integer_multiplication
-            sage: g = integer_multiplication(3, QQ, 2)
-            sage: ah = g.affine_homeomorphism()
-            sage: relabel_dict = {i:chr(96+i) for i in range(1, 9)}
-            sage: relabel_dict
-            {1: 'a', 2: 'b', 3: 'c', 4: 'd', 5: 'e', 6: 'f', 7: 'g', 8: 'h'}
-            sage: relabeled_ah = ah.relabel(relabel_dict)
-            sage: list(relabeled_ah.domain().labels())
-            ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
-            sage: relabeled_ah, a, b = ah.relabel(relabel_dict, mappings=True, name='x')
-            sage: relabeled_ah
-            x
-            sage: relabeled_ah*a == b*ah
-            True
+                sage: from pet_salon.pam_examples import integer_multiplication
+                sage: g = integer_multiplication(3, QQ, 2)
+                sage: ah = g.affine_homeomorphism()
+                sage: relabel_dict = {i:chr(96+i) for i in range(1, 9)}
+                sage: relabel_dict
+                {1: 'a', 2: 'b', 3: 'c', 4: 'd', 5: 'e', 6: 'f', 7: 'g', 8: 'h'}
+                sage: relabeled_ah = ah.relabel(relabel_dict)
+                sage: list(relabeled_ah.domain().labels())
+                ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
+                sage: relabeled_ah, a, b = ah.relabel(relabel_dict, mappings=True, name='x')
+                sage: relabeled_ah
+                x
+                sage: relabeled_ah*a == b*ah
+                True
             '''
             if not self.domain().is_finite():
                 raise NotImplementedError('Relabeling is only implemented for finite unions.')
@@ -742,6 +742,88 @@ class PiecewiseAffineMapsCategory(Category):
                 self.affine_homeomorphism().codomain().plot(**aff_codomain_kwds) + \
                     self.codomain().plot(**codomain_kwds)
             ])
+
+        def relabel(self,
+                    domain_relabel_dict = None,
+                    inner_relabel_dict = None,
+                    codomain_relabel_dict = None,
+                    mappings=False,
+                    name=None):
+            r'''
+            Return a new piecewise affine map with the polytope unions relabeled.
+
+            The relabeling is done by the dictionaries `domain_relabel_dict`, `inner_relabel_dict`, and `codomain_relabel_dict`.
+            If `domain_relabel_dict` is provided, then the domain is relabeled. If `inner_relabel_dict` is provided, then the
+            affine homeomorphism is relabeled. If `codomain_relabel_dict` is provided, then the codomain is relabeled.
+
+            If `mappings` is `True`, then a tuple is returned consisting of the new piecewise affine map (first) and relabeling
+            mappings in order from domain to codomain. Intermediate mappings for the affine homeomorphism are included inbetween,
+            so the order is dommain relabeling, affine homeomorphism domain relabeling, affine homeomorphism codomain relabeling,
+            and codomain relabeling. If a `domain_relabel_dict` is not provided, then the domain relabeling is skipped. If an
+            `inner_relabel_dict` is not provided, then the affine homeomorphism domain and codomain relabelings are skipped. If a 
+            `codomain_relabel_dict` is not provided, then the codomain relabeling is skipped.
+
+            The parameter `name` is used to name the new piecewise affine map.
+
+            EXAMPLES::
+
+                sage: from pet_salon.pam_examples import integer_multiplication
+                sage: f = integer_multiplication(2, QQ, 2)
+                sage: f_relabeled = f.relabel(domain_relabel_dict={0:'a'},
+                ....:                         inner_relabel_dict={1:'b', 2:'c', 3:'d', 4:'e'},
+                ....:                         codomain_relabel_dict={0:'f'})
+                sage: list(f_relabeled.domain().labels())
+                ['a']
+                sage: list(f_relabeled.affine_homeomorphism().domain().labels())
+                ['b', 'c', 'd', 'e']
+                sage: list(f_relabeled.affine_homeomorphism().codomain().labels())
+                ['b', 'c', 'd', 'e']
+                sage: list(f_relabeled.codomain().labels())
+                ['f']
+                sage: TestSuite(f_relabeled).run()
+            '''
+            ah = self.affine_homeomorphism()
+            if inner_relabel_dict is None:
+                new_ah = ah
+            else:
+                new_ah, b, c = ah.relabel(inner_relabel_dict, mappings=True)
+            if domain_relabel_dict is None:
+                if inner_relabel_dict is None:
+                    partition = self.partition()
+                else:
+                    partition = Partitions(ah.domain())(b)*self.partition()
+            else:
+                # a is a surjective embedding from the original domain to the new domain
+                a = self.domain().relabel(domain_relabel_dict, mapping=True)
+                if inner_relabel_dict is None:
+                    partition = self.partition()*~a
+                else:
+                    partition = Partitions(ah.domain())(b)*self.partition()*~a
+            if codomain_relabel_dict is None:
+                if inner_relabel_dict is None:
+                    immersion = self.immersion()
+                else:
+                    immersion = self.immersion()*~Partitions(c.domain())(c)
+            else:
+                # d is a surjective embedding from the original codomain to the new codomain
+                d = self.codomain().relabel(codomain_relabel_dict, mapping=True)
+                if inner_relabel_dict is None:
+                    immersion = d*self.immersion()
+                else:
+                    immersion = d*self.immersion()*~Partitions(c.domain())(c)
+            new_pam = self.parent()(immersion, new_ah, partition, name=name)
+            if mappings:
+                maps = [new_pam,]
+                if 'a' in locals():
+                    maps.append(a)
+                if 'b' in locals():
+                    maps.append(b)
+                    maps.append(c)
+                if 'd' in locals():
+                    maps.append(d)
+                return tuple(maps)
+            else:
+                return new_pam
 
         @cached_method
         def _pow_int(self, n):

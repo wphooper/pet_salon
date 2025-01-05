@@ -825,6 +825,35 @@ class PiecewiseAffineMapsCategory(Category):
             else:
                 return new_pam
 
+        def canonicalize(self, mappings=False, name=None):
+            r'''
+            Return a new piecewise affine map with the polytope unions canonicalized. The canonicalization is done by relabeling with dictionaries coming from the canonicalization of the domain, the affine homeomorphism's domain, and the codomain.
+
+            If `mappings` is `True`, then a tuple is returned consisting of the new piecewise affine map (first) and relabeling mappings in order from domain to codomain. These relabelings are for the canonicalization of the domain, the affine homeomorphism's domain, the affine homeomorphism's codomain, and the codomain. This gives a total of five maps returned.
+            
+            The parameter `name` is used to name the new piecewise affine map.
+
+            EXAMPLES::
+
+                sage: from pet_salon.pam_examples import integer_multiplication
+                sage: f = integer_multiplication(2, QQ, 2)
+                sage: f2 = f^2
+                sage: g = integer_multiplication(2, QQ, 4)
+                sage: f2 == g
+                False
+                sage: f2_canon = f2.canonicalize()
+                sage: TestSuite(f2_canon).run()
+                sage: g_canon = g.canonicalize()
+                sage: TestSuite(g_canon).run()
+                sage: f2_canon == g_canon
+                True
+            '''
+            return self.relabel(
+                domain_relabel_dict = self.domain().canonicalize(dictionary=True),
+                inner_relabel_dict = self.affine_homeomorphism().domain().canonicalize(dictionary=True),
+                codomain_relabel_dict = self.codomain().canonicalize(dictionary=True),
+                mappings=mappings, name=name)
+
         @cached_method
         def _pow_int(self, n):
             r'''

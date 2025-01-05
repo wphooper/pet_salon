@@ -592,6 +592,41 @@ class PolytopeUnionsCategory(Category):
                 se = SurjectiveEmbeddings(new_union)
                 return se(self, relabel_dict)
 
+            def canonicalize(self, mapping=False, dictionary=False):
+                r'''
+                Return a canonical form of the polytope union, this is a new polytope union with the same polytopes but with the labels given by the polytopes themselves. This only works if the polytopes in the union are unique.
+
+                If `mapping` is `True`, then we return the canonical form of the polytope union as an surjective embedding into the canonical form.
+
+                If `dictionary` is `True`, then we just return a dictionary mapping the old labels to the new labels.
+
+                If both `mapping` and `dictionary` are `True`, then we return the dictionary and the surjective embedding.
+
+                Remark: The canonical form may change in the future.
+
+                EXAMPLES::
+
+                    sage: from pet_salon import rectangle, PolytopeUnions
+                    sage: PU = PolytopeUnions(2, QQ, finite=True)
+                    sage: rect = rectangle(QQ, 0, 1, 0, 1)
+                    sage: union = PU({0:rect, 1:rect})
+                    sage: union.canonicalize()
+                    Traceback (most recent call last):
+                    ...
+                    ValueError: The polytopes are not unique.
+                '''
+                if not self.is_finite():
+                    raise ValueError('Currently only implemented for finite unions.')
+                d = self.polytopes()
+                d_reversed = {v:k for k,v in d.items()}
+                if len(d) != len(d_reversed):
+                    raise ValueError('The polytopes are not unique.')
+                if dictionary:
+                    if mapping:
+                        raise ValueError('Cannot return both a dictionary and a mapping.')
+                    return d
+                return self.relabel(d, mapping=mapping)
+
             def union(self, another, mappings=False, disjoint=False, nonoverlapping=False, check=True):
                 r'''
                 Construct the union of this PolytopeUnion with another PolytopeUnion.

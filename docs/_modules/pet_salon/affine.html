@@ -1037,6 +1037,38 @@
                 <span class="k">return</span> <span class="n">new_pam</span></div>
 
 
+<div class="viewcode-block" id="PiecewiseAffineMapsCategory.ElementMethods.canonicalize">
+<a class="viewcode-back" href="../../pet_salon.affine.html#pet_salon.affine.PiecewiseAffineMapsCategory.ElementMethods.canonicalize">[docs]</a>
+        <span class="k">def</span> <span class="nf">canonicalize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mappings</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Return a new piecewise affine map with the polytope unions canonicalized. The canonicalization is done by relabeling with dictionaries coming from the canonicalization of the domain, the affine homeomorphism&#39;s domain, and the codomain.</span>
+
+<span class="sd">            If `mappings` is `True`, then a tuple is returned consisting of the new piecewise affine map (first) and relabeling mappings in order from domain to codomain. These relabelings are for the canonicalization of the domain, the affine homeomorphism&#39;s domain, the affine homeomorphism&#39;s codomain, and the codomain. This gives a total of five maps returned.</span>
+<span class="sd">            </span>
+<span class="sd">            The parameter `name` is used to name the new piecewise affine map.</span>
+
+<span class="sd">            EXAMPLES::</span>
+
+<span class="sd">                sage: from pet_salon.pam_examples import integer_multiplication</span>
+<span class="sd">                sage: f = integer_multiplication(2, QQ, 2)</span>
+<span class="sd">                sage: f2 = f^2</span>
+<span class="sd">                sage: g = integer_multiplication(2, QQ, 4)</span>
+<span class="sd">                sage: f2 == g</span>
+<span class="sd">                False</span>
+<span class="sd">                sage: f2_canon = f2.canonicalize()</span>
+<span class="sd">                sage: TestSuite(f2_canon).run()</span>
+<span class="sd">                sage: g_canon = g.canonicalize()</span>
+<span class="sd">                sage: TestSuite(g_canon).run()</span>
+<span class="sd">                sage: f2_canon == g_canon</span>
+<span class="sd">                True</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">relabel</span><span class="p">(</span>
+                <span class="n">domain_relabel_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span><span class="o">.</span><span class="n">canonicalize</span><span class="p">(</span><span class="n">dictionary</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                <span class="n">inner_relabel_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">affine_homeomorphism</span><span class="p">()</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span><span class="o">.</span><span class="n">canonicalize</span><span class="p">(</span><span class="n">dictionary</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                <span class="n">codomain_relabel_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span><span class="o">.</span><span class="n">canonicalize</span><span class="p">(</span><span class="n">dictionary</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                <span class="n">mappings</span><span class="o">=</span><span class="n">mappings</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div>
+
+
         <span class="nd">@cached_method</span>
         <span class="k">def</span> <span class="nf">_pow_int</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
 <span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>

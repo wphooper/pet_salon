@@ -779,6 +779,44 @@
                 <span class="k">return</span> <span class="n">se</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">relabel_dict</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="PolytopeUnionsCategory.Finite.ElementMethods.canonicalize">
+<a class="viewcode-back" href="../../pet_salon.union.html#pet_salon.union.PolytopeUnionsCategory.Finite.ElementMethods.canonicalize">[docs]</a>
+            <span class="k">def</span> <span class="nf">canonicalize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mapping</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dictionary</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">                </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">                Return a canonical form of the polytope union, this is a new polytope union with the same polytopes but with the labels given by the polytopes themselves. This only works if the polytopes in the union are unique.</span>
+
+<span class="sd">                If `mapping` is `True`, then we return the canonical form of the polytope union as an surjective embedding into the canonical form.</span>
+
+<span class="sd">                If `dictionary` is `True`, then we just return a dictionary mapping the old labels to the new labels.</span>
+
+<span class="sd">                If both `mapping` and `dictionary` are `True`, then we return the dictionary and the surjective embedding.</span>
+
+<span class="sd">                Remark: The canonical form may change in the future.</span>
+
+<span class="sd">                EXAMPLES::</span>
+
+<span class="sd">                    sage: from pet_salon import rectangle, PolytopeUnions</span>
+<span class="sd">                    sage: PU = PolytopeUnions(2, QQ, finite=True)</span>
+<span class="sd">                    sage: rect = rectangle(QQ, 0, 1, 0, 1)</span>
+<span class="sd">                    sage: union = PU({0:rect, 1:rect})</span>
+<span class="sd">                    sage: union.canonicalize()</span>
+<span class="sd">                    Traceback (most recent call last):</span>
+<span class="sd">                    ...</span>
+<span class="sd">                    ValueError: The polytopes are not unique.</span>
+<span class="sd">                &#39;&#39;&#39;</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_finite</span><span class="p">():</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Currently only implemented for finite unions.&#39;</span><span class="p">)</span>
+                <span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">polytopes</span><span class="p">()</span>
+                <span class="n">d_reversed</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">d_reversed</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The polytopes are not unique.&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">dictionary</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">mapping</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Cannot return both a dictionary and a mapping.&#39;</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="n">d</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">relabel</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">mapping</span><span class="o">=</span><span class="n">mapping</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="PolytopeUnionsCategory.Finite.ElementMethods.union">
 <a class="viewcode-back" href="../../pet_salon.union.html#pet_salon.union.PolytopeUnionsCategory.Finite.ElementMethods.union">[docs]</a>
             <span class="k">def</span> <span class="nf">union</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">another</span><span class="p">,</span> <span class="n">mappings</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">disjoint</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">nonoverlapping</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>

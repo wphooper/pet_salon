@@ -297,6 +297,29 @@ class AffineHomeomorphismsCategory(Category):
             else:
                 return ah
 
+        def restriction(self, labels):
+            r'''
+            Return the affine homeomorphism restricted to the provided labels.
+
+            EXAMPLES::
+                sage: from pet_salon.pam_examples import integer_multiplication
+                sage: ah = integer_multiplication(2, QQ, 2).affine_homeomorphism()
+                sage: ah
+                Affine homeomorphism between disjoint unions of 4 polytopes
+                sage: list(ah.domain().labels())
+                [1, 2, 3, 4]
+                sage: ah2 = ah.restriction([1, 2])
+                sage: ah2
+                Affine homeomorphism between disjoint unions of 2 polytopes
+                sage: list(ah2.domain().labels())
+                [1, 2]
+                sage: TestSuite(ah2).run()
+            ''' 
+            return self.parent()(
+                self.domain().restrict(labels),
+                {label: self.affine_mapping()[label] for label in labels},
+                self.codomain().restrict(labels))
+
 class AffineHomeomorphism(Element):
     r'''
     EXAMPLES::
@@ -707,6 +730,34 @@ class PiecewiseAffineMapsCategory(Category):
             ah = self.affine_homeomorphism()
             i = self.immersion()
             return p*i*ah
+
+        def restriction(self, labels, surjective=False, name=None):
+            r'''
+            Return the piecewise affine map restricted to the provided labels.
+
+            If `surjective` is `True`, then the map is assumed to be surjective. If `name` is provided, the new map will be given the name `name`.
+
+            EXAMPLES::
+
+                sage: from pet_salon.pam_examples import integer_multiplication
+                sage: f = integer_multiplication(2, QQ, 2).splitting()
+                sage: f2 = f.restriction([2,3], surjective=True)
+                sage: f2
+                Piecewise affine map from disjoint union of 2 nonoverlapping polyhedra in QQ^2 to 4 small 2-cubes
+                sage: list(f2.domain().labels())
+                [2, 3]
+                sage: f2.codomain() == f.codomain()
+                True
+                sage: f2.is_surjective()
+                True
+                sage: f2.is_injective()
+                False
+                sage: TestSuite(f2).run()
+            '''
+            p = self.partition().restriction(labels)
+            ah = self.affine_homeomorphism().restriction(p.codomain().labels())
+            i = self.immersion().restriction(p.codomain().labels(), surjective=surjective)
+            return self.parent()(i, ah, p, name=name)
 
         def plot(self,
                 domain_kwds={},

@@ -93,10 +93,11 @@
 
         <span class="n">X</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span>
         <span class="n">I</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">restrict</span><span class="p">(</span><span class="n">return_labels</span><span class="p">,</span> <span class="n">mapping</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">J</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">restrict</span><span class="p">(</span><span class="n">other_labels</span><span class="p">,</span> <span class="n">mapping</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="c1">#J = X.restrict(other_labels, mapping=True)</span>
 
         <span class="c1"># We are trying to construct the &quot;union&quot; of f_restricted and the identity I.</span>
-        <span class="n">f_restricted</span> <span class="o">=</span> <span class="n">f</span><span class="o">*</span><span class="n">J</span>
+        <span class="c1">#f_restricted = f*J</span>
+        <span class="n">f_restricted</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">restriction</span><span class="p">(</span><span class="n">other_labels</span><span class="p">)</span>
 
         <span class="c1"># We need to relabel the domain of I when including...</span>
         <span class="n">f_part</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">partition</span><span class="p">()</span>

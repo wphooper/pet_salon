@@ -210,7 +210,7 @@
 <div class="viewcode-block" id="ImmersionsCategory.ParentMethods.with_different_axioms">
 <a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.ParentMethods.with_different_axioms">[docs]</a>
         <span class="nd">@abstract_method</span>
-        <span class="k">def</span> <span class="nf">with_different_axioms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">injective</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">surjective</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">with_different_axioms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">injective</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">surjective</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return a parent with the provided axioms.&#39;&#39;&#39;</span>
             <span class="k">pass</span></div>
 
@@ -435,6 +435,44 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">**</span><span class="n">domain_kwds</span><span class="p">),</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">**</span><span class="n">codomain_kwds</span><span class="p">)</span>
             <span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="ImmersionsCategory.ElementMethods.restriction">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.ImmersionsCategory.ElementMethods.restriction">[docs]</a>
+        <span class="k">def</span> <span class="nf">restriction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">codomain_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">surjective</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return the restriction of the immersion to a subset of the domain labels.</span>
+
+<span class="sd">            If `domain_labels` is provided, then the restriction is to the polytopes with those labels. If `codomain_labels` is provided, then the restriction is to the polytopes in the domain that map into the polytopes with those labels, and the codomain labels are updated accordingly is shrunk to the codomain labels.</span>
+
+<span class="sd">            It is not possible to restrict both the domain and codomain labels.</span>
+
+<span class="sd">            You may set `surjective` to `True` to declare that the restriction is surjective. This is currently not checked.</span>
+
+<span class="sd">            Currently, only restricting the domain labels is implemented.</span>
+
+<span class="sd">            EXAMPLES::</span>
+
+<span class="sd">                sage: from pet_salon.pam_examples import integer_multiplication</span>
+<span class="sd">                sage: se =  ~integer_multiplication(2, QQ, 2).partition()</span>
+<span class="sd">                sage: se</span>
+<span class="sd">                Surjective embedding of 4 small 2-cubes into 2-cube</span>
+<span class="sd">                sage: restricted_se = se.restriction([2, 3])</span>
+<span class="sd">                sage: restricted_se</span>
+<span class="sd">                Embedding of disjoint union of 2 nonoverlapping polyhedra in QQ^2 into disjoint union of 1 nonoverlapping polyhedra in QQ^2</span>
+<span class="sd">                sage: list(restricted_se.domain().labels())</span>
+<span class="sd">                [2, 3]</span>
+<span class="sd">                sage: se.codomain() == restricted_se.codomain()</span>
+<span class="sd">                True</span>
+<span class="sd">                sage: TestSuite(restricted_se).run()</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">if</span> <span class="n">domain_labels</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">codomain_labels</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Cannot restrict both domain and codomain labels&#39;</span><span class="p">)</span>
+                <span class="n">new_parent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">with_different_axioms</span><span class="p">(</span><span class="n">surjective</span><span class="o">=</span><span class="n">surjective</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">new_parent</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span><span class="o">.</span><span class="n">restrict</span><span class="p">(</span><span class="n">domain_labels</span><span class="p">),</span> 
+                                <span class="p">{</span><span class="n">label</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ambient_labels</span><span class="p">()[</span><span class="n">label</span><span class="p">]</span> <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">domain_labels</span><span class="p">})</span>
+            <span class="k">if</span> <span class="n">codomain_labels</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;Restricting codomain labels is not implemented yet&#39;</span><span class="p">)</span></div>
 
 
         <span class="k">def</span> <span class="nf">_test_containment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tester</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -667,9 +705,9 @@
 <span class="sd">                    sage: from pet_salon import PolytopeUnions, rectangle</span>
 <span class="sd">                    sage: from pet_salon.immersion import SurjectiveEmbeddings</span>
 <span class="sd">                    sage: U = PolytopeUnions(2, QQ)</span>
-<span class="sd">                    sage: union = U(rectangle(QQ, 0, 1, 0, 1))</span>
+<span class="sd">                    sage: union = U(rectangle(QQ, 0, 1, 0, 1), name=&#39;2-cube&#39;)</span>
 <span class="sd">                    sage: union</span>
-<span class="sd">                    Disjoint union of 1 nonoverlapping polyhedra in QQ^2</span>
+<span class="sd">                    2-cube</span>
 <span class="sd">                    sage: P = SurjectiveEmbeddings(union)</span>
 <span class="sd">                    sage: f = P(U({</span>
 <span class="sd">                    ....:     1: rectangle(QQ,   0, 1/2,   0, 1/2),</span>
@@ -677,7 +715,7 @@
 <span class="sd">                    ....:     3: rectangle(QQ,   0, 1/2, 1/2,   1),</span>
 <span class="sd">                    ....: }))</span>
 <span class="sd">                    sage: f</span>
-<span class="sd">                    Surjective embedding of disjoint union of 3 nonoverlapping polyhedra in QQ^2 into disjoint union of 1 nonoverlapping polyhedra in QQ^2</span>
+<span class="sd">                    Surjective embedding of disjoint union of 3 nonoverlapping polyhedra in QQ^2 into 2-cube</span>
 <span class="sd">                    sage: TestSuite(f).run()</span>
 <span class="sd">                    Failure in _test_volume:</span>
 <span class="sd">                    ...</span>
@@ -1015,8 +1053,12 @@
 
 <div class="viewcode-block" id="Immersions.with_different_axioms">
 <a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.Immersions.with_different_axioms">[docs]</a>
-    <span class="k">def</span> <span class="nf">with_different_axioms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">injective</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">surjective</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">with_different_axioms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">injective</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">surjective</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return a parent with the provided axioms.&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">injective</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">injective</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_injective</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">surjective</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">surjective</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_surjective</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">Immersions</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">(),</span> <span class="n">injective</span><span class="o">=</span><span class="n">injective</span><span class="p">,</span> <span class="n">surjective</span><span class="o">=</span><span class="n">surjective</span><span class="p">)</span></div>
 
 
@@ -1170,12 +1212,12 @@
 <span class="sd">        sage: from pet_salon import PolytopeUnions, rectangle</span>
 <span class="sd">        sage: from pet_salon.immersion import SurjectiveImmersions</span>
 <span class="sd">        sage: U = PolytopeUnions(2, QQ)</span>
-<span class="sd">        sage: union = U(rectangle(QQ, 0, 1, 0, 1))</span>
+<span class="sd">        sage: union = U(rectangle(QQ, 0, 1, 0, 1), name=&#39;2-cube&#39;)</span>
 <span class="sd">        sage: union</span>
-<span class="sd">        Disjoint union of 1 nonoverlapping polyhedra in QQ^2</span>
+<span class="sd">        2-cube</span>
 <span class="sd">        sage: P = SurjectiveImmersions(union)</span>
 <span class="sd">        sage: P</span>
-<span class="sd">        Surjective immersions into disjoint union of 1 nonoverlapping polyhedra in QQ^2</span>
+<span class="sd">        Surjective immersions into 2-cube</span>
 <span class="sd">        sage: TestSuite(P).run()</span>
 <span class="sd">        sage: V = PolytopeUnions(2, QQ, nonoverlapping=False)</span>
 <span class="sd">        sage: f = P(V({</span>
@@ -1183,7 +1225,7 @@
 <span class="sd">        ....:     2: rectangle(QQ, 1/3,   1,   0, 1),</span>
 <span class="sd">        ....: }))</span>
 <span class="sd">        sage: f</span>
-<span class="sd">        Surjective immersion of disjoint union of 2 polyhedra in QQ^2 into disjoint union of 1 nonoverlapping polyhedra in QQ^2</span>
+<span class="sd">        Surjective immersion of disjoint union of 2 polyhedra in QQ^2 into 2-cube</span>
 <span class="sd">        sage: TestSuite(f).run()</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">return</span> <span class="n">Immersions</span><span class="p">(</span><span class="n">ambient_union</span><span class="p">,</span> <span class="n">injective</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">surjective</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
@@ -1228,12 +1270,12 @@
 <span class="sd">        sage: from pet_salon import PolytopeUnions, rectangle</span>
 <span class="sd">        sage: from pet_salon.immersion import SurjectiveEmbeddings</span>
 <span class="sd">        sage: U = PolytopeUnions(2, QQ)</span>
-<span class="sd">        sage: union = U(rectangle(QQ, 0, 1, 0, 1))</span>
+<span class="sd">        sage: union = U(rectangle(QQ, 0, 1, 0, 1), name=&#39;2-cube&#39;)</span>
 <span class="sd">        sage: union</span>
-<span class="sd">        Disjoint union of 1 nonoverlapping polyhedra in QQ^2</span>
+<span class="sd">        2-cube</span>
 <span class="sd">        sage: P = SurjectiveEmbeddings(union)</span>
 <span class="sd">        sage: P</span>
-<span class="sd">        Surjective embeddings into disjoint union of 1 nonoverlapping polyhedra in QQ^2</span>
+<span class="sd">        Surjective embeddings into 2-cube</span>
 <span class="sd">        sage: TestSuite(P).run()</span>
 <span class="sd">        sage: f = P(U({</span>
 <span class="sd">        ....:     1: rectangle(QQ,   0, 1/2,   0, 1/2),</span>
@@ -1242,7 +1284,7 @@
 <span class="sd">        ....:     4: rectangle(QQ, 1/2,   1, 1/2,   1),</span>
 <span class="sd">        ....: }))</span>
 <span class="sd">        sage: f</span>
-<span class="sd">        Surjective embedding of disjoint union of 4 nonoverlapping polyhedra in QQ^2 into disjoint union of 1 nonoverlapping polyhedra in QQ^2</span>
+<span class="sd">        Surjective embedding of disjoint union of 4 nonoverlapping polyhedra in QQ^2 into 2-cube</span>
 <span class="sd">        sage: TestSuite(f).run()</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">return</span> <span class="n">Immersions</span><span class="p">(</span><span class="n">ambient_union</span><span class="p">,</span> <span class="n">injective</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">surjective</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
@@ -1416,6 +1458,38 @@
             <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The associated surjective embedding failed a test: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
+<div class="viewcode-block" id="PartitionsCategory.ElementMethods.restriction">
+<a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.PartitionsCategory.ElementMethods.restriction">[docs]</a>
+        <span class="k">def</span> <span class="nf">restriction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return the restriction of the partition to the provided labels.</span>
+<span class="sd">            </span>
+<span class="sd">            EXAMPLES::</span>
+
+<span class="sd">                sage: from pet_salon.pam_examples import integer_multiplication</span>
+<span class="sd">                sage: part = integer_multiplication(2, QQ, 2).splitting().partition()</span>
+<span class="sd">                sage: part</span>
+<span class="sd">                Partition of 4 small 2-cubes into 16 subpolytopes</span>
+<span class="sd">                sage: restricted_part = part.restriction([2,3])</span>
+<span class="sd">                sage: restricted_part</span>
+<span class="sd">                Partition of disjoint union of 2 nonoverlapping polyhedra in QQ^2 into 8 subpolytopes</span>
+<span class="sd">                sage: list(restricted_part.domain().labels())</span>
+<span class="sd">                [2, 3]</span>
+<span class="sd">                sage: TestSuite(restricted_part).run()</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="n">new_domain</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span><span class="o">.</span><span class="n">restrict</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+            <span class="n">new_codomain_labels</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">ambient_labels_mapping</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span>
+                <span class="n">temp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">subunion_labels</span><span class="p">()[</span><span class="n">label</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">codomain_label</span> <span class="ow">in</span> <span class="n">temp</span><span class="p">:</span>
+                    <span class="n">ambient_labels_mapping</span><span class="p">[</span><span class="n">codomain_label</span><span class="p">]</span> <span class="o">=</span> <span class="n">label</span>
+                <span class="n">new_codomain_labels</span> <span class="o">+=</span> <span class="n">temp</span>
+            <span class="n">new_codomain</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span><span class="o">.</span><span class="n">restrict</span><span class="p">(</span><span class="n">new_codomain_labels</span><span class="p">)</span>
+            <span class="n">SE</span> <span class="o">=</span> <span class="n">SurjectiveEmbeddings</span><span class="p">(</span><span class="n">new_domain</span><span class="p">)</span>
+            <span class="n">se</span> <span class="o">=</span> <span class="n">SE</span><span class="p">(</span><span class="n">new_codomain</span><span class="p">,</span> <span class="n">ambient_labels_mapping</span><span class="p">)</span>
+            <span class="k">return</span> <span class="o">~</span><span class="n">se</span></div>
+
+
 <div class="viewcode-block" id="PartitionsCategory.ElementMethods.plot">
 <a class="viewcode-back" href="../../pet_salon.immersion.html#pet_salon.immersion.PartitionsCategory.ElementMethods.plot">[docs]</a>
         <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain_kwds</span><span class="o">=</span><span class="p">{},</span> <span class="n">codomain_kwds</span><span class="o">=</span><span class="p">{}):</span>
@@ -1501,12 +1575,12 @@
 <span class="sd">        sage: from pet_salon import PolytopeUnions, rectangle</span>
 <span class="sd">        sage: from pet_salon.immersion import Partitions</span>
 <span class="sd">        sage: U = PolytopeUnions(2, QQ)</span>
-<span class="sd">        sage: union = U(rectangle(QQ, 0, 1, 0, 1), name=&#39;union&#39;)</span>
+<span class="sd">        sage: union = U(rectangle(QQ, 0, 1, 0, 1), name=&#39;2-cube&#39;)</span>
 <span class="sd">        sage: union</span>
-<span class="sd">        union</span>
+<span class="sd">        2-cube</span>
 <span class="sd">        sage: P = Partitions(union)</span>
 <span class="sd">        sage: P</span>
-<span class="sd">        Partitions of union</span>
+<span class="sd">        Partitions of 2-cube</span>
 <span class="sd">        sage: TestSuite(P).run()</span>
 <span class="sd">        sage: f = P.inverse(U({</span>
 <span class="sd">        ....:     1: rectangle(QQ,   0, 1/2,   0, 1/2),</span>
@@ -1515,7 +1589,7 @@
 <span class="sd">        ....:     4: rectangle(QQ, 1/2,   1, 1/2,   1),</span>
 <span class="sd">        ....: }))</span>
 <span class="sd">        sage: f</span>
-<span class="sd">        Partition of union into 4 subpolytopes</span>
+<span class="sd">        Partition of 2-cube into 4 subpolytopes</span>
 <span class="sd">        sage: TestSuite(f).run()</span>
 <span class="sd">        sage: f(union.point((1/2,1/3)))</span>
 <span class="sd">        Point(1, (1/2, 1/3))</span>
@@ -1563,6 +1637,7 @@
 
 
     <span class="k">def</span> <span class="nf">_element_constructor_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Construct a partition.&#39;&#39;&#39;</span>
         <span class="c1">#print(f&#39;Called element_constructor with args={args}&#39;)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>

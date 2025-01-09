@@ -15,10 +15,11 @@ class ReturnMap:
 
         X = f.domain()
         I = X.restrict(return_labels, mapping=True)
-        J = X.restrict(other_labels, mapping=True)
+        #J = X.restrict(other_labels, mapping=True)
 
         # We are trying to construct the "union" of f_restricted and the identity I.
-        f_restricted = f*J
+        #f_restricted = f*J
+        f_restricted = f.restriction(other_labels)
 
         # We need to relabel the domain of I when including...
         f_part = f.partition()

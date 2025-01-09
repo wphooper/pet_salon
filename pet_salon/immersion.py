@@ -110,7 +110,7 @@ class ImmersionsCategory(Category):
             pass
 
         @abstract_method
-        def with_different_axioms(self, injective=False, surjective=False):
+        def with_different_axioms(self, injective=None, surjective=None):
             r'''Return a parent with the provided axioms.'''
             pass
 
@@ -287,6 +287,41 @@ class ImmersionsCategory(Category):
                 self.domain().plot(**domain_kwds),
                 self.codomain().plot(**codomain_kwds)
             ])
+
+        def restriction(self, domain_labels=None, codomain_labels=None, surjective=False):
+            r'''Return the restriction of the immersion to a subset of the domain labels.
+
+            If `domain_labels` is provided, then the restriction is to the polytopes with those labels. If `codomain_labels` is provided, then the restriction is to the polytopes in the domain that map into the polytopes with those labels, and the codomain labels are updated accordingly is shrunk to the codomain labels.
+
+            It is not possible to restrict both the domain and codomain labels.
+
+            You may set `surjective` to `True` to declare that the restriction is surjective. This is currently not checked.
+
+            Currently, only restricting the domain labels is implemented.
+
+            EXAMPLES::
+
+                sage: from pet_salon.pam_examples import integer_multiplication
+                sage: se =  ~integer_multiplication(2, QQ, 2).partition()
+                sage: se
+                Surjective embedding of 4 small 2-cubes into 2-cube
+                sage: restricted_se = se.restriction([2, 3])
+                sage: restricted_se
+                Embedding of disjoint union of 2 nonoverlapping polyhedra in QQ^2 into disjoint union of 1 nonoverlapping polyhedra in QQ^2
+                sage: list(restricted_se.domain().labels())
+                [2, 3]
+                sage: se.codomain() == restricted_se.codomain()
+                True
+                sage: TestSuite(restricted_se).run()
+            '''
+            if domain_labels:
+                if codomain_labels:
+                    raise ValueError('Cannot restrict both domain and codomain labels')
+                new_parent = self.parent().with_different_axioms(surjective=surjective)
+                return new_parent(self.domain().restrict(domain_labels), 
+                                {label: self.ambient_labels()[label] for label in domain_labels})
+            if codomain_labels:
+                raise NotImplementedError('Restricting codomain labels is not implemented yet')
 
         def _test_containment(self, tester=None):
             r'''Raise an assertion error if a polytope from the domain is not contained within the
@@ -480,9 +515,9 @@ class ImmersionsCategory(Category):
                     sage: from pet_salon import PolytopeUnions, rectangle
                     sage: from pet_salon.immersion import SurjectiveEmbeddings
                     sage: U = PolytopeUnions(2, QQ)
-                    sage: union = U(rectangle(QQ, 0, 1, 0, 1))
+                    sage: union = U(rectangle(QQ, 0, 1, 0, 1), name='2-cube')
                     sage: union
-                    Disjoint union of 1 nonoverlapping polyhedra in QQ^2
+                    2-cube
                     sage: P = SurjectiveEmbeddings(union)
                     sage: f = P(U({
                     ....:     1: rectangle(QQ,   0, 1/2,   0, 1/2),
@@ -490,7 +525,7 @@ class ImmersionsCategory(Category):
                     ....:     3: rectangle(QQ,   0, 1/2, 1/2,   1),
                     ....: }))
                     sage: f
-                    Surjective embedding of disjoint union of 3 nonoverlapping polyhedra in QQ^2 into disjoint union of 1 nonoverlapping polyhedra in QQ^2
+                    Surjective embedding of disjoint union of 3 nonoverlapping polyhedra in QQ^2 into 2-cube
                     sage: TestSuite(f).run()
                     Failure in _test_volume:
                     ...
@@ -788,8 +823,12 @@ class Immersions(UniqueRepresentation, Parent):
         union_name = repr(ambient_union)
         self.rename(f'{start} {union_name[0].lower()}{union_name[1:]}')
 
-    def with_different_axioms(self, injective=False, surjective=False):
+    def with_different_axioms(self, injective=None, surjective=None):
         r'''Return a parent with the provided axioms.'''
+        if injective is None:
+            injective = self.is_injective()
+        if surjective is None:
+            surjective = self.is_surjective()
         return Immersions(self.ambient_union(), injective=injective, surjective=surjective)
 
     def with_different_union(self, new_ambient_union):
@@ -927,12 +966,12 @@ def SurjectiveImmersions(ambient_union):
         sage: from pet_salon import PolytopeUnions, rectangle
         sage: from pet_salon.immersion import SurjectiveImmersions
         sage: U = PolytopeUnions(2, QQ)
-        sage: union = U(rectangle(QQ, 0, 1, 0, 1))
+        sage: union = U(rectangle(QQ, 0, 1, 0, 1), name='2-cube')
         sage: union
-        Disjoint union of 1 nonoverlapping polyhedra in QQ^2
+        2-cube
         sage: P = SurjectiveImmersions(union)
         sage: P
-        Surjective immersions into disjoint union of 1 nonoverlapping polyhedra in QQ^2
+        Surjective immersions into 2-cube
         sage: TestSuite(P).run()
         sage: V = PolytopeUnions(2, QQ, nonoverlapping=False)
         sage: f = P(V({
@@ -940,7 +979,7 @@ def SurjectiveImmersions(ambient_union):
         ....:     2: rectangle(QQ, 1/3,   1,   0, 1),
         ....: }))
         sage: f
-        Surjective immersion of disjoint union of 2 polyhedra in QQ^2 into disjoint union of 1 nonoverlapping polyhedra in QQ^2
+        Surjective immersion of disjoint union of 2 polyhedra in QQ^2 into 2-cube
         sage: TestSuite(f).run()
     '''
     return Immersions(ambient_union, injective=False, surjective=True)
@@ -979,12 +1018,12 @@ def SurjectiveEmbeddings(ambient_union):
         sage: from pet_salon import PolytopeUnions, rectangle
         sage: from pet_salon.immersion import SurjectiveEmbeddings
         sage: U = PolytopeUnions(2, QQ)
-        sage: union = U(rectangle(QQ, 0, 1, 0, 1))
+        sage: union = U(rectangle(QQ, 0, 1, 0, 1), name='2-cube')
         sage: union
-        Disjoint union of 1 nonoverlapping polyhedra in QQ^2
+        2-cube
         sage: P = SurjectiveEmbeddings(union)
         sage: P
-        Surjective embeddings into disjoint union of 1 nonoverlapping polyhedra in QQ^2
+        Surjective embeddings into 2-cube
         sage: TestSuite(P).run()
         sage: f = P(U({
         ....:     1: rectangle(QQ,   0, 1/2,   0, 1/2),
@@ -993,7 +1032,7 @@ def SurjectiveEmbeddings(ambient_union):
         ....:     4: rectangle(QQ, 1/2,   1, 1/2,   1),
         ....: }))
         sage: f
-        Surjective embedding of disjoint union of 4 nonoverlapping polyhedra in QQ^2 into disjoint union of 1 nonoverlapping polyhedra in QQ^2
+        Surjective embedding of disjoint union of 4 nonoverlapping polyhedra in QQ^2 into 2-cube
         sage: TestSuite(f).run()
     '''
     return Immersions(ambient_union, injective=True, surjective=True)
@@ -1120,6 +1159,35 @@ class PartitionsCategory(Category):
             except Exception as e:
                 raise AssertionError(f'The associated surjective embedding failed a test: {e}')
 
+        def restriction(self, labels):
+            r'''Return the restriction of the partition to the provided labels.
+            
+            EXAMPLES::
+
+                sage: from pet_salon.pam_examples import integer_multiplication
+                sage: part = integer_multiplication(2, QQ, 2).splitting().partition()
+                sage: part
+                Partition of 4 small 2-cubes into 16 subpolytopes
+                sage: restricted_part = part.restriction([2,3])
+                sage: restricted_part
+                Partition of disjoint union of 2 nonoverlapping polyhedra in QQ^2 into 8 subpolytopes
+                sage: list(restricted_part.domain().labels())
+                [2, 3]
+                sage: TestSuite(restricted_part).run()
+            '''
+            new_domain = self.domain().restrict(labels)
+            new_codomain_labels = []
+            ambient_labels_mapping = {}
+            for label in labels:
+                temp = self.subunion_labels()[label]
+                for codomain_label in temp:
+                    ambient_labels_mapping[codomain_label] = label
+                new_codomain_labels += temp
+            new_codomain = self.codomain().restrict(new_codomain_labels)
+            SE = SurjectiveEmbeddings(new_domain)
+            se = SE(new_codomain, ambient_labels_mapping)
+            return ~se
+
         def plot(self, domain_kwds={}, codomain_kwds={}):
             r'''
             Return a `graphics_array` containing plots of the domain and codomain.
@@ -1192,12 +1260,12 @@ class Partitions(UniqueRepresentation, Parent):
         sage: from pet_salon import PolytopeUnions, rectangle
         sage: from pet_salon.immersion import Partitions
         sage: U = PolytopeUnions(2, QQ)
-        sage: union = U(rectangle(QQ, 0, 1, 0, 1), name='union')
+        sage: union = U(rectangle(QQ, 0, 1, 0, 1), name='2-cube')
         sage: union
-        union
+        2-cube
         sage: P = Partitions(union)
         sage: P
-        Partitions of union
+        Partitions of 2-cube
         sage: TestSuite(P).run()
         sage: f = P.inverse(U({
         ....:     1: rectangle(QQ,   0, 1/2,   0, 1/2),
@@ -1206,7 +1274,7 @@ class Partitions(UniqueRepresentation, Parent):
         ....:     4: rectangle(QQ, 1/2,   1, 1/2,   1),
         ....: }))
         sage: f
-        Partition of union into 4 subpolytopes
+        Partition of 2-cube into 4 subpolytopes
         sage: TestSuite(f).run()
         sage: f(union.point((1/2,1/3)))
         Point(1, (1/2, 1/3))
@@ -1248,6 +1316,7 @@ class Partitions(UniqueRepresentation, Parent):
         return self.element_class(self, self.surjective_embeddings()(*args, **kwds), name=name)
 
     def _element_constructor_(self, *args, **kwds):
+        '''Construct a partition.'''
         #print(f'Called element_constructor with args={args}')
         if len(args)==1:
             if args[0] == 0:

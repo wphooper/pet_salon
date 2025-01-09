@@ -417,6 +417,32 @@
                 <span class="k">return</span> <span class="n">ah</span><span class="p">,</span> <span class="n">domain_mapping</span><span class="p">,</span> <span class="n">codomain_mapping</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">ah</span></div>
+
+
+<div class="viewcode-block" id="AffineHomeomorphismsCategory.ElementMethods.restriction">
+<a class="viewcode-back" href="../../pet_salon.affine.html#pet_salon.affine.AffineHomeomorphismsCategory.ElementMethods.restriction">[docs]</a>
+        <span class="k">def</span> <span class="nf">restriction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Return the affine homeomorphism restricted to the provided labels.</span>
+
+<span class="sd">            EXAMPLES::</span>
+<span class="sd">                sage: from pet_salon.pam_examples import integer_multiplication</span>
+<span class="sd">                sage: ah = integer_multiplication(2, QQ, 2).affine_homeomorphism()</span>
+<span class="sd">                sage: ah</span>
+<span class="sd">                Affine homeomorphism between disjoint unions of 4 polytopes</span>
+<span class="sd">                sage: list(ah.domain().labels())</span>
+<span class="sd">                [1, 2, 3, 4]</span>
+<span class="sd">                sage: ah2 = ah.restriction([1, 2])</span>
+<span class="sd">                sage: ah2</span>
+<span class="sd">                Affine homeomorphism between disjoint unions of 2 polytopes</span>
+<span class="sd">                sage: list(ah2.domain().labels())</span>
+<span class="sd">                [1, 2]</span>
+<span class="sd">                sage: TestSuite(ah2).run()</span>
+<span class="sd">            &#39;&#39;&#39;</span> 
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span><span class="o">.</span><span class="n">restrict</span><span class="p">(</span><span class="n">labels</span><span class="p">),</span>
+                <span class="p">{</span><span class="n">label</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">affine_mapping</span><span class="p">()[</span><span class="n">label</span><span class="p">]</span> <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">},</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span><span class="o">.</span><span class="n">restrict</span><span class="p">(</span><span class="n">labels</span><span class="p">))</span></div>
 </div>
 </div>
 
@@ -912,6 +938,37 @@
             <span class="n">ah</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">affine_homeomorphism</span><span class="p">()</span>
             <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">immersion</span><span class="p">()</span>
             <span class="k">return</span> <span class="n">p</span><span class="o">*</span><span class="n">i</span><span class="o">*</span><span class="n">ah</span></div>
+
+
+<div class="viewcode-block" id="PiecewiseAffineMapsCategory.ElementMethods.restriction">
+<a class="viewcode-back" href="../../pet_salon.affine.html#pet_salon.affine.PiecewiseAffineMapsCategory.ElementMethods.restriction">[docs]</a>
+        <span class="k">def</span> <span class="nf">restriction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">surjective</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Return the piecewise affine map restricted to the provided labels.</span>
+
+<span class="sd">            If `surjective` is `True`, then the map is assumed to be surjective. If `name` is provided, the new map will be given the name `name`.</span>
+
+<span class="sd">            EXAMPLES::</span>
+
+<span class="sd">                sage: from pet_salon.pam_examples import integer_multiplication</span>
+<span class="sd">                sage: f = integer_multiplication(2, QQ, 2).splitting()</span>
+<span class="sd">                sage: f2 = f.restriction([2,3], surjective=True)</span>
+<span class="sd">                sage: f2</span>
+<span class="sd">                Piecewise affine map from disjoint union of 2 nonoverlapping polyhedra in QQ^2 to 4 small 2-cubes</span>
+<span class="sd">                sage: list(f2.domain().labels())</span>
+<span class="sd">                [2, 3]</span>
+<span class="sd">                sage: f2.codomain() == f.codomain()</span>
+<span class="sd">                True</span>
+<span class="sd">                sage: f2.is_surjective()</span>
+<span class="sd">                True</span>
+<span class="sd">                sage: f2.is_injective()</span>
+<span class="sd">                False</span>
+<span class="sd">                sage: TestSuite(f2).run()</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">partition</span><span class="p">()</span><span class="o">.</span><span class="n">restriction</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+            <span class="n">ah</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">affine_homeomorphism</span><span class="p">()</span><span class="o">.</span><span class="n">restriction</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span><span class="o">.</span><span class="n">labels</span><span class="p">())</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">immersion</span><span class="p">()</span><span class="o">.</span><span class="n">restriction</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span><span class="o">.</span><span class="n">labels</span><span class="p">(),</span> <span class="n">surjective</span><span class="o">=</span><span class="n">surjective</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()(</span><span class="n">i</span><span class="p">,</span> <span class="n">ah</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="PiecewiseAffineMapsCategory.ElementMethods.plot">

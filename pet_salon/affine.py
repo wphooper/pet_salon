@@ -33,6 +33,7 @@ from sage.plot.plot import graphics_array
 from sage.rings.infinity import infinity
 from sage.structure.element import Element
 from sage.structure.parent import Parent
+from sage.structure.richcmp import (op_EQ, op_NE)
 from sage.structure.unique_representation import UniqueRepresentation
 
 from pet_salon.affine_gps.affine_group import AffineGroup
@@ -373,14 +374,21 @@ class AffineHomeomorphism(Element):
             function_mapping(self.domain().labels(), lambda label: ~self._affine_mapping[label]),
             self.domain())
 
-    def __eq__(self, other):
+    def _richcmp_(self, other, op):
+        if op!=op_EQ and op!=op_NE:
+            return NotImplemented
         if self is other:
-            return True
+            return op == op_EQ
         if not hasattr(other, 'parent') or not callable(other.parent) or self.parent() != other.parent():
-            return False
-        return self.domain() == other.domain() and \
-               self.codomain() == other.codomain() and \
-               self.affine_mapping() == other.affine_mapping()
+            return op == op_NE
+        if op == op_EQ:
+            return self.domain() == other.domain() and \
+                   self.codomain() == other.codomain() and \
+                   self.affine_mapping() == other.affine_mapping()
+        else:
+            return self.domain() != other.domain() or \
+                   self.codomain() != other.codomain() or \
+                   self.affine_mapping() != other.affine_mapping()
 
     @cached_method
     def __hash__(self):
@@ -1016,16 +1024,23 @@ class PiecewiseAffineMap(Element):
             raise ValueError('To be an invertible, the PiecewiseAffineMap must have an invertible immersion component.')
         return self.parent().element_class(self.parent() , ~self.partition(), ~self.affine_homeomorphism(), ~self.immersion())
 
-    def __eq__(self, other):
+    def _richcmp_(self, other, op):
+        if op!=op_EQ and op!=op_NE:
+            return NotImplemented
         if self is other:
-            return True
+            return op == op_EQ
         if hash(self) != hash(other):
-            return False
+            return op == op_NE
         if not hasattr(other, 'parent') or not callable(other.parent) or self.parent() != other.parent():
-            return False
-        return self.partition() == other.partition() and \
-               self.affine_homeomorphism() == other.affine_homeomorphism() and \
-               self.immersion() == other.immersion()
+            return op == op_NE
+        if op == op_EQ:
+            return self.partition() == other.partition() and \
+                    self.affine_homeomorphism() == other.affine_homeomorphism() and \
+                    self.immersion() == other.immersion()
+        else:
+            return self.partition() != other.partition() or \
+                    self.affine_homeomorphism() != other.affine_homeomorphism() or \
+                    self.immersion() != other.immersion()
 
     @cached_method
     def __hash__(self):

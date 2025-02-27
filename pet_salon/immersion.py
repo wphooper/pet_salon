@@ -30,6 +30,7 @@ from sage.plot.plot import graphics_array
 from sage.rings.infinity import infinity
 from sage.structure.element import Element
 from sage.structure.parent import Parent
+from sage.structure.richcmp import (op_EQ, op_NE)
 from sage.structure.unique_representation import UniqueRepresentation
 
 from .collection import identity_mapping, function_mapping, length, mapping_composition, tuple_singleton
@@ -682,16 +683,18 @@ class Immersion(Element):
         r'''Return a mapping sending labels in the subunion to labels in the ambient union.'''
         return self._ambient_labels_mapping
 
-    def __eq__(self, other):
+    def _richcmp_(self, other, op):
+        if op!=op_EQ and op!=op_NE:
+            return NotImplemented
         if self is other:
-            return True
+            return op == op_EQ    
         if not hasattr(other, 'parent') or not callable(other.parent) or self.parent() != other.parent():
-            return False
+            return op == op_NE
         if self.domain() != other.domain():
-            return False
+            return op == op_NE
         if 'Nonoverlapping' in self.parent().ambient_union().parent().category().axioms():
             # Nothing more to check
-            return True
+            return op == op_EQ
         try:
             len(self.ambient_labels())
             self_ambient_labels_finite = True
@@ -703,20 +706,17 @@ class Immersion(Element):
         except TypeError:
             other_ambient_labels_finite = False
         if self_ambient_labels_finite != other_ambient_labels_finite:
-            return False
+            return op == op_NE
         self_al = self.ambient_labels()
         other_al = other.ambient_labels()
         if self_ambient_labels_finite:
             for label in self.ambient_labels():
                 if self_al[label] != other_al[label]:
-                    return False
-            return True
+                    return op == op_NE
+            return op == op_EQ
         else:
             # hopeless
-            return False
-
-    def __ne__(self, other):
-        return not self.__eq__(other)
+            return op == op_NE
 
     @cached_method
     def __hash__(self):
@@ -844,16 +844,6 @@ class Immersions(UniqueRepresentation, Parent):
 
     def ambient_union(self):
         return self._ambient_union
-
-    def __eq__(self, other):
-        if not hasattr(other, 'category'):
-            return False
-        if not other.category().is_subcategory(self.category()):
-            return False
-        return self.ambient_union() == other.ambient_union()
-
-    def __ne__(self, other):
-        return not self.__eq__(other)
 
     def __hash__(self):
         return hash((self.category(), self.ambient_union()))
@@ -1222,15 +1212,14 @@ class Partition(Element):
         r'''Return the associated surjective embedding.'''
         return self._surjective_embedding
 
-    def __eq__(self, other):
+    def _richcmp_(self, other, op):
+        if op!=op_EQ and op!=op_NE:
+            return NotImplemented
         if self is other:
-            return True
+            return op == op_EQ
         if not hasattr(other, 'parent') or not callable(other.parent) or self.parent() != other.parent():
-            return False
-        return self.surjective_embedding() == other.surjective_embedding()
-
-    def __ne__(self, other):
-        return not self.__eq__(other)
+            return op == op_NE
+        return (op == op_EQ) == (self.surjective_embedding() == other.surjective_embedding())
 
     @cached_method
     def __hash__(self):
@@ -1290,13 +1279,17 @@ class Partitions(UniqueRepresentation, Parent):
     def ambient_union(self):
         return self._ambient_union
 
-    def __eq__(self, other):
+    def _richcmp_(self, other, op):
+        if op!=op_EQ and op!=op_NE:
+            return NotImplemented
+        if self is other:
+            return op == op_EQ
         if not hasattr(other, 'category') or not callable(other.category) or other.category() != self.category():
-            return False
-        return self.ambient_union() == other.ambient_union()
-
-    def __ne__(self, other):
-        return not self.__eq__(other)
+            return op == op_NE
+        if op == op_EQ:
+            return self.ambient_union() == other.ambient_union()
+        else:
+            return self.ambient_union() != other.ambient_union()
 
     def __hash__(self):
         return hash((self.category(), self.ambient_union()))

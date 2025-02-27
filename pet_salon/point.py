@@ -25,6 +25,8 @@ from sage.misc.abstract_method import abstract_method
 from sage.modules.free_module import VectorSpace
 from sage.structure.element import Element
 from sage.structure.parent import Parent
+from sage.structure.richcmp import (op_EQ, op_NE)
+from sage.structure.unique_representation import UniqueRepresentation
 
 from pet_salon.union import PolytopeUnionsCategory
 
@@ -111,20 +113,20 @@ class Point(Element):
     def __hash__(self):
         return hash((self.label(), self.position()))
 
-    def __eq__(self, other):
-        if other is None:
-            return False
+    def _richcmp_(self, other, op):
+        if op!=op_EQ and op!=op_NE:
+            return NotImplemented
         if self is other:
-            return True
+            return op == op_EQ
         if not hasattr(other, 'parent') or not callable(other.parent):
-            return False
+            return op == op_NE
         if self.parent() != other.parent():
-            return False
+            return op == op_NE
         if self.label() != other.label():
-            return False
-        return self.position() == other.position()
+            return op == op_NE
+        return (op == op_EQ) == (self.position() == other.position())
 
-class PointSet(Parent):
+class PointSet(UniqueRepresentation, Parent):
     r'''
     Represents the set of points in a `PolytopeUnion`.
 
@@ -159,15 +161,6 @@ class PointSet(Parent):
     def union(self):
         '''Return the `PolytopeUnion` that contains the points.'''
         return self._union
-
-    def __eq__(self, other):
-        if self is other:
-            return True
-        if not hasattr(other, 'category') or not callable(other.category):
-            return False
-        if not other.category().is_subcategory(PointSetsCategory()):
-            return False
-        return self.union() == other.union()
 
     def __hash__(self):
         return hash((self.category(), self.union()))

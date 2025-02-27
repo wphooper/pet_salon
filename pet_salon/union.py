@@ -36,6 +36,7 @@ from sage.rings.infinity import infinity
 from sage.rings.integer_ring import ZZ
 from sage.structure.element import Element
 from sage.structure.parent import Parent
+from sage.structure.richcmp import (op_EQ, op_NE)
 from sage.structure.unique_representation import UniqueRepresentation
 
 from pet_salon.collection import length, function_mapping, postcomposition_mapping
@@ -954,19 +955,18 @@ class PolytopeUnion(Element):
         r'''Return the a mapping from labels to polytopes.'''
         return self._mapping
 
-    def __eq__(self, other):
+    def _richcmp_(self, other, op):
+        if op!=op_EQ and op!=op_NE:
+            return NotImplemented
         if self is other:
-            return True
+            return op == op_EQ
         if not isinstance(other, PolytopeUnion):
-            return False
+            return op == op_NE
         if self.parent() != other.parent():
-            return False
+            return op == op_NE
         if self.is_finite() != other.is_finite():
-            return False
-        return self.polytopes() == other.polytopes()
-
-    def __ne__(self, other):
-        return not self.__eq__(other)
+            return op == op_NE
+        return (op == op_EQ) == (self.polytopes() == other.polytopes())
 
     def __hash__(self):
         if self.is_finite():
@@ -1098,14 +1098,6 @@ class PolytopeUnions(UniqueRepresentation, Parent):
 
     def with_different_field(self, new_field):
         return PolytopeUnions(self.dimension(), new_field, self.is_finite(), self.is_nonoverlapping())
-
-    def __eq__(self, other):
-        if not isinstance(other, PolytopeUnions):
-            return False
-        return self.dimension() == other.dimension() and self.field() == other.field()
-
-    def __ne__(self, other):
-        return not self.__eq__(other)
 
     def __hash__(self):
         return hash((self.dimension(), self.field()))

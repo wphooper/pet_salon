@@ -725,7 +725,7 @@ class PiecewiseAffineMapsCategory(Category):
             r'''Return `True` if the map is surjective. `False` if not.'''
             return 'Surjective' in self.immersion().parent().category().axioms()
 
-        def splitting(self):
+        def splitting(self, number=1):
             r'''
             Return the map conjugated by the partition.
 
@@ -733,11 +733,16 @@ class PiecewiseAffineMapsCategory(Category):
 
             If `p` is the parition, `ah` is the affine homeomorphism, and `i` is the
             immersion, then the original map is `i*ah*p`. The splitting is `p*i*ah`.
+
+            By default `number` is one and the map is split once. If `number` is greater than one, the map is split `number` times.
             '''
-            p = self.partition()
-            ah = self.affine_homeomorphism()
-            i = self.immersion()
-            return p*i*ah
+            s = self
+            for i in range(number):
+                p = s.partition()
+                ah = s.affine_homeomorphism()
+                i = s.immersion()
+                s = p*i*ah
+            return s
 
         def restriction(self, labels, surjective=False, name=None):
             r'''

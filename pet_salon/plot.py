@@ -181,7 +181,7 @@ def set_color(label, color):
     '''
     DECLARE_COLOR_CHOOSER.set(label, color)
 
-def plot_polytope_union(union, *args, fill=None, point = False, line = False, **kwds):
+def plot_polytope_union(union, *args, fill=None, point = False, line = False, labels=True, **kwds):
     r'''Plot the polytopes making up the union. The union must be 2- or 3-dimensional.
 
     The important argument is `fill` which specifies how colors are chosen for the polytopes in the union.
@@ -223,6 +223,7 @@ def plot_polytope_union(union, *args, fill=None, point = False, line = False, **
             plt += plt2
         else:
             plt = plt2
-        plt2 = text(label, p.center(), color = "black")
-        plt += plt2
+        if labels:
+            plt2 = text(label, p.center(), color = "black")
+            plt += plt2
     return plt

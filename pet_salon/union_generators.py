@@ -20,12 +20,9 @@
 from collections.abc import Mapping
 
 from sage.geometry.polyhedron.constructor import Polyhedron
-from sage.misc.cachefunc import cached_function
 from sage.rings.infinity import infinity
 from sage.rings.integer_ring import ZZ
 from sage.rings.rational_field import QQ
-from sage.structure.unique_representation import UniqueRepresentation
-from sage.structure.unique_representation import CachedRepresentation
 
 from pet_salon import PolytopeUnions
 
@@ -50,7 +47,6 @@ class _ZZ2mapping(Mapping):
     def __hash__(self):
         return hash('_ZZ2mapping')
 
-@cached_function
 def square_tiling(field):
     r'''
     Construct the square tiling in the plane as a PolytopeUnion.

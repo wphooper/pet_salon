@@ -23,9 +23,25 @@ See also `polytopes from sage.geometry.polyhedron.library <https://doc.sagemath.
 # ********************************************************************
 
 from copy import copy
-from sage.geometry.polyhedron.constructor import Polyhedron
-from sage.geometry.polyhedron.parent import Polyhedra
+#from sage.geometry.polyhedron.constructor import Polyhedron
+from sage.geometry.polyhedron.parent import Polyhedra as SagePolyhedra
 from sage.modules.free_module_element import vector
+
+from sage.categories.number_fields import NumberFields
+
+_number_field_backend = 'number_field' # options are 'field', 'number_field', and 'normaliz' (if installed)
+
+def Polyhedra(field, dimension):
+    r'''Construct the parent of Polyhedra in a given dimension over a given field. This function automatically selects a backend.'''
+    if field in NumberFields():
+        return SagePolyhedra(field, dimension, backend=_number_field_backend)
+    else:
+        return SagePolyhedra(field, dimension)
+
+def Polyhedron(field, dimension, vertices):
+    r'''Construct a polyhedron over the provided field, of the given dimension, with the provided vertex list.'''
+    P = Polyhedra(field, dimension)
+    return P([vertices,[],[]],None)
 
 def rectangle(field, *args):
     r'''
@@ -68,4 +84,4 @@ def rectangle(field, *args):
                 break
         vertices.append(copy(v))
         #print(vertices)
-    return P(Polyhedron(vertices=vertices))
+    return Polyhedron(field, dim, vertices=vertices)

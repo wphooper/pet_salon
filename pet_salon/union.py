@@ -28,7 +28,6 @@ from copy import copy
 from sage.categories.all import Sets
 from sage.categories.category import Category
 from sage.categories.category_with_axiom import CategoryWithAxiom, all_axioms
-from sage.geometry.polyhedron.parent import Polyhedra
 from sage.misc.cachefunc import cached_method
 from sage.misc.abstract_method import abstract_method
 from sage.modules.free_module import VectorSpace
@@ -40,6 +39,7 @@ from sage.structure.richcmp import (op_EQ, op_NE)
 from sage.structure.unique_representation import UniqueRepresentation
 
 from pet_salon.collection import length, function_mapping, postcomposition_mapping
+from pet_salon.polyhedra import Polyhedra
 
 # Make Nonoverlapping an axiom in Sage:
 all_axioms += ("Nonoverlapping",)
@@ -998,12 +998,12 @@ class PolytopeUnions(UniqueRepresentation, Parent):
     We can convert a single polyhedron to a union. It creates a union with a label of ``0``::
 
         sage: from pet_salon import PolytopeUnions
-        sage: from sage.geometry.polyhedron.constructor import Polyhedron
+        sage: from pet_salon.polyhedra import Polyhedron
         sage: U = PolytopeUnions(2, QQ, finite=True)
         sage: TestSuite(U).run()
-        sage: p0 = Polyhedron(vertices=[(1,0), (1,1), (-1,2)])
+        sage: p0 = Polyhedron(QQ, 2, vertices=[(1,0), (1,1), (-1,2)])
         sage: print(p0)
-        A 2-dimensional polyhedron in ZZ^2 defined as the convex hull of 3 vertices
+        A 2-dimensional polyhedron in QQ^2 defined as the convex hull of 3 vertices
         sage: union = U(p0)
         sage: union
         Disjoint union of 1 nonoverlapping polyhedra in QQ^2
@@ -1029,6 +1029,7 @@ class PolytopeUnions(UniqueRepresentation, Parent):
 
         sage: from collections.abc import Mapping
         sage: from pet_salon import PolytopeUnions
+        sage: from pet_salon.polyhedra import Polyhedron
         sage: U = PolytopeUnions(2, QQ, finite=False)
         sage: U
         Disjoint unions of nonoverlapping polyhedra in dimension 2 over Rational Field
@@ -1041,7 +1042,7 @@ class PolytopeUnions(UniqueRepresentation, Parent):
         ....:         if key in self._ZZ2:
         ....:             V = self._U.vector_space()
         ....:             v = V([*key]) # Convert to vector (neccessary for elements of ZZ2)
-        ....:             return self._U.polyhedra()(Polyhedron(vertices=[v, v+V((1,0)), v+V((0,1)), v+V((1,1))]))
+        ....:             return self._U.polyhedra()(Polyhedron(QQ, 2, vertices=[v, v+V((1,0)), v+V((0,1)), v+V((1,1))]))
         ....:         else:
         ....:             raise KeyError
         ....:     def __iter__(self):

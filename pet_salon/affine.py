@@ -97,9 +97,10 @@ class AffineHomeomorphismsCategory(Category):
             Example of coercion and conversion:
 
                 sage: from pet_salon import PolytopeUnions
+                sage: from pet_salon.polyhedra import Polyhedron
                 sage: U = PolytopeUnions(2, QQ)
-                sage: p0 = Polyhedron(vertices=[(0,0), (1,0), (0,1)])
-                sage: p1 = Polyhedron(vertices=[(1,0), (1,1), (0,1)])
+                sage: p0 = Polyhedron(QQ, 2, vertices=[(0,0), (1,0), (0,1)])
+                sage: p1 = Polyhedron(QQ, 2, vertices=[(1,0), (1,1), (0,1)])
                 sage: domain = U({0: p0, 1: p1})
                 sage: Aff = U.affine_group()
                 sage: a0 = Aff([[1, 1], [0, 1]])
@@ -196,11 +197,11 @@ class AffineHomeomorphismsCategory(Category):
                 sage: f = A(domain, {0: a}, codomain_is_nonoverlapping=True)
                 sage: f
                 Affine homeomorphism between disjoint unions of 1 polytopes
-                sage: f.codomain().polytope(0).vertices()
-                (A vertex at (1, 1),
+                sage: lst = list(f.codomain().polytope(0).vertices()); lst.sort(); lst
+                [A vertex at (1, 1),
                  A vertex at (2, 1),
                  A vertex at (2, 2),
-                 A vertex at (3, 2))
+                 A vertex at (3, 2)]
                 sage: image_point = f(domain.point((1/2,1/2)))
                 sage: image_point
                 Point(0, (2, 3/2))
@@ -228,9 +229,10 @@ class AffineHomeomorphismsCategory(Category):
             EXAMPLES::
 
                 sage: from pet_salon import PolytopeUnions
+                sage: from pet_salon.polyhedra import Polyhedron
                 sage: U = PolytopeUnions(2, QQ)
-                sage: p0 = Polyhedron(vertices=[(0,0), (1,0), (0,1)])
-                sage: p1 = Polyhedron(vertices=[(1,0), (1,1), (0,1)])
+                sage: p0 = Polyhedron(QQ, 2, vertices=[(0,0), (1,0), (0,1)])
+                sage: p1 = Polyhedron(QQ, 2, vertices=[(1,0), (1,1), (0,1)])
                 sage: domain = U({0: p0, 1: p1})
                 sage: domain
                 Disjoint union of 2 nonoverlapping polyhedra in QQ^2
@@ -327,8 +329,9 @@ class AffineHomeomorphism(Element):
 
         sage: from pet_salon import PolytopeUnions
         sage: U = PolytopeUnions(2, QQ)
-        sage: p0 = Polyhedron(vertices=[(0,0), (1,0), (0,1)])
-        sage: p1 = Polyhedron(vertices=[(1,0), (1,1), (0,1)])
+        sage: from pet_salon.polyhedra import Polyhedron
+        sage: p0 = Polyhedron(QQ, 2, vertices=[(0,0), (1,0), (0,1)])
+        sage: p1 = Polyhedron(QQ, 2, vertices=[(1,0), (1,1), (0,1)])
         sage: domain = U({0: p0, 1: p1})
         sage: domain
         Disjoint union of 2 nonoverlapping polyhedra in QQ^2

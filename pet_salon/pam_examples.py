@@ -20,7 +20,6 @@ Examples of Piecewise Affine Maps
 #  along with pet_salon. If not, see <https://www.gnu.org/licenses/>.
 # ********************************************************************
 
-from sage.geometry.polyhedron.constructor import Polyhedron
 from sage.matrix.special import identity_matrix
 from sage.matrix.constructor import matrix
 from sage.misc.prandom import choice
@@ -29,6 +28,7 @@ from sage.rings.integer_ring import ZZ
 
 from . import rectangle, PolytopeUnions, Partitions, AffineHomeomorphisms, SurjectiveImmersions, SurjectiveEmbeddings
 from .affine import PiecewiseAffineMaps
+from pet_salon.polyhedra import Polyhedron
 
 def integer_multiplication(dimension, field, k):
     r'''A representation of :math:`v \mapsto k*v \pmod{\mathbb Z^d}` as a piecewise affine map.
@@ -187,9 +187,9 @@ class CombinatorialConvexPolygonTriangulation:
         Return the surjective embedding associated to this triangulation of a polygon with the provided `vertices`, a list in cyclic order.
         '''
         P = PolytopeUnions(2, vertices[0].parent().base_ring())
-        codomain = P(Polyhedron(vertices=vertices))
+        codomain = P(Polyhedron(vertices[0].parent().base_ring(), 2, vertices=vertices))
         SE = SurjectiveEmbeddings(codomain)
-        return SE(P({ i : Polyhedron(vertices={vertices[a], vertices[b], vertices[c]}) for i, (a,b,c) in enumerate(self.triangles())}))
+        return SE(P({ i : Polyhedron(vertices[0].parent().base_ring(), 2, vertices={vertices[a], vertices[b], vertices[c]}) for i, (a,b,c) in enumerate(self.triangles())}))
 
     def partition(self, vertices):
         r'''
@@ -227,13 +227,13 @@ def polygon_triangulation_mapping(field, vertices, triangles, vertex_action = la
     vertices = [V(v) for v in vertices]
     n = len(vertices)
     assert len(triangles) == n-2, 'There should be two fewer triangles than vertices'
-    quad = PU(Polyhedron(vertices=vertices), name=f'The {n}-gon')
-    domain = PU({i:PU.polyhedra()(Polyhedron(vertices=[
+    quad = PU(Polyhedron(field, 2, vertices=vertices), name=f'The {n}-gon')
+    domain = PU({i:PU.polyhedra()(Polyhedron(field, 2, vertices=[
             vertices[a],
             vertices[b],
             vertices[c],
         ])) for i,(a,b,c) in enumerate(triangles)})
-    codomain = PU({i:PU.polyhedra()(Polyhedron(vertices=[
+    codomain = PU({i:PU.polyhedra()(Polyhedron(field, 2, vertices=[
             vertices[vertex_action(a)%n],
             vertices[vertex_action(b)%n],
             vertices[vertex_action(c)%n],
@@ -281,10 +281,10 @@ def quadrilateral_map(field, vertices_or_vertex, vertex_action = lambda n: n+1, 
         ]
     except TypeError:
         vertices = [V(vertices_or_vertex[i]) for i in range(4)]
-    quad = PU(Polyhedron(vertices=vertices), name='Quadrilateral')
+    quad = PU(Polyhedron(field, 2, vertices=vertices), name='Quadrilateral')
     tris = []
     for i in range(4):
-        tris.append(PU.polyhedra()(Polyhedron(vertices=[
+        tris.append(PU.polyhedra()(Polyhedron(field, 2, vertices=[
             vertices[(i+1)%4],
             vertices[(i+2)%4],
             vertices[(i+3)%4],

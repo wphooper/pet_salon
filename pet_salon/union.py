@@ -951,6 +951,36 @@ class PolytopeUnion(Element):
                 no = ''
             self.rename(f'Disjoint union of {size} {no}{s[0].lower()}{s[1:]}')
 
+    def __getstate__(self):
+        '''
+        When this is a finite polytope union, we store the fact that it is finite, and a dictionary mapping
+        labels to lists of vertices of the polytope.
+        '''
+        state = super(Element, self).__getstate__()
+        state['field'] = self.parent().field()
+        state['dimension'] = self.parent().dimension()
+        finite = self.is_finite()
+        state['finite'] = finite
+        state['nonoverlapping'] = self.is_nonoverlapping()
+        if finite:
+            state['vertex_list_mapping'] = {label:[v.vector() for v in p.vertices()] for label,p in self._mapping.items()}
+        else:
+            state['_mapping'] = self._mapping
+        return state
+
+    def __setstate__(self, state):
+        finite = state['finite']
+        PU = PolytopeUnions(state['dimension'], state['field'], finite=finite, nonoverlapping=state['nonoverlapping'])
+        self._set_parent(PU)
+        if finite:
+            self._mapping = {}
+            P = PU.polyhedra()
+            for label, vertices in state['vertex_list_mapping'].items():
+                # Construct the polyhedron with the given vertices and store it with the provided label.
+                self._mapping[label] = P([vertices,[],[]],None)
+        else:
+            self._mapping = state['_mapping']
+
     def polytopes(self):
         r'''Return the a mapping from labels to polytopes.'''
         return self._mapping

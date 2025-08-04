@@ -65,7 +65,7 @@ def is_nonoverlapping(polytope_collection):
         p1 = polytopes[i]
         for j in range(i+1, len(polytopes)):
             p2 = polytopes[j]
-            if p1.intersection(p2).volume() != 0:
+            if p1.intersection(p2).affine_hull().is_universe():
                 return False
     return True
 

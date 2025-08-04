@@ -580,7 +580,7 @@ def _reverse_order_p_i(p, i):
             subunion_data = []
             for c,z in p.subunion(b).polytopes().items():
                 y2 = x.intersection(z)
-                if y2.volume() > 0:
+                if y2.affine_hull().is_universe():
                     b2 = relabeler.new_label((a,c))
                     Y2_polytopes[b2] = y2
                     ambient_labels1[b2] = a

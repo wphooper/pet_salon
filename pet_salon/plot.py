@@ -181,7 +181,7 @@ def set_color(label, color):
     '''
     DECLARE_COLOR_CHOOSER.set(label, color)
 
-def plot_polytope_union(union, *args, fill=None, point = False, line = False, labels = False, **kwds):
+def plot_polytope_union(union, *args, fill=None, point = False, line = None, labels = False, **kwds):
     r'''Plot the polytopes making up the union. The union must be 2- or 3-dimensional.
 
     The important argument is `fill` which specifies how colors are chosen for the polytopes in the union.
@@ -208,16 +208,21 @@ def plot_polytope_union(union, *args, fill=None, point = False, line = False, la
         sage: plot_polytope_union(union) # not tested
     '''
     assert union.parent().dimension() in [2,3], 'This plot function only works in dimensions 2 and 3'
+
+    fill_parameter = fill
+    if union.intrinsic_dimension() in [2, 3]:
+        if line is None:
+            line = False
     if fill is None:
         fill_parameter = get_color
-    else:
-        fill_parameter = fill
+
     plt = None
     for label, p in union.polytopes().items():
         if isinstance(fill_parameter, Mapping):
             fill = fill_parameter[label]
         elif callable(fill_parameter):
             fill = fill_parameter(label)
+        d = dict(point=point, line=line, fill=fill, **kwds)
         plt2 = p.plot(*args, point=point, line=line, fill=fill, **kwds)
         if plt:
             plt += plt2

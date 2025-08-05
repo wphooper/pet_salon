@@ -60,6 +60,8 @@
 <li class="toctree-l3"><a class="reference internal" href="pet_salon.plot.html">pet_salon.plot module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pet_salon.point.html">pet_salon.point module</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">pet_salon.polyhedra module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pet_salon.polyhedra.Polyhedra"><code class="docutils literal notranslate"><span class="pre">Polyhedra()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pet_salon.polyhedra.Polyhedron"><code class="docutils literal notranslate"><span class="pre">Polyhedron()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pet_salon.polyhedra.rectangle"><code class="docutils literal notranslate"><span class="pre">rectangle()</span></code></a></li>
 </ul>
 </li>
@@ -104,6 +106,18 @@
 <span id="pet-salon-polyhedra-module"></span><h1>pet_salon.polyhedra module<a class="headerlink" href="#module-pet_salon.polyhedra" title="Link to this heading"></a></h1>
 <p>Examples of polyhedra.</p>
 <p>See also <a class="reference external" href="https://doc.sagemath.org/html/en/reference/discqrete_geometry/sage/geometry/polyhedron/library.html">polytopes from sage.geometry.polyhedron.library</a>.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="pet_salon.polyhedra.Polyhedra">
+<span class="sig-prename descclassname"><span class="pre">pet_salon.polyhedra.</span></span><span class="sig-name descname"><span class="pre">Polyhedra</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimension</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/polyhedra.html#Polyhedra"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.polyhedra.Polyhedra" title="Link to this definition"></a></dt>
+<dd><p>Construct the parent of Polyhedra in a given dimension over a given field. This function automatically selects a backend.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pet_salon.polyhedra.Polyhedron">
+<span class="sig-prename descclassname"><span class="pre">pet_salon.polyhedra.</span></span><span class="sig-name descname"><span class="pre">Polyhedron</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimension</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vertices</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/polyhedra.html#Polyhedron"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.polyhedra.Polyhedron" title="Link to this definition"></a></dt>
+<dd><p>Construct a polyhedron over the provided field, of the given dimension, with the provided vertex list.</p>
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="pet_salon.polyhedra.rectangle">
 <span class="sig-prename descclassname"><span class="pre">pet_salon.polyhedra.</span></span><span class="sig-name descname"><span class="pre">rectangle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/polyhedra.html#rectangle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.polyhedra.rectangle" title="Link to this definition"></a></dt>

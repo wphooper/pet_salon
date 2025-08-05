@@ -52,7 +52,7 @@ class AffineHomeomorphismsCategory(Category):
 
     def super_categories(self):
         r"""
-        Return the categories subdivisions automatically belong to.
+        Return the categories affine homeomorphisms automatically belong to.
         """
         return [Sets()]
 
@@ -563,6 +563,7 @@ def _reverse_order_p_i(p, i):
     '''
     # TODO: This only works when the unions are finite!
     X = i.domain()
+    int_dim = X.intrinsic_dimension()
     Y = i.codomain()
     assert Y == p.domain(), 'The composition p∘i is not well-defined.'
     Z = p.codomain()
@@ -580,7 +581,7 @@ def _reverse_order_p_i(p, i):
             subunion_data = []
             for c,z in p.subunion(b).polytopes().items():
                 y2 = x.intersection(z)
-                if y2.affine_hull().is_universe():
+                if y2.affine_hull().dimension() == int_dim:
                     b2 = relabeler.new_label((a,c))
                     Y2_polytopes[b2] = y2
                     ambient_labels1[b2] = a

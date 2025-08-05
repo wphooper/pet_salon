@@ -95,15 +95,12 @@
 
 <span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Mapping</span>
 
-<span class="kn">from</span> <span class="nn">sage.geometry.polyhedron.constructor</span> <span class="kn">import</span> <span class="n">Polyhedron</span>
-<span class="kn">from</span> <span class="nn">sage.misc.cachefunc</span> <span class="kn">import</span> <span class="n">cached_function</span>
 <span class="kn">from</span> <span class="nn">sage.rings.infinity</span> <span class="kn">import</span> <span class="n">infinity</span>
 <span class="kn">from</span> <span class="nn">sage.rings.integer_ring</span> <span class="kn">import</span> <span class="n">ZZ</span>
 <span class="kn">from</span> <span class="nn">sage.rings.rational_field</span> <span class="kn">import</span> <span class="n">QQ</span>
-<span class="kn">from</span> <span class="nn">sage.structure.unique_representation</span> <span class="kn">import</span> <span class="n">UniqueRepresentation</span>
-<span class="kn">from</span> <span class="nn">sage.structure.unique_representation</span> <span class="kn">import</span> <span class="n">CachedRepresentation</span>
 
-<span class="kn">from</span> <span class="nn">pet_salon</span> <span class="kn">import</span> <span class="n">PolytopeUnions</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">PolytopeUnions</span>
+<span class="kn">from</span> <span class="nn">pet_salon.polyhedra</span> <span class="kn">import</span> <span class="n">Polyhedron</span>
 
 <span class="k">class</span> <span class="nc">_ZZ2mapping</span><span class="p">(</span><span class="n">Mapping</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;The mapping sending ``v`` in $\mathbb Z^2$ to the square with lower-left hand corner ``v``.&#39;&#39;&#39;</span>
@@ -114,7 +111,7 @@
         <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ZZ2</span><span class="p">:</span>
             <span class="n">V</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_U</span><span class="o">.</span><span class="n">vector_space</span><span class="p">()</span>
             <span class="n">v</span> <span class="o">=</span> <span class="n">V</span><span class="p">([</span><span class="o">*</span><span class="n">key</span><span class="p">])</span> <span class="c1"># Convert to vector (neccessary for elements of ZZ2)</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_U</span><span class="o">.</span><span class="n">polyhedra</span><span class="p">()(</span><span class="n">Polyhedron</span><span class="p">(</span><span class="n">vertices</span><span class="o">=</span><span class="p">[</span><span class="n">v</span><span class="p">,</span> <span class="n">v</span><span class="o">+</span><span class="n">V</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)),</span> <span class="n">v</span><span class="o">+</span><span class="n">V</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)),</span> <span class="n">v</span><span class="o">+</span><span class="n">V</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))]))</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_U</span><span class="o">.</span><span class="n">polyhedra</span><span class="p">()(</span><span class="n">Polyhedron</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">vertices</span><span class="o">=</span><span class="p">[</span><span class="n">v</span><span class="p">,</span> <span class="n">v</span><span class="o">+</span><span class="n">V</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)),</span> <span class="n">v</span><span class="o">+</span><span class="n">V</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)),</span> <span class="n">v</span><span class="o">+</span><span class="n">V</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))]))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">KeyError</span>
     <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -128,7 +125,6 @@
 
 <div class="viewcode-block" id="square_tiling">
 <a class="viewcode-back" href="../../pet_salon.union_generators.html#pet_salon.union_generators.square_tiling">[docs]</a>
-<span class="nd">@cached_function</span>
 <span class="k">def</span> <span class="nf">square_tiling</span><span class="p">(</span><span class="n">field</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Construct the square tiling in the plane as a PolytopeUnion.</span>
@@ -140,11 +136,11 @@
 <span class="sd">        sage: union</span>
 <span class="sd">        Disjoint union of ∞ly many nonoverlapping polyhedra in QQ^2</span>
 <span class="sd">        sage: TestSuite(union).run()</span>
-<span class="sd">        sage: union.polytope((2,1)).vertices()</span>
-<span class="sd">        (A vertex at (2, 1),</span>
+<span class="sd">        sage: lst = list(union.polytope((2,1)).vertices()); lst.sort(); lst</span>
+<span class="sd">        [A vertex at (2, 1),</span>
 <span class="sd">         A vertex at (2, 2),</span>
 <span class="sd">         A vertex at (3, 1),</span>
-<span class="sd">         A vertex at (3, 2))</span>
+<span class="sd">         A vertex at (3, 2)]</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">U</span> <span class="o">=</span> <span class="n">PolytopeUnions</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">QQ</span><span class="p">,</span> <span class="n">finite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">mapping</span> <span class="o">=</span> <span class="n">_ZZ2mapping</span><span class="p">(</span><span class="n">U</span><span class="p">)</span>

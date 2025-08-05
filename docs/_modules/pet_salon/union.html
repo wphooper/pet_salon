@@ -104,7 +104,6 @@
 <span class="kn">from</span> <span class="nn">sage.categories.all</span> <span class="kn">import</span> <span class="n">Sets</span>
 <span class="kn">from</span> <span class="nn">sage.categories.category</span> <span class="kn">import</span> <span class="n">Category</span>
 <span class="kn">from</span> <span class="nn">sage.categories.category_with_axiom</span> <span class="kn">import</span> <span class="n">CategoryWithAxiom</span><span class="p">,</span> <span class="n">all_axioms</span>
-<span class="kn">from</span> <span class="nn">sage.geometry.polyhedron.parent</span> <span class="kn">import</span> <span class="n">Polyhedra</span>
 <span class="kn">from</span> <span class="nn">sage.misc.cachefunc</span> <span class="kn">import</span> <span class="n">cached_method</span>
 <span class="kn">from</span> <span class="nn">sage.misc.abstract_method</span> <span class="kn">import</span> <span class="n">abstract_method</span>
 <span class="kn">from</span> <span class="nn">sage.modules.free_module</span> <span class="kn">import</span> <span class="n">VectorSpace</span>
@@ -112,9 +111,11 @@
 <span class="kn">from</span> <span class="nn">sage.rings.integer_ring</span> <span class="kn">import</span> <span class="n">ZZ</span>
 <span class="kn">from</span> <span class="nn">sage.structure.element</span> <span class="kn">import</span> <span class="n">Element</span>
 <span class="kn">from</span> <span class="nn">sage.structure.parent</span> <span class="kn">import</span> <span class="n">Parent</span>
+<span class="kn">from</span> <span class="nn">sage.structure.richcmp</span> <span class="kn">import</span> <span class="p">(</span><span class="n">op_EQ</span><span class="p">,</span> <span class="n">op_NE</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">sage.structure.unique_representation</span> <span class="kn">import</span> <span class="n">UniqueRepresentation</span>
 
 <span class="kn">from</span> <span class="nn">pet_salon.collection</span> <span class="kn">import</span> <span class="n">length</span><span class="p">,</span> <span class="n">function_mapping</span><span class="p">,</span> <span class="n">postcomposition_mapping</span>
+<span class="kn">from</span> <span class="nn">pet_salon.polyhedra</span> <span class="kn">import</span> <span class="n">Polyhedra</span>
 
 <span class="c1"># Make Nonoverlapping an axiom in Sage:</span>
 <span class="n">all_axioms</span> <span class="o">+=</span> <span class="p">(</span><span class="s2">&quot;Nonoverlapping&quot;</span><span class="p">,)</span>
@@ -122,9 +123,10 @@
 <div class="viewcode-block" id="is_nonoverlapping">
 <a class="viewcode-back" href="../../pet_salon.union.html#pet_salon.union.is_nonoverlapping">[docs]</a>
 <span class="k">def</span> <span class="nf">is_nonoverlapping</span><span class="p">(</span><span class="n">polytope_collection</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return if the polytope collection is non-overlapping.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return if the polytope collection is non-overlapping in the sense that any overlaps between the</span>
+<span class="sd">    polytopes have dimension less than the dimension of the polytopes.</span>
 
-<span class="sd">    We require the collection to be finite.</span>
+<span class="sd">    We require the collection to be finite, and assume that the polytopes have constant dimension.</span>
 
 <span class="sd">    Parameters:</span>
 <span class="sd">    polytope_collection (iterable): A collection of polytopes.</span>
@@ -138,11 +140,12 @@
     <span class="k">if</span> <span class="n">length</span><span class="p">(</span><span class="n">polytope_collection</span><span class="p">)</span> <span class="o">==</span> <span class="n">infinity</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;is_nonoverlapping only works for finite collections of polytopes!&#39;</span><span class="p">)</span>
     <span class="n">polytopes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">polytope_collection</span><span class="p">)</span>
+    <span class="n">int_dim</span> <span class="o">=</span> <span class="n">polytopes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">affine_hull</span><span class="p">()</span><span class="o">.</span><span class="n">dimension</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">polytopes</span><span class="p">)):</span>
         <span class="n">p1</span> <span class="o">=</span> <span class="n">polytopes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">polytopes</span><span class="p">)):</span>
             <span class="n">p2</span> <span class="o">=</span> <span class="n">polytopes</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">p1</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span><span class="o">.</span><span class="n">volume</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">p1</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span><span class="o">.</span><span class="n">affine_hull</span><span class="p">()</span><span class="o">.</span><span class="n">dimension</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="n">int_dim</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">False</span>
     <span class="k">return</span> <span class="kc">True</span></div>
 
@@ -537,7 +540,35 @@
 <span class="sd">            &#39;&#39;&#39;</span>
             <span class="kn">from</span> <span class="nn">.plot</span> <span class="kn">import</span> <span class="n">plot_polytope_union</span>
             <span class="k">return</span> <span class="n">plot_polytope_union</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span></div>
-</div>
+
+
+<div class="viewcode-block" id="PolytopeUnionsCategory.ElementMethods.intrinsic_dimension">
+<a class="viewcode-back" href="../../pet_salon.union.html#pet_salon.union.PolytopeUnionsCategory.ElementMethods.intrinsic_dimension">[docs]</a>
+        <span class="k">def</span> <span class="nf">intrinsic_dimension</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Return the intrinsic dimension of the union.</span>
+
+<span class="sd">            This is the dimension of polytopes in the union.</span>
+
+<span class="sd">            EXAMPLES::</span>
+
+<span class="sd">                sage: from pet_salon import PolytopeUnions</span>
+<span class="sd">                sage: PU = PolytopeUnions(2, QQ)</span>
+<span class="sd">                sage: PU.an_element().intrinsic_dimension()</span>
+<span class="sd">                2</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">polytopes</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">return</span> <span class="n">p</span><span class="o">.</span><span class="n">affine_hull</span><span class="p">()</span><span class="o">.</span><span class="n">dimension</span><span class="p">()</span></div>
+
+
+        <span class="k">def</span> <span class="nf">_test_intrinsic_dimension</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Test that all polytopes in the union have the same intrinsic dimension.</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="n">int_dim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">intrinsic_dimension</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">polytopes</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">affine_hull</span><span class="p">()</span><span class="o">.</span><span class="n">dimension</span><span class="p">()</span> <span class="o">!=</span> <span class="n">int_dim</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The intrinsic dimension of the union is </span><span class="si">{</span><span class="n">int_dim</span><span class="si">}</span><span class="s1"> but the polytope with label </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s1"> has dimension </span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">affine_hull</span><span class="p">()</span><span class="o">.</span><span class="n">dimension</span><span class="p">()</span><span class="si">}</span><span class="s1">. This is inconsistent.&#39;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="PolytopeUnionsCategory.Finite">
@@ -1178,6 +1209,36 @@
                 <span class="n">no</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Disjoint union of </span><span class="si">{</span><span class="n">size</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">no</span><span class="si">}{</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}{</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        When this is a finite polytope union, we store the fact that it is finite, and a dictionary mapping</span>
+<span class="sd">        labels to lists of vertices of the polytope.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">Element</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__getstate__</span><span class="p">()</span>
+        <span class="n">state</span><span class="p">[</span><span class="s1">&#39;field&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+        <span class="n">state</span><span class="p">[</span><span class="s1">&#39;dimension&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">dimension</span><span class="p">()</span>
+        <span class="n">finite</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_finite</span><span class="p">()</span>
+        <span class="n">state</span><span class="p">[</span><span class="s1">&#39;finite&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">finite</span>
+        <span class="n">state</span><span class="p">[</span><span class="s1">&#39;nonoverlapping&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_nonoverlapping</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">finite</span><span class="p">:</span>
+            <span class="n">state</span><span class="p">[</span><span class="s1">&#39;vertex_list_mapping&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">label</span><span class="p">:[</span><span class="n">v</span><span class="o">.</span><span class="n">vector</span><span class="p">()</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">vertices</span><span class="p">()]</span> <span class="k">for</span> <span class="n">label</span><span class="p">,</span><span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapping</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">state</span><span class="p">[</span><span class="s1">&#39;_mapping&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapping</span>
+        <span class="k">return</span> <span class="n">state</span>
+
+    <span class="k">def</span> <span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+        <span class="n">finite</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;finite&#39;</span><span class="p">]</span>
+        <span class="n">PU</span> <span class="o">=</span> <span class="n">PolytopeUnions</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;dimension&#39;</span><span class="p">],</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;field&#39;</span><span class="p">],</span> <span class="n">finite</span><span class="o">=</span><span class="n">finite</span><span class="p">,</span> <span class="n">nonoverlapping</span><span class="o">=</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;nonoverlapping&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_parent</span><span class="p">(</span><span class="n">PU</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">finite</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_mapping</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">P</span> <span class="o">=</span> <span class="n">PU</span><span class="o">.</span><span class="n">polyhedra</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">vertices</span> <span class="ow">in</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;vertex_list_mapping&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="c1"># Construct the polyhedron with the given vertices and store it with the provided label.</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_mapping</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">P</span><span class="p">([</span><span class="n">vertices</span><span class="p">,[],[]],</span><span class="kc">None</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_mapping</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;_mapping&#39;</span><span class="p">]</span>
+
 <div class="viewcode-block" id="PolytopeUnion.polytopes">
 <a class="viewcode-back" href="../../pet_salon.union.html#pet_salon.union.PolytopeUnion.polytopes">[docs]</a>
     <span class="k">def</span> <span class="nf">polytopes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1185,19 +1246,18 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapping</span></div>
 
 
-    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_richcmp_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">op</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">op</span><span class="o">!=</span><span class="n">op_EQ</span> <span class="ow">and</span> <span class="n">op</span><span class="o">!=</span><span class="n">op_NE</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">NotImplemented</span>
         <span class="k">if</span> <span class="bp">self</span> <span class="ow">is</span> <span class="n">other</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">return</span> <span class="n">op</span> <span class="o">==</span> <span class="n">op_EQ</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">PolytopeUnion</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="n">op</span> <span class="o">==</span> <span class="n">op_NE</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">parent</span><span class="p">():</span>
-            <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="n">op</span> <span class="o">==</span> <span class="n">op_NE</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_finite</span><span class="p">()</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">is_finite</span><span class="p">():</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">polytopes</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">polytopes</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">op</span> <span class="o">==</span> <span class="n">op_NE</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">op</span> <span class="o">==</span> <span class="n">op_EQ</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">polytopes</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">polytopes</span><span class="p">())</span>
 
     <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_finite</span><span class="p">():</span>
@@ -1232,12 +1292,12 @@
 <span class="sd">    We can convert a single polyhedron to a union. It creates a union with a label of ``0``::</span>
 
 <span class="sd">        sage: from pet_salon import PolytopeUnions</span>
-<span class="sd">        sage: from sage.geometry.polyhedron.constructor import Polyhedron</span>
+<span class="sd">        sage: from pet_salon.polyhedra import Polyhedron</span>
 <span class="sd">        sage: U = PolytopeUnions(2, QQ, finite=True)</span>
 <span class="sd">        sage: TestSuite(U).run()</span>
-<span class="sd">        sage: p0 = Polyhedron(vertices=[(1,0), (1,1), (-1,2)])</span>
+<span class="sd">        sage: p0 = Polyhedron(QQ, 2, vertices=[(1,0), (1,1), (-1,2)])</span>
 <span class="sd">        sage: print(p0)</span>
-<span class="sd">        A 2-dimensional polyhedron in ZZ^2 defined as the convex hull of 3 vertices</span>
+<span class="sd">        A 2-dimensional polyhedron in QQ^2 defined as the convex hull of 3 vertices</span>
 <span class="sd">        sage: union = U(p0)</span>
 <span class="sd">        sage: union</span>
 <span class="sd">        Disjoint union of 1 nonoverlapping polyhedra in QQ^2</span>
@@ -1263,6 +1323,7 @@
 
 <span class="sd">        sage: from collections.abc import Mapping</span>
 <span class="sd">        sage: from pet_salon import PolytopeUnions</span>
+<span class="sd">        sage: from pet_salon.polyhedra import Polyhedron</span>
 <span class="sd">        sage: U = PolytopeUnions(2, QQ, finite=False)</span>
 <span class="sd">        sage: U</span>
 <span class="sd">        Disjoint unions of nonoverlapping polyhedra in dimension 2 over Rational Field</span>
@@ -1275,7 +1336,7 @@
 <span class="sd">        ....:         if key in self._ZZ2:</span>
 <span class="sd">        ....:             V = self._U.vector_space()</span>
 <span class="sd">        ....:             v = V([*key]) # Convert to vector (neccessary for elements of ZZ2)</span>
-<span class="sd">        ....:             return self._U.polyhedra()(Polyhedron(vertices=[v, v+V((1,0)), v+V((0,1)), v+V((1,1))]))</span>
+<span class="sd">        ....:             return self._U.polyhedra()(Polyhedron(QQ, 2, vertices=[v, v+V((1,0)), v+V((0,1)), v+V((1,1))]))</span>
 <span class="sd">        ....:         else:</span>
 <span class="sd">        ....:             raise KeyError</span>
 <span class="sd">        ....:     def __iter__(self):</span>
@@ -1344,14 +1405,6 @@
     <span class="k">def</span> <span class="nf">with_different_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_field</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">PolytopeUnions</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">(),</span> <span class="n">new_field</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_finite</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_nonoverlapping</span><span class="p">())</span></div>
 
-
-    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">PolytopeUnions</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">dimension</span><span class="p">()</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">field</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">hash</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">field</span><span class="p">()))</span>

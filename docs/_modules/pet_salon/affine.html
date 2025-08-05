@@ -109,6 +109,7 @@
 <span class="kn">from</span> <span class="nn">sage.rings.infinity</span> <span class="kn">import</span> <span class="n">infinity</span>
 <span class="kn">from</span> <span class="nn">sage.structure.element</span> <span class="kn">import</span> <span class="n">Element</span>
 <span class="kn">from</span> <span class="nn">sage.structure.parent</span> <span class="kn">import</span> <span class="n">Parent</span>
+<span class="kn">from</span> <span class="nn">sage.structure.richcmp</span> <span class="kn">import</span> <span class="p">(</span><span class="n">op_EQ</span><span class="p">,</span> <span class="n">op_NE</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">sage.structure.unique_representation</span> <span class="kn">import</span> <span class="n">UniqueRepresentation</span>
 
 <span class="kn">from</span> <span class="nn">pet_salon.affine_gps.affine_group</span> <span class="kn">import</span> <span class="n">AffineGroup</span>
@@ -131,7 +132,7 @@
 <a class="viewcode-back" href="../../pet_salon.affine.html#pet_salon.affine.AffineHomeomorphismsCategory.super_categories">[docs]</a>
     <span class="k">def</span> <span class="nf">super_categories</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the categories subdivisions automatically belong to.</span>
+<span class="sd">        Return the categories affine homeomorphisms automatically belong to.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">Sets</span><span class="p">()]</span></div>
 
@@ -200,9 +201,10 @@
 <span class="sd">            Example of coercion and conversion:</span>
 
 <span class="sd">                sage: from pet_salon import PolytopeUnions</span>
+<span class="sd">                sage: from pet_salon.polyhedra import Polyhedron</span>
 <span class="sd">                sage: U = PolytopeUnions(2, QQ)</span>
-<span class="sd">                sage: p0 = Polyhedron(vertices=[(0,0), (1,0), (0,1)])</span>
-<span class="sd">                sage: p1 = Polyhedron(vertices=[(1,0), (1,1), (0,1)])</span>
+<span class="sd">                sage: p0 = Polyhedron(QQ, 2, vertices=[(0,0), (1,0), (0,1)])</span>
+<span class="sd">                sage: p1 = Polyhedron(QQ, 2, vertices=[(1,0), (1,1), (0,1)])</span>
 <span class="sd">                sage: domain = U({0: p0, 1: p1})</span>
 <span class="sd">                sage: Aff = U.affine_group()</span>
 <span class="sd">                sage: a0 = Aff([[1, 1], [0, 1]])</span>
@@ -311,11 +313,11 @@
 <span class="sd">                sage: f = A(domain, {0: a}, codomain_is_nonoverlapping=True)</span>
 <span class="sd">                sage: f</span>
 <span class="sd">                Affine homeomorphism between disjoint unions of 1 polytopes</span>
-<span class="sd">                sage: f.codomain().polytope(0).vertices()</span>
-<span class="sd">                (A vertex at (1, 1),</span>
+<span class="sd">                sage: lst = list(f.codomain().polytope(0).vertices()); lst.sort(); lst</span>
+<span class="sd">                [A vertex at (1, 1),</span>
 <span class="sd">                 A vertex at (2, 1),</span>
 <span class="sd">                 A vertex at (2, 2),</span>
-<span class="sd">                 A vertex at (3, 2))</span>
+<span class="sd">                 A vertex at (3, 2)]</span>
 <span class="sd">                sage: image_point = f(domain.point((1/2,1/2)))</span>
 <span class="sd">                sage: image_point</span>
 <span class="sd">                Point(0, (2, 3/2))</span>
@@ -346,9 +348,10 @@
 <span class="sd">            EXAMPLES::</span>
 
 <span class="sd">                sage: from pet_salon import PolytopeUnions</span>
+<span class="sd">                sage: from pet_salon.polyhedra import Polyhedron</span>
 <span class="sd">                sage: U = PolytopeUnions(2, QQ)</span>
-<span class="sd">                sage: p0 = Polyhedron(vertices=[(0,0), (1,0), (0,1)])</span>
-<span class="sd">                sage: p1 = Polyhedron(vertices=[(1,0), (1,1), (0,1)])</span>
+<span class="sd">                sage: p0 = Polyhedron(QQ, 2, vertices=[(0,0), (1,0), (0,1)])</span>
+<span class="sd">                sage: p1 = Polyhedron(QQ, 2, vertices=[(1,0), (1,1), (0,1)])</span>
 <span class="sd">                sage: domain = U({0: p0, 1: p1})</span>
 <span class="sd">                sage: domain</span>
 <span class="sd">                Disjoint union of 2 nonoverlapping polyhedra in QQ^2</span>
@@ -455,8 +458,9 @@
 
 <span class="sd">        sage: from pet_salon import PolytopeUnions</span>
 <span class="sd">        sage: U = PolytopeUnions(2, QQ)</span>
-<span class="sd">        sage: p0 = Polyhedron(vertices=[(0,0), (1,0), (0,1)])</span>
-<span class="sd">        sage: p1 = Polyhedron(vertices=[(1,0), (1,1), (0,1)])</span>
+<span class="sd">        sage: from pet_salon.polyhedra import Polyhedron</span>
+<span class="sd">        sage: p0 = Polyhedron(QQ, 2, vertices=[(0,0), (1,0), (0,1)])</span>
+<span class="sd">        sage: p1 = Polyhedron(QQ, 2, vertices=[(1,0), (1,1), (0,1)])</span>
 <span class="sd">        sage: domain = U({0: p0, 1: p1})</span>
 <span class="sd">        sage: domain</span>
 <span class="sd">        Disjoint union of 2 nonoverlapping polyhedra in QQ^2</span>
@@ -511,14 +515,21 @@
             <span class="n">function_mapping</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span><span class="o">.</span><span class="n">labels</span><span class="p">(),</span> <span class="k">lambda</span> <span class="n">label</span><span class="p">:</span> <span class="o">~</span><span class="bp">self</span><span class="o">.</span><span class="n">_affine_mapping</span><span class="p">[</span><span class="n">label</span><span class="p">]),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">())</span>
 
-    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_richcmp_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">op</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">op</span><span class="o">!=</span><span class="n">op_EQ</span> <span class="ow">and</span> <span class="n">op</span><span class="o">!=</span><span class="n">op_NE</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">NotImplemented</span>
         <span class="k">if</span> <span class="bp">self</span> <span class="ow">is</span> <span class="n">other</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">return</span> <span class="n">op</span> <span class="o">==</span> <span class="n">op_EQ</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s1">&#39;parent&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">parent</span><span class="p">():</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span> <span class="ow">and</span> \
-               <span class="bp">self</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span> <span class="ow">and</span> \
-               <span class="bp">self</span><span class="o">.</span><span class="n">affine_mapping</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">affine_mapping</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">op</span> <span class="o">==</span> <span class="n">op_NE</span>
+        <span class="k">if</span> <span class="n">op</span> <span class="o">==</span> <span class="n">op_EQ</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span> <span class="ow">and</span> \
+                   <span class="bp">self</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span> <span class="ow">and</span> \
+                   <span class="bp">self</span><span class="o">.</span><span class="n">affine_mapping</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">affine_mapping</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span> <span class="ow">or</span> \
+                   <span class="bp">self</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span> <span class="ow">or</span> \
+                   <span class="bp">self</span><span class="o">.</span><span class="n">affine_mapping</span><span class="p">()</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">affine_mapping</span><span class="p">()</span>
 
     <span class="nd">@cached_method</span>
     <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -706,6 +717,7 @@
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="c1"># TODO: This only works when the unions are finite!</span>
     <span class="n">X</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span>
+    <span class="n">int_dim</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">intrinsic_dimension</span><span class="p">()</span>
     <span class="n">Y</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span>
     <span class="k">assert</span> <span class="n">Y</span> <span class="o">==</span> <span class="n">p</span><span class="o">.</span><span class="n">domain</span><span class="p">(),</span> <span class="s1">&#39;The composition p∘i is not well-defined.&#39;</span>
     <span class="n">Z</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span>
@@ -723,7 +735,7 @@
             <span class="n">subunion_data</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">c</span><span class="p">,</span><span class="n">z</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">subunion</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">polytopes</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="n">y2</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">y2</span><span class="o">.</span><span class="n">volume</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">y2</span><span class="o">.</span><span class="n">affine_hull</span><span class="p">()</span><span class="o">.</span><span class="n">dimension</span><span class="p">()</span> <span class="o">==</span> <span class="n">int_dim</span><span class="p">:</span>
                     <span class="n">b2</span> <span class="o">=</span> <span class="n">relabeler</span><span class="o">.</span><span class="n">new_label</span><span class="p">((</span><span class="n">a</span><span class="p">,</span><span class="n">c</span><span class="p">))</span>
                     <span class="n">Y2_polytopes</span><span class="p">[</span><span class="n">b2</span><span class="p">]</span> <span class="o">=</span> <span class="n">y2</span>
                     <span class="n">ambient_labels1</span><span class="p">[</span><span class="n">b2</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span>
@@ -925,7 +937,7 @@
 
 <div class="viewcode-block" id="PiecewiseAffineMapsCategory.ElementMethods.splitting">
 <a class="viewcode-back" href="../../pet_salon.affine.html#pet_salon.affine.PiecewiseAffineMapsCategory.ElementMethods.splitting">[docs]</a>
-        <span class="k">def</span> <span class="nf">splitting</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">splitting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 <span class="w">            </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">            Return the map conjugated by the partition.</span>
 
@@ -933,11 +945,16 @@
 
 <span class="sd">            If `p` is the parition, `ah` is the affine homeomorphism, and `i` is the</span>
 <span class="sd">            immersion, then the original map is `i*ah*p`. The splitting is `p*i*ah`.</span>
+
+<span class="sd">            By default `number` is one and the map is split once. If `number` is greater than one, the map is split `number` times.</span>
 <span class="sd">            &#39;&#39;&#39;</span>
-            <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">partition</span><span class="p">()</span>
-            <span class="n">ah</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">affine_homeomorphism</span><span class="p">()</span>
-            <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">immersion</span><span class="p">()</span>
-            <span class="k">return</span> <span class="n">p</span><span class="o">*</span><span class="n">i</span><span class="o">*</span><span class="n">ah</span></div>
+            <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">partition</span><span class="p">()</span>
+                <span class="n">ah</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">affine_homeomorphism</span><span class="p">()</span>
+                <span class="n">i</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">immersion</span><span class="p">()</span>
+                <span class="n">s</span> <span class="o">=</span> <span class="n">p</span><span class="o">*</span><span class="n">i</span><span class="o">*</span><span class="n">ah</span>
+            <span class="k">return</span> <span class="n">s</span></div>
 
 
 <div class="viewcode-block" id="PiecewiseAffineMapsCategory.ElementMethods.restriction">
@@ -1250,16 +1267,23 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;To be an invertible, the PiecewiseAffineMap must have an invertible immersion component.&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">element_class</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span> <span class="p">,</span> <span class="o">~</span><span class="bp">self</span><span class="o">.</span><span class="n">partition</span><span class="p">(),</span> <span class="o">~</span><span class="bp">self</span><span class="o">.</span><span class="n">affine_homeomorphism</span><span class="p">(),</span> <span class="o">~</span><span class="bp">self</span><span class="o">.</span><span class="n">immersion</span><span class="p">())</span>
 
-    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_richcmp_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">op</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">op</span><span class="o">!=</span><span class="n">op_EQ</span> <span class="ow">and</span> <span class="n">op</span><span class="o">!=</span><span class="n">op_NE</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">NotImplemented</span>
         <span class="k">if</span> <span class="bp">self</span> <span class="ow">is</span> <span class="n">other</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">return</span> <span class="n">op</span> <span class="o">==</span> <span class="n">op_EQ</span>
         <span class="k">if</span> <span class="nb">hash</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">hash</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="n">op</span> <span class="o">==</span> <span class="n">op_NE</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s1">&#39;parent&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">parent</span><span class="p">():</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">partition</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">partition</span><span class="p">()</span> <span class="ow">and</span> \
-               <span class="bp">self</span><span class="o">.</span><span class="n">affine_homeomorphism</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">affine_homeomorphism</span><span class="p">()</span> <span class="ow">and</span> \
-               <span class="bp">self</span><span class="o">.</span><span class="n">immersion</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">immersion</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">op</span> <span class="o">==</span> <span class="n">op_NE</span>
+        <span class="k">if</span> <span class="n">op</span> <span class="o">==</span> <span class="n">op_EQ</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">partition</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">partition</span><span class="p">()</span> <span class="ow">and</span> \
+                    <span class="bp">self</span><span class="o">.</span><span class="n">affine_homeomorphism</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">affine_homeomorphism</span><span class="p">()</span> <span class="ow">and</span> \
+                    <span class="bp">self</span><span class="o">.</span><span class="n">immersion</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">immersion</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">partition</span><span class="p">()</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">partition</span><span class="p">()</span> <span class="ow">or</span> \
+                    <span class="bp">self</span><span class="o">.</span><span class="n">affine_homeomorphism</span><span class="p">()</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">affine_homeomorphism</span><span class="p">()</span> <span class="ow">or</span> \
+                    <span class="bp">self</span><span class="o">.</span><span class="n">immersion</span><span class="p">()</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">immersion</span><span class="p">()</span>
 
     <span class="nd">@cached_method</span>
     <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>

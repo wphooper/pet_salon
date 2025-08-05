@@ -105,7 +105,7 @@
 <p>Initialize self.  See help(type(self)) for accurate signature.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="pet_salon.union_generators.square_tiling">
-<span class="sig-prename descclassname"><span class="pre">pet_salon.union_generators.</span></span><span class="sig-name descname"><span class="pre">square_tiling</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union_generators.html#square_tiling"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.union_generators.square_tiling" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">pet_salon.union_generators.</span></span><span class="sig-name descname"><span class="pre">square_tiling</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/union_generators.html#square_tiling"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.union_generators.square_tiling" title="Link to this definition"></a></dt>
 <dd><p>Construct the square tiling in the plane as a PolytopeUnion.</p>
 <p>EXAMPLES:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sage: from pet_salon.union_generators import square_tiling
@@ -113,11 +113,11 @@ sage: union = square_tiling(QQ)
 sage: union
 Disjoint union of ∞ly many nonoverlapping polyhedra in QQ^2
 sage: TestSuite(union).run()
-sage: union.polytope((2,1)).vertices()
-(A vertex at (2, 1),
+sage: lst = list(union.polytope((2,1)).vertices()); lst.sort(); lst
+[A vertex at (2, 1),
  A vertex at (2, 2),
  A vertex at (3, 1),
- A vertex at (3, 2))
+ A vertex at (3, 2)]
 </pre></div>
 </div>
 </dd></dl>

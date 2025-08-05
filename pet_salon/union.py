@@ -45,9 +45,10 @@ from pet_salon.polyhedra import Polyhedra
 all_axioms += ("Nonoverlapping",)
 
 def is_nonoverlapping(polytope_collection):
-    r'''Return if the polytope collection is non-overlapping.
+    r'''Return if the polytope collection is non-overlapping in the sense that any overlaps between the
+    polytopes have dimension less than the dimension of the polytopes.
 
-    We require the collection to be finite.
+    We require the collection to be finite, and assume that the polytopes have constant dimension.
 
     Parameters:
     polytope_collection (iterable): A collection of polytopes.
@@ -61,11 +62,12 @@ def is_nonoverlapping(polytope_collection):
     if length(polytope_collection) == infinity:
         raise ValueError('is_nonoverlapping only works for finite collections of polytopes!')
     polytopes = list(polytope_collection)
+    int_dim = polytopes[0].affine_hull().dimension()
     for i in range(len(polytopes)):
         p1 = polytopes[i]
         for j in range(i+1, len(polytopes)):
             p2 = polytopes[j]
-            if p1.intersection(p2).affine_hull().is_universe():
+            if p1.intersection(p2).affine_hull().dimension() >= int_dim:
                 return False
     return True
 
@@ -375,6 +377,31 @@ class PolytopeUnionsCategory(Category):
             '''
             from .plot import plot_polytope_union
             return plot_polytope_union(self, **kwds)
+
+        def intrinsic_dimension(self):
+            r'''
+            Return the intrinsic dimension of the union.
+
+            This is the dimension of polytopes in the union.
+
+            EXAMPLES::
+
+                sage: from pet_salon import PolytopeUnions
+                sage: PU = PolytopeUnions(2, QQ)
+                sage: PU.an_element().intrinsic_dimension()
+                2
+            '''
+            for label, p in self.polytopes().items():
+                return p.affine_hull().dimension()
+
+        def _test_intrinsic_dimension(self):
+            r'''
+            Test that all polytopes in the union have the same intrinsic dimension.
+            '''
+            int_dim = self.intrinsic_dimension()
+            for label, p in self.polytopes().items():
+                if p.affine_hull().dimension() != int_dim:
+                    raise ValueError(f'The intrinsic dimension of the union is {int_dim} but the polytope with label {label} has dimension {p.affine_hull().dimension()}. This is inconsistent.')
 
     class Finite(CategoryWithAxiom):
         r"""

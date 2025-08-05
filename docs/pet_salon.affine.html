@@ -121,8 +121,9 @@
 <p>EXAMPLES:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon</span> <span class="kn">import</span> <span class="n">PolytopeUnions</span>
 <span class="n">sage</span><span class="p">:</span> <span class="n">U</span> <span class="o">=</span> <span class="n">PolytopeUnions</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">QQ</span><span class="p">)</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">p0</span> <span class="o">=</span> <span class="n">Polyhedron</span><span class="p">(</span><span class="n">vertices</span><span class="o">=</span><span class="p">[(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)])</span>
-<span class="n">sage</span><span class="p">:</span> <span class="n">p1</span> <span class="o">=</span> <span class="n">Polyhedron</span><span class="p">(</span><span class="n">vertices</span><span class="o">=</span><span class="p">[(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)])</span>
+<span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">pet_salon.polyhedra</span> <span class="kn">import</span> <span class="n">Polyhedron</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">p0</span> <span class="o">=</span> <span class="n">Polyhedron</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">vertices</span><span class="o">=</span><span class="p">[(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)])</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">p1</span> <span class="o">=</span> <span class="n">Polyhedron</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">vertices</span><span class="o">=</span><span class="p">[(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)])</span>
 <span class="n">sage</span><span class="p">:</span> <span class="n">domain</span> <span class="o">=</span> <span class="n">U</span><span class="p">({</span><span class="mi">0</span><span class="p">:</span> <span class="n">p0</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="n">p1</span><span class="p">})</span>
 <span class="n">sage</span><span class="p">:</span> <span class="n">domain</span>
 <span class="n">Disjoint</span> <span class="n">union</span> <span class="n">of</span> <span class="mi">2</span> <span class="n">nonoverlapping</span> <span class="n">polyhedra</span> <span class="ow">in</span> <span class="n">QQ</span><span class="o">^</span><span class="mi">2</span>
@@ -390,7 +391,7 @@ sage: TestSuite(ah2).run()</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pet_salon.affine.AffineHomeomorphismsCategory.super_categories">
 <span class="sig-name descname"><span class="pre">super_categories</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#AffineHomeomorphismsCategory.super_categories"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.affine.AffineHomeomorphismsCategory.super_categories" title="Link to this definition"></a></dt>
-<dd><p>Return the categories subdivisions automatically belong to.</p>
+<dd><p>Return the categories affine homeomorphisms automatically belong to.</p>
 </dd></dl>
 
 </dd></dl>
@@ -798,11 +799,12 @@ and codomain relabeling. If a <cite>domain_relabel_dict</cite> is not provided, 
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pet_salon.affine.PiecewiseAffineMapsCategory.ElementMethods.splitting">
-<span class="sig-name descname"><span class="pre">splitting</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ElementMethods.splitting"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.affine.PiecewiseAffineMapsCategory.ElementMethods.splitting" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">splitting</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ElementMethods.splitting"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pet_salon.affine.PiecewiseAffineMapsCategory.ElementMethods.splitting" title="Link to this definition"></a></dt>
 <dd><p>Return the map conjugated by the partition.</p>
 <p>This results in a map from the codomain of the partition into itself.</p>
 <p>If <cite>p</cite> is the parition, <cite>ah</cite> is the affine homeomorphism, and <cite>i</cite> is the
 immersion, then the original map is <cite>i*ah*p</cite>. The splitting is <cite>p*i*ah</cite>.</p>
+<p>By default <cite>number</cite> is one and the map is split once. If <cite>number</cite> is greater than one, the map is split <cite>number</cite> times.</p>
 </dd></dl>
 
 </dd></dl>
@@ -1053,11 +1055,12 @@ and codomain relabeling. If a <cite>domain_relabel_dict</cite> is not provided, 
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id27">
-<span class="sig-name descname"><span class="pre">splitting</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ElementMethods.splitting"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id27" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">splitting</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pet_salon/affine.html#PiecewiseAffineMapsCategory.ElementMethods.splitting"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id27" title="Link to this definition"></a></dt>
 <dd><p>Return the map conjugated by the partition.</p>
 <p>This results in a map from the codomain of the partition into itself.</p>
 <p>If <cite>p</cite> is the parition, <cite>ah</cite> is the affine homeomorphism, and <cite>i</cite> is the
 immersion, then the original map is <cite>i*ah*p</cite>. The splitting is <cite>p*i*ah</cite>.</p>
+<p>By default <cite>number</cite> is one and the map is split once. If <cite>number</cite> is greater than one, the map is split <cite>number</cite> times.</p>
 </dd></dl>
 
 </dd></dl>

@@ -283,7 +283,7 @@
 
 <div class="viewcode-block" id="plot_polytope_union">
 <a class="viewcode-back" href="../../pet_salon.plot.html#pet_salon.plot.plot_polytope_union">[docs]</a>
-<span class="k">def</span> <span class="nf">plot_polytope_union</span><span class="p">(</span><span class="n">union</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">point</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">line</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">plot_polytope_union</span><span class="p">(</span><span class="n">union</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">point</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">line</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Plot the polytopes making up the union. The union must be 2- or 3-dimensional.</span>
 
 <span class="sd">    The important argument is `fill` which specifies how colors are chosen for the polytopes in the union.</span>
@@ -310,23 +310,29 @@
 <span class="sd">        sage: plot_polytope_union(union) # not tested</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">assert</span> <span class="n">union</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">dimension</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="s1">&#39;This plot function only works in dimensions 2 and 3&#39;</span>
+
+    <span class="n">fill_parameter</span> <span class="o">=</span> <span class="n">fill</span>
+    <span class="k">if</span> <span class="n">union</span><span class="o">.</span><span class="n">intrinsic_dimension</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">line</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="k">if</span> <span class="n">fill</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">fill_parameter</span> <span class="o">=</span> <span class="n">get_color</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">fill_parameter</span> <span class="o">=</span> <span class="n">fill</span>
+
     <span class="n">plt</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">union</span><span class="o">.</span><span class="n">polytopes</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fill_parameter</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
             <span class="n">fill</span> <span class="o">=</span> <span class="n">fill_parameter</span><span class="p">[</span><span class="n">label</span><span class="p">]</span>
         <span class="k">elif</span> <span class="nb">callable</span><span class="p">(</span><span class="n">fill_parameter</span><span class="p">):</span>
             <span class="n">fill</span> <span class="o">=</span> <span class="n">fill_parameter</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">point</span><span class="o">=</span><span class="n">point</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="n">line</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">fill</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
         <span class="n">plt2</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">point</span><span class="o">=</span><span class="n">point</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="n">line</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">fill</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">plt</span><span class="p">:</span>
             <span class="n">plt</span> <span class="o">+=</span> <span class="n">plt2</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">plt</span> <span class="o">=</span> <span class="n">plt2</span>
-        <span class="n">plt2</span> <span class="o">=</span> <span class="n">text</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">center</span><span class="p">(),</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span><span class="p">)</span>
-        <span class="n">plt</span> <span class="o">+=</span> <span class="n">plt2</span>
+        <span class="k">if</span> <span class="n">labels</span><span class="p">:</span>
+            <span class="n">plt2</span> <span class="o">=</span> <span class="n">text</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">center</span><span class="p">(),</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span><span class="p">)</span>
+            <span class="n">plt</span> <span class="o">+=</span> <span class="n">plt2</span>
     <span class="k">return</span> <span class="n">plt</span></div>
 
 </pre></div>

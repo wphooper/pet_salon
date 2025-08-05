@@ -99,9 +99,31 @@
 <span class="c1"># ********************************************************************</span>
 
 <span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">copy</span>
-<span class="kn">from</span> <span class="nn">sage.geometry.polyhedron.constructor</span> <span class="kn">import</span> <span class="n">Polyhedron</span>
-<span class="kn">from</span> <span class="nn">sage.geometry.polyhedron.parent</span> <span class="kn">import</span> <span class="n">Polyhedra</span>
+<span class="c1">#from sage.geometry.polyhedron.constructor import Polyhedron</span>
+<span class="kn">from</span> <span class="nn">sage.geometry.polyhedron.parent</span> <span class="kn">import</span> <span class="n">Polyhedra</span> <span class="k">as</span> <span class="n">SagePolyhedra</span>
 <span class="kn">from</span> <span class="nn">sage.modules.free_module_element</span> <span class="kn">import</span> <span class="n">vector</span>
+
+<span class="kn">from</span> <span class="nn">sage.categories.number_fields</span> <span class="kn">import</span> <span class="n">NumberFields</span>
+
+<span class="n">_number_field_backend</span> <span class="o">=</span> <span class="s1">&#39;number_field&#39;</span> <span class="c1"># options are &#39;field&#39;, &#39;number_field&#39;, and &#39;normaliz&#39; (if installed)</span>
+
+<div class="viewcode-block" id="Polyhedra">
+<a class="viewcode-back" href="../../pet_salon.polyhedra.html#pet_salon.polyhedra.Polyhedra">[docs]</a>
+<span class="k">def</span> <span class="nf">Polyhedra</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">dimension</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Construct the parent of Polyhedra in a given dimension over a given field. This function automatically selects a backend.&#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">NumberFields</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">SagePolyhedra</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">dimension</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">_number_field_backend</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">SagePolyhedra</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">dimension</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Polyhedron">
+<a class="viewcode-back" href="../../pet_salon.polyhedra.html#pet_salon.polyhedra.Polyhedron">[docs]</a>
+<span class="k">def</span> <span class="nf">Polyhedron</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">dimension</span><span class="p">,</span> <span class="n">vertices</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;Construct a polyhedron over the provided field, of the given dimension, with the provided vertex list.&#39;&#39;&#39;</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">Polyhedra</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">dimension</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">P</span><span class="p">([</span><span class="n">vertices</span><span class="p">,[],[]],</span><span class="kc">None</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="rectangle">
 <a class="viewcode-back" href="../../pet_salon.polyhedra.html#pet_salon.polyhedra.rectangle">[docs]</a>
@@ -146,7 +168,7 @@
                 <span class="k">break</span>
         <span class="n">vertices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">copy</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
         <span class="c1">#print(vertices)</span>
-    <span class="k">return</span> <span class="n">P</span><span class="p">(</span><span class="n">Polyhedron</span><span class="p">(</span><span class="n">vertices</span><span class="o">=</span><span class="n">vertices</span><span class="p">))</span></div>
+    <span class="k">return</span> <span class="n">Polyhedron</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">vertices</span><span class="o">=</span><span class="n">vertices</span><span class="p">)</span></div>
 
 </pre></div>
 

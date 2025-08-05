@@ -106,6 +106,7 @@
 <span class="kn">from</span> <span class="nn">sage.rings.infinity</span> <span class="kn">import</span> <span class="n">infinity</span>
 <span class="kn">from</span> <span class="nn">sage.structure.element</span> <span class="kn">import</span> <span class="n">Element</span>
 <span class="kn">from</span> <span class="nn">sage.structure.parent</span> <span class="kn">import</span> <span class="n">Parent</span>
+<span class="kn">from</span> <span class="nn">sage.structure.richcmp</span> <span class="kn">import</span> <span class="p">(</span><span class="n">op_EQ</span><span class="p">,</span> <span class="n">op_NE</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">sage.structure.unique_representation</span> <span class="kn">import</span> <span class="n">UniqueRepresentation</span>
 
 <span class="kn">from</span> <span class="nn">.collection</span> <span class="kn">import</span> <span class="n">identity_mapping</span><span class="p">,</span> <span class="n">function_mapping</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">mapping_composition</span><span class="p">,</span> <span class="n">tuple_singleton</span>
@@ -907,16 +908,18 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ambient_labels_mapping</span></div>
 
 
-    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_richcmp_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">op</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">op</span><span class="o">!=</span><span class="n">op_EQ</span> <span class="ow">and</span> <span class="n">op</span><span class="o">!=</span><span class="n">op_NE</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">NotImplemented</span>
         <span class="k">if</span> <span class="bp">self</span> <span class="ow">is</span> <span class="n">other</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">return</span> <span class="n">op</span> <span class="o">==</span> <span class="n">op_EQ</span>    
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s1">&#39;parent&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">parent</span><span class="p">():</span>
-            <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="n">op</span> <span class="o">==</span> <span class="n">op_NE</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">domain</span><span class="p">():</span>
-            <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="n">op</span> <span class="o">==</span> <span class="n">op_NE</span>
         <span class="k">if</span> <span class="s1">&#39;Nonoverlapping&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">category</span><span class="p">()</span><span class="o">.</span><span class="n">axioms</span><span class="p">():</span>
             <span class="c1"># Nothing more to check</span>
-            <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">return</span> <span class="n">op</span> <span class="o">==</span> <span class="n">op_EQ</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ambient_labels</span><span class="p">())</span>
             <span class="n">self_ambient_labels_finite</span> <span class="o">=</span> <span class="kc">True</span>
@@ -928,20 +931,17 @@
         <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
             <span class="n">other_ambient_labels_finite</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">if</span> <span class="n">self_ambient_labels_finite</span> <span class="o">!=</span> <span class="n">other_ambient_labels_finite</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="n">op</span> <span class="o">==</span> <span class="n">op_NE</span>
         <span class="n">self_al</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ambient_labels</span><span class="p">()</span>
         <span class="n">other_al</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">ambient_labels</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">self_ambient_labels_finite</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ambient_labels</span><span class="p">():</span>
                 <span class="k">if</span> <span class="n">self_al</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">!=</span> <span class="n">other_al</span><span class="p">[</span><span class="n">label</span><span class="p">]:</span>
-                    <span class="k">return</span> <span class="kc">False</span>
-            <span class="k">return</span> <span class="kc">True</span>
+                    <span class="k">return</span> <span class="n">op</span> <span class="o">==</span> <span class="n">op_NE</span>
+            <span class="k">return</span> <span class="n">op</span> <span class="o">==</span> <span class="n">op_EQ</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># hopeless</span>
-            <span class="k">return</span> <span class="kc">False</span>
-
-    <span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">op</span> <span class="o">==</span> <span class="n">op_NE</span>
 
     <span class="nd">@cached_method</span>
     <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1084,16 +1084,6 @@
     <span class="k">def</span> <span class="nf">ambient_union</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ambient_union</span></div>
 
-
-    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s1">&#39;category&#39;</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">other</span><span class="o">.</span><span class="n">category</span><span class="p">()</span><span class="o">.</span><span class="n">is_subcategory</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">category</span><span class="p">()):</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">hash</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">category</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()))</span>
@@ -1534,15 +1524,14 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_surjective_embedding</span></div>
 
 
-    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_richcmp_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">op</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">op</span><span class="o">!=</span><span class="n">op_EQ</span> <span class="ow">and</span> <span class="n">op</span><span class="o">!=</span><span class="n">op_NE</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">NotImplemented</span>
         <span class="k">if</span> <span class="bp">self</span> <span class="ow">is</span> <span class="n">other</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">return</span> <span class="n">op</span> <span class="o">==</span> <span class="n">op_EQ</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s1">&#39;parent&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">parent</span><span class="p">():</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">surjective_embedding</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">surjective_embedding</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">op</span> <span class="o">==</span> <span class="n">op_NE</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">op</span> <span class="o">==</span> <span class="n">op_EQ</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">surjective_embedding</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">surjective_embedding</span><span class="p">())</span>
 
     <span class="nd">@cached_method</span>
     <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1608,13 +1597,17 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ambient_union</span></div>
 
 
-    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_richcmp_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">op</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">op</span><span class="o">!=</span><span class="n">op_EQ</span> <span class="ow">and</span> <span class="n">op</span><span class="o">!=</span><span class="n">op_NE</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">NotImplemented</span>
+        <span class="k">if</span> <span class="bp">self</span> <span class="ow">is</span> <span class="n">other</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">op</span> <span class="o">==</span> <span class="n">op_EQ</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s1">&#39;category&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">category</span><span class="p">)</span> <span class="ow">or</span> <span class="n">other</span><span class="o">.</span><span class="n">category</span><span class="p">()</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">category</span><span class="p">():</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">op</span> <span class="o">==</span> <span class="n">op_NE</span>
+        <span class="k">if</span> <span class="n">op</span> <span class="o">==</span> <span class="n">op_EQ</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">hash</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">category</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">ambient_union</span><span class="p">()))</span>

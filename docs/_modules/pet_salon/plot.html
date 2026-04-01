@@ -138,6 +138,7 @@
 <span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Mapping</span>
 
 <span class="kn">from</span> <span class="nn">sage.functions.other</span> <span class="kn">import</span> <span class="n">floor</span>
+<span class="kn">from</span> <span class="nn">sage.geometry.polyhedron.constructor</span> <span class="kn">import</span> <span class="n">Polyhedron</span>
 <span class="kn">from</span> <span class="nn">sage.misc.abstract_method</span> <span class="kn">import</span> <span class="n">abstract_method</span>
 <span class="kn">from</span> <span class="nn">sage.misc.cachefunc</span> <span class="kn">import</span> <span class="n">cached_method</span>
 <span class="kn">from</span> <span class="nn">sage.misc.prandom</span> <span class="kn">import</span> <span class="n">random</span>
@@ -281,6 +282,8 @@
     <span class="n">DECLARE_COLOR_CHOOSER</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span></div>
 
 
+<span class="n">_intersecting_polytope</span> <span class="o">=</span> <span class="n">Polyhedron</span><span class="p">(</span><span class="n">vertices</span><span class="o">=</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),(</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">),(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)))</span>
+
 <div class="viewcode-block" id="plot_polytope_union">
 <a class="viewcode-back" href="../../pet_salon.plot.html#pet_salon.plot.plot_polytope_union">[docs]</a>
 <span class="k">def</span> <span class="nf">plot_polytope_union</span><span class="p">(</span><span class="n">union</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">point</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">line</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
@@ -320,6 +323,8 @@
 
     <span class="n">plt</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">union</span><span class="o">.</span><span class="n">polytopes</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">p</span><span class="o">.</span><span class="n">is_compact</span><span class="p">():</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">_intersecting_polytope</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fill_parameter</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
             <span class="n">fill</span> <span class="o">=</span> <span class="n">fill_parameter</span><span class="p">[</span><span class="n">label</span><span class="p">]</span>
         <span class="k">elif</span> <span class="nb">callable</span><span class="p">(</span><span class="n">fill_parameter</span><span class="p">):</span>

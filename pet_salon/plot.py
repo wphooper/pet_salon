@@ -62,6 +62,7 @@ EXAMPLES::
 from collections.abc import Mapping
 
 from sage.functions.other import floor
+from sage.geometry.polyhedron.constructor import Polyhedron
 from sage.misc.abstract_method import abstract_method
 from sage.misc.cachefunc import cached_method
 from sage.misc.prandom import random
@@ -181,6 +182,8 @@ def set_color(label, color):
     '''
     DECLARE_COLOR_CHOOSER.set(label, color)
 
+_intersecting_polytope = Polyhedron(vertices=((1,1),(1,-1),(-1,1),(-1,-1)))
+
 def plot_polytope_union(union, *args, fill=None, point = False, line = None, labels = False, **kwds):
     r'''Plot the polytopes making up the union. The union must be 2- or 3-dimensional.
 
@@ -218,6 +221,8 @@ def plot_polytope_union(union, *args, fill=None, point = False, line = None, lab
 
     plt = None
     for label, p in union.polytopes().items():
+        if not p.is_compact():
+            p = p.intersection(_intersecting_polytope)
         if isinstance(fill_parameter, Mapping):
             fill = fill_parameter[label]
         elif callable(fill_parameter):

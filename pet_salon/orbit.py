@@ -44,6 +44,9 @@ class Orbit:
         self._stopped = False
         self._stop_criterion = StopCriterion(stop_criterion)
 
+    def __str__(self):
+        return f'Orbit of {self._point} under {self._pam}'
+
     def map(self):
         return self._pam
 
